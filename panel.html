@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrackFR - Panel Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neon: { cyan: '#00f3ff', purple: '#b026ff', pink: '#ff007f', bg: '#05050a', card: '#0a0a16', border: '#1a1a3a' }
+                    },
+                    boxShadow: { 'neon-cyan': '0 0 20px rgba(0, 243, 255, 0.3)' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neon-bg text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-6">
+
+    <!-- Login Box -->
+    <div id="login-container" class="max-w-md w-full bg-neon-card border border-neon-border p-8 rounded-3xl text-center shadow-2xl">
+        <h1 class="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink mb-2">
+            CRACKFR ADMIN
+        </h1>
+        <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">Authentification Requise</p>
+        <div class="space-y-4">
+            <input type="password" id="admin-password" placeholder="Mot de passe..." class="w-full px-4 py-3 bg-slate-900 border border-neon-border rounded-xl text-sm text-white text-center focus:outline-none focus:border-neon-cyan">
+            <button onclick="login()" class="w-full py-3 bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan rounded-xl text-sm font-bold hover:shadow-neon-cyan transition-all">
+                Se connecter
+            </button>
+            <p id="error-msg" class="text-xs text-rose-500 hidden font-semibold">Mot de passe incorrect.</p>
+        </div>
+        <div class="mt-6 pt-6 border-t border-neon-border">
+            <a href="index.html" class="text-xs text-slate-400 hover:text-neon-cyan">← Retour au site public</a>
+        </div>
+    </div>
+
+    <!-- Admin Panel Dashboard -->
+    <div id="admin-panel" class="hidden max-w-2xl w-full bg-neon-card border border-neon-border p-8 rounded-3xl space-y-6 shadow-2xl">
+        <div class="flex items-center justify-between border-b border-neon-border pb-4">
+            <div>
+                <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Dashboard Admin</h2>
+                <p class="text-xs text-slate-400">Gestion et supervision des services</p>
+            </div>
+            <button onclick="logout()" class="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold rounded-xl hover:bg-rose-500/20">
+                Déconnexion
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-2">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-cyan">Mode du Site</h3>
+                <div class="flex gap-2 pt-1">
+                    <button onclick="changeMode('online')" class="px-3 py-1.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold rounded-lg w-full">En Ligne</button>
+                    <button onclick="changeMode('maintenance')" class="px-3 py-1.5 bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold rounded-lg w-full">Maintenance</button>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-2">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-purple">Actions Serveur</h3>
+                <button onclick="addLog('Redémarrage des services en cours...')" class="w-full mt-2 py-2 bg-neon-purple/20 border border-neon-purple/40 text-neon-purple text-xs font-bold rounded-lg">
+                    🔄 Redémarrer les bots
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Journal d'activité (Logs)</h3>
+            <div id="logs-container" class="text-xs font-mono text-slate-400 space-y-1 bg-black/40 p-3 rounded-xl border border-neon-border/50 max-h-32 overflow-y-auto">
+                <p class="text-emerald-400">[SYSTEM] Panel initialisé.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASS = "admin123";
+
+        window.onload = () => {
+            if (localStorage.getItem("auth") === "true") showDashboard();
+        }
+
+        function login() {
+            if (document.getElementById("admin-password").value === PASS) {
+                localStorage.setItem("auth", "true");
+                showDashboard();
+            } else {
+                document.getElementById("error-msg").classList.remove("hidden");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("auth");
+            location.reload();
+        }
+
+        function showDashboard() {
+            document.getElementById("login-container").classList.add("hidden");
+            document.getElementById("admin-panel").classList.remove("hidden");
+            addLog("[AUTH] Administrateur connecté.");
+        }
+
+        function changeMode(mode) {
+            if (mode === 'maintenance') {
+                addLog("[CONFIG] Passage en mode maintenance.");
+                window.location.href = "maintenance.html";
+            } else {
+                addLog("[CONFIG] Passage en mode public.");
+                window.location.href = "index.html";
+            }
+        }
+
+        function addLog(text) {
+            const container = document.getElementById("logs-container");
+            const p = document.createElement("p");
+            p.className = "text-neon-cyan";
+            p.innerText = `[${new Date().toLocaleTimeString()}] ${text}`;
+            container.appendChild(p);
+            container.scrollTop = container.scrollHeight;
+        }
+    </script>
+</body>
+</html>
