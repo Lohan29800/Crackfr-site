@@ -36,7 +36,7 @@
     <!-- Canvas pour l'animation de particules en arrière-plan -->
     <canvas id="bg-canvas" class="absolute inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-    <!-- Header / Navbar -->
+    <!-- Header / Navbar enrichie -->
     <header class="border-b border-neon-border backdrop-blur-xl sticky top-0 z-50 bg-neon-bg/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -44,14 +44,33 @@
                     CRACKFR
                 </span>
             </div>
+
+            <!-- Menu de navigation principal avec options -->
             <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-400">
                 <a href="index.html" class="text-neon-cyan transition-colors">Accueil</a>
-                <a href="#poles" class="hover:text-white transition-colors">Pôles & Bots</a>
-                <a href="#stats" class="hover:text-white transition-colors">Statistiques</a>
+                
+                <!-- Menu déroulant "Explorer" -->
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 hover:text-white transition-colors py-2">
+                        <span>Explorer</span>
+                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Content -->
+                    <div class="absolute left-0 mt-1 w-56 bg-neon-card border border-neon-border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left p-2 space-y-1">
+                        <a href="#poles" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-neon-cyan transition-colors">🤖 Pôle Bots Discord & IA</a>
+                        <a href="#poles" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-neon-purple transition-colors">🎮 Pôle Serveur FiveM</a>
+                        <a href="#categories" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-neon-pink transition-colors">📂 Pages par Catégorie</a>
+                        <a href="#stats" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-emerald-400 transition-colors">📊 Statistiques en direct</a>
+                    </div>
+                </div>
+
+                <a href="#categories" class="hover:text-white transition-colors">Catégories</a>
+                <a href="#stats" class="hover:text-white transition-colors">Stats</a>
                 <a href="#chat-section" class="hover:text-white transition-colors">Mur Live</a>
             </nav>
+
             <div class="flex items-center space-x-3">
-                <!-- Compteur de visiteurs en ligne en temps réel (localStorage) -->
+                <!-- Compteur de visiteurs en ligne -->
                 <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-400">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                     <span id="online-count">1</span> <span>en ligne</span>
@@ -64,7 +83,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 z-10 space-y-16">
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 z-10 space-y-20">
         
         <!-- Hero Section -->
         <div class="max-w-4xl mx-auto text-center space-y-8">
@@ -85,9 +104,64 @@
                 <a href="https://discord.com" target="_blank" class="w-full sm:w-auto px-8 py-4 font-extrabold bg-gradient-to-r from-neon-cyan to-neon-purple text-black rounded-2xl transition-all shadow-neon-cyan hover:scale-105 text-center">
                     Rejoindre le Discord 🚀
                 </a>
-                <a href="#poles" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50 text-center">
-                    Voir les pôles
+                <a href="#categories" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50 text-center">
+                    Explorer les catégories
                 </a>
+            </div>
+        </div>
+
+        <!-- 📂 SECTION REDIRECTION PAR CATÉGORIE -->
+        <div id="categories" class="w-full max-w-5xl space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wider text-white">Pages & Redirections par Catégorie</h2>
+                <p class="text-xs sm:text-sm text-slate-400">Sélectionnez un univers pour accéder directement aux ressources associées.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+                <!-- Catégorie 1 : Bots & IA -->
+                <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-xl hover:border-neon-cyan/50 transition-all group flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan text-xl group-hover:scale-110 transition-transform">
+                            🤖
+                        </div>
+                        <h3 class="text-base font-bold text-white">Bots Discord & IA</h3>
+                        <p class="text-xs text-slate-300">Accédez au code, configurations et statuts de nos bots Node.js (GLaDOS, modules audio & modération).</p>
+                    </div>
+                    <a href="#poles" class="inline-flex items-center space-x-2 text-xs font-bold text-neon-cyan hover:underline pt-2">
+                        <span>Voir les détails</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Catégorie 2 : Gaming & FiveM -->
+                <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-xl hover:border-neon-purple/50 transition-all group flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple text-xl group-hover:scale-110 transition-transform">
+                            🎮
+                        </div>
+                        <h3 class="text-base font-bold text-white">Serveurs FiveM (RP)</h3>
+                        <p class="text-xs text-slate-300">Plongez dans l'univers de Paris RP, configurations ESX / QBCore et gestion de bases de données.</p>
+                    </div>
+                    <a href="#poles" class="inline-flex items-center space-x-2 text-xs font-bold text-neon-purple hover:underline pt-2">
+                        <span>Voir les détails</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Catégorie 3 : Administration & Outils -->
+                <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-xl hover:border-neon-pink/50 transition-all group flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-neon-pink/10 border border-neon-pink/30 flex items-center justify-center text-neon-pink text-xl group-hover:scale-110 transition-transform">
+                            🔐
+                        </div>
+                        <h3 class="text-base font-bold text-white">Outils & Administration</h3>
+                        <p class="text-xs text-slate-300">Panneau de contrôle sécurisé, alertes globales en direct, modes de maintenance et outils de modération.</p>
+                    </div>
+                    <a href="panel.html" class="inline-flex items-center space-x-2 text-xs font-bold text-neon-pink hover:underline pt-2">
+                        <span>Ouvrir le Panel</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -176,10 +250,9 @@
     <script>
         // Gestion du compteur de visiteurs en ligne via localStorage (TTL simple)
         function updateOnlinePresence() {
-            const userId = 'user_' + Math.random().toString(36.substring(2));
+            const userId = 'user_' + Math.random().toString(36).substring(2);
             localStorage.setItem('crackfr_active_' + userId, Date.now());
             
-            // Nettoyer et compter les actifs des 10 dernières secondes
             let activeCount = 0;
             const now = Date.now();
             for (let i = 0; i < localStorage.length; i++) {
