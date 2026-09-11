@@ -51,13 +51,8 @@
                 <a href="#infos" class="hover:text-white transition-colors">À propos</a>
             </nav>
             <div class="flex items-center space-x-3">
-                <!-- Sélecteur de Thème Dynamique -->
-                <button onclick="changeTheme('cyan')" class="w-4 h-4 rounded-full bg-[#00f3ff] shadow-[0_0_10px_#00f3ff] hover:scale-125 transition-transform" title="Thème Cyan"></button>
-                <button onclick="changeTheme('purple')" class="w-4 h-4 rounded-full bg-[#b026ff] shadow-[0_0_10px_#b026ff] hover:scale-125 transition-transform" title="Thème Violet"></button>
-                <button onclick="changeTheme('pink')" class="w-4 h-4 rounded-full bg-[#ff007f] shadow-[0_0_10px_#ff007f] hover:scale-125 transition-transform" title="Thème Rose"></button>
-                
-                <a href="maintenance.html" class="ml-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-neon-pink/10 hover:bg-neon-pink/20 text-neon-pink border border-neon-pink/30 rounded-xl transition-all shadow-neon-pink">
-                    Admin
+                <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-neon-pink/10 hover:bg-neon-pink/20 text-neon-pink border border-neon-pink/30 rounded-xl transition-all shadow-neon-pink">
+                    🔐 Panel Admin
                 </a>
             </div>
         </div>
@@ -70,11 +65,11 @@
         <div class="max-w-4xl mx-auto text-center space-y-8">
             <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-xs font-bold shadow-neon-cyan">
                 <span class="w-2.5 h-2.5 rounded-full bg-neon-cyan animate-ping"></span>
-                <span>Version 2.0 Avancée &bull; Performance Maximale ⚡</span>
+                <span id="banner-status-text">Serveur Ouvert &bull; Événements Actifs ! 🎉</span>
             </div>
             
             <h1 class="text-5xl sm:text-7xl font-black tracking-tight leading-tight">
-                L'élite du gaming francophone sur <span id="hero-title-accent" class="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(176,38,255,0.5)]">CrackFR</span>
+                L'élite du gaming francophone sur <span class="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(176,38,255,0.5)]">CrackFR</span>
             </h1>
             
             <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
@@ -91,11 +86,11 @@
             </div>
         </div>
 
-        <!-- Section Statistiques Dynamiques en Temps Reel -->
+        <!-- Section Statistiques Dynamiques -->
         <div id="stats" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
                 <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Joueurs en Ligne</p>
-                <h3 id="stat-players" class="text-3xl font-black text-neon-cyan">1,248</h3>
+                <h3 class="text-3xl font-black text-neon-cyan">1,248</h3>
                 <p class="text-[10px] text-emerald-400 font-semibold">↑ +12% cette heure</p>
             </div>
             <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
@@ -110,21 +105,18 @@
             </div>
         </div>
 
-        <!-- Section Statut des Serveurs Avancée -->
+        <!-- Section Statut des Serveurs -->
         <div id="servers" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="font-bold text-white text-sm">FiveM - Principal RP</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Slots : 120 / 128</p>
+                        <p id="server-status-label" class="text-xs text-emerald-400 mt-0.5">Statut : Opérationnel</p>
                     </div>
-                    <div class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
+                    <div id="server-status-badge" class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span>En ligne</span>
+                        <span id="server-badge-text">En ligne</span>
                     </div>
-                </div>
-                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-neon-border">
-                    <div class="bg-gradient-to-r from-neon-cyan to-neon-purple h-full rounded-full" style="width: 93%;"></div>
                 </div>
             </div>
 
@@ -139,26 +131,10 @@
                         <span>En ligne</span>
                     </div>
                 </div>
-                <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-neon-border">
-                    <div class="bg-gradient-to-r from-neon-purple to-neon-pink h-full rounded-full" style="width: 100%;"></div>
-                </div>
             </div>
         </div>
 
-        <!-- Menus Déroulants (À propos & FAQ) -->
-        <div id="infos" class="w-full max-w-2xl space-y-4">
-            <div class="bg-neon-card/90 border border-neon-border rounded-3xl overflow-hidden shadow-xl backdrop-blur-md">
-                <button onclick="toggleAccordion('about-content', 'about-icon')" class="w-full px-6 py-4 flex items-center justify-between text-left font-bold text-white text-sm hover:bg-slate-900/50 transition-all">
-                    <span class="flex items-center space-x-2 text-neon-cyan"><span>ℹ️ À propos de l'infrastructure CrackFR</span></span>
-                    <svg id="about-icon" class="w-5 h-5 transform transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                <div id="about-content" class="hidden px-6 pb-6 text-xs text-slate-300 space-y-3 border-t border-neon-border/50 pt-4">
-                    <p><strong class="text-white">CrackFR</strong> s'appuie sur des serveurs dédiés haut performance garantissant un zéro lag et une sécurité anti-DDoS renforcée pour tous ses membres.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mur de Messages en Direct Avancé -->
+        <!-- Mur de Messages en Direct -->
         <div class="w-full max-w-2xl bg-neon-card/90 border border-neon-border p-6 rounded-3xl shadow-2xl backdrop-blur-md space-y-4">
             <h3 class="text-sm font-bold uppercase tracking-wider text-neon-cyan flex items-center space-x-2">
                 <span>💬 Mur des Visiteurs (Live Global)</span>
@@ -177,7 +153,7 @@
 
     </main>
 
-    <!-- Système de Notification Toast Flottante -->
+    <!-- Système de Notification Toast Flottante (Synchronisé Panel Admin) -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2"></div>
 
     <!-- Footer -->
@@ -186,7 +162,14 @@
     </footer>
 
     <script>
-        // Notification Toast Generator
+        // Synchronisation des alertes globales envoyées depuis le Panel Admin via LocalStorage
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'crackfr_global_alert') {
+                const alertData = JSON.parse(e.newValue);
+                if (alertData) showToast(alertData.msg);
+            }
+        });
+
         function showToast(message) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -196,32 +179,23 @@
             setTimeout(() => {
                 toast.style.opacity = '0';
                 setTimeout(() => toast.remove(), 500);
-            }, 4000);
+            }, 5000);
         }
 
-        // Trigger welcome notification on load
+        // Vérification de l'état du mode maintenance au chargement
         window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => showToast("Connexion au réseau CrackFR établie !"), 1000);
-        });
-
-        // Theme Switcher
-        function changeTheme(color) {
-            const root = document.documentElement;
-            if(color === 'cyan') {
-                showToast("Thème Néon Cyan activé");
-            } else if(color === 'purple') {
-                showToast("Thème Néon Violet activé");
-            } else if(color === 'pink') {
-                showToast("Thème Néon Rose activé");
+            const siteMode = localStorage.getItem('crackfr_site_mode');
+            if (siteMode === 'maintenance') {
+                window.location.href = 'maintenance.html';
             }
-        }
-
-        function toggleAccordion(contentId, iconId) {
-            const content = document.getElementById(contentId);
-            const icon = document.getElementById(iconId);
-            content.classList.toggle('hidden');
-            icon.classList.toggle('rotate-180');
-        }
+            
+            // Vérifier s'il y a une alerte en attente
+            const pendingAlert = localStorage.getItem('crackfr_global_alert');
+            if (pendingAlert) {
+                const alertData = JSON.parse(pendingAlert);
+                showToast(alertData.msg);
+            }
+        });
 
         function postMessage() {
             const p = document.getElementById('chat-pseudo').value.trim();
@@ -242,13 +216,13 @@
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
-        // Canvas animation particules avancées
+        // Canvas animation particules
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
-        const particles = Array.from({length: 50}, () => ({
+        const particles = Array.from({length: 40}, () => ({
             x: Math.random() * canvas.width, y: Math.random() * canvas.height,
             r: Math.random() * 2.5 + 0.8, c: ['#00f3ff', '#b026ff', '#ff007f'][Math.floor(Math.random()*3)],
             vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8
