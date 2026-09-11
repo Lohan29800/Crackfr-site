@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Hub Gaming Avancé</title>
+    <title>CrackFR - Hub Communautaire & Projets</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -36,7 +36,7 @@
     <!-- Canvas pour l'animation de particules en arrière-plan -->
     <canvas id="bg-canvas" class="absolute inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-    <!-- Header / Navbar Avancée -->
+    <!-- Header / Navbar -->
     <header class="border-b border-neon-border backdrop-blur-xl sticky top-0 z-50 bg-neon-bg/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -46,7 +46,7 @@
             </div>
             <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-400">
                 <a href="index.html" class="text-neon-cyan transition-colors">Accueil</a>
-                <a href="#servers" class="hover:text-white transition-colors">Serveurs</a>
+                <a href="#poles" class="hover:text-white transition-colors">Pôles & Bots</a>
                 <a href="#stats" class="hover:text-white transition-colors">Statistiques</a>
                 <a href="#infos" class="hover:text-white transition-colors">À propos</a>
             </nav>
@@ -65,72 +65,74 @@
         <div class="max-w-4xl mx-auto text-center space-y-8">
             <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-xs font-bold shadow-neon-cyan">
                 <span class="w-2.5 h-2.5 rounded-full bg-neon-cyan animate-ping"></span>
-                <span id="banner-status-text">Serveur Ouvert &bull; Événements Actifs ! 🎉</span>
+                <span id="banner-status-text">Hub Communautaire &bull; Projets en cours ! 🚀</span>
             </div>
             
             <h1 class="text-5xl sm:text-7xl font-black tracking-tight leading-tight">
-                L'élite du gaming francophone sur <span class="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(176,38,255,0.5)]">CrackFR</span>
+                Plateforme collaborative & bots sur <span class="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(176,38,255,0.5)]">CrackFR</span>
             </h1>
             
             <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
-                Infrastructure ultra-rapide, serveurs optimisés et communauté passionnée. Plonge dans l'action dès maintenant.
+                Retrouvez nos bots Discord personnalisés, nos projets de développement mobiles & web, et notre espace d'échange.
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
                 <a href="#" class="w-full sm:w-auto px-8 py-4 font-extrabold bg-gradient-to-r from-neon-cyan to-neon-purple text-black rounded-2xl transition-all shadow-neon-cyan hover:scale-105">
-                    Rejoindre le Discord 🚀
+                    Rejoindre le Discord 💬
                 </a>
-                <a href="#servers" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50">
-                    Voir les serveurs
+                <a href="#poles" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50">
+                    Explorer les pôles
                 </a>
             </div>
         </div>
 
-        <!-- Section Statistiques Dynamiques -->
+        <!-- Section Statistiques -->
         <div id="stats" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Joueurs en Ligne</p>
+                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Membres Actifs</p>
                 <h3 class="text-3xl font-black text-neon-cyan">1,248</h3>
-                <p class="text-[10px] text-emerald-400 font-semibold">↑ +12% cette heure</p>
+                <p class="text-[10px] text-emerald-400 font-semibold">Communauté en expansion</p>
             </div>
             <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Latence Moyenne</p>
-                <h3 class="text-3xl font-black text-neon-purple">14 ms</h3>
-                <p class="text-[10px] text-slate-400 font-semibold">Connexion stable</p>
+                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Bots Déployés</p>
+                <h3 class="text-3xl font-black text-neon-purple">4 Bots</h3>
+                <p class="text-[10px] text-slate-400 font-semibold">Node.js & API gérées</p>
             </div>
             <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Uptime Global</p>
-                <h3 class="text-3xl font-black text-neon-pink">99.9%</h3>
-                <p class="text-[10px] text-emerald-400 font-semibold">Opérationnel</p>
+                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Projets Web & Apps</p>
+                <h3 class="text-3xl font-black text-neon-pink">En Ligne</h3>
+                <p class="text-[10px] text-emerald-400 font-semibold">GitHub Pages Sync</p>
             </div>
         </div>
 
-        <!-- Section Statut des Serveurs -->
-        <div id="servers" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Section Pôles & Bots (Remplaçant les serveurs dédiés) -->
+        <div id="poles" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="font-bold text-white text-sm">FiveM - Principal RP</h3>
-                        <p id="server-status-label" class="text-xs text-emerald-400 mt-0.5">Statut : Opérationnel</p>
-                    </div>
-                    <div id="server-status-badge" class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span id="server-badge-text">En ligne</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-white text-sm">Bot Discord CrackFR</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Latence API : 24ms</p>
+                        <h3 class="font-bold text-white text-sm">🤖 Bot Discord & IA (GLaDOS)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Statut : En ligne & Actif</p>
                     </div>
                     <div class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span>En ligne</span>
+                        <span>Opérationnel</span>
                     </div>
                 </div>
+                <p class="text-xs text-slate-300">Gestion des salons, interactions vocales, commandes personnalisées et intégration d'intelligences artificielles.</p>
+            </div>
+
+            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-white text-sm">📱 Pôle Développement (Flutter / Web)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Statut : Mises à jour continues</p>
+                    </div>
+                    <div class="flex items-center space-x-2 px-3 py-1 bg-neon-purple/10 border border-neon-purple/30 text-neon-purple rounded-full text-xs font-bold">
+                        <span class="w-2 h-2 rounded-full bg-neon-purple animate-pulse"></span>
+                        <span>En développement</span>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-300">Conception d'applications mobiles cross-platform, tableaux de bord interactifs et interfaces Tailwind CSS.</p>
             </div>
         </div>
 
@@ -141,7 +143,7 @@
             </h3>
             <div id="chat-messages" class="space-y-2 max-h-40 overflow-y-auto pr-2 text-xs text-slate-300">
                 <div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border">
-                    <span class="font-bold text-neon-purple">SystemBot :</span> Bienvenue sur la v2.0 de CrackFR ! 🔥
+                    <span class="font-bold text-neon-purple">SystemBot :</span> Bienvenue sur le hub CrackFR ! ⚡
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
@@ -153,16 +155,15 @@
 
     </main>
 
-    <!-- Système de Notification Toast Flottante (Synchronisé Panel Admin) -->
+    <!-- Système de Notification Toast -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2"></div>
 
     <!-- Footer -->
     <footer class="border-t border-neon-border py-6 text-center text-xs text-slate-500 bg-neon-card/30 z-10">
-        <p>&copy; 2026 CrackFR. Propulsé par GitHub Pages &bull; Conçu pour le Gaming 🌟</p>
+        <p>&copy; 2026 CrackFR. Propulsé par GitHub Pages &bull; Hub Communautaire 🌟</p>
     </footer>
 
     <script>
-        // Synchronisation des alertes globales envoyées depuis le Panel Admin via LocalStorage
         window.addEventListener('storage', (e) => {
             if (e.key === 'crackfr_global_alert') {
                 const alertData = JSON.parse(e.newValue);
@@ -182,14 +183,11 @@
             }, 5000);
         }
 
-        // Vérification de l'état du mode maintenance au chargement
         window.addEventListener('DOMContentLoaded', () => {
             const siteMode = localStorage.getItem('crackfr_site_mode');
             if (siteMode === 'maintenance') {
                 window.location.href = 'maintenance.html';
             }
-            
-            // Vérifier s'il y a une alerte en attente
             const pendingAlert = localStorage.getItem('crackfr_global_alert');
             if (pendingAlert) {
                 const alertData = JSON.parse(pendingAlert);
@@ -216,7 +214,6 @@
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
-        // Canvas animation particules
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
