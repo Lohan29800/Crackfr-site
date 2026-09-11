@@ -51,6 +51,11 @@
                 <a href="#chat-section" class="hover:text-white transition-colors">Mur Live</a>
             </nav>
             <div class="flex items-center space-x-3">
+                <!-- Compteur de visiteurs en ligne en temps réel (localStorage) -->
+                <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span id="online-count">1</span> <span>en ligne</span>
+                </div>
                 <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-neon-pink/10 hover:bg-neon-pink/20 text-neon-pink border border-neon-pink/30 rounded-xl transition-all shadow-neon-pink">
                     🔐 Panel Admin
                 </a>
@@ -105,38 +110,40 @@
             </div>
         </div>
 
-        <!-- Section Pôles & Bots -->
+        <!-- Section Pôles & Statuts Dynamiques -->
         <div id="poles" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Bot GLaDOS / Discord -->
             <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-cyan/40 transition-colors">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="font-bold text-white text-sm">🤖 Bot Discord & IA (GLaDOS)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Latence API : <span id="ping-bot" class="text-neon-cyan font-mono">18ms</span></p>
+                        <p class="text-xs text-slate-400 mt-0.5">Latence API : <span class="text-neon-cyan font-mono">18ms</span></p>
                     </div>
-                    <div class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
+                    <div id="status-bot1" class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span>Opérationnel</span>
+                        <span id="text-bot1">Opérationnel</span>
                     </div>
                 </div>
                 <p class="text-xs text-slate-300">Gestion automatisée des salons, modération intelligente, streaming audio et commandes interactives basées sur Node.js.</p>
             </div>
 
+            <!-- Pôle Développement / FiveM -->
             <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-purple/40 transition-colors">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="font-bold text-white text-sm">📱 Pôle Développement (Flutter / Web)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Environnement : Cross-platform</p>
+                        <h3 class="font-bold text-white text-sm">🎮 Serveur FiveM (Paris RP)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Cadre : ESX Legacy / QBCore</p>
                     </div>
-                    <div class="flex items-center space-x-2 px-3 py-1 bg-neon-purple/10 border border-neon-purple/30 text-neon-purple rounded-full text-xs font-bold">
+                    <div id="status-bot2" class="flex items-center space-x-2 px-3 py-1 bg-neon-purple/10 border border-neon-purple/30 text-neon-purple rounded-full text-xs font-bold">
                         <span class="w-2 h-2 rounded-full bg-neon-purple animate-pulse"></span>
-                        <span>Actif</span>
+                        <span id="text-bot2">En Ligne</span>
                     </div>
                 </div>
-                <p class="text-xs text-slate-300">Conception d'applications mobiles intuitives (Bot Create FR), tableaux de bord dynamiques et design Tailwind CSS.</p>
+                <p class="text-xs text-slate-300">Environnement de jeu rôleplay optimisé, scripts personnalisés, bases de données MySQL et design d'interface admin.</p>
             </div>
         </div>
 
-        <!-- Mur de Messages en Direct (Persistant avec LocalStorage) -->
+        <!-- Mur de Messages en Direct (Persistant) -->
         <div id="chat-section" class="w-full max-w-2xl bg-neon-card/90 border border-neon-border p-6 rounded-3xl shadow-2xl backdrop-blur-md space-y-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-neon-cyan flex items-center space-x-2">
@@ -167,7 +174,31 @@
     </footer>
 
     <script>
-        // Gestion des alertes globales du panel admin
+        // Gestion du compteur de visiteurs en ligne via localStorage (TTL simple)
+        function updateOnlinePresence() {
+            const userId = 'user_' + Math.random().toString(36.substring(2));
+            localStorage.setItem('crackfr_active_' + userId, Date.now());
+            
+            // Nettoyer et compter les actifs des 10 dernières secondes
+            let activeCount = 0;
+            const now = Date.now();
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('crackfr_active_')) {
+                    const time = parseInt(localStorage.getItem(key) || '0');
+                    if (now - time < 10000) {
+                        activeCount++;
+                    } else {
+                        localStorage.removeItem(key);
+                    }
+                }
+            }
+            document.getElementById('online-count').innerText = Math.max(1, activeCount);
+        }
+        setInterval(updateOnlinePresence, 3000);
+        updateOnlinePresence();
+
+        // Écoute des modifications cross-tab (Panel Admin -> Site)
         window.addEventListener('storage', (e) => {
             if (e.key === 'crackfr_global_alert') {
                 const alertData = JSON.parse(e.newValue);
@@ -175,6 +206,9 @@
             }
             if (e.key === 'crackfr_clear_chat') {
                 document.getElementById('chat-messages').innerHTML = '<div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border text-slate-500">Le mur a été réinitialisé par un administrateur.</div>';
+            }
+            if (e.key === 'crackfr_status_bot1' || e.key === 'crackfr_status_bot2') {
+                applyServerStatuses();
             }
         });
 
@@ -190,7 +224,31 @@
             }, 5000);
         }
 
-        // Vérification de l'état de maintenance et affichage des messages stockés
+        function applyServerStatuses() {
+            const s1 = localStorage.getItem('crackfr_status_bot1') || 'Opérationnel';
+            const s2 = localStorage.getItem('crackfr_status_bot2') || 'En Ligne';
+            
+            updateBadge('status-bot1', 'text-bot1', s1);
+            updateBadge('status-bot2', 'text-bot2', s2);
+        }
+
+        function updateBadge(containerId, textId, statusText) {
+            const container = document.getElementById(containerId);
+            const textEl = document.getElementById(textId);
+            textEl.innerText = statusText;
+            
+            if (statusText === 'Opérationnel' || statusText === 'En Ligne') {
+                container.className = "flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold";
+                container.querySelector('span').className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+            } else if (statusText === 'Maintenance') {
+                container.className = "flex items-center space-x-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-bold";
+                container.querySelector('span').className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+            } else {
+                container.className = "flex items-center space-x-2 px-3 py-1 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded-full text-xs font-bold";
+                container.querySelector('span').className = "w-2 h-2 rounded-full bg-rose-400";
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const siteMode = localStorage.getItem('crackfr_site_mode');
             if (siteMode === 'maintenance') {
@@ -204,6 +262,7 @@
             }
 
             loadMessages();
+            applyServerStatuses();
         });
 
         // Gestion du Chat Persistant
@@ -236,7 +295,6 @@
             document.getElementById('chat-text').value = '';
             container.scrollTop = container.scrollHeight;
             
-            // Sauvegarder dans localStorage (garder les 25 derniers messages max)
             localStorage.setItem('crackfr_chat_messages', container.innerHTML);
             showToast("Message publié avec succès !");
         }
