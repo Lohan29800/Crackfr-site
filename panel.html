@@ -11,24 +11,24 @@
             theme: {
                 extend: {
                     colors: {
-                        neon: { cyan: '#00f3ff', purple: '#b026ff', pink: '#ff007f', bg: '#05050a', card: '#0a0a16', border: '#1a1a3a' }
+                        neon: { cyan: '#00f3ff', purple: '#b026ff', pink: '#ff007f', bg: '#030308', card: '#080813', border: '#1a1a3a' }
                     },
-                    boxShadow: { 'neon-cyan': '0 0 20px rgba(0, 243, 255, 0.3)' }
+                    boxShadow: { 'neon-cyan': '0 0 20px rgba(0, 243, 255, 0.3)', 'neon-pink': '0 0 20px rgba(255, 0, 127, 0.3)' }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-neon-bg text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-6">
+<body class="bg-neon-bg text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4">
 
     <!-- Login Box -->
     <div id="login-container" class="max-w-md w-full bg-neon-card border border-neon-border p-8 rounded-3xl text-center shadow-2xl">
         <h1 class="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink mb-2">
             CRACKFR ADMIN
         </h1>
-        <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">Authentification Requise</p>
+        <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">Authentification Sécurisée</p>
         <div class="space-y-4">
-            <input type="password" id="admin-password" placeholder="Mot de passe..." class="w-full px-4 py-3 bg-slate-900 border border-neon-border rounded-xl text-sm text-white text-center focus:outline-none focus:border-neon-cyan">
+            <input type="password" id="admin-password" placeholder="Mot de passe (admin123)..." class="w-full px-4 py-3 bg-slate-900 border border-neon-border rounded-xl text-sm text-white text-center focus:outline-none focus:border-neon-cyan">
             <button onclick="login()" class="w-full py-3 bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan rounded-xl text-sm font-bold hover:shadow-neon-cyan transition-all">
                 Se connecter
             </button>
@@ -40,38 +40,53 @@
     </div>
 
     <!-- Admin Panel Dashboard -->
-    <div id="admin-panel" class="hidden max-w-2xl w-full bg-neon-card border border-neon-border p-8 rounded-3xl space-y-6 shadow-2xl">
+    <div id="admin-panel" class="hidden max-w-3xl w-full bg-neon-card border border-neon-border p-8 rounded-3xl space-y-6 shadow-2xl">
         <div class="flex items-center justify-between border-b border-neon-border pb-4">
             <div>
-                <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Dashboard Admin</h2>
-                <p class="text-xs text-slate-400">Gestion et supervision des services</p>
+                <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Dashboard Admin Communautaire</h2>
+                <p class="text-xs text-slate-400">Gestion des bots et des annonces en temps réel</p>
             </div>
-            <button onclick="logout()" class="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold rounded-xl hover:bg-rose-500/20">
-                Déconnexion
-            </button>
+            <div class="flex items-center space-x-2">
+                <a href="index.html" target="_blank" class="px-3 py-1.5 bg-slate-900 border border-neon-border text-slate-300 text-xs font-bold rounded-xl hover:text-neon-cyan">Voir le Site ↗</a>
+                <button onclick="logout()" class="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold rounded-xl hover:bg-rose-500/20">Déconnexion</button>
+            </div>
         </div>
 
+        <!-- Grille de Commandes -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-2">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-cyan">Mode du Site</h3>
-                <div class="flex gap-2 pt-1">
-                    <button onclick="changeMode('online')" class="px-3 py-1.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold rounded-lg w-full">En Ligne</button>
-                    <button onclick="changeMode('maintenance')" class="px-3 py-1.5 bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold rounded-lg w-full">Maintenance</button>
+            <!-- Mode du Site -->
+            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-3">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-cyan">État du Hub Web</h3>
+                <div class="flex gap-2">
+                    <button onclick="setSiteMode('online')" class="px-3 py-2 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold rounded-xl w-full hover:bg-emerald-500/30 transition-all">Activer En Ligne</button>
+                    <button onclick="setSiteMode('maintenance')" class="px-3 py-2 bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold rounded-xl w-full hover:bg-rose-500/30 transition-all">Mode Maintenance</button>
                 </div>
             </div>
 
-            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-2">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-purple">Actions Serveur</h3>
-                <button onclick="addLog('Redémarrage des services en cours...')" class="w-full mt-2 py-2 bg-neon-purple/20 border border-neon-purple/40 text-neon-purple text-xs font-bold rounded-lg">
-                    🔄 Redémarrer les bots
-                </button>
+            <!-- Actions Bots / Projets -->
+            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-3">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-purple">Actions Bots & API</h3>
+                <div class="flex gap-2">
+                    <button onclick="triggerAction('restart')" class="px-3 py-2 bg-neon-purple/20 border border-neon-purple/40 text-neon-purple text-xs font-bold rounded-xl w-full hover:bg-neon-purple/30 transition-all">🔄 Relancer Bots Discord</button>
+                    <button onclick="triggerAction('flush')" class="px-3 py-2 bg-amber-500/20 border border-amber-500/40 text-amber-400 text-xs font-bold rounded-xl w-full hover:bg-amber-500/30 transition-all">🧹 Vider Cache Web</button>
+                </div>
             </div>
         </div>
 
+        <!-- Diffuseur de Message Global -->
+        <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-neon-pink">📢 Diffuser une annonce globale</h3>
+            <div class="flex gap-2">
+                <input type="text" id="global-announcement" placeholder="Ex: Nouvelle mise à jour du bot Discord disponible !..." class="w-full px-3 py-2 bg-black/50 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-pink">
+                <button onclick="sendGlobalAlert()" class="px-4 py-2 bg-neon-pink/20 border border-neon-pink/40 text-neon-pink font-bold rounded-xl text-xs hover:shadow-neon-pink transition-all whitespace-nowrap">Diffuser</button>
+            </div>
+        </div>
+
+        <!-- Journal d'activité (Logs) -->
         <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Journal d'activité (Logs)</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Journal d'activité en direct</h3>
             <div id="logs-container" class="text-xs font-mono text-slate-400 space-y-1 bg-black/40 p-3 rounded-xl border border-neon-border/50 max-h-32 overflow-y-auto">
-                <p class="text-emerald-400">[SYSTEM] Panel initialisé.</p>
+                <p class="text-emerald-400">[SYSTEM] Panel communautaire initialisé.</p>
             </div>
         </div>
     </div>
@@ -100,16 +115,38 @@
         function showDashboard() {
             document.getElementById("login-container").classList.add("hidden");
             document.getElementById("admin-panel").classList.remove("hidden");
-            addLog("[AUTH] Administrateur connecté.");
+            addLog("[AUTH] Connexion administrateur réussie.");
         }
 
-        function changeMode(mode) {
+        function setSiteMode(mode) {
+            localStorage.setItem("crackfr_site_mode", mode);
             if (mode === 'maintenance') {
-                addLog("[CONFIG] Passage en mode maintenance.");
-                window.location.href = "maintenance.html";
+                addLog("[CONFIG] Le site a basculé en mode MAINTENANCE.");
+                alert("Mode maintenance activé.");
             } else {
-                addLog("[CONFIG] Passage en mode public.");
-                window.location.href = "index.html";
+                addLog("[CONFIG] Le site a basculé en mode PUBLIC.");
+                alert("Mode public activé.");
+            }
+        }
+
+        function triggerAction(action) {
+            if (action === 'restart') {
+                addLog("[ACTION] Redémarrage des scripts Node.js et du Bot Discord.");
+                alert("Services redémarrés avec succès !");
+            } else if (action === 'flush') {
+                addLog("[ACTION] Cache du site nettoyé.");
+                alert("Cache nettoyé.");
+            }
+        }
+
+        function sendGlobalAlert() {
+            const msg = document.getElementById("global-announcement").value.trim();
+            if (msg) {
+                const alertObj = { msg: msg, time: Date.now() };
+                localStorage.setItem("crackfr_global_alert", JSON.stringify(alertObj));
+                addLog(`[ANNONCE] Diffusion globale : "${msg}"`);
+                document.getElementById("global-announcement").value = '';
+                alert("Annonce diffusée sur le site !");
             }
         }
 
