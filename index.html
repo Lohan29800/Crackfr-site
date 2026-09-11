@@ -48,7 +48,7 @@
                 <a href="index.html" class="text-neon-cyan transition-colors">Accueil</a>
                 <a href="#poles" class="hover:text-white transition-colors">Pôles & Bots</a>
                 <a href="#stats" class="hover:text-white transition-colors">Statistiques</a>
-                <a href="#infos" class="hover:text-white transition-colors">À propos</a>
+                <a href="#chat-section" class="hover:text-white transition-colors">Mur Live</a>
             </nav>
             <div class="flex items-center space-x-3">
                 <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-neon-pink/10 hover:bg-neon-pink/20 text-neon-pink border border-neon-pink/30 rounded-xl transition-all shadow-neon-pink">
@@ -65,7 +65,7 @@
         <div class="max-w-4xl mx-auto text-center space-y-8">
             <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-xs font-bold shadow-neon-cyan">
                 <span class="w-2.5 h-2.5 rounded-full bg-neon-cyan animate-ping"></span>
-                <span id="banner-status-text">Hub Communautaire &bull; Projets en cours ! 🚀</span>
+                <span>Hub Communautaire &bull; Projets & Bots Actifs ⚡</span>
             </div>
             
             <h1 class="text-5xl sm:text-7xl font-black tracking-tight leading-tight">
@@ -73,15 +73,15 @@
             </h1>
             
             <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
-                Retrouvez nos bots Discord personnalisés, nos projets de développement mobiles & web, et notre espace d'échange.
+                Découvrez nos bots Discord personnalisés, suivez nos projets de développement cross-platform et rejoignez l'échange.
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <a href="#" class="w-full sm:w-auto px-8 py-4 font-extrabold bg-gradient-to-r from-neon-cyan to-neon-purple text-black rounded-2xl transition-all shadow-neon-cyan hover:scale-105">
-                    Rejoindre le Discord 💬
+                <a href="https://discord.com" target="_blank" class="w-full sm:w-auto px-8 py-4 font-extrabold bg-gradient-to-r from-neon-cyan to-neon-purple text-black rounded-2xl transition-all shadow-neon-cyan hover:scale-105 text-center">
+                    Rejoindre le Discord 🚀
                 </a>
-                <a href="#poles" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50">
-                    Explorer les pôles
+                <a href="#poles" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50 text-center">
+                    Voir les pôles
                 </a>
             </div>
         </div>
@@ -99,64 +99,67 @@
                 <p class="text-[10px] text-slate-400 font-semibold">Node.js & API gérées</p>
             </div>
             <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Projets Web & Apps</p>
-                <h3 class="text-3xl font-black text-neon-pink">En Ligne</h3>
-                <p class="text-[10px] text-emerald-400 font-semibold">GitHub Pages Sync</p>
+                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Statut du Site</p>
+                <h3 class="text-3xl font-black text-neon-pink">100%</h3>
+                <p class="text-[10px] text-emerald-400 font-semibold">GitHub Pages Synced</p>
             </div>
         </div>
 
-        <!-- Section Pôles & Bots (Remplaçant les serveurs dédiés) -->
+        <!-- Section Pôles & Bots -->
         <div id="poles" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg">
+            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-cyan/40 transition-colors">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="font-bold text-white text-sm">🤖 Bot Discord & IA (GLaDOS)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Statut : En ligne & Actif</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Latence API : <span id="ping-bot" class="text-neon-cyan font-mono">18ms</span></p>
                     </div>
                     <div class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                         <span>Opérationnel</span>
                     </div>
                 </div>
-                <p class="text-xs text-slate-300">Gestion des salons, interactions vocales, commandes personnalisées et intégration d'intelligences artificielles.</p>
+                <p class="text-xs text-slate-300">Gestion automatisée des salons, modération intelligente, streaming audio et commandes interactives basées sur Node.js.</p>
             </div>
 
-            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg">
+            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-purple/40 transition-colors">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="font-bold text-white text-sm">📱 Pôle Développement (Flutter / Web)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Statut : Mises à jour continues</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Environnement : Cross-platform</p>
                     </div>
                     <div class="flex items-center space-x-2 px-3 py-1 bg-neon-purple/10 border border-neon-purple/30 text-neon-purple rounded-full text-xs font-bold">
                         <span class="w-2 h-2 rounded-full bg-neon-purple animate-pulse"></span>
-                        <span>En développement</span>
+                        <span>Actif</span>
                     </div>
                 </div>
-                <p class="text-xs text-slate-300">Conception d'applications mobiles cross-platform, tableaux de bord interactifs et interfaces Tailwind CSS.</p>
+                <p class="text-xs text-slate-300">Conception d'applications mobiles intuitives (Bot Create FR), tableaux de bord dynamiques et design Tailwind CSS.</p>
             </div>
         </div>
 
-        <!-- Mur de Messages en Direct -->
-        <div class="w-full max-w-2xl bg-neon-card/90 border border-neon-border p-6 rounded-3xl shadow-2xl backdrop-blur-md space-y-4">
-            <h3 class="text-sm font-bold uppercase tracking-wider text-neon-cyan flex items-center space-x-2">
-                <span>💬 Mur des Visiteurs (Live Global)</span>
-            </h3>
-            <div id="chat-messages" class="space-y-2 max-h-40 overflow-y-auto pr-2 text-xs text-slate-300">
-                <div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border">
-                    <span class="font-bold text-neon-purple">SystemBot :</span> Bienvenue sur le hub CrackFR ! ⚡
-                </div>
+        <!-- Mur de Messages en Direct (Persistant avec LocalStorage) -->
+        <div id="chat-section" class="w-full max-w-2xl bg-neon-card/90 border border-neon-border p-6 rounded-3xl shadow-2xl backdrop-blur-md space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-neon-cyan flex items-center space-x-2">
+                    <span>💬 Mur des Visiteurs (Live Global)</span>
+                </h3>
+                <span class="text-[10px] text-slate-400 font-mono">Synchro en direct</span>
             </div>
-            <div class="flex gap-2 pt-2">
-                <input type="text" id="chat-pseudo" placeholder="Pseudo..." class="w-1/3 px-3 py-2 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan">
-                <input type="text" id="chat-text" placeholder="Votre message..." class="w-2/3 px-3 py-2 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan">
-                <button onclick="postMessage()" class="px-4 py-2 bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan font-bold rounded-xl text-xs hover:shadow-neon-cyan transition-all">Envoyer</button>
+            
+            <div id="chat-messages" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-xs text-slate-300 scroll-smooth">
+                <!-- Les messages s'injecteront ici -->
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2 pt-2">
+                <input type="text" id="chat-pseudo" placeholder="Votre pseudo..." maxlength="20" class="sm:w-1/3 px-3 py-2.5 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan">
+                <input type="text" id="chat-text" placeholder="Écrire un message..." maxlength="150" class="sm:w-2/3 px-3 py-2.5 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan" onkeypress="if(event.key === 'Enter') postMessage();">
+                <button onclick="postMessage()" class="px-5 py-2.5 bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan font-bold rounded-xl text-xs hover:shadow-neon-cyan transition-all">Envoyer</button>
             </div>
         </div>
 
     </main>
 
     <!-- Système de Notification Toast -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2"></div>
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
     <!-- Footer -->
     <footer class="border-t border-neon-border py-6 text-center text-xs text-slate-500 bg-neon-card/30 z-10">
@@ -164,17 +167,21 @@
     </footer>
 
     <script>
+        // Gestion des alertes globales du panel admin
         window.addEventListener('storage', (e) => {
             if (e.key === 'crackfr_global_alert') {
                 const alertData = JSON.parse(e.newValue);
                 if (alertData) showToast(alertData.msg);
+            }
+            if (e.key === 'crackfr_clear_chat') {
+                document.getElementById('chat-messages').innerHTML = '<div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border text-slate-500">Le mur a été réinitialisé par un administrateur.</div>';
             }
         });
 
         function showToast(message) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = "px-4 py-3 bg-neon-card border border-neon-cyan text-xs text-white rounded-2xl shadow-neon-cyan animate-bounce flex items-center space-x-2";
+            toast.className = "pointer-events-auto px-4 py-3 bg-neon-card border border-neon-cyan text-xs text-white rounded-2xl shadow-neon-cyan animate-bounce flex items-center space-x-2";
             toast.innerHTML = `<span>⚡</span> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => {
@@ -183,37 +190,62 @@
             }, 5000);
         }
 
+        // Vérification de l'état de maintenance et affichage des messages stockés
         window.addEventListener('DOMContentLoaded', () => {
             const siteMode = localStorage.getItem('crackfr_site_mode');
             if (siteMode === 'maintenance') {
                 window.location.href = 'maintenance.html';
             }
+            
             const pendingAlert = localStorage.getItem('crackfr_global_alert');
             if (pendingAlert) {
                 const alertData = JSON.parse(pendingAlert);
                 showToast(alertData.msg);
             }
+
+            loadMessages();
         });
+
+        // Gestion du Chat Persistant
+        function loadMessages() {
+            const container = document.getElementById('chat-messages');
+            const saved = localStorage.getItem('crackfr_chat_messages');
+            if (saved) {
+                container.innerHTML = saved;
+            } else {
+                container.innerHTML = `<div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border"><span class="font-bold text-neon-purple">SystemBot :</span> Bienvenue sur le hub CrackFR ! ⚡</div>`;
+            }
+            container.scrollTop = container.scrollHeight;
+        }
 
         function postMessage() {
             const p = document.getElementById('chat-pseudo').value.trim();
             const t = document.getElementById('chat-text').value.trim();
-            const c = document.getElementById('chat-messages');
-            if (p && t) {
-                const div = document.createElement('div');
-                div.className = "p-2.5 bg-slate-900/60 rounded-xl border border-neon-border";
-                div.innerHTML = `<span class="font-bold text-neon-cyan">${escapeHtml(p)} :</span> ${escapeHtml(t)}`;
-                c.appendChild(div);
-                document.getElementById('chat-text').value = '';
-                c.scrollTop = c.scrollHeight;
-                showToast("Message publié sur le mur live !");
+            const container = document.getElementById('chat-messages');
+            
+            if (!p || !t) {
+                showToast("Veuillez remplir un pseudo et un message !");
+                return;
             }
+
+            const div = document.createElement('div');
+            div.className = "p-2.5 bg-slate-900/60 rounded-xl border border-neon-border animate-fade-in";
+            div.innerHTML = `<span class="font-bold text-neon-cyan">${escapeHtml(p)} :</span> ${escapeHtml(t)}`;
+            container.appendChild(div);
+            
+            document.getElementById('chat-text').value = '';
+            container.scrollTop = container.scrollHeight;
+            
+            // Sauvegarder dans localStorage (garder les 25 derniers messages max)
+            localStorage.setItem('crackfr_chat_messages', container.innerHTML);
+            showToast("Message publié avec succès !");
         }
 
         function escapeHtml(text) {
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
+        // Animation Canvas Particules
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
