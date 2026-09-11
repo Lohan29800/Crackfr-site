@@ -1,81 +1,34 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Hub Communautaire & Projets</title>
+    <title>CrackFR - Hub Communautaire</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        neon: {
-                            cyan: '#00f3ff',
-                            purple: '#b026ff',
-                            pink: '#ff007f',
-                            bg: '#030308',
-                            card: '#080813',
-                            border: '#1a1a3a'
-                        }
-                    },
-                    boxShadow: {
-                        'neon-cyan': '0 0 25px rgba(0, 243, 255, 0.4)',
-                        'neon-purple': '0 0 25px rgba(176, 38, 255, 0.4)',
-                        'neon-pink': '0 0 25px rgba(255, 0, 127, 0.4)',
-                    }
-                }
-            }
-        }
-    </script>
 </head>
-<body class="bg-neon-bg text-slate-100 font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-neon-cyan selection:text-black">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-    <!-- Canvas pour l'animation de particules en arrière-plan -->
-    <canvas id="bg-canvas" class="absolute inset-0 pointer-events-none z-0 opacity-40"></canvas>
-
-    <!-- Header / Navbar enrichie -->
-    <header class="border-b border-neon-border backdrop-blur-xl sticky top-0 z-50 bg-neon-bg/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="text-xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink drop-shadow-[0_0_15px_rgba(0,243,255,0.6)] animate-pulse">
-                    CRACKFR
-                </span>
+    <!-- Header / Navbar simple et propre -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="text-lg font-black tracking-wider text-cyan-400">
+                CRACKFR
             </div>
-
-            <!-- Menu de navigation principal avec options -->
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-400">
-                <a href="index.html" class="text-neon-cyan transition-colors">Accueil</a>
-                
-                <!-- Menu déroulant "Explorer" -->
-                <div class="relative group">
-                    <button class="flex items-center space-x-1 hover:text-white transition-colors py-2">
-                        <span>Explorer</span>
-                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <!-- Dropdown Content -->
-                    <div class="absolute left-0 mt-1 w-56 bg-neon-card border border-neon-border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left p-2 space-y-1">
-                        <a href="#poles" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-neon-cyan transition-colors">🤖 Pôle Bots Discord & IA</a>
-                        <a href="#poles" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-neon-purple transition-colors">🎮 Pôle Serveur FiveM</a>
-                        <a href="#categories" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-neon-pink transition-colors">📂 Pages par Catégorie</a>
-                        <a href="#stats" class="block px-3 py-2 rounded-xl hover:bg-slate-900 text-xs text-slate-300 hover:text-emerald-400 transition-colors">📊 Statistiques en direct</a>
-                    </div>
-                </div>
-
-                <a href="#categories" class="hover:text-white transition-colors">Catégories</a>
-                <a href="#stats" class="hover:text-white transition-colors">Stats</a>
-                <a href="#chat-section" class="hover:text-white transition-colors">Mur Live</a>
+            
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <a href="index.html" class="text-cyan-400">Accueil</a>
+                <a href="#categories" class="hover:text-cyan-400 transition-colors">Catégories</a>
+                <a href="#poles" class="hover:text-cyan-400 transition-colors">Pôles</a>
+                <a href="#chat-section" class="hover:text-cyan-400 transition-colors">Mur Live</a>
             </nav>
 
             <div class="flex items-center space-x-3">
-                <!-- Compteur de visiteurs en ligne -->
                 <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-400">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span id="online-count">1</span> <span>en ligne</span>
                 </div>
-                <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-neon-pink/10 hover:bg-neon-pink/20 text-neon-pink border border-neon-pink/30 rounded-xl transition-all shadow-neon-pink">
+                <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 border border-pink-500/30 rounded-xl transition-all">
                     🔐 Panel Admin
                 </a>
             </div>
@@ -83,271 +36,110 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 z-10 space-y-20">
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 space-y-16 max-w-5xl mx-auto w-full">
         
         <!-- Hero Section -->
-        <div class="max-w-4xl mx-auto text-center space-y-8">
-            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-xs font-bold shadow-neon-cyan">
-                <span class="w-2.5 h-2.5 rounded-full bg-neon-cyan animate-ping"></span>
-                <span>Hub Communautaire &bull; Projets & Bots Actifs ⚡</span>
-            </div>
-            
-            <h1 class="text-5xl sm:text-7xl font-black tracking-tight leading-tight">
-                Plateforme collaborative & bots sur <span class="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(176,38,255,0.5)]">CrackFR</span>
+        <div class="text-center space-y-6">
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight">
+                Hub Communautaire <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">CrackFR</span>
             </h1>
-            
-            <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
-                Découvrez nos bots Discord personnalisés, suivez nos projets de développement cross-platform et rejoignez l'échange.
+            <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                Retrouvez nos projets, nos bots Discord, nos serveurs de jeu et discutez en direct sur le mur communautaire.
             </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <a href="https://discord.com" target="_blank" class="w-full sm:w-auto px-8 py-4 font-extrabold bg-gradient-to-r from-neon-cyan to-neon-purple text-black rounded-2xl transition-all shadow-neon-cyan hover:scale-105 text-center">
-                    Rejoindre le Discord 🚀
+            <div class="flex flex-wrap justify-center gap-4 pt-2">
+                <a href="#categories" class="px-6 py-3 font-bold bg-cyan-500 text-slate-950 rounded-xl hover:bg-cyan-400 transition-colors text-sm">
+                    Voir les catégories 📂
                 </a>
-                <a href="#categories" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50 text-center">
-                    Explorer les catégories
+                <a href="panel.html" class="px-6 py-3 font-bold bg-slate-900 border border-slate-700 text-slate-200 rounded-xl hover:bg-slate-800 transition-colors text-sm">
+                    Accéder au Panel Admin 🔐
                 </a>
             </div>
         </div>
 
-        <!-- 📂 SECTION REDIRECTION PAR CATÉGORIE -->
-        <div id="categories" class="w-full max-w-5xl space-y-6">
-            <div class="text-center space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wider text-white">Pages & Redirections par Catégorie</h2>
-                <p class="text-xs sm:text-sm text-slate-400">Sélectionnez un univers pour accéder directement aux ressources associées.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
-                <!-- Catégorie 1 : Bots & IA -->
-                <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-xl hover:border-neon-cyan/50 transition-all group flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan text-xl group-hover:scale-110 transition-transform">
-                            🤖
-                        </div>
-                        <h3 class="text-base font-bold text-white">Bots Discord & IA</h3>
-                        <p class="text-xs text-slate-300">Accédez au code, configurations et statuts de nos bots Node.js (GLaDOS, modules audio & modération).</p>
-                    </div>
-                    <a href="#poles" class="inline-flex items-center space-x-2 text-xs font-bold text-neon-cyan hover:underline pt-2">
-                        <span>Voir les détails</span>
-                        <span>&rarr;</span>
-                    </a>
-                </div>
-
-                <!-- Catégorie 2 : Gaming & FiveM -->
-                <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-xl hover:border-neon-purple/50 transition-all group flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple text-xl group-hover:scale-110 transition-transform">
-                            🎮
-                        </div>
-                        <h3 class="text-base font-bold text-white">Serveurs FiveM (RP)</h3>
-                        <p class="text-xs text-slate-300">Plongez dans l'univers de Paris RP, configurations ESX / QBCore et gestion de bases de données.</p>
-                    </div>
-                    <a href="#poles" class="inline-flex items-center space-x-2 text-xs font-bold text-neon-purple hover:underline pt-2">
-                        <span>Voir les détails</span>
-                        <span>&rarr;</span>
-                    </a>
-                </div>
-
-                <!-- Catégorie 3 : Administration & Outils -->
-                <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-xl hover:border-neon-pink/50 transition-all group flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <div class="w-12 h-12 rounded-2xl bg-neon-pink/10 border border-neon-pink/30 flex items-center justify-center text-neon-pink text-xl group-hover:scale-110 transition-transform">
-                            🔐
-                        </div>
-                        <h3 class="text-base font-bold text-white">Outils & Administration</h3>
-                        <p class="text-xs text-slate-300">Panneau de contrôle sécurisé, alertes globales en direct, modes de maintenance et outils de modération.</p>
-                    </div>
-                    <a href="panel.html" class="inline-flex items-center space-x-2 text-xs font-bold text-neon-pink hover:underline pt-2">
-                        <span>Ouvrir le Panel</span>
-                        <span>&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section Statistiques -->
-        <div id="stats" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Membres Actifs</p>
-                <h3 class="text-3xl font-black text-neon-cyan">1,248</h3>
-                <p class="text-[10px] text-emerald-400 font-semibold">Communauté en expansion</p>
-            </div>
-            <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Bots Déployés</p>
-                <h3 class="text-3xl font-black text-neon-purple">4 Bots</h3>
-                <p class="text-[10px] text-slate-400 font-semibold">Node.js & API gérées</p>
-            </div>
-            <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Statut du Site</p>
-                <h3 class="text-3xl font-black text-neon-pink">100%</h3>
-                <p class="text-[10px] text-emerald-400 font-semibold">GitHub Pages Synced</p>
-            </div>
-        </div>
-
-        <!-- Section Pôles & Statuts Dynamiques -->
-        <div id="poles" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <!-- Bot GLaDOS / Discord -->
-            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-cyan/40 transition-colors">
-                <div class="flex items-center justify-between">
+        <!-- Section Catégories (Redirections) -->
+        <div id="categories" class="w-full space-y-6">
+            <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400 text-center">Pages & Redirections par Catégorie</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Cat 1 -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-cyan-500/50 transition-all flex flex-col justify-between">
                     <div>
-                        <h3 class="font-bold text-white text-sm">🤖 Bot Discord & IA (GLaDOS)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Latence API : <span class="text-neon-cyan font-mono">18ms</span></p>
+                        <div class="text-2xl mb-2">🤖</div>
+                        <h3 class="font-bold text-white text-base">Bots Discord & IA</h3>
+                        <p class="text-xs text-slate-400 mt-1">Gestion des bots Node.js, commandes personnalisées et intégration GLaDOS.</p>
                     </div>
-                    <div id="status-bot1" class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span id="text-bot1">Opérationnel</span>
-                    </div>
+                    <a href="#poles" class="text-xs font-bold text-cyan-400 hover:underline pt-4 block">Explorer &rarr;</a>
                 </div>
-                <p class="text-xs text-slate-300">Gestion automatisée des salons, modération intelligente, streaming audio et commandes interactives basées sur Node.js.</p>
-            </div>
-
-            <!-- Pôle Développement / FiveM -->
-            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-purple/40 transition-colors">
-                <div class="flex items-center justify-between">
+                <!-- Cat 2 -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-purple-500/50 transition-all flex flex-col justify-between">
                     <div>
-                        <h3 class="font-bold text-white text-sm">🎮 Serveur FiveM (Paris RP)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Cadre : ESX Legacy / QBCore</p>
+                        <div class="text-2xl mb-2">🎮</div>
+                        <h3 class="font-bold text-white text-base">Serveur FiveM</h3>
+                        <p class="text-xs text-slate-400 mt-1">Informations sur Paris RP, scripts ESX Legacy / QBCore et bases de données.</p>
                     </div>
-                    <div id="status-bot2" class="flex items-center space-x-2 px-3 py-1 bg-neon-purple/10 border border-neon-purple/30 text-neon-purple rounded-full text-xs font-bold">
-                        <span class="w-2 h-2 rounded-full bg-neon-purple animate-pulse"></span>
-                        <span id="text-bot2">En Ligne</span>
-                    </div>
+                    <a href="#poles" class="text-xs font-bold text-purple-400 hover:underline pt-4 block">Explorer &rarr;</a>
                 </div>
-                <p class="text-xs text-slate-300">Environnement de jeu rôleplay optimisé, scripts personnalisés, bases de données MySQL et design d'interface admin.</p>
+                <!-- Cat 3 -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-pink-500/50 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="text-2xl mb-2">🔐</div>
+                        <h3 class="font-bold text-white text-base">Administration</h3>
+                        <p class="text-xs text-slate-400 mt-1">Panneau de contrôle des statuts, alertes en direct et gestion du site.</p>
+                    </div>
+                    <a href="panel.html" class="text-xs font-bold text-pink-400 hover:underline pt-4 block">Ouvrir le Panel &rarr;</a>
+                </div>
             </div>
         </div>
 
-        <!-- Mur de Messages en Direct (Persistant) -->
-        <div id="chat-section" class="w-full max-w-2xl bg-neon-card/90 border border-neon-border p-6 rounded-3xl shadow-2xl backdrop-blur-md space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-sm font-bold uppercase tracking-wider text-neon-cyan flex items-center space-x-2">
-                    <span>💬 Mur des Visiteurs (Live Global)</span>
-                </h3>
-                <span class="text-[10px] text-slate-400 font-mono">Synchro en direct</span>
+        <!-- Section Pôles -->
+        <div id="poles" class="w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-sm text-white">🤖 Bot Discord (GLaDOS)</h3>
+                    <span id="text-bot1" class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full">Opérationnel</span>
+                </div>
+                <p class="text-xs text-slate-400">Modération intelligente et animations textuelles basées sur l'API.</p>
             </div>
-            
-            <div id="chat-messages" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-xs text-slate-300 scroll-smooth">
-                <!-- Les messages s'injecteront ici -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-sm text-white">🎮 FiveM (Paris RP)</h3>
+                    <span id="text-bot2" class="px-2.5 py-1 bg-purple-500/10 text-purple-400 text-xs font-bold rounded-full">En Ligne</span>
+                </div>
+                <p class="text-xs text-slate-400">Serveur rôleplay optimisé et scripts sur-mesure.</p>
             </div>
+        </div>
 
+        <!-- Mur de Messages (Chat) -->
+        <div id="chat-section" class="w-full bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400">💬 Mur des Visiteurs (Live)</h3>
+            <div id="chat-messages" class="space-y-2 max-h-40 overflow-y-auto pr-2 text-xs text-slate-300">
+                <div class="p-2 bg-slate-950 rounded-lg text-slate-500">Bienvenue sur le mur CrackFR !</div>
+            </div>
             <div class="flex flex-col sm:flex-row gap-2 pt-2">
-                <input type="text" id="chat-pseudo" placeholder="Votre pseudo..." maxlength="20" class="sm:w-1/3 px-3 py-2.5 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan">
-                <input type="text" id="chat-text" placeholder="Écrire un message..." maxlength="150" class="sm:w-2/3 px-3 py-2.5 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan" onkeypress="if(event.key === 'Enter') postMessage();">
-                <button onclick="postMessage()" class="px-5 py-2.5 bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan font-bold rounded-xl text-xs hover:shadow-neon-cyan transition-all">Envoyer</button>
+                <input type="text" id="chat-pseudo" placeholder="Pseudo..." maxlength="20" class="sm:w-1/4 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+                <input type="text" id="chat-text" placeholder="Votre message..." maxlength="150" class="sm:w-2/4 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500" onkeypress="if(event.key === 'Enter') postMessage();">
+                <button onclick="postMessage()" class="sm:w-1/4 px-4 py-2 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-cyan-400 transition-colors">Envoyer</button>
             </div>
         </div>
 
     </main>
 
-    <!-- Système de Notification Toast -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
-
     <!-- Footer -->
-    <footer class="border-t border-neon-border py-6 text-center text-xs text-slate-500 bg-neon-card/30 z-10">
-        <p>&copy; 2026 CrackFR. Propulsé par GitHub Pages &bull; Hub Communautaire 🌟</p>
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900/30">
+        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
     <script>
-        // Gestion du compteur de visiteurs en ligne via localStorage (TTL simple)
-        function updateOnlinePresence() {
-            const userId = 'user_' + Math.random().toString(36).substring(2);
-            localStorage.setItem('crackfr_active_' + userId, Date.now());
-            
-            let activeCount = 0;
-            const now = Date.now();
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && key.startsWith('crackfr_active_')) {
-                    const time = parseInt(localStorage.getItem(key) || '0');
-                    if (now - time < 10000) {
-                        activeCount++;
-                    } else {
-                        localStorage.removeItem(key);
-                    }
-                }
-            }
-            document.getElementById('online-count').innerText = Math.max(1, activeCount);
+        // Compteur en ligne simple
+        function updateOnline() {
+            document.getElementById('online-count').innerText = Math.floor(Math.random() * 3) + 1;
         }
-        setInterval(updateOnlinePresence, 3000);
-        updateOnlinePresence();
+        setInterval(updateOnline, 5000);
 
-        // Écoute des modifications cross-tab (Panel Admin -> Site)
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'crackfr_global_alert') {
-                const alertData = JSON.parse(e.newValue);
-                if (alertData) showToast(alertData.msg);
-            }
-            if (e.key === 'crackfr_clear_chat') {
-                document.getElementById('chat-messages').innerHTML = '<div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border text-slate-500">Le mur a été réinitialisé par un administrateur.</div>';
-            }
-            if (e.key === 'crackfr_status_bot1' || e.key === 'crackfr_status_bot2') {
-                applyServerStatuses();
-            }
-        });
-
-        function showToast(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = "pointer-events-auto px-4 py-3 bg-neon-card border border-neon-cyan text-xs text-white rounded-2xl shadow-neon-cyan animate-bounce flex items-center space-x-2";
-            toast.innerHTML = `<span>⚡</span> <span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 500);
-            }, 5000);
-        }
-
-        function applyServerStatuses() {
-            const s1 = localStorage.getItem('crackfr_status_bot1') || 'Opérationnel';
-            const s2 = localStorage.getItem('crackfr_status_bot2') || 'En Ligne';
-            
-            updateBadge('status-bot1', 'text-bot1', s1);
-            updateBadge('status-bot2', 'text-bot2', s2);
-        }
-
-        function updateBadge(containerId, textId, statusText) {
-            const container = document.getElementById(containerId);
-            const textEl = document.getElementById(textId);
-            textEl.innerText = statusText;
-            
-            if (statusText === 'Opérationnel' || statusText === 'En Ligne') {
-                container.className = "flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold";
-                container.querySelector('span').className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
-            } else if (statusText === 'Maintenance') {
-                container.className = "flex items-center space-x-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-bold";
-                container.querySelector('span').className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
-            } else {
-                container.className = "flex items-center space-x-2 px-3 py-1 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded-full text-xs font-bold";
-                container.querySelector('span').className = "w-2 h-2 rounded-full bg-rose-400";
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const siteMode = localStorage.getItem('crackfr_site_mode');
-            if (siteMode === 'maintenance') {
-                window.location.href = 'maintenance.html';
-            }
-            
-            const pendingAlert = localStorage.getItem('crackfr_global_alert');
-            if (pendingAlert) {
-                const alertData = JSON.parse(pendingAlert);
-                showToast(alertData.msg);
-            }
-
-            loadMessages();
-            applyServerStatuses();
-        });
-
-        // Gestion du Chat Persistant
+        // Chat simple via localStorage
         function loadMessages() {
             const container = document.getElementById('chat-messages');
             const saved = localStorage.getItem('crackfr_chat_messages');
-            if (saved) {
-                container.innerHTML = saved;
-            } else {
-                container.innerHTML = `<div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border"><span class="font-bold text-neon-purple">SystemBot :</span> Bienvenue sur le hub CrackFR ! ⚡</div>`;
-            }
-            container.scrollTop = container.scrollHeight;
+            if (saved) container.innerHTML = saved;
         }
 
         function postMessage() {
@@ -355,50 +147,25 @@
             const t = document.getElementById('chat-text').value.trim();
             const container = document.getElementById('chat-messages');
             
-            if (!p || !t) {
-                showToast("Veuillez remplir un pseudo et un message !");
-                return;
-            }
+            if (!p || !t) return;
 
             const div = document.createElement('div');
-            div.className = "p-2.5 bg-slate-900/60 rounded-xl border border-neon-border animate-fade-in";
-            div.innerHTML = `<span class="font-bold text-neon-cyan">${escapeHtml(p)} :</span> ${escapeHtml(t)}`;
+            div.className = "p-2 bg-slate-950 rounded-lg text-xs";
+            div.innerHTML = `<span class="font-bold text-cyan-400">${p} :</span> ${t}`;
             container.appendChild(div);
             
             document.getElementById('chat-text').value = '';
             container.scrollTop = container.scrollHeight;
-            
             localStorage.setItem('crackfr_chat_messages', container.innerHTML);
-            showToast("Message publié avec succès !");
         }
 
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        // Animation Canvas Particules
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-        const particles = Array.from({length: 40}, () => ({
-            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-            r: Math.random() * 2.5 + 0.8, c: ['#00f3ff', '#b026ff', '#ff007f'][Math.floor(Math.random()*3)],
-            vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8
-        }));
-        function loop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.x += p.vx; p.y += p.vy;
-                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
-                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = p.c; ctx.shadowBlur = 12; ctx.shadowColor = p.c; ctx.fill();
-            });
-            requestAnimationFrame(loop);
-        }
-        loop();
+        window.addEventListener('DOMContentLoaded', () => {
+            loadMessages();
+            // Vérification mode maintenance
+            if (localStorage.getItem('crackfr_site_mode') === 'maintenance') {
+                window.location.href = 'maintenance.html';
+            }
+        });
     </script>
 </body>
 </html>
