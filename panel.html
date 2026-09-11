@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Admin Avancé</title>
+    <title>CrackFR - Hub Communautaire & Projets</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,158 +12,320 @@
             theme: {
                 extend: {
                     colors: {
-                        neon: { cyan: '#00f3ff', purple: '#b026ff', pink: '#ff007f', bg: '#030308', card: '#080813', border: '#1a1a3a' }
+                        neon: {
+                            cyan: '#00f3ff',
+                            purple: '#b026ff',
+                            pink: '#ff007f',
+                            bg: '#030308',
+                            card: '#080813',
+                            border: '#1a1a3a'
+                        }
                     },
-                    boxShadow: { 'neon-cyan': '0 0 20px rgba(0, 243, 255, 0.3)', 'neon-pink': '0 0 20px rgba(255, 0, 127, 0.3)' }
+                    boxShadow: {
+                        'neon-cyan': '0 0 25px rgba(0, 243, 255, 0.4)',
+                        'neon-purple': '0 0 25px rgba(176, 38, 255, 0.4)',
+                        'neon-pink': '0 0 25px rgba(255, 0, 127, 0.4)',
+                    }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-neon-bg text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-neon-bg text-slate-100 font-sans min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-neon-cyan selection:text-black">
 
-    <!-- Login Box -->
-    <div id="login-container" class="max-w-md w-full bg-neon-card border border-neon-border p-8 rounded-3xl text-center shadow-2xl">
-        <h1 class="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink mb-2">
-            CRACKFR ADMIN
-        </h1>
-        <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">Accès Sécurisé</p>
-        <div class="space-y-4">
-            <input type="password" id="admin-password" placeholder="Mot de passe (admin123)..." class="w-full px-4 py-3 bg-slate-900 border border-neon-border rounded-xl text-sm text-white text-center focus:outline-none focus:border-neon-cyan" onkeypress="if(event.key === 'Enter') login();">
-            <button onclick="login()" class="w-full py-3 bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan rounded-xl text-sm font-bold hover:shadow-neon-cyan transition-all">
-                Se connecter
-            </button>
-            <p id="error-msg" class="text-xs text-rose-500 hidden font-semibold">Mot de passe incorrect.</p>
-        </div>
-        <div class="mt-6 pt-6 border-t border-neon-border">
-            <a href="index.html" class="text-xs text-slate-400 hover:text-neon-cyan">← Retour au site public</a>
-        </div>
-    </div>
+    <!-- Canvas pour l'animation de particules en arrière-plan -->
+    <canvas id="bg-canvas" class="absolute inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-    <!-- Admin Panel Dashboard -->
-    <div id="admin-panel" class="hidden max-w-3xl w-full bg-neon-card border border-neon-border p-8 rounded-3xl space-y-6 shadow-2xl">
-        <div class="flex items-center justify-between border-b border-neon-border pb-4">
-            <div>
-                <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Dashboard Admin v2.1</h2>
-                <p class="text-xs text-slate-400">Contrôle global & Modération de la communauté</p>
+    <!-- Header / Navbar -->
+    <header class="border-b border-neon-border backdrop-blur-xl sticky top-0 z-50 bg-neon-bg/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink drop-shadow-[0_0_15px_rgba(0,243,255,0.6)] animate-pulse">
+                    CRACKFR
+                </span>
             </div>
-            <div class="flex items-center space-x-2">
-                <a href="index.html" target="_blank" class="px-3 py-1.5 bg-slate-900 border border-neon-border text-slate-300 text-xs font-bold rounded-xl hover:text-neon-cyan">Voir le Site ↗</a>
-                <button onclick="logout()" class="px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold rounded-xl hover:bg-rose-500/20">Déconnexion</button>
-            </div>
-        </div>
-
-        <!-- Grille de Commandes -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Mode du Site -->
-            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-cyan">État du Hub Web</h3>
-                <div class="flex gap-2">
-                    <button onclick="setSiteMode('online')" class="px-3 py-2 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold rounded-xl w-full hover:bg-emerald-500/30 transition-all">En Ligne</button>
-                    <button onclick="setSiteMode('maintenance')" class="px-3 py-2 bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold rounded-xl w-full hover:bg-rose-500/30 transition-all">Maintenance</button>
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-400">
+                <a href="index.html" class="text-neon-cyan transition-colors">Accueil</a>
+                <a href="#poles" class="hover:text-white transition-colors">Pôles & Bots</a>
+                <a href="#stats" class="hover:text-white transition-colors">Statistiques</a>
+                <a href="#chat-section" class="hover:text-white transition-colors">Mur Live</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <!-- Compteur de visiteurs en ligne en temps réel (localStorage) -->
+                <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span id="online-count">1</span> <span>en ligne</span>
                 </div>
+                <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-neon-pink/10 hover:bg-neon-pink/20 text-neon-pink border border-neon-pink/30 rounded-xl transition-all shadow-neon-pink">
+                    🔐 Panel Admin
+                </a>
             </div>
+        </div>
+    </header>
 
-            <!-- Modération du Chat -->
-            <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-neon-purple">Modération Mur Live</h3>
-                <div class="flex gap-2">
-                    <button onclick="clearChatWall()" class="px-3 py-2 bg-amber-500/20 border border-amber-500/40 text-amber-400 text-xs font-bold rounded-xl w-full hover:bg-amber-500/30 transition-all">🧹 Vider le Mur</button>
-                    <button onclick="triggerAction('restart')" class="px-3 py-2 bg-neon-purple/20 border border-neon-purple/40 text-neon-purple text-xs font-bold rounded-xl w-full hover:bg-neon-purple/30 transition-all">🔄 Relancer Bots</button>
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 z-10 space-y-16">
+        
+        <!-- Hero Section -->
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-xs font-bold shadow-neon-cyan">
+                <span class="w-2.5 h-2.5 rounded-full bg-neon-cyan animate-ping"></span>
+                <span>Hub Communautaire &bull; Projets & Bots Actifs ⚡</span>
+            </div>
+            
+            <h1 class="text-5xl sm:text-7xl font-black tracking-tight leading-tight">
+                Plateforme collaborative & bots sur <span class="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(176,38,255,0.5)]">CrackFR</span>
+            </h1>
+            
+            <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-medium">
+                Découvrez nos bots Discord personnalisés, suivez nos projets de développement cross-platform et rejoignez l'échange.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="https://discord.com" target="_blank" class="w-full sm:w-auto px-8 py-4 font-extrabold bg-gradient-to-r from-neon-cyan to-neon-purple text-black rounded-2xl transition-all shadow-neon-cyan hover:scale-105 text-center">
+                    Rejoindre le Discord 🚀
+                </a>
+                <a href="#poles" class="w-full sm:w-auto px-8 py-4 font-bold bg-neon-card hover:bg-slate-900 text-slate-200 border border-neon-border rounded-2xl transition-all hover:border-neon-cyan/50 text-center">
+                    Voir les pôles
+                </a>
+            </div>
+        </div>
+
+        <!-- Section Statistiques -->
+        <div id="stats" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
+                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Membres Actifs</p>
+                <h3 class="text-3xl font-black text-neon-cyan">1,248</h3>
+                <p class="text-[10px] text-emerald-400 font-semibold">Communauté en expansion</p>
+            </div>
+            <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
+                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Bots Déployés</p>
+                <h3 class="text-3xl font-black text-neon-purple">4 Bots</h3>
+                <p class="text-[10px] text-slate-400 font-semibold">Node.js & API gérées</p>
+            </div>
+            <div class="bg-neon-card/80 border border-neon-border p-6 rounded-3xl backdrop-blur-md text-center space-y-2 shadow-xl">
+                <p class="text-xs uppercase tracking-widest text-slate-400 font-bold">Statut du Site</p>
+                <h3 class="text-3xl font-black text-neon-pink">100%</h3>
+                <p class="text-[10px] text-emerald-400 font-semibold">GitHub Pages Synced</p>
+            </div>
+        </div>
+
+        <!-- Section Pôles & Statuts Dynamiques -->
+        <div id="poles" class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Bot GLaDOS / Discord -->
+            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-cyan/40 transition-colors">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-white text-sm">🤖 Bot Discord & IA (GLaDOS)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Latence API : <span class="text-neon-cyan font-mono">18ms</span></p>
+                    </div>
+                    <div id="status-bot1" class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span id="text-bot1">Opérationnel</span>
+                    </div>
                 </div>
+                <p class="text-xs text-slate-300">Gestion automatisée des salons, modération intelligente, streaming audio et commandes interactives basées sur Node.js.</p>
+            </div>
+
+            <!-- Pôle Développement / FiveM -->
+            <div class="bg-neon-card/90 border border-neon-border p-6 rounded-3xl backdrop-blur-md space-y-4 shadow-lg hover:border-neon-purple/40 transition-colors">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-white text-sm">🎮 Serveur FiveM (Paris RP)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Cadre : ESX Legacy / QBCore</p>
+                    </div>
+                    <div id="status-bot2" class="flex items-center space-x-2 px-3 py-1 bg-neon-purple/10 border border-neon-purple/30 text-neon-purple rounded-full text-xs font-bold">
+                        <span class="w-2 h-2 rounded-full bg-neon-purple animate-pulse"></span>
+                        <span id="text-bot2">En Ligne</span>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-300">Environnement de jeu rôleplay optimisé, scripts personnalisés, bases de données MySQL et design d'interface admin.</p>
             </div>
         </div>
 
-        <!-- Diffuseur de Message Global -->
-        <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-neon-pink">📢 Diffuser une annonce globale sur le site</h3>
-            <div class="flex gap-2">
-                <input type="text" id="global-announcement" placeholder="Ex: Mise à jour des bots Discord déployée avec succès !" class="w-full px-3 py-2 bg-black/50 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-pink" onkeypress="if(event.key === 'Enter') sendGlobalAlert();">
-                <button onclick="sendGlobalAlert()" class="px-4 py-2 bg-neon-pink/20 border border-neon-pink/40 text-neon-pink font-bold rounded-xl text-xs hover:shadow-neon-pink transition-all whitespace-nowrap">Diffuser</button>
+        <!-- Mur de Messages en Direct (Persistant) -->
+        <div id="chat-section" class="w-full max-w-2xl bg-neon-card/90 border border-neon-border p-6 rounded-3xl shadow-2xl backdrop-blur-md space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-neon-cyan flex items-center space-x-2">
+                    <span>💬 Mur des Visiteurs (Live Global)</span>
+                </h3>
+                <span class="text-[10px] text-slate-400 font-mono">Synchro en direct</span>
+            </div>
+            
+            <div id="chat-messages" class="space-y-2 max-h-48 overflow-y-auto pr-2 text-xs text-slate-300 scroll-smooth">
+                <!-- Les messages s'injecteront ici -->
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2 pt-2">
+                <input type="text" id="chat-pseudo" placeholder="Votre pseudo..." maxlength="20" class="sm:w-1/3 px-3 py-2.5 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan">
+                <input type="text" id="chat-text" placeholder="Écrire un message..." maxlength="150" class="sm:w-2/3 px-3 py-2.5 bg-slate-900 border border-neon-border rounded-xl text-xs text-white focus:outline-none focus:border-neon-cyan" onkeypress="if(event.key === 'Enter') postMessage();">
+                <button onclick="postMessage()" class="px-5 py-2.5 bg-neon-cyan/20 border border-neon-cyan/40 text-neon-cyan font-bold rounded-xl text-xs hover:shadow-neon-cyan transition-all">Envoyer</button>
             </div>
         </div>
 
-        <!-- Journal d'activité (Logs) -->
-        <div class="bg-slate-900/60 border border-neon-border p-4 rounded-2xl space-y-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Journal d'activité en direct</h3>
-            <div id="logs-container" class="text-xs font-mono text-slate-400 space-y-1 bg-black/40 p-3 rounded-xl border border-neon-border/50 max-h-32 overflow-y-auto">
-                <p class="text-emerald-400">[SYSTEM] Panel d'administration chargé.</p>
-            </div>
-        </div>
-    </div>
+    </main>
+
+    <!-- Système de Notification Toast -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- Footer -->
+    <footer class="border-t border-neon-border py-6 text-center text-xs text-slate-500 bg-neon-card/30 z-10">
+        <p>&copy; 2026 CrackFR. Propulsé par GitHub Pages &bull; Hub Communautaire 🌟</p>
+    </footer>
 
     <script>
-        const PASS = "admin123";
+        // Gestion du compteur de visiteurs en ligne via localStorage (TTL simple)
+        function updateOnlinePresence() {
+            const userId = 'user_' + Math.random().toString(36.substring(2));
+            localStorage.setItem('crackfr_active_' + userId, Date.now());
+            
+            // Nettoyer et compter les actifs des 10 dernières secondes
+            let activeCount = 0;
+            const now = Date.now();
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('crackfr_active_')) {
+                    const time = parseInt(localStorage.getItem(key) || '0');
+                    if (now - time < 10000) {
+                        activeCount++;
+                    } else {
+                        localStorage.removeItem(key);
+                    }
+                }
+            }
+            document.getElementById('online-count').innerText = Math.max(1, activeCount);
+        }
+        setInterval(updateOnlinePresence, 3000);
+        updateOnlinePresence();
 
-        window.onload = () => {
-            if (localStorage.getItem("auth") === "true") showDashboard();
+        // Écoute des modifications cross-tab (Panel Admin -> Site)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'crackfr_global_alert') {
+                const alertData = JSON.parse(e.newValue);
+                if (alertData) showToast(alertData.msg);
+            }
+            if (e.key === 'crackfr_clear_chat') {
+                document.getElementById('chat-messages').innerHTML = '<div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border text-slate-500">Le mur a été réinitialisé par un administrateur.</div>';
+            }
+            if (e.key === 'crackfr_status_bot1' || e.key === 'crackfr_status_bot2') {
+                applyServerStatuses();
+            }
+        });
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "pointer-events-auto px-4 py-3 bg-neon-card border border-neon-cyan text-xs text-white rounded-2xl shadow-neon-cyan animate-bounce flex items-center space-x-2";
+            toast.innerHTML = `<span>⚡</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
         }
 
-        function login() {
-            if (document.getElementById("admin-password").value === PASS) {
-                localStorage.setItem("auth", "true");
-                showDashboard();
+        function applyServerStatuses() {
+            const s1 = localStorage.getItem('crackfr_status_bot1') || 'Opérationnel';
+            const s2 = localStorage.getItem('crackfr_status_bot2') || 'En Ligne';
+            
+            updateBadge('status-bot1', 'text-bot1', s1);
+            updateBadge('status-bot2', 'text-bot2', s2);
+        }
+
+        function updateBadge(containerId, textId, statusText) {
+            const container = document.getElementById(containerId);
+            const textEl = document.getElementById(textId);
+            textEl.innerText = statusText;
+            
+            if (statusText === 'Opérationnel' || statusText === 'En Ligne') {
+                container.className = "flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold";
+                container.querySelector('span').className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+            } else if (statusText === 'Maintenance') {
+                container.className = "flex items-center space-x-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full text-xs font-bold";
+                container.querySelector('span').className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
             } else {
-                document.getElementById("error-msg").classList.remove("hidden");
+                container.className = "flex items-center space-x-2 px-3 py-1 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded-full text-xs font-bold";
+                container.querySelector('span').className = "w-2 h-2 rounded-full bg-rose-400";
             }
         }
 
-        function logout() {
-            localStorage.removeItem("auth");
-            location.reload();
-        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const siteMode = localStorage.getItem('crackfr_site_mode');
+            if (siteMode === 'maintenance') {
+                window.location.href = 'maintenance.html';
+            }
+            
+            const pendingAlert = localStorage.getItem('crackfr_global_alert');
+            if (pendingAlert) {
+                const alertData = JSON.parse(pendingAlert);
+                showToast(alertData.msg);
+            }
 
-        function showDashboard() {
-            document.getElementById("login-container").classList.add("hidden");
-            document.getElementById("admin-panel").classList.remove("hidden");
-            addLog("[AUTH] Connexion administrateur établie.");
-        }
+            loadMessages();
+            applyServerStatuses();
+        });
 
-        function setSiteMode(mode) {
-            localStorage.setItem("crackfr_site_mode", mode);
-            if (mode === 'maintenance') {
-                addLog("[CONFIG] Le site a basculé en mode MAINTENANCE.");
-                alert("Mode maintenance activé.");
+        // Gestion du Chat Persistant
+        function loadMessages() {
+            const container = document.getElementById('chat-messages');
+            const saved = localStorage.getItem('crackfr_chat_messages');
+            if (saved) {
+                container.innerHTML = saved;
             } else {
-                addLog("[CONFIG] Le site a basculé en mode PUBLIC.");
-                alert("Mode public activé.");
+                container.innerHTML = `<div class="p-2.5 bg-slate-900/60 rounded-xl border border-neon-border"><span class="font-bold text-neon-purple">SystemBot :</span> Bienvenue sur le hub CrackFR ! ⚡</div>`;
             }
-        }
-
-        function clearChatWall() {
-            localStorage.removeItem("crackfr_chat_messages");
-            localStorage.setItem("crackfr_clear_chat", Date.now());
-            addLog("[MODERATION] Le mur des visiteurs a été nettoyé.");
-            alert("Le mur de discussion a été réinitialisé.");
-        }
-
-        function triggerAction(action) {
-            if (action === 'restart') {
-                addLog("[ACTION] Redémarrage des scripts Node.js et du Bot Discord.");
-                alert("Services relancés !");
-            }
-        }
-
-        function sendGlobalAlert() {
-            const msg = document.getElementById("global-announcement").value.trim();
-            if (msg) {
-                const alertObj = { msg: msg, time: Date.now() };
-                localStorage.setItem("crackfr_global_alert", JSON.stringify(alertObj));
-                addLog(`[ANNONCE] Diffusion : "${msg}"`);
-                document.getElementById("global-announcement").value = '';
-                alert("Annonce envoyée sur le site !");
-            }
-        }
-
-    
-        function addLog(text) {
-            const container = document.getElementById("logs-container");
-            const p = document.createElement("p");
-            p.className = "text-neon-cyan";
-            p.innerText = `[${new Date().toLocaleTimeString()}] ${text}`;
-            container.appendChild(p);
             container.scrollTop = container.scrollHeight;
         }
+
+        function postMessage() {
+            const p = document.getElementById('chat-pseudo').value.trim();
+            const t = document.getElementById('chat-text').value.trim();
+            const container = document.getElementById('chat-messages');
+            
+            if (!p || !t) {
+                showToast("Veuillez remplir un pseudo et un message !");
+                return;
+            }
+
+            const div = document.createElement('div');
+            div.className = "p-2.5 bg-slate-900/60 rounded-xl border border-neon-border animate-fade-in";
+            div.innerHTML = `<span class="font-bold text-neon-cyan">${escapeHtml(p)} :</span> ${escapeHtml(t)}`;
+            container.appendChild(div);
+            
+            document.getElementById('chat-text').value = '';
+            container.scrollTop = container.scrollHeight;
+            
+            localStorage.setItem('crackfr_chat_messages', container.innerHTML);
+            showToast("Message publié avec succès !");
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // Animation Canvas Particules
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+        const particles = Array.from({length: 40}, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            r: Math.random() * 2.5 + 0.8, c: ['#00f3ff', '#b026ff', '#ff007f'][Math.floor(Math.random()*3)],
+            vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8
+        }));
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.c; ctx.shadowBlur = 12; ctx.shadowColor = p.c; ctx.fill();
+            });
+            requestAnimationFrame(loop);
+        }
+        loop();
     </script>
 </body>
 </html>
