@@ -26,26 +26,31 @@
         
         <div class="text-center space-y-2">
             <h1 class="text-3xl font-black tracking-tight text-white">Panel de Contrôle Avancé</h1>
-            <p class="text-xs sm:text-sm text-slate-400">Gère tes bots, les membres en ligne et diffuse tes alertes.</p>
+            <p class="text-xs sm:text-sm text-slate-400">Gère tes bots, la maintenance et les alertes du hub.</p>
         </div>
 
         <div class="w-full space-y-6">
             
-            <!-- Mode du Site & Stats Rapides -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-                    <h3 class="font-bold text-sm text-pink-400 uppercase tracking-wider">Mode du Site</h3>
-                    <div class="flex gap-2 pt-2">
-                        <button type="button" onclick="selectMode('active')" id="btn-active" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-emerald-500 transition-all">Actif</button>
-                        <button type="button" onclick="selectMode('maintenance')" id="btn-maint" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-rose-500 transition-all">Maintenance</button>
-                    </div>
+            <!-- Mode du Site & Maintenance Avancée -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
+                <h3 class="font-bold text-sm text-pink-400 uppercase tracking-wider">Gestion de la Maintenance</h3>
+                <p class="text-xs text-slate-400">Active la maintenance et écris un message personnalisé pour les visiteurs.</p>
+                
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="selectMode('active')" id="btn-active" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-emerald-500 transition-all">Actif (Normal)</button>
+                    <button type="button" onclick="selectMode('maintenance')" id="btn-maint" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-rose-500 transition-all">Activer Maintenance</button>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-                    <h3 class="font-bold text-sm text-cyan-400 uppercase tracking-wider">Membres Actifs (Simulés)</h3>
-                    <p class="text-xs text-slate-400">Nombre de membres affichés en ligne sur le hub :</p>
-                    <input type="number" id="members-input" value="42" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+                <div class="pt-2 space-y-1">
+                    <label class="text-[10px] uppercase font-bold text-slate-400">Raison de la maintenance affichée sur la page</label>
+                    <input type="text" id="maintenance-reason-input" placeholder="Ex: Mise à jour majeure des bots, retour prévu à 18h..." class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
                 </div>
+            </div>
+
+            <!-- Membres Actifs -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
+                <h3 class="font-bold text-sm text-cyan-400 uppercase tracking-wider">Membres Actifs (Simulés)</h3>
+                <input type="number" id="members-input" value="42" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
             </div>
 
             <!-- Gestionnaire des Bots -->
@@ -60,7 +65,7 @@
             <!-- Alerte Globale -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
                 <h3 class="font-bold text-sm text-purple-400 uppercase tracking-wider">Alerte / Notification Flash</h3>
-                <input type="text" id="alert-input" placeholder="Ex: Maintenance de GLaDOS prévue à 21h..." class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500">
+                <input type="text" id="alert-input" placeholder="Ex: GLaDOS vient d'être mis à jour !" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
 
         </div>
@@ -68,7 +73,7 @@
         <!-- Bouton de Sauvegarde -->
         <div class="w-full pt-4">
             <button onclick="saveAllSettings()" class="w-full py-4 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-black rounded-2xl text-sm shadow-lg transition-all flex items-center justify-center space-x-2">
-                <span>💾 Enregistrer toutes les modifications</span>
+                <span>💾 Enregistrer et appliquer les modifications</span>
             </button>
             <p id="save-status" class="text-center text-xs text-emerald-400 mt-2 h-4 font-bold"></p>
         </div>
@@ -115,6 +120,9 @@
             const savedMode = localStorage.getItem('crackfr_site_mode') || 'active';
             selectMode(savedMode);
 
+            const savedReason = localStorage.getItem('crackfr_maintenance_reason') || '';
+            document.getElementById('maintenance-reason-input').value = savedReason;
+
             const savedMembers = localStorage.getItem('crackfr_members_count') || '42';
             document.getElementById('members-input').value = savedMembers;
 
@@ -130,6 +138,7 @@
 
         function saveAllSettings() {
             localStorage.setItem('crackfr_site_mode', currentMode);
+            localStorage.setItem('crackfr_maintenance_reason', document.getElementById('maintenance-reason-input').value.trim());
             localStorage.setItem('crackfr_members_count', document.getElementById('members-input').value);
 
             const rows = document.querySelectorAll('#bots-container > div');
@@ -151,7 +160,7 @@
             }
 
             const statusEl = document.getElementById('save-status');
-            statusEl.innerText = "✅ Paramètres sauvegardés avec succès !";
+            statusEl.innerText = "✅ Paramètres de maintenance mis à jour !";
             setTimeout(() => { statusEl.innerText = ""; }, 4000);
         }
     </script>
