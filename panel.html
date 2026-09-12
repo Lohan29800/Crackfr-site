@@ -3,165 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Administrateur</title>
+    <title>CrackFR - Panel Admin</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
-    <!-- Header Panel -->
-    <header class="border-b border-slate-800 bg-slate-900 sticky top-0 z-50">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="text-lg font-black tracking-wider text-pink-400">
-                🔐 CRACKFR // ADMIN PANEL
+                ⚡ CRACKFR // ADMIN
             </div>
-            <a href="index.html" class="px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-all">
-                &larr; Retour au site
+            <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
+                ← Retour au site
             </a>
         </div>
     </header>
 
-    <!-- Main Content Panel -->
-    <main class="flex-grow flex flex-col items-center px-4 py-12 space-y-8 max-w-4xl mx-auto w-full">
+    <!-- Main Admin Content -->
+    <main class="flex-grow max-w-3xl mx-auto px-4 py-10 w-full space-y-8">
         
-        <div class="text-center space-y-2">
-            <h1 class="text-3xl font-black tracking-tight text-white">Panel de Contrôle Avancé</h1>
-            <p class="text-xs sm:text-sm text-slate-400">Gère tes bots, la maintenance et les alertes du hub.</p>
+        <div class="space-y-2">
+            <h1 class="text-3xl font-black tracking-tight text-white">Panneau de Contrôle</h1>
+            <p class="text-xs sm:text-sm text-slate-400">Modifie les paramètres de ton hub ou génère ton fichier de configuration.</p>
         </div>
 
-        <div class="w-full space-y-6">
+        <!-- Formulaire de réglages -->
+        <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
             
-            <!-- Mode du Site & Maintenance Avancée -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-                <h3 class="font-bold text-sm text-pink-400 uppercase tracking-wider">Gestion de la Maintenance</h3>
-                <p class="text-xs text-slate-400">Active la maintenance et écris un message personnalisé pour les visiteurs.</p>
+            <div class="space-y-4">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 border-b border-slate-800 pb-2">Paramètres Généraux</h2>
                 
-                <div class="flex gap-2 pt-2">
-                    <button type="button" onclick="selectMode('active')" id="btn-active" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-emerald-500 transition-all">Actif (Normal)</button>
-                    <button type="button" onclick="selectMode('maintenance')" id="btn-maint" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-rose-500 transition-all">Activer Maintenance</button>
+                <!-- Mode du site -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-300">Mode du site</label>
+                    <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <option value="active">Actif (En ligne)</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
                 </div>
 
-                <div class="pt-2 space-y-1">
-                    <label class="text-[10px] uppercase font-bold text-slate-400">Raison de la maintenance affichée sur la page</label>
-                    <input type="text" id="maintenance-reason-input" placeholder="Ex: Mise à jour majeure des bots, retour prévu à 18h..." class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
+                <!-- Nombre de membres -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-300">Nombre de membres affiché</label>
+                    <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" value="42">
+                </div>
+
+                <!-- Alerte globale -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-300">Message d'alerte globale (laisser vide pour masquer)</label>
+                    <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Bienvenue sur le hub !">
                 </div>
             </div>
 
-            <!-- Membres Actifs -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-                <h3 class="font-bold text-sm text-cyan-400 uppercase tracking-wider">Membres Actifs (Simulés)</h3>
-                <input type="number" id="members-input" value="42" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
-            </div>
-
-            <!-- Gestionnaire des Bots -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-                <div class="flex items-center justify-between">
-                    <h3 class="font-bold text-sm text-cyan-400 uppercase tracking-wider">Liste de tous les Bots Discord</h3>
-                    <button onclick="addBotRow()" class="px-3 py-1.5 bg-cyan-500/20 border border-cyan-500 text-cyan-400 font-bold rounded-xl text-xs hover:bg-cyan-500/30">+ Ajouter un bot</button>
-                </div>
-                <div id="bots-container" class="space-y-3 pt-2"></div>
-            </div>
-
-            <!-- Alerte Globale -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-                <h3 class="font-bold text-sm text-purple-400 uppercase tracking-wider">Alerte / Notification Flash</h3>
-                <input type="text" id="alert-input" placeholder="Ex: GLaDOS vient d'être mis à jour !" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500">
+            <!-- Bouton de génération -->
+            <div class="pt-4 space-y-3">
+                <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20">
+                    📋 Générer et copier le code pour data.json
+                </button>
+                <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden">✓ Code JSON copié dans le presse-papier ! Colle-le dans ton `data.json` sur GitHub.</p>
             </div>
 
         </div>
 
-        <!-- Bouton de Sauvegarde -->
-        <div class="w-full pt-4">
-            <button onclick="saveAllSettings()" class="w-full py-4 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-black rounded-2xl text-sm shadow-lg transition-all flex items-center justify-center space-x-2">
-                <span>💾 Enregistrer et appliquer les modifications</span>
-            </button>
-            <p id="save-status" class="text-center text-xs text-emerald-400 mt-2 h-4 font-bold"></p>
+        <!-- Boîte d'affichage du JSON généré -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Aperçu du JSON à mettre sur GitHub :</h3>
+            <textarea id="json-output" readonly class="w-full h-40 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
         </div>
 
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
-        <p>&copy; 2026 CrackFR. Espace sécurisé administrateur.</p>
+        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
     <script>
-        let currentMode = 'active';
-
-        function selectMode(mode) {
-            currentMode = mode;
-            if (mode === 'active') {
-                document.getElementById('btn-active').className = "flex-1 py-2 bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold rounded-xl text-xs";
-                document.getElementById('btn-maint').className = "flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs";
-            } else {
-                document.getElementById('btn-maint').className = "flex-1 py-2 bg-rose-500/20 border border-rose-500 text-rose-400 font-bold rounded-xl text-xs";
-                document.getElementById('btn-active').className = "flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs";
-            }
-        }
-
-        function addBotRow(name = "Nouveau Bot", status = "Opérationnel", desc = "Bot Discord officiel") {
-            const container = document.getElementById('bots-container');
-            const row = document.createElement('div');
-            row.className = "flex flex-col sm:flex-row gap-2 items-center p-3 bg-slate-950 border border-slate-800 rounded-xl";
-            row.innerHTML = `
-                <input type="text" value="${name}" placeholder="Nom..." class="bot-name sm:w-1/3 px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-cyan-500">
-                <input type="text" value="${desc}" placeholder="Description..." class="bot-desc sm:w-1/3 px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-cyan-500">
-                <select class="bot-status sm:w-1/4 px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-cyan-500">
-                    <option value="Opérationnel" ${status === 'Opérationnel' ? 'selected' : ''}>Opérationnel</option>
-                    <option value="Maintenance" ${status === 'Maintenance' ? 'selected' : ''}>Maintenance</option>
-                    <option value="Hors Ligne" ${status === 'Hors Ligne' ? 'selected' : ''}>Hors Ligne</option>
-                </select>
-                <button onclick="this.parentElement.remove()" class="px-3 py-2 bg-rose-500/20 border border-rose-500/40 text-rose-400 rounded-lg text-xs hover:bg-rose-500/30">🗑️</button>
-            `;
-            container.appendChild(row);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedMode = localStorage.getItem('crackfr_site_mode') || 'active';
-            selectMode(savedMode);
-
-            const savedReason = localStorage.getItem('crackfr_maintenance_reason') || '';
-            document.getElementById('maintenance-reason-input').value = savedReason;
-
-            const savedMembers = localStorage.getItem('crackfr_members_count') || '42';
-            document.getElementById('members-input').value = savedMembers;
-
-            const savedBots = localStorage.getItem('crackfr_bots_list');
-            if (savedBots) {
-                const bots = JSON.parse(savedBots);
-                bots.forEach(b => addBotRow(b.name, b.status, b.desc));
-            } else {
-                addBotRow("Bot Discord (GLaDOS)", "Opérationnel", "Modération & IA intelligente");
-                addBotRow("Bot Musique", "Opérationnel", "Audio haute qualité & DisTube");
+        // Charger les données initiales fictives pour le panel
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('data.json');
+                const data = await res.json();
+                document.getElementById('site-mode').value = data.siteMode || 'active';
+                document.getElementById('online-members').value = data.onlineMembers || 42;
+                document.getElementById('global-alert').value = data.globalAlert || '';
+                updateTextarea(data);
+            } catch (e) {
+                console.log("Impossible de charger data.json, utilisation des valeurs par défaut.");
             }
         });
 
-        function saveAllSettings() {
-            localStorage.setItem('crackfr_site_mode', currentMode);
-            localStorage.setItem('crackfr_maintenance_reason', document.getElementById('maintenance-reason-input').value.trim());
-            localStorage.setItem('crackfr_members_count', document.getElementById('members-input').value);
+        function generateJSON() {
+            const mode = document.getElementById('site-mode').value;
+            const members = parseInt(document.getElementById('online-members').value) || 0;
+            const alert = document.getElementById('global-alert').value;
 
-            const rows = document.querySelectorAll('#bots-container > div');
-            const botsList = [];
-            rows.forEach(row => {
-                const name = row.querySelector('.bot-name').value.trim();
-                const desc = row.querySelector('.bot-desc').value.trim();
-                const status = row.querySelector('.bot-status').value;
-                if (name) botsList.push({ name, desc, status });
+            // Structure complète par défaut pour ton data.json
+            const finalData = {
+                "siteMode": mode,
+                "onlineMembers": members,
+                "globalAlert": alert,
+                "bots": [
+                    {
+                        "name": "Bot Discord (GLaDOS)",
+                        "desc": "Modération & IA intelligente",
+                        "status": "Opérationnel"
+                    },
+                    {
+                        "name": "Bot Musique",
+                        "desc": "Audio haute qualité & DisTube",
+                        "status": "Opérationnel"
+                    }
+                ]
+            };
+
+            const jsonString = JSON.stringify(finalData, null, 4);
+            document.getElementById('json-output').value = jsonString;
+
+            // Copie automatique dans le presse-papier
+            navigator.clipboard.writeText(jsonString).then(() => {
+                const msg = document.getElementById('success-msg');
+                msg.classList.remove('hidden');
+                setTimeout(() => msg.classList.add('hidden'), 4000);
             });
+        }
 
-            localStorage.setItem('crackfr_bots_list', JSON.stringify(botsList));
-
-            const alertMsg = document.getElementById('alert-input').value.trim();
-            if (alertMsg) {
-                const alertData = { msg: alertMsg, time: Date.now() };
-                localStorage.setItem('crackfr_global_alert', JSON.stringify(alertData));
-                document.getElementById('alert-input').value = '';
-            }
-
-            const statusEl = document.getElementById('save-status');
-            statusEl.innerText = "✅ Paramètres de maintenance mis à jour !";
-            setTimeout(() => { statusEl.innerText = ""; }, 4000);
+        function updateTextarea(data) {
+            document.getElementById('json-output').value = JSON.stringify(data, null, 4);
         }
     </script>
 </body>
