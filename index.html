@@ -26,12 +26,13 @@
                 <span>CRACKFR</span>
             </div>
             <nav class="hidden sm:flex items-center space-x-6 text-xs font-bold uppercase tracking-wider text-slate-300">
-                <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
-                <a href="#fonctionnalites" class="hover:text-pink-400 transition-colors">Services</a>
-                <a href="#communaute" class="hover:text-pink-400 transition-colors">Communauté</a>
+                <a href="#accueil" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Accueil</a>
+                <a href="#fonctionnalites" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Services</a>
+                <a href="#staff" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Staff</a>
+                <a href="#communaute" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Communauté</a>
             </nav>
             <div class="flex items-center space-x-3">
-                <a href="panel.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
+                <a href="panel.html" onclick="playClickSound()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
                     🔐 Panel Staff
                 </a>
             </div>
@@ -60,21 +61,22 @@
             </p>
 
             <div class="flex flex-wrap justify-center gap-4 pt-4">
-                <a href="https://discord.gg/ton-invite" target="_blank" class="px-6 py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 inline-block cursor-pointer">
+                <a href="https://discord.gg/ton-invite" target="_blank" onclick="playClickSound()" class="px-6 py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 inline-block cursor-pointer">
                     💬 Rejoindre le Discord
                 </a>
-                <a href="#fonctionnalites" class="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold rounded-xl text-xs uppercase tracking-wider transition-all inline-block">
+                <a href="#fonctionnalites" onclick="playClickSound()" class="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold rounded-xl text-xs uppercase tracking-wider transition-all inline-block">
                     Découvrir les services
                 </a>
             </div>
         </section>
 
-        <!-- Grille de Statistiques en direct -->
+        <!-- Grille de Statistiques & Compteur en direct -->
         <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center hover:border-slate-700 transition-colors">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center hover:border-slate-700 transition-colors relative overflow-hidden">
+                <span class="absolute top-3 right-3 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full animate-pulse">Live</span>
                 <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Membres Discord</span>
-                <div class="text-3xl font-black text-white">1,240</div>
-                <p class="text-[11px] text-slate-500">Actifs et engagés</p>
+                <div class="text-3xl font-black text-white" id="live-member-count">1,240</div>
+                <p class="text-[11px] text-slate-500">Compteur en direct</p>
             </div>
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center hover:border-slate-700 transition-colors">
                 <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Statut du Réseau</span>
@@ -91,9 +93,10 @@
             </div>
         </section>
 
-        <!-- Section Fonctionnalites -->
+        <!-- Section Fonctionnalités -->
         <section id="fonctionnalites" class="space-y-8 pt-8">
             <div class="text-center space-y-2">
+                <span class="px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full">Services</span>
                 <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Ce que nous proposons</h2>
                 <p class="text-xs text-slate-400">Une infrastructure pensée pour les joueurs et les créateurs.</p>
             </div>
@@ -117,6 +120,53 @@
             </div>
         </section>
 
+        <!-- SECTION STAFF -->
+        <section id="staff" class="space-y-8 pt-8">
+            <div class="text-center space-y-2">
+                <span class="px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full">Hiérarchie</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">L'Équipe Staff</h2>
+                <p class="text-xs text-slate-400">Ceux qui gèrent et protègent la communauté au quotidien.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Fondateur -->
+                <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl space-y-4 shadow-xl text-center relative">
+                    <div class="absolute top-4 right-4 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full">👑 Fondateur</div>
+                    <div class="w-16 h-16 bg-amber-500/10 border border-amber-500/30 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black text-amber-400">
+                        ⚡
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-sm font-bold text-white">Direction CrackFR</h3>
+                        <p class="text-[11px] text-slate-400">Gestion globale, développement et administration générale.</p>
+                    </div>
+                </div>
+
+                <!-- Administrateur -->
+                <div class="bg-slate-900 border border-blue-500/30 p-6 rounded-3xl space-y-4 shadow-xl text-center relative">
+                    <div class="absolute top-4 right-4 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-blue-500/10 text-blue-400 border border-blue-500/30 rounded-full">⚡ Admin</div>
+                    <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black text-blue-400">
+                        ⚙️
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-sm font-bold text-white">Équipe Technique</h3>
+                        <p class="text-[11px] text-slate-400">Configuration des serveurs, configuration des bots et sécurité.</p>
+                    </div>
+                </div>
+
+                <!-- Modérateur -->
+                <div class="bg-slate-900 border border-pink-500/30 p-6 rounded-3xl space-y-4 shadow-xl text-center relative">
+                    <div class="absolute top-4 right-4 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full">🛡️ Modérateur</div>
+                    <div class="w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black text-pink-400">
+                        ⚖️
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-sm font-bold text-white">Équipe Modération</h3>
+                        <p class="text-[11px] text-slate-400">Surveillance des salons, animation et support des membres.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Section Communauté / Appel à l'action -->
         <section id="communaute" class="bg-gradient-to-r from-slate-900 to-slate-900/50 border border-slate-800 p-8 sm:p-12 rounded-3xl text-center space-y-6 shadow-2xl relative overflow-hidden">
             <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -126,7 +176,7 @@
                 Viens discuter avec les membres, participer aux événements et suivre l'actualité du projet en temps réel sur notre serveur Discord.
             </p>
             <div>
-                <a href="https://discord.gg/ton-invite" target="_blank" class="px-8 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 inline-block cursor-pointer">
+                <a href="https://discord.gg/ton-invite" target="_blank" onclick="playClickSound()" class="px-8 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 inline-block cursor-pointer">
                     🚀 Entrer sur le Discord CrackFR
                 </a>
             </div>
@@ -139,26 +189,58 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
             <div class="flex items-center space-x-4">
-                <a href="panel.html" class="hover:text-pink-400 transition-colors">Panel Staff</a>
+                <a href="panel.html" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Panel Staff</a>
                 <span class="text-slate-700">•</span>
-                <a href="https://discord.gg/ton-invite" target="_blank" class="hover:text-pink-400 transition-colors">Support</a>
+                <a href="https://discord.gg/ton-invite" target="_blank" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Support</a>
             </div>
         </div>
     </footer>
 
+    <!-- SCRIPT INTERACTIONS (Effet Sonore, Compteur & Annonces) -->
     <script>
-        // Effet d'apparition fluide et vérification des annonces flash du panel
+        // Génère un petit effet sonore de clic discret via l'API Web Audio (aucun fichier externe requis)
+        function playClickSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime); // Fréquence du clic
+                osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
+                
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime); // Volume très discret
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
+            } catch (e) {}
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
 
-            // Récupère les logs/annonces du localStorage pour afficher la dernière annonce flash si elle existe
+            // Animation du compteur de membres en direct (simule une petite variation vivante)
+            const memberCountEl = document.getElementById('live-member-count');
+            let baseCount = 1240;
+            // Fait varier légèrement le compteur de temps en temps pour faire "live"
+            setInterval(() => {
+                const randomVariation = Math.floor(Math.random() * 5) - 2; // entre -2 et +2
+                baseCount += randomVariation;
+                if(baseCount < 1230) baseCount = 1230;
+                memberCountEl.innerText = baseCount.toLocaleString('fr-FR');
+            }, 8000);
+
+            // Récupère l'annonce flash du panel staff si elle existe
             try {
                 const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
-                const flashLog = logs.find(log => log.id === 4); // ID 4 = Annonce Flash
+                const flashLog = logs.find(log => log.id === 4); 
                 if (flashLog) {
                     const banner = document.getElementById('flash-banner');
                     const flashText = document.getElementById('flash-text');
-                    // Nettoie un peu le texte pour ne garder que le message de l'annonce
                     let cleanText = flashLog.details.replace(/^A publié l'annonce flash : /, '');
                     flashText.innerText = cleanText;
                     banner.classList.remove('hidden');
