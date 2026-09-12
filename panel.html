@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Admin & Stats</title>
+    <title>CrackFR - Panel Admin, Stats & Graphiques 📊</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN pour les graphiques en direct -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
@@ -16,13 +18,13 @@
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="text-lg font-black tracking-wider text-pink-400">
-                ⚡ CRACKFR // ADMIN
+                ⚡ CRACKFR // ADMIN & STATS
             </div>
             <div class="flex items-center space-x-3">
-                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all duration-200">
+                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all">
                     Déconnexion
                 </button>
-                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95">
+                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
                     ← Retour au site
                 </a>
             </div>
@@ -30,7 +32,7 @@
     </header>
 
     <!-- Main Admin Content -->
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-10 w-full flex items-center justify-center">
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
         <!-- ÉTAPE 1 : BOÎTE DE CONNEXION -->
         <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
@@ -40,23 +42,23 @@
             
             <div class="space-y-2">
                 <h1 class="text-2xl font-black tracking-tight text-white">Connexion Requise</h1>
-                <p class="text-xs text-slate-400">Entre tes identifiants administrateur pour accéder au panel de configuration.</p>
+                <p class="text-xs text-slate-400">Entre tes identifiants administrateur.</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1.5 text-left">
                     <label class="text-xs font-bold text-slate-300">Identifiant</label>
-                    <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: admin">
+                    <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: admin">
                 </div>
 
                 <div class="space-y-1.5 text-left">
                     <label class="text-xs font-bold text-slate-300">Mot de passe</label>
-                    <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="••••••••••••">
+                    <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
                 </div>
 
                 <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Identifiant ou mot de passe incorrect.</p>
 
-                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-pink-600/20 cursor-pointer">
+                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                     Se connecter
                 </button>
             </form>
@@ -66,102 +68,123 @@
         <div id="panel-content" class="w-full space-y-8 hidden">
             
             <div class="space-y-2">
-                <h1 class="text-3xl font-black tracking-tight text-white">Panneau de Contrôle & Stats</h1>
-                <p class="text-xs sm:text-sm text-slate-400">Suivi du trafic, des blocages et configuration du site en direct.</p>
+                <h1 class="text-3xl font-black tracking-tight text-white">Tableau de Bord & Statistiques</h1>
+                <p class="text-xs sm:text-sm text-slate-400">Analyse sur 5 mois, graphiques en direct et gestion du site.</p>
             </div>
 
-            <!-- SECTION STATISTIQUES EN TEMPS RÉEL -->
+            <!-- SECTION STATISTIQUES RAPIDES -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Visites du jour -->
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Visites (Aujourd'hui)</span>
                     <div class="text-2xl font-black text-white" id="stat-today">0</div>
                     <p class="text-[10px] text-slate-500">Passages sur l'accueil</p>
                 </div>
 
-                <!-- Visites totales -->
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Visites Totales</span>
                     <div class="text-2xl font-black text-white" id="stat-total">0</div>
                     <p class="text-[10px] text-slate-500">Depuis la création</p>
                 </div>
 
-                <!-- Redirections Maintenance -->
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Bloqués / Maintenance</span>
                     <div class="text-2xl font-black text-white" id="stat-blocked">0</div>
-                    <p class="text-[10px] text-slate-500">Redirigés vers la maintenance</p>
+                    <p class="text-[10px] text-slate-500">Redirigés maintenance</p>
                 </div>
 
-                <!-- Erreurs détectées -->
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Erreurs Capturées</span>
                     <div class="text-2xl font-black text-white" id="stat-errors">0</div>
-                    <p class="text-[10px] text-slate-500">Problèmes de chargement</p>
+                    <p class="text-[10px] text-slate-500">Bugs détectés</p>
                 </div>
             </div>
 
-            <div class="flex justify-end">
-                <button onclick="resetStats()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors">
-                    🔄 Réinitialiser les stats
-                </button>
+            <!-- OPTIONS DE GESTION DES STATS (5 MOIS & RÉINITIALISATION) -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">⚙️ Gestion des Statistiques sur 5 Mois</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-300">Règle après 5 mois d'historique :</label>
+                        <select id="retention-policy" onchange="saveRetentionPolicy()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                            <option value="keep">Conserver l'historique (cumul continu)</option>
+                            <option value="delete">Supprimer automatiquement les mois les plus anciens</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end pt-4 sm:pt-0">
+                        <button onclick="resetStats()" class="px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">
+                            🗑️ Réinitialiser toutes les stats
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Formulaire de réglages de la page d'accueil -->
+            <!-- GRAPHIQUES EN DIRECT (CHART.JS) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Graphique des 5 derniers mois -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trafic des 5 Derniers Mois</h3>
+                    <div class="relative h-64">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Graphique de répartition -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400">📊 Répartition Globale du Trafic</h3>
+                    <div class="relative h-64 flex items-center justify-center">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMULAIRE DE RÉGLAGES DU SITE -->
             <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
-                
                 <div class="space-y-5">
                     <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 border-b border-slate-800 pb-2">Paramètres de la Page d'Accueil</h2>
                     
-                    <!-- Mode du site -->
                     <div class="space-y-1.5">
                         <label class="text-xs font-bold text-slate-300">Mode du site</label>
-                        <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                        <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
                             <option value="active">Actif (Site normal)</option>
                             <option value="maintenance">Maintenance (Redirige vers maintenance.html)</option>
                         </select>
                     </div>
 
-                    <!-- Nombre de membres -->
                     <div class="space-y-1.5">
                         <label class="text-xs font-bold text-slate-300">Nombre de membres en ligne affiché</label>
-                        <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: 42">
+                        <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: 42">
                     </div>
 
-                    <!-- Bandeau de notification -->
                     <div class="space-y-3 pt-2 border-t border-slate-800/60">
                         <div class="flex items-center justify-between">
-                            <label class="text-xs font-bold text-slate-300">Bandeau de notification d'accueil</label>
-                            <select id="alert-enabled" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                            <label class="text-xs font-bold text-slate-300">Bandeau de notification</label>
+                            <select id="alert-enabled" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none">
                                 <option value="true">Activé (Visible)</option>
                                 <option value="false">Désactivé (Masqué)</option>
                             </select>
                         </div>
-
                         <div class="space-y-1.5">
                             <label class="text-xs font-bold text-slate-400">Texte du bandeau</label>
-                            <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: Bienvenue sur le nouveau hub CrackFR !">
+                            <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Bienvenue sur CrackFR !">
                         </div>
                     </div>
                 </div>
 
-                <!-- Bouton de génération automatique -->
                 <div class="pt-4 space-y-3">
-                    <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-pink-600/20 cursor-pointer">
+                    <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                         📋 Générer et copier le code pour data.json
                     </button>
-                    <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden animate-bounce">✓ Code JSON copié dans le presse-papier ! Colle-le dans ton `data.json` sur GitHub.</p>
+                    <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden animate-bounce">✓ Code JSON copié dans le presse-papier !</p>
                 </div>
-
             </div>
 
-            <!-- ÉDITEUR DE CODE (Conservé et tout en bas) -->
+            <!-- ÉDITEUR JSON -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Éditeur de code JSON (Complet) :</h3>
-                    <button onclick="copyRawEditor()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[10px] font-bold uppercase transition-colors">Copier l'éditeur</button>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Éditeur de code JSON :</h3>
+                    <button onclick="copyRawEditor()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[10px] font-bold uppercase">Copier</button>
                 </div>
-                <textarea id="json-output" class="w-full h-48 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-500 transition-colors"></textarea>
+                <textarea id="json-output" class="w-full h-40 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
             </div>
 
         </div>
@@ -173,9 +196,12 @@
         <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
+    <!-- SCRIPT GESTION PANEL, STATS SUR 5 MOIS ET GRAPHIQUES -->
     <script>
         const ADMIN_USER = "admin";
         const ADMIN_PASS = "admin123";
+        let monthlyChartInstance = null;
+        let distributionChartInstance = null;
 
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
@@ -184,7 +210,6 @@
                 showPanel();
             }
 
-            // Chargement des données du data.json
             try {
                 const res = await fetch('data.json');
                 if (res.ok) {
@@ -195,9 +220,7 @@
                     document.getElementById('alert-enabled').value = data.globalAlert ? "true" : "false";
                     document.getElementById('json-output').value = JSON.stringify(data, null, 4);
                 }
-            } catch (e) {
-                console.log("Chargement par défaut.");
-            }
+            } catch (e) {}
         });
 
         function handleLogin(event) {
@@ -218,32 +241,108 @@
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('panel-content').classList.remove('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
-            loadStats();
+            loadStatsAndRenderCharts();
         }
 
-        // --- GESTION DES STATISTIQUES ---
-        function loadStats() {
-            const stats = JSON.parse(localStorage.getItem('crackfr_stats') || '{"today": 0, "total": 0, "blocked": 0, "errors": 0, "lastDate": ""}');
-            
-            // Réinitialiser les stats du jour si on a changé de date
-            const todayStr = new Date().toLocaleDateString();
-            if (stats.lastDate !== todayStr) {
-                stats.today = 0;
-                stats.lastDate = todayStr;
-                localStorage.setItem('crackfr_stats', JSON.stringify(stats));
-            }
+        // --- CHARGEMENT DES STATS ET GESTION DES 5 MOIS ---
+        function getStoredStats() {
+            let stats = JSON.parse(localStorage.getItem('crackfr_stats') || JSON.stringify({
+                today: 0, total: 0, blocked: 0, errors: 0, lastDate: "",
+                retention: "keep",
+                monthlyHistory: {} // Format: {"Mois Annee": nombre} ex: {"Mai 2026": 120}
+            }));
+            return stats;
+        }
+
+        function loadStatsAndRenderCharts() {
+            let stats = getStoredStats();
+            document.getElementById('retention-policy').value = stats.retention || "keep";
 
             document.getElementById('stat-today').innerText = stats.today;
             document.getElementById('stat-total').innerText = stats.total;
             document.getElementById('stat-blocked').innerText = stats.blocked;
             document.getElementById('stat-errors').innerText = stats.errors;
+
+            // Générer les 5 derniers mois pour les graphiques
+            const historyLabels = [];
+            const historyData = [];
+            const currentDate = new Date();
+
+            for (let i = 4; i >= 0; i--) {
+                let d = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+                let monthName = d.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+                historyLabels.push(monthName);
+                historyData.push(stats.monthlyHistory && stats.monthlyHistory[monthName] ? stats.monthlyHistory[monthName] : 0);
+            }
+
+            renderCharts(historyLabels, historyData, stats);
+        }
+
+        function saveRetentionPolicy() {
+            let stats = getStoredStats();
+            stats.retention = document.getElementById('retention-policy').value;
+            localStorage.setItem('crackfr_stats', JSON.stringify(stats));
         }
 
         function resetStats() {
-            if (confirm("Veux-tu vraiment réinitialiser toutes les statistiques ?")) {
-                localStorage.setItem('crackfr_stats', JSON.stringify({ today: 0, total: 0, blocked: 0, errors: 0, lastDate: new Date().toLocaleDateString() }));
-                loadStats();
+            if (confirm("Veux-tu vraiment réinitialiser toutes les statistiques et l'historique sur 5 mois ?")) {
+                localStorage.removeItem('crackfr_stats');
+                loadStatsAndRenderCharts();
             }
+        }
+
+        // --- CRÉATION DES GRAPHIQUES AVEC CHART.JS ---
+        function renderCharts(labels, dataValues, stats) {
+            // Destruction des anciens graphiques pour éviter les doublons au rechargement
+            if (monthlyChartInstance) monthlyChartInstance.destroy();
+            if (distributionChartInstance) distributionChartInstance.destroy();
+
+            // 1. Graphique des 5 mois (Bar Chart)
+            const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+            monthlyChartInstance = new Chart(ctxMonthly, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Visites mensuelles',
+                        data: dataValues,
+                        backgroundColor: 'rgba(6, 182, 212, 0.6)',
+                        borderColor: 'rgba(6, 182, 212, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // 2. Graphique de répartition (Pie Chart)
+            const ctxDist = document.getElementById('distributionChart').getContext('2d');
+            distributionChartInstance = new Chart(ctxDist, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Visites Totales', 'Bloqués / Maintenance', 'Erreurs'],
+                    datasets: [{
+                        data: [stats.total, stats.blocked, stats.errors],
+                        backgroundColor: ['#c084fc', '#fbbf24', '#f43f5e'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } }
+                    }
+                }
+            });
         }
 
         function logout() {
@@ -256,12 +355,11 @@
             const members = parseInt(document.getElementById('online-members').value) || 0;
             const alertEnabled = document.getElementById('alert-enabled').value === "true";
             const alertText = document.getElementById('global-alert').value;
-            const finalAlert = alertEnabled ? alertText : "";
 
             const finalData = {
                 "siteMode": mode,
                 "onlineMembers": members,
-                "globalAlert": finalAlert
+                "globalAlert": alertEnabled ? alertText : ""
             };
 
             const jsonString = JSON.stringify(finalData, null, 4);
@@ -277,7 +375,7 @@
         function copyRawEditor() {
             const content = document.getElementById('json-output').value;
             navigator.clipboard.writeText(content).then(() => {
-                alert("Code de l'éditeur copié dans le presse-papier !");
+                alert("Code copié !");
             });
         }
     </script>
