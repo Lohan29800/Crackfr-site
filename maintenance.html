@@ -6,6 +6,9 @@
     <title>CrackFR - Site en Maintenance</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { opacity: 0; transition: opacity 0.4s ease-in-out; }
+    </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 selection:bg-rose-500 selection:text-black">
 
@@ -25,11 +28,22 @@
             <p class="font-bold text-slate-300">Statut du Réseau</p>
             <p class="text-rose-400 font-bold">● Accès temporairement restreint</p>
         </div>
+
+        <div class="pt-2">
+            <a href="panel.html" class="block w-full py-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 font-bold rounded-xl text-xs transition-all duration-200 hover:scale-105 active:scale-95 border border-pink-500/30 shadow-lg shadow-pink-500/5">
+                🔐 Accéder au Panel Admin
+            </a>
+        </div>
     </div>
 
     <footer class="absolute bottom-6 text-xs text-slate-600">
         &copy; 2026 CrackFR. Tous droits réservés.
     </footer>
 
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
 </body>
 </html>
