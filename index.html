@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Sécurisé (Mod & Admin + 11 Logs UTC) ⚡</title>
+    <title>CrackFR - Panel Hiérarchique Sécurisé ⚡</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN pour les graphiques -->
@@ -18,68 +18,69 @@
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="text-lg font-black tracking-wider text-pink-400">
-                ⚡ CRACKFR // SECURE PANEL
+                ⚡ CRACKFR // PANEL STAFF
             </div>
             <div class="flex items-center space-x-3">
-                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all">
+                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
                     Déconnexion
                 </button>
-                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
+                <button onclick="window.location.replace('index.html')" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all cursor-pointer">
                     ← Retour au site
-                </a>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Admin Content -->
+    <!-- Main Content -->
     <main class="flex-grow max-w-6xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
         <!-- CONNEXION STAFF -->
         <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
-                🛡️
+                🔐
             </div>
             
             <div class="space-y-2">
-                <h1 class="text-2xl font-black tracking-tight text-white">Portail Connexion Staff</h1>
+                <h1 class="text-2xl font-black tracking-tight text-white">Connexion Staff</h1>
                 <p class="text-xs text-slate-400">Choisis ton rôle et entre ton mot de passe.</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Pseudo Staff</label>
-                    <input type="text" id="staff-name" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Lucas_Mod">
-                </div>
-
-                <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Rôle (Accès différents)</label>
-                    <select id="staff-role" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
-                        <option value="Administrateur">👑 Administrateur (Accès Total)</option>
-                        <option value="Modérateur" selected>🛡️ Modérateur (Accès Modération & Logs)</option>
+                    <label class="text-xs font-bold text-slate-300">Choisis ton Compte / Rôle</label>
+                    <select id="staff-role-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 cursor-pointer">
+                        <option value="Fondateur">👑 Fondateur</option>
+                        <option value="Administrateur">⚡ Administrateur</option>
+                        <option value="Modérateur">🛡️ Modérateur</option>
                     </select>
                 </div>
 
                 <div class="space-y-1.5 text-left">
                     <label class="text-xs font-bold text-slate-300">Mot de passe</label>
-                    <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
+                    <div class="relative">
+                        <input type="password" id="staff-password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pr-10 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ton mot de passe...">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm focus:outline-none cursor-pointer">
+                            👁️
+                        </button>
+                    </div>
                 </div>
 
-                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Mot de passe incorrect (Mot de passe requis : admin123).</p>
+                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Mot de passe incorrect.</p>
 
                 <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
-                    Se connecter
+                    Connexion Sécurisée
                 </button>
             </form>
         </div>
 
-        <!-- PANNEAU DE CONTRÔLE COMPLET -->
+        <!-- PANNEAU DE CONTRÔLE -->
         <div id="panel-content" class="w-full space-y-8 hidden">
             
-            <!-- En-tête de bienvenue -->
+            <!-- En-tête -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl">
                 <div class="space-y-1">
-                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Dashboard Staff</h1>
-                    <p class="text-xs sm:text-sm text-slate-400">Connecté : <span id="current-staff-display" class="text-pink-400 font-bold"></span> <span id="current-role-badge" class="ml-2 px-2 py-0.5 text-[10px] font-bold rounded-md bg-pink-500/10 text-pink-400 border border-pink-500/30"></span></p>
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Dashboard Sécurisé</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Connecté en tant que : <span id="current-role-badge" class="ml-1 px-2.5 py-0.5 text-xs font-bold rounded-md bg-pink-500/10 text-pink-400 border border-pink-500/30"></span></p>
                 </div>
                 <div class="flex items-center space-x-3 bg-slate-950 px-4 py-2 rounded-2xl border border-slate-800">
                     <span class="text-[10px] uppercase font-bold text-slate-400">Fuseau Horaire :</span>
@@ -90,27 +91,23 @@
                 </div>
             </div>
 
-            <!-- STATISTIQUES -->
+            <!-- STATS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Visites (Aujourd'hui)</span>
                     <div class="text-2xl font-black text-white" id="stat-today">0</div>
-                    <p class="text-[10px] text-slate-500">Passages uniques/jour</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Visites Totales (5 Mois)</span>
                     <div class="text-2xl font-black text-white" id="stat-total">0</div>
-                    <p class="text-[10px] text-slate-500">Historique global</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Membres Discord</span>
                     <div class="text-2xl font-black text-white" id="stat-discord">1,240</div>
-                    <p class="text-[10px] text-slate-500">Communauté CrackFR</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Sécurité & Erreurs</span>
                     <div class="text-2xl font-black text-white" id="stat-errors">0</div>
-                    <p class="text-[10px] text-slate-500">Bugs interceptés</p>
                 </div>
             </div>
 
@@ -126,13 +123,12 @@
                 </div>
             </div>
 
-            <!-- OUTILS DE MODÉRATION RAPIDE (Accessible Modérateurs & Admins) -->
+            <!-- MODÉRATION -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl lg:col-span-2">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📢 Diffuser une Annonce Flash (Mod / Admin)</h3>
-                    <p class="text-xs text-slate-400">Modifie instantanément le message d'alerte visible sur le site.</p>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📢 Diffuser une Annonce Flash</h3>
                     <div class="space-y-3">
-                        <input type="text" id="quick-alert-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Maintenance prévue ce soir !">
+                        <input type="text" id="quick-alert-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Maintenance en cours...">
                         <button onclick="publishFlashAlert()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
                             🚀 Publier l'annonce
                         </button>
@@ -140,83 +136,79 @@
                 </div>
 
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Actions Rapides Modération</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Actions Modération</h3>
                     <div class="space-y-2.5">
-                        <button onclick="triggerLogAction('MEMBER_KICK')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
-                            <span>Simuler un Kick Membre</span>
+                        <button onclick="triggerLogAction('MEMBER_KICK')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
+                            <span>Simuler un Kick</span>
                             <span class="text-[10px] text-amber-400">Log #6</span>
                         </button>
-                        <button onclick="triggerLogAction('MEMBER_BAN')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
-                            <span>Simuler un Ban Membre</span>
+                        <button onclick="triggerLogAction('MEMBER_BAN')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
+                            <span>Simuler un Ban</span>
                             <span class="text-[10px] text-rose-400">Log #7</span>
                         </button>
-                        <button onclick="triggerLogAction('WARN_GIVE')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
-                            <span>Simuler un Avertissement</span>
+                        <button onclick="triggerLogAction('WARN_GIVE')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
+                            <span>Mettre un Warn</span>
                             <span class="text-[10px] text-cyan-400">Log #8</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- JOURNAL DES 11 TYPES DE LOGGING -->
+            <!-- JOURNAL DES LOGS -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
                     <div>
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📋 Journal d'Activité (11 Types de Logging)</h3>
-                        <p class="text-[10px] text-slate-500">Traçabilité complète des actions membres et staff (UTC ou Local).</p>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📋 Journal d'Activité</h3>
                     </div>
                     <div class="flex items-center space-x-2 w-full sm:w-auto">
                         <input type="text" id="log-search" oninput="renderStaffLogs()" placeholder="Filtrer les logs..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
-                        <button onclick="clearStaffLogs()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold uppercase rounded-xl transition-colors">Effacer</button>
+                        <button onclick="clearStaffLogs()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold uppercase rounded-xl transition-colors cursor-pointer">Effacer</button>
                     </div>
                 </div>
-                
-                <div class="overflow-x-auto max-h-72 overflow-y-auto space-y-2" id="staff-logs-container">
-                    <!-- Les 11 logs s'injecteront ici -->
+                <div class="overflow-x-auto max-h-72 overflow-y-auto space-y-2" id="staff-logs-container"></div>
+            </div>
+
+            <!-- SECTION ADMIN -->
+            <div id="admin-section" class="space-y-6 hidden">
+                <div class="bg-slate-900 border border-blue-500/30 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl relative">
+                    <div class="absolute top-0 right-0 bg-blue-500/10 text-blue-400 border-l border-b border-blue-500/30 px-4 py-1.5 text-[10px] font-bold uppercase rounded-bl-2xl">
+                        ⚡ Espace Administrateur
+                    </div>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-blue-400 border-b border-slate-800 pb-2">Paramètres Standard du Site</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-slate-300">Mode du site</label>
+                            <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none cursor-pointer">
+                                <option value="active">Actif (Normal)</option>
+                                <option value="maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-slate-300">Membres en ligne</label>
+                            <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none" placeholder="42">
+                        </div>
+                    </div>
+                    <button onclick="saveAdminConfig()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
+                        💾 Enregistrer les modifications
+                    </button>
                 </div>
             </div>
 
-            <!-- SECTION RÉSERVÉE EXCLUSIVEMENT AUX ADMINISTRATEURS -->
-            <div id="admin-only-section" class="space-y-8 hidden">
-                <div class="bg-slate-900 border border-amber-500/30 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-amber-500/10 text-amber-400 border-l border-b border-amber-500/30 px-4 py-1.5 text-[10px] font-bold uppercase rounded-bl-2xl">
-                        👑 Réservé aux Administrateurs
+            <!-- SECTION FONDATEUR -->
+            <div id="founder-section" class="space-y-6 hidden">
+                <div class="bg-slate-900 border border-amber-500/40 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl relative">
+                    <div class="absolute top-0 right-0 bg-amber-500/10 text-amber-400 border-l border-b border-amber-500/40 px-4 py-1.5 text-[10px] font-bold uppercase rounded-bl-2xl">
+                        👑 Espace Fondateur (Accès Absolu)
                     </div>
-
-                    <div class="space-y-5">
-                        <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">Configuration Globale & Paramètres Avancés</h2>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="space-y-1.5">
-                                <label class="text-xs font-bold text-slate-300">Mode du site</label>
-                                <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
-                                    <option value="active">Actif (Normal)</option>
-                                    <option value="maintenance">Maintenance</option>
-                                </select>
-                            </div>
-
-                            <div class="space-y-1.5">
-                                <label class="text-xs font-bold text-slate-300">Membres en ligne affichés</label>
-                                <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: 42">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pt-2 space-y-3">
-                        <button onclick="generateJSON()" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-amber-600/20 cursor-pointer">
-                            📋 Enregistrer et générer le fichier data.json (Admin)
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">Commandes Fondateur</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button onclick="founderResetStats()" class="py-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
+                            🗑️ Réinitialiser les stats
                         </button>
-                        <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden">✓ Configuration administrateur enregistrée !</p>
+                        <button onclick="founderPurgeAllLogs()" class="py-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
+                            ⚠️ Purger tous les logs
+                        </button>
                     </div>
-                </div>
-
-                <!-- Éditeur JSON Admin -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Éditeur JSON Global (Admin) :</h3>
-                        <button onclick="copyRawEditor()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[10px] font-bold uppercase">Copier</button>
-                    </div>
-                    <textarea id="json-output" class="w-full h-36 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
                 </div>
             </div>
 
@@ -226,82 +218,84 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
-        <p>&copy; 2026 CrackFR. Système de Logging Avancé & Rôles Hiérarchisés.</p>
+        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
-    <!-- SCRIPT GESTION DES LOGS ET ACCÈS -->
+    <!-- SCRIPT DE CONNEXION SIMPLE -->
     <script>
-        const ADMIN_PASS = "admin123";
+        // Modifie tes mots de passe facilement ici :
+        const PASSWORDS = {
+            "Fondateur": "1234",       // Mot de passe pour le Fondateur
+            "Administrateur": "1234",  // Mot de passe pour l'Admin
+            "Modérateur": "1234"       // Mot de passe pour le Modérateur
+        };
+
         let monthlyChartInstance = null;
         let distributionChartInstance = null;
 
-        // Définition des 11 types de logging officiels
         const LOG_TYPES = {
             1: { name: "CONNEXION_STAFF", label: "Connexion Staff", color: "emerald" },
             2: { name: "DECONNEXION_STAFF", label: "Déconnexion Staff", color: "rose" },
             3: { name: "MODIFICATION_CONFIG", label: "Changement Configuration", color: "amber" },
             4: { name: "ANNONCE_FLASH", label: "Publication Annonce Flash", color: "pink" },
-            5: { name: "MEMBER_JOIN", label: "Arrivée d'un Membre Discord", color: "cyan" },
-            6: { name: "MEMBER_KICK", label: "Expulsion (Kick) Membre", color: "amber" },
-            7: { name: "MEMBER_BAN", label: "Bannissement Membre", color: "rose" },
-            8: { name: "WARN_GIVE", label: "Attribution Avertissement", color: "cyan" },
-            9: { name: "ROLE_UPDATE", label: "Modification de Rôle Staff", color: "purple" },
+            6: { name: "MEMBER_KICK", label: "Expulsion (Kick)", color: "amber" },
+            7: { name: "MEMBER_BAN", label: "Bannissement", color: "rose" },
+            8: { name: "WARN_GIVE", label: "Avertissement (Warn)", color: "cyan" },
             10: { name: "CLEAR_LOGS", label: "Nettoyage du Journal", color: "slate" },
-            11: { name: "SYSTEM_ALERT", label: "Alerte Sécurité Système", color: "rose" }
+            11: { name: "SYSTEM_ALERT", label: "Alerte Sécurité", color: "rose" }
         };
 
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
 
             if (localStorage.getItem('crackfr_logged') === 'true') {
-                showPanel(
-                    localStorage.getItem('crackfr_staff_name') || 'Staff',
-                    localStorage.getItem('crackfr_staff_role') || 'Modérateur'
-                );
+                showPanel(localStorage.getItem('crackfr_staff_role') || 'Modérateur');
             }
-
-            try {
-                const res = await fetch('data.json');
-                if (res.ok) {
-                    const data = await res.json();
-                    document.getElementById('site-mode').value = data.siteMode || 'active';
-                    document.getElementById('online-members').value = data.onlineMembers || 42;
-                    document.getElementById('json-output').value = JSON.stringify(data, null, 4);
-                }
-            } catch (e) {}
         });
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('staff-password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
 
         function handleLogin(event) {
             event.preventDefault();
-            const staffName = document.getElementById('staff-name').value.trim();
-            const staffRole = document.getElementById('staff-role').value;
-            const pass = document.getElementById('password').value;
+            const selectedRole = document.getElementById('staff-role-select').value;
+            const inputPassword = document.getElementById('staff-password').value.trim();
             const errorMsg = document.getElementById('login-error');
 
-            if (pass === ADMIN_PASS && staffName !== "") {
+            if (PASSWORDS[selectedRole] && inputPassword === PASSWORDS[selectedRole]) {
                 localStorage.setItem('crackfr_logged', 'true');
-                localStorage.setItem('crackfr_staff_name', staffName);
-                localStorage.setItem('crackfr_staff_role', staffRole);
+                localStorage.setItem('crackfr_staff_role', selectedRole);
                 
-                logAction(1, staffName, staffRole, `S'est connecté au panel en tant que ${staffRole}`);
-                showPanel(staffName, staffRole);
+                logAction(1, selectedRole, `S'est connecté en tant que ${selectedRole}`);
+                showPanel(selectedRole);
             } else {
                 errorMsg.classList.remove('hidden');
             }
         }
 
-        function showPanel(staffName, staffRole) {
+        function showPanel(staffRole) {
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('panel-content').classList.remove('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
-            document.getElementById('current-staff-display').innerText = staffName;
             document.getElementById('current-role-badge').innerText = staffRole;
 
-            // Gestion de l'affichage exclusif Admin vs Modérateur
+            const adminSection = document.getElementById('admin-section');
+            const founderSection = document.getElementById('founder-section');
+
+            adminSection.classList.add('hidden');
+            founderSection.classList.add('hidden');
+
             if (staffRole === 'Administrateur') {
-                document.getElementById('admin-only-section').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-only-section').classList.add('hidden');
+                adminSection.classList.remove('hidden');
+            } else if (staffRole === 'Fondateur') {
+                adminSection.classList.remove('hidden');
+                founderSection.classList.remove('hidden');
             }
 
             loadStatsAndRenderCharts();
@@ -309,38 +303,31 @@
         }
 
         function logout() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            logAction(2, staffName, staffRole, "S'est déconnecté du panel");
+            logAction(2, staffRole, "S'est déconnecté du panel");
 
             localStorage.removeItem('crackfr_logged');
-            localStorage.removeItem('crackfr_staff_name');
             localStorage.removeItem('crackfr_staff_role');
             location.reload();
         }
 
-        // --- SYSTÈMES DES 11 LOGS & UTC ---
-        function logAction(typeId, staffName, role, details) {
+        function logAction(typeId, role, details) {
             try {
                 let logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
                 let logInfo = LOG_TYPES[typeId] || LOG_TYPES[11];
                 
                 const tzChoice = document.getElementById('timezone-select') ? document.getElementById('timezone-select').value : 'LOCAL';
-                let dateString = "";
-                
                 let now = new Date();
-                if (tzChoice === 'UTC') {
-                    dateString = now.toISOString().replace('T', ' ').substring(0, 19) + " UTC";
-                } else {
-                    dateString = now.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + " (Local)";
-                }
+                let dateString = tzChoice === 'UTC' 
+                    ? now.toISOString().replace('T', ' ').substring(0, 19) + " UTC" 
+                    : now.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + " (Local)";
 
                 logs.unshift({
                     id: typeId,
                     code: logInfo.name,
                     title: logInfo.label,
                     color: logInfo.color,
-                    staff: staffName,
+                    staff: role,
                     role: role,
                     details: details,
                     date: dateString
@@ -363,7 +350,7 @@
             );
 
             if (filteredLogs.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 italic p-2">Aucun log correspondant trouvé.</p>`;
+                container.innerHTML = `<p class="text-xs text-slate-500 italic p-2">Aucun log trouvé.</p>`;
                 return;
             }
 
@@ -374,14 +361,13 @@
                 if (log.color === "rose") badgeColor = "bg-rose-500/10 text-rose-400 border-rose-500/30";
                 if (log.color === "amber") badgeColor = "bg-amber-500/10 text-amber-400 border-amber-500/30";
                 if (log.color === "pink") badgeColor = "bg-pink-500/10 text-pink-400 border-pink-500/30";
-                if (log.color === "purple") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/30";
 
                 const div = document.createElement('div');
                 div.className = "flex flex-col sm:flex-row justify-between items-start sm:items-center bg-slate-950 border border-slate-800/80 p-3 rounded-xl text-xs gap-2";
                 div.innerHTML = `
                     <div class="flex items-center space-x-2.5 flex-wrap">
                         <span class="px-2 py-0.5 rounded font-bold border text-[10px] ${badgeColor}">#${log.id} ${log.title}</span>
-                        <span class="text-slate-300 font-bold">${log.staff} <span class="text-[9px] text-slate-500">(${log.role})</span> :</span>
+                        <span class="text-slate-300 font-bold">${log.staff} :</span>
                         <span class="text-slate-400">${log.details}</span>
                     </div>
                     <span class="text-[10px] text-slate-500 font-mono">${log.date}</span>
@@ -391,36 +377,32 @@
         }
 
         function clearStaffLogs() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
             if (confirm("Vider l'historique des logs ?")) {
                 localStorage.removeItem('crackfr_11_logs');
-                logAction(10, staffName, staffRole, "A vidé l'historique complet du journal de logs");
+                logAction(10, staffRole, "A vidé l'historique du journal");
                 renderStaffLogs();
             }
         }
 
         function changeTimezone() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
             const tz = document.getElementById('timezone-select').value;
-            logAction(3, staffName, staffRole, `A basculé le fuseau horaire des logs sur : ${tz}`);
+            logAction(3, staffRole, `A basculé le fuseau horaire sur : ${tz}`);
             renderStaffLogs();
         }
 
         function triggerLogAction(actionCode) {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-
             if(actionCode === 'MEMBER_KICK') {
-                logAction(6, staffName, staffRole, "A expulsé le membre Discord #9924 (Raison: Spam)");
-                alert("Log #6 enregistré : Kick simulé !");
+                logAction(6, staffRole, "A expulsé un membre (Kick)");
+                alert("Log #6 : Kick enregistré !");
             } else if(actionCode === 'MEMBER_BAN') {
-                logAction(7, staffName, staffRole, "A banni définitivement le membre Discord #4021 (Raison: Cheat)");
-                alert("Log #7 enregistré : Ban simulé !");
+                logAction(7, staffRole, "A banni un membre (Ban)");
+                alert("Log #7 : Ban enregistré !");
             } else if(actionCode === 'WARN_GIVE') {
-                logAction(8, staffName, staffRole, "A mis un avertissement au membre Discord #1288");
-                alert("Log #8 enregistré : Avertissement simulé !");
+                logAction(8, staffRole, "A donné un avertissement (Warn)");
+                alert("Log #8 : Warn enregistré !");
             }
             renderStaffLogs();
         }
@@ -428,22 +410,43 @@
         function publishFlashAlert() {
             const text = document.getElementById('quick-alert-input').value.trim();
             if(!text) return alert("Écris une annonce valide !");
-
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            logAction(4, staffName, staffRole, `A publié l'annonce flash : "${text}"`);
+            logAction(4, staffRole, `A publié l'annonce flash : "${text}"`);
             renderStaffLogs();
-            alert("Annonce flash enregistrée dans les logs de modération !");
+            alert("Annonce flash publiée !");
         }
 
-        // --- STATS ET GRAPHS ---
+        function saveAdminConfig() {
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Administrateur';
+            logAction(3, staffRole, "A mis à jour les paramètres standard du site");
+            renderStaffLogs();
+            alert("Paramètres enregistrés !");
+        }
+
+        function founderResetStats() {
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Fondateur';
+            if(confirm("Réinitialiser les stats ?")) {
+                localStorage.removeItem('crackfr_stats');
+                logAction(3, staffRole, "A réinitialisé les statistiques globales");
+                renderStaffLogs();
+                alert("Stats réinitialisées.");
+            }
+        }
+
+        function founderPurgeAllLogs() {
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Fondateur';
+            if(confirm("Purger tous les logs ?")) {
+                localStorage.removeItem('crackfr_11_logs');
+                logAction(10, staffRole, "A purgé l'ensemble des logs de sécurité");
+                renderStaffLogs();
+                alert("Logs purgés.");
+            }
+        }
+
         function loadStatsAndRenderCharts() {
             document.getElementById('stat-today').innerText = "142";
             document.getElementById('stat-total').innerText = "3,850";
             document.getElementById('stat-errors').innerText = "0";
-
-            const historyLabels = ['Nov', 'Déc', 'Janv', 'Févr', 'Mars'];
-            const historyData = [450, 780, 920, 1100, 1420];
 
             if (monthlyChartInstance) monthlyChartInstance.destroy();
             if (distributionChartInstance) distributionChartInstance.destroy();
@@ -452,14 +455,8 @@
             monthlyChartInstance = new Chart(ctxMonthly, {
                 type: 'bar',
                 data: {
-                    labels: historyLabels,
-                    datasets: [{
-                        data: historyData,
-                        backgroundColor: 'rgba(6, 182, 212, 0.6)',
-                        borderColor: 'rgba(6, 182, 212, 1)',
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
+                    labels: ['Nov', 'Déc', 'Janv', 'Févr', 'Mars'],
+                    datasets: [{ data: [450, 780, 920, 1100, 1420], backgroundColor: 'rgba(6, 182, 212, 0.6)', borderColor: 'rgba(6, 182, 212, 1)', borderWidth: 2, borderRadius: 8 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
@@ -468,34 +465,11 @@
             distributionChartInstance = new Chart(ctxDist, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Actif', 'Membres', 'Staff'],
+                    labels: ['Visites', 'Membres', 'Staff'],
                     datasets: [{ data: [3850, 1240, 12], backgroundColor: ['#c084fc', '#06b6d4', '#f43f5e'], borderWidth: 0 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } } }
             });
-        }
-
-        function generateJSON() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Admin';
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Administrateur';
-
-            const mode = document.getElementById('site-mode').value;
-            const members = parseInt(document.getElementById('online-members').value) || 42;
-
-            const finalData = { "siteMode": mode, "onlineMembers": members };
-            const jsonString = JSON.stringify(finalData, null, 4);
-            document.getElementById('json-output').value = jsonString;
-
-            logAction(3, staffName, staffRole, `A mis à jour la configuration globale (Mode: ${mode})`);
-            renderStaffLogs();
-
-            const msg = document.getElementById('success-msg');
-            msg.classList.remove('hidden');
-            setTimeout(() => msg.classList.add('hidden'), 4000);
-        }
-
-        function copyRawEditor() {
-            navigator.clipboard.writeText(document.getElementById('json-output').value).then(() => alert("Copié !"));
         }
     </script>
 </body>
