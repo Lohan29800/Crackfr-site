@@ -16,7 +16,6 @@
                 CRACKFR
             </div>
             
-            <!-- Compteur de membres fixe (modifiable ici directement) -->
             <div class="flex items-center space-x-4 text-xs font-bold text-slate-400">
                 <div class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -29,6 +28,15 @@
     <!-- Main Content -->
     <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 space-y-12 max-w-5xl mx-auto w-full">
         
+        <!-- 1. STATUT GLOBAL (Tu peux le mettre ici) -->
+        <div class="w-full bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 rounded-2xl flex items-center justify-between text-xs">
+            <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-bold text-emerald-400">État du réseau : Tous les services fonctionnent normalement</span>
+            </div>
+            <span class="text-slate-400 hidden sm:inline">100% Opérationnel</span>
+        </div>
+
         <!-- Hero Section -->
         <div class="text-center space-y-4">
             <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white">
@@ -39,12 +47,11 @@
             </p>
         </div>
 
-        <!-- Section des Bots (Modifie tes bots directement ici) -->
+        <!-- Section des Bots -->
         <div id="poles" class="w-full space-y-6">
             <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400">🤖 Statut de nos Bots</h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                
                 <!-- BOT 1 -->
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
                     <div class="flex justify-between items-center">
@@ -62,9 +69,17 @@
                     </div>
                     <p class="text-xs text-slate-400">Audio haute qualité & DisTube</p>
                 </div>
+            </div>
+        </div>
 
-                <!-- Tu peux rajouter d'autres bots en copiant un bloc ci-dessus -->
-
+        <!-- 2. STACK TECHNIQUE (Tu peux le mettre ici, juste avant la fin du main) -->
+        <div class="w-full space-y-4 text-center pt-6">
+            <h2 class="text-xs uppercase font-bold tracking-widest text-slate-500">Propulsé par les technologies</h2>
+            <div class="flex flex-wrap justify-center gap-2">
+                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">Node.js</span>
+                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">Discord.js</span>
+                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">Tailwind CSS</span>
+                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">JavaScript</span>
             </div>
         </div>
 
