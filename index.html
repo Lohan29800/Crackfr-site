@@ -17,16 +17,11 @@
             </div>
             
             <div class="flex items-center space-x-4">
-                <!-- Compteur de membres -->
+                <!-- Compteur dynamique -->
                 <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-xs font-bold">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                    <span>42</span> <span>membres</span>
+                    <span id="online-count">--</span> <span>membres</span>
                 </div>
-
-                <!-- Bouton Panel Admin (Remis ici) -->
-                <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 border border-pink-500/30 rounded-xl transition-all">
-                    🔐 Panel Admin
-                </a>
             </div>
         </div>
     </header>
@@ -34,13 +29,13 @@
     <!-- Main Content -->
     <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 space-y-12 max-w-5xl mx-auto w-full">
         
-        <!-- Statut Global -->
-        <div class="w-full bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 rounded-2xl flex items-center justify-between text-xs">
+        <!-- Alerte Globale dynamique -->
+        <div id="alert-banner" class="w-full bg-cyan-500/10 border border-cyan-500/30 px-4 py-3 rounded-2xl flex items-center justify-between text-xs hidden">
             <div class="flex items-center space-x-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="font-bold text-emerald-400">État du réseau : Tous les services fonctionnent normalement</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span id="alert-text" class="font-bold text-cyan-400">Chargement...</span>
             </div>
-            <span class="text-slate-400 hidden sm:inline">100% Opérationnel</span>
+            <span class="text-slate-400">Annonce</span>
         </div>
 
         <!-- Hero Section -->
@@ -49,43 +44,15 @@
                 Hub Communautaire <span class="text-cyan-400">CrackFR</span>
             </h1>
             <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-                Retrouve l'état de nos bots Discord et rejoins la communauté.
+                Retrouve l'état de nos bots Discord en direct.
             </p>
         </div>
 
-        <!-- Section des Bots -->
+        <!-- Section des Bots (Générée dynamiquement via le JSON) -->
         <div id="poles" class="w-full space-y-6">
             <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400">🤖 Statut de nos Bots</h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- BOT 1 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-sm text-white">🤖 Bot Discord (GLaDOS)</h3>
-                        <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30">Opérationnel</span>
-                    </div>
-                    <p class="text-xs text-slate-400">Modération & IA intelligente</p>
-                </div>
-
-                <!-- BOT 2 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-sm text-white">🤖 Bot Musique</h3>
-                        <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30">Opérationnel</span>
-                    </div>
-                    <p class="text-xs text-slate-400">Audio haute qualité & DisTube</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stack Technique -->
-        <div class="w-full space-y-4 text-center pt-6">
-            <h2 class="text-xs uppercase font-bold tracking-widest text-slate-500">Propulsé par les technologies</h2>
-            <div class="flex flex-wrap justify-center gap-2">
-                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">Node.js</span>
-                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">Discord.js</span>
-                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">Tailwind CSS</span>
-                <span class="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-bold text-slate-300">JavaScript</span>
+            <div id="bots-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Les bots s'injecteront ici tout seuls -->
             </div>
         </div>
 
@@ -96,5 +63,61 @@
         <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+
+                // 1. Vérifier si le site est en maintenance
+                if (data.siteMode === 'maintenance') {
+                    window.location.href = 'maintenance.html';
+                    return;
+                }
+
+                // 2. Afficher le nombre de membres
+                document.getElementById('online-count').innerText = data.onlineMembers;
+
+                // 3. Afficher l'alerte globale si elle existe
+                if (data.globalAlert) {
+                    document.getElementById('alert-text').innerText = data.globalAlert;
+                    document.getElementById('alert-banner').classList.remove('hidden');
+                }
+
+                // 4. Générer la liste des bots dynamiquement
+                const grid = document.getElementById('bots-grid');
+                grid.innerHTML = "";
+
+                data.bots.forEach(bot => {
+                    let badgeClass = "px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30";
+                    if (bot.status === 'Maintenance') {
+                        badgeClass = "px-2.5 py-1 bg-amber-500/10 text-amber-400 text-xs font-bold rounded-full border border-amber-500/30";
+                    } else if (bot.status === 'Hors Ligne') {
+                        badgeClass = "px-2.5 py-1 bg-rose-500/10 text-rose-400 text-xs font-bold rounded-full border border-rose-500/30";
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3";
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-sm text-white">🤖 ${escapeHtml(bot.name)}</h3>
+                            <span class="${badgeClass}">${escapeHtml(bot.status)}</span>
+                        </div>
+                        <p class="text-xs text-slate-400">${escapeHtml(bot.desc)}</p>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Erreur lors du chargement des données :", error);
+            }
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
 </body>
 </html>
