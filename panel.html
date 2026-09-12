@@ -6,6 +6,9 @@
     <title>CrackFR - Panel Admin</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { opacity: 0; transition: opacity 0.4s ease-in-out; }
+    </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
@@ -15,7 +18,7 @@
             <div class="text-lg font-black tracking-wider text-pink-400">
                 ⚡ CRACKFR // ADMIN
             </div>
-            <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
+            <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95">
                 ← Retour au site
             </a>
         </div>
@@ -38,7 +41,7 @@
                 <!-- Mode du site -->
                 <div class="space-y-1.5">
                     <label class="text-xs font-bold text-slate-300">Mode du site</label>
-                    <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                    <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
                         <option value="active">Actif (En ligne)</option>
                         <option value="maintenance">Maintenance</option>
                     </select>
@@ -47,22 +50,22 @@
                 <!-- Nombre de membres -->
                 <div class="space-y-1.5">
                     <label class="text-xs font-bold text-slate-300">Nombre de membres affiché</label>
-                    <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" value="42">
+                    <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" value="42">
                 </div>
 
                 <!-- Alerte globale -->
                 <div class="space-y-1.5">
                     <label class="text-xs font-bold text-slate-300">Message d'alerte globale (laisser vide pour masquer)</label>
-                    <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Bienvenue sur le hub !">
+                    <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: Bienvenue sur le hub !">
                 </div>
             </div>
 
-            <!-- Bouton de génération -->
+            <!-- Bouton de génération interactif -->
             <div class="pt-4 space-y-3">
-                <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20">
+                <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-pink-600/20 cursor-pointer">
                     📋 Générer et copier le code pour data.json
                 </button>
-                <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden">✓ Code JSON copié dans le presse-papier ! Colle-le dans ton `data.json` sur GitHub.</p>
+                <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden animate-bounce">✓ Code JSON copié dans le presse-papier ! Colle-le dans ton `data.json` sur GitHub.</p>
             </div>
 
         </div>
@@ -81,8 +84,9 @@
     </footer>
 
     <script>
-        // Charger les données initiales fictives pour le panel
         window.addEventListener('DOMContentLoaded', async () => {
+            document.body.style.opacity = '1';
+
             try {
                 const res = await fetch('data.json');
                 const data = await res.json();
@@ -100,7 +104,6 @@
             const members = parseInt(document.getElementById('online-members').value) || 0;
             const alert = document.getElementById('global-alert').value;
 
-            // Structure complète par défaut pour ton data.json
             const finalData = {
                 "siteMode": mode,
                 "onlineMembers": members,
@@ -122,7 +125,6 @@
             const jsonString = JSON.stringify(finalData, null, 4);
             document.getElementById('json-output').value = jsonString;
 
-            // Copie automatique dans le presse-papier
             navigator.clipboard.writeText(jsonString).then(() => {
                 const msg = document.getElementById('success-msg');
                 msg.classList.remove('hidden');
