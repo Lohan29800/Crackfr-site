@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel avec Accès Personnalisés par Clé ⚡</title>
+    <title>CrackFR - Panel Hiérarchique avec Identifiants de Base ⚡</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN pour les graphiques -->
@@ -18,7 +18,7 @@
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="text-lg font-black tracking-wider text-pink-400">
-                ⚡ CRACKFR // CUSTOM ACCESS PANEL
+                ⚡ CRACKFR // PANEL IDENTIFIANTS
             </div>
             <div class="flex items-center space-x-3">
                 <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all">
@@ -34,36 +34,42 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-6xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
-        <!-- CONNEXION STAFF PAR CLÉ OU MOT DE PASSE -->
+        <!-- CONNEXION STAFF AVEC IDENTIFIANTS DE BASE -->
         <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
                 🔑
             </div>
             
             <div class="space-y-2">
-                <h1 class="text-2xl font-black tracking-tight text-white">Connexion par Clé Staff</h1>
-                <p class="text-xs text-slate-400">Entre ton pseudo et ta clé d'accès personnelle (ou le mot de passe global).</p>
+                <h1 class="text-2xl font-black tracking-tight text-white">Connexion Staff</h1>
+                <p class="text-xs text-slate-400">Entre tes identifiants ou utilise les boutons de connexion rapide ci-dessous.</p>
+            </div>
+
+            <!-- Boutons de connexion rapide (Identifiants de base) -->
+            <div class="grid grid-cols-3 gap-2">
+                <button type="button" onclick="quickFill('Proprio', 'KEY-FOUNDER-777')" class="p-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all">
+                    👑 Fondateur
+                </button>
+                <button type="button" onclick="quickFill('AdminMain', 'KEY-ADMIN-444')" class="p-2 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all">
+                    ⚡ Admin
+                </button>
+                <button type="button" onclick="quickFill('ModoMoto', 'KEY-MOD-111')" class="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all">
+                    🛡️ Moto/Mod
+                </button>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1.5 text-left">
                     <label class="text-xs font-bold text-slate-300">Pseudo Staff</label>
-                    <input type="text" id="staff-name" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Lucas">
+                    <input type="text" id="staff-name" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Proprio">
                 </div>
 
                 <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Clé d'Accès Personnelle ou Mot de passe</label>
-                    <input type="password" id="staff-token" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: KEY-FOUNDER-99 ou admin123">
+                    <label class="text-xs font-bold text-slate-300">Clé d'accès / Mot de passe</label>
+                    <input type="password" id="staff-token" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
                 </div>
 
-                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Clé d'accès ou mot de passe incorrect.</p>
-
-                <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-[11px] text-slate-400 space-y-1">
-                    <p class="font-bold text-pink-400">💡 Exemples de clés intégrées :</p>
-                    <p>• Fondateur : <code class="text-amber-400">KEY-FOUNDER-777</code></p>
-                    <p>• Admin : <code class="text-blue-400">KEY-ADMIN-444</code></p>
-                    <p>• Modérateur : <code class="text-cyan-400">KEY-MOD-111</code></p>
-                </div>
+                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Identifiants incorrects. Vérifie ta clé ou ton pseudo.</p>
 
                 <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                     Connexion Sécurisée
@@ -222,17 +228,16 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
-        <p>&copy; 2026 CrackFR. Système de Clés d'Accès Personnalisées.</p>
+        <p>&copy; 2026 CrackFR. Système de Connexion avec Identifiants de Base.</p>
     </footer>
 
-    <!-- SCRIPT CLÉS PERSONNALISÉES ET PERMISSIONS -->
+    <!-- SCRIPT GESTION DES IDENTIFIANTS -->
     <script>
-        // Table des clés d'accès personnalisées menant vers les différents grades
-        const CUSTOM_KEYS = {
-            "KEY-FOUNDER-777": { role: "Fondateur", nameBadge: "Fondateur" },
-            "KEY-ADMIN-444": { role: "Administrateur", nameBadge: "Admin" },
-            "KEY-MOD-111": { role: "Modérateur", nameBadge: "Mod" },
-            "admin123": { role: "Fondateur", nameBadge: "Fondateur (Master)" } // Mot de passe global par défaut
+        // Table des clés d'accès par défaut (Fondateur, Admin, Modérateur / Moto)
+        const VALID_CREDENTIALS = {
+            "KEY-FOUNDER-777": { role: "Fondateur" },
+            "KEY-ADMIN-444": { role: "Administrateur" },
+            "KEY-MOD-111": { role: "Modérateur" }
         };
 
         let monthlyChartInstance = null;
@@ -263,19 +268,25 @@
             }
         });
 
+        // Fonction pour remplir automatiquement le formulaire avec les identifiants de base
+        function quickFill(name, token) {
+            document.getElementById('staff-name').value = name;
+            document.getElementById('staff-token').value = token;
+        }
+
         function handleLogin(event) {
             event.preventDefault();
             const staffName = document.getElementById('staff-name').value.trim();
             const tokenInput = document.getElementById('staff-token').value.trim();
             const errorMsg = document.getElementById('login-error');
 
-            if (CUSTOM_KEYS[tokenInput] && staffName !== "") {
-                const staffData = CUSTOM_KEYS[tokenInput];
+            if (VALID_CREDENTIALS[tokenInput] && staffName !== "") {
+                const staffData = VALID_CREDENTIALS[tokenInput];
                 localStorage.setItem('crackfr_logged', 'true');
                 localStorage.setItem('crackfr_staff_name', staffName);
                 localStorage.setItem('crackfr_staff_role', staffData.role);
                 
-                logAction(1, staffName, staffData.role, `S'est connecté via clé personnalisée (${staffData.role})`);
+                logAction(1, staffName, staffData.role, `S'est connecté avec les identifiants (${staffData.role})`);
                 showPanel(staffName, staffData.role);
             } else {
                 errorMsg.classList.remove('hidden');
