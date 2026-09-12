@@ -24,9 +24,9 @@
                 <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
                     Déconnexion
                 </button>
-                <button onclick="window.location.href='index.html'" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all cursor-pointer">
+                <a href="index.html" onclick="localStorage.removeItem('crackfr_logged')" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
                     ← Retour au site
-                </button>
+                </a>
             </div>
         </div>
     </header>
