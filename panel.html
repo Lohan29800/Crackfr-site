@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<a href="index.html" class="...">← Retour au site</a>
-
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -23,12 +21,12 @@
                 ⚡ CRACKFR // PANEL STAFF
             </div>
             <div class="flex items-center space-x-3">
-                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all">
+                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
                     Déconnexion
                 </button>
-                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
+                <button onclick="window.location.href='index.html'" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all cursor-pointer">
                     ← Retour au site
-                </a>
+                </button>
             </div>
         </div>
     </header>
@@ -61,7 +59,7 @@
                     <label class="text-xs font-bold text-slate-300">Mot de passe</label>
                     <div class="relative">
                         <input type="password" id="staff-password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pr-10 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ton mot de passe...">
-                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm focus:outline-none">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm focus:outline-none cursor-pointer">
                             👁️
                         </button>
                     </div>
@@ -140,15 +138,15 @@
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
                     <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Actions Modération</h3>
                     <div class="space-y-2.5">
-                        <button onclick="triggerLogAction('MEMBER_KICK')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
+                        <button onclick="triggerLogAction('MEMBER_KICK')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
                             <span>Simuler un Kick</span>
                             <span class="text-[10px] text-amber-400">Log #6</span>
                         </button>
-                        <button onclick="triggerLogAction('MEMBER_BAN')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
+                        <button onclick="triggerLogAction('MEMBER_BAN')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
                             <span>Simuler un Ban</span>
                             <span class="text-[10px] text-rose-400">Log #7</span>
                         </button>
-                        <button onclick="triggerLogAction('WARN_GIVE')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
+                        <button onclick="triggerLogAction('WARN_GIVE')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
                             <span>Mettre un Warn</span>
                             <span class="text-[10px] text-cyan-400">Log #8</span>
                         </button>
@@ -164,7 +162,7 @@
                     </div>
                     <div class="flex items-center space-x-2 w-full sm:w-auto">
                         <input type="text" id="log-search" oninput="renderStaffLogs()" placeholder="Filtrer les logs..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
-                        <button onclick="clearStaffLogs()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold uppercase rounded-xl transition-colors">Effacer</button>
+                        <button onclick="clearStaffLogs()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold uppercase rounded-xl transition-colors cursor-pointer">Effacer</button>
                     </div>
                 </div>
                 <div class="overflow-x-auto max-h-72 overflow-y-auto space-y-2" id="staff-logs-container"></div>
@@ -180,7 +178,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="text-xs font-bold text-slate-300">Mode du site</label>
-                            <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none">
+                            <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none cursor-pointer">
                                 <option value="active">Actif (Normal)</option>
                                 <option value="maintenance">Maintenance</option>
                             </select>
