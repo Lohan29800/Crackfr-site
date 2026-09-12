@@ -405,3 +405,33 @@
     </script>
 </body>
 </html>
+
+(function trackVisit() {
+    try {
+        let stats = JSON.parse(localStorage.getItem('crackfr_stats') || '{"today": 0, "total": 0, "blocked": 0, "errors": 0, "lastDate": "", "retention": "keep", "monthlyHistory": {}}');
+        const todayStr = new Date().toLocaleDateString();
+        
+        if (stats.lastDate !== todayStr) {
+            stats.today = 0;
+            stats.lastDate = todayStr;
+        }
+
+        stats.today += 1;
+        stats.total += 1;
+
+        // Gestion de l'historique sur les 5 mois
+        const currentMonthName = new Date().toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+        if (!stats.monthlyHistory) stats.monthlyHistory = {};
+        stats.monthlyHistory[currentMonthName] = (stats.monthlyHistory[currentMonthName] || 0) + 1;
+
+        // Si l'utilisateur a choisi la suppression automatique au-delà de 5 mois
+        if (stats.retention === "delete") {
+            let keys = Object.keys(stats.monthlyHistory);
+            if (keys.length > 5) {
+                delete stats.monthlyHistory[keys[0]]; // Supprime le plus ancien
+            }
+        }
+
+        localStorage.setItem('crackfr_stats', JSON.stringify(stats));
+    } catch (e) {}
+})();
