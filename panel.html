@@ -34,7 +34,7 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-6xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
-        <!-- CONNEXION STAFF (SÉCURISÉE - SANS BOUTONS VISIBLES) -->
+        <!-- CONNEXION STAFF -->
         <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
                 🔐
@@ -53,7 +53,12 @@
 
                 <div class="space-y-1.5 text-left">
                     <label class="text-xs font-bold text-slate-300">Clé d'accès / Mot de passe</label>
-                    <input type="password" id="staff-token" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
+                    <div class="relative">
+                        <input type="password" id="staff-token" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pr-10 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm focus:outline-none">
+                            👁️
+                        </button>
+                    </div>
                 </div>
 
                 <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Identifiants incorrects. Vérifie ta clé ou ton pseudo.</p>
@@ -220,7 +225,6 @@
 
     <!-- SCRIPT GESTION DES IDENTIFIANTS -->
     <script>
-        // Table des clés d'accès sécurisées (Fondateur, Admin, Modérateur / Moto)
         const VALID_CREDENTIALS = {
             "KEY-FOUNDER-777": { role: "Fondateur" },
             "KEY-ADMIN-444": { role: "Administrateur" },
@@ -254,6 +258,16 @@
                 );
             }
         });
+
+        // Fonction pour afficher/masquer le mot de passe avec l'œil
+        function togglePasswordVisibility() {
+            const tokenInput = document.getElementById('staff-token');
+            if (tokenInput.type === 'password') {
+                tokenInput.type = 'text';
+            } else {
+                tokenInput.type = 'password';
+            }
+        }
 
         function handleLogin(event) {
             event.preventDefault();
