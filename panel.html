@@ -32,7 +32,7 @@
     <!-- Main Admin Content -->
     <main class="flex-grow max-w-3xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
-        <!-- ÉTAPE 1 : BOÎTE DE CONNEXION (Identifiant / Mot de passe) -->
+        <!-- ÉTAPE 1 : BOÎTE DE CONNEXION -->
         <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
                 🔐
@@ -46,7 +46,7 @@
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1.5 text-left">
                     <label class="text-xs font-bold text-slate-300">Identifiant</label>
-                    <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ton identifiant">
+                    <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: admin">
                 </div>
 
                 <div class="space-y-1.5 text-left">
@@ -62,43 +62,53 @@
             </form>
         </div>
 
-        <!-- ÉTAPE 2 : PANNEAU DE CONTRÔLE (Masqué tant qu'on n'est pas connectés) -->
+        <!-- ÉTAPE 2 : PANNEAU DE CONTRÔLE (Masqué par défaut) -->
         <div id="panel-content" class="w-full space-y-8 hidden">
             
             <div class="space-y-2">
                 <h1 class="text-3xl font-black tracking-tight text-white">Panneau de Contrôle</h1>
-                <p class="text-xs sm:text-sm text-slate-400">Modifie les paramètres de ton hub ou génère ton fichier de configuration.</p>
+                <p class="text-xs sm:text-sm text-slate-400">Gère les éléments dynamiques affichés sur la page d'accueil de ton serveur.</p>
             </div>
 
-            <!-- Formulaire de réglages -->
+            <!-- Formulaire de réglages de la page d'accueil -->
             <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
                 
-                <div class="space-y-4">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 border-b border-slate-800 pb-2">Paramètres Généraux</h2>
+                <div class="space-y-5">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 border-b border-slate-800 pb-2">Paramètres de la Page d'Accueil</h2>
                     
                     <!-- Mode du site -->
                     <div class="space-y-1.5">
                         <label class="text-xs font-bold text-slate-300">Mode du site</label>
                         <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
-                            <option value="active">Actif (En ligne)</option>
-                            <option value="maintenance">Maintenance</option>
+                            <option value="active">Actif (Site normal)</option>
+                            <option value="maintenance">Maintenance (Redirige vers maintenance.html)</option>
                         </select>
                     </div>
 
                     <!-- Nombre de membres -->
                     <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-300">Nombre de membres affiché</label>
-                        <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" value="42">
+                        <label class="text-xs font-bold text-slate-300">Nombre de membres en ligne affiché</label>
+                        <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: 42">
                     </div>
 
-                    <!-- Alerte globale -->
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-300">Message d'alerte globale (laisser vide pour masquer)</label>
-                        <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: Bienvenue sur le hub !">
+                    <!-- Bandeau de notification (Activer / Désactiver) -->
+                    <div class="space-y-3 pt-2 border-t border-slate-800/60">
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs font-bold text-slate-300">Bandeau de notification d'accueil</label>
+                            <select id="alert-enabled" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                                <option value="true">Activé (Visible)</option>
+                                <option value="false">Désactivé (Masqué)</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-slate-400">Texte du bandeau</label>
+                            <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: Bienvenue sur le nouveau hub CrackFR !">
+                        </div>
                     </div>
                 </div>
 
-                <!-- Bouton de génération interactif -->
+                <!-- Bouton de génération automatique -->
                 <div class="pt-4 space-y-3">
                     <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-pink-600/20 cursor-pointer">
                         📋 Générer et copier le code pour data.json
@@ -108,10 +118,13 @@
 
             </div>
 
-            <!-- Boîte d'affichage du JSON généré -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Aperçu du JSON à mettre sur GitHub :</h3>
-                <textarea id="json-output" readonly class="w-full h-40 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+            <!-- ÉDITEUR DE CODE (Conservé et tout en bas) -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Éditeur de code JSON (Complet) :</h3>
+                    <button onclick="copyRawEditor()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[10px] font-bold uppercase transition-colors">Copier l'éditeur</button>
+                </div>
+                <textarea id="json-output" class="w-full h-48 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-500 transition-colors"></textarea>
             </div>
 
         </div>
@@ -124,28 +137,31 @@
     </footer>
 
     <script>
-        // Identifiants configurés : admin / admin123
+        // Identifiants configurés
         const ADMIN_USER = "admin";
         const ADMIN_PASS = "admin123";
 
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
 
-            // Vérifier si l'admin est déjà connecté dans le navigateur
+            // Vérifier si l'admin est connecté
             if (localStorage.getItem('crackfr_logged') === 'true') {
                 showPanel();
             }
 
-            // Charger les données du data.json pour le formulaire
+            // Charger les données du data.json dans le panel
             try {
                 const res = await fetch('data.json');
-                const data = await res.json();
-                document.getElementById('site-mode').value = data.siteMode || 'active';
-                document.getElementById('online-members').value = data.onlineMembers || 42;
-                document.getElementById('global-alert').value = data.globalAlert || '';
-                updateTextarea(data);
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('site-mode').value = data.siteMode || 'active';
+                    document.getElementById('online-members').value = data.onlineMembers || 42;
+                    document.getElementById('global-alert').value = data.globalAlert || '';
+                    document.getElementById('alert-enabled').value = data.globalAlert ? "true" : "false";
+                    document.getElementById('json-output').value = JSON.stringify(data, null, 4);
+                }
             } catch (e) {
-                console.log("Valeurs par défaut chargées.");
+                console.log("Chargement par défaut.");
             }
         });
 
@@ -174,27 +190,20 @@
             location.reload();
         }
 
+        // Génère le JSON propre à partir des nouveaux champs et l'envoie dans l'éditeur
         function generateJSON() {
             const mode = document.getElementById('site-mode').value;
             const members = parseInt(document.getElementById('online-members').value) || 0;
-            const alert = document.getElementById('global-alert').value;
+            const alertEnabled = document.getElementById('alert-enabled').value === "true";
+            const alertText = document.getElementById('global-alert').value;
+
+            // Si le bandeau est désactivé, on vide le texte pour qu'il se masque sur l'accueil
+            const finalAlert = alertEnabled ? alertText : "";
 
             const finalData = {
                 "siteMode": mode,
                 "onlineMembers": members,
-                "globalAlert": alert,
-                "bots": [
-                    {
-                        "name": "Bot Discord (GLaDOS)",
-                        "desc": "Modération & IA intelligente",
-                        "status": "Opérationnel"
-                    },
-                    {
-                        "name": "Bot Musique",
-                        "desc": "Audio haute qualité & DisTube",
-                        "status": "Opérationnel"
-                    }
-                ]
+                "globalAlert": finalAlert
             };
 
             const jsonString = JSON.stringify(finalData, null, 4);
@@ -207,8 +216,11 @@
             });
         }
 
-        function updateTextarea(data) {
-            document.getElementById('json-output').value = JSON.stringify(data, null, 4);
+        function copyRawEditor() {
+            const content = document.getElementById('json-output').value;
+            navigator.clipboard.writeText(content).then(() => {
+                alert("Code de l'éditeur copié dans le presse-papier !");
+            });
         }
     </script>
 </body>
