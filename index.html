@@ -1,476 +1,124 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Hiérarchique Sécurisé ⚡</title>
+    <title>CrackFR - Serveur Communautaire & Gaming ⚡</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN pour les graphiques -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
-    <!-- Header -->
+    <!-- En-tête / Navigation -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-pink-400">
-                ⚡ CRACKFR // PANEL STAFF
+            <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
+                <span>⚡</span>
+                <span>CRACKFR</span>
             </div>
+            <nav class="hidden sm:flex items-center space-x-6 text-xs font-bold uppercase tracking-wider text-slate-300">
+                <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
+                <a href="#fonctionnalites" class="hover:text-pink-400 transition-colors">Services</a>
+                <a href="#communaute" class="hover:text-pink-400 transition-colors">Communauté</a>
+            </nav>
             <div class="flex items-center space-x-3">
-                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
-                    Déconnexion
-                </button>
-                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
-                    ← Retour au site
+                <a href="panel.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
+                    🔐 Panel Staff
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow max-w-6xl mx-auto px-4 py-10 w-full flex items-center justify-center">
+    <!-- Contenu Principal -->
+    <main id="accueil" class="flex-grow max-w-6xl mx-auto px-4 py-16 w-full space-y-16">
         
-        <!-- CONNEXION STAFF -->
-        <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
-                🔐
-            </div>
+        <!-- Section Héroïque (Hero) -->
+        <section class="text-center space-y-6 relative">
+            <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-72 h-72 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
             
-            <div class="space-y-2">
-                <h1 class="text-2xl font-black tracking-tight text-white">Connexion Staff</h1>
-                <p class="text-xs text-slate-400">Choisis ton rôle et entre ton mot de passe.</p>
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-pink-500/10 border border-pink-500/30 rounded-full text-pink-400 text-xs font-bold uppercase tracking-wider animate-pulse">
+                <span>🔥</span>
+                <span>Serveur Communautaire & Gaming Actif</span>
             </div>
 
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Choisis ton Compte / Rôle</label>
-                    <select id="staff-role-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 cursor-pointer">
-                        <option value="Fondateur">👑 Fondateur</option>
-                        <option value="Administrateur">⚡ Administrateur</option>
-                        <option value="Modérateur">🛡️ Modérateur</option>
-                    </select>
-                </div>
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white max-w-3xl mx-auto leading-tight">
+                Bienvenue sur <span class="text-pink-500">CrackFR</span>
+            </h1>
 
-                <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Mot de passe</label>
-                    <div class="relative">
-                        <input type="password" id="staff-password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pr-10 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ton mot de passe...">
-                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm focus:outline-none cursor-pointer">
-                            👁️
-                        </button>
-                    </div>
-                </div>
+            <p class="text-sm sm:text-base text-slate-400 max-w-xl mx-auto leading-relaxed">
+                Rejoins une communauté passionnée de jeux vidéo, profite de nos bots exclusifs, de nos serveurs optimisés et d'un espace interactif unique.
+            </p>
 
-                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Mot de passe incorrect.</p>
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="https://discord.gg/ton-invite" target="_blank" class="px-6 py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 inline-block">
+                    💬 Rejoindre le Discord
+                </a>
+                <a href="#fonctionnalites" class="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold rounded-xl text-xs uppercase tracking-wider transition-all inline-block">
+                    En savoir plus
+                </a>
+            </div>
+        </section>
 
-                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
-                    Connexion Sécurisée
-                </button>
-            </form>
-        </div>
+        <!-- Grille de Statistiques en direct -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Membres Discord</span>
+                <div class="text-3xl font-black text-white">1,240</div>
+                <p class="text-[11px] text-slate-500">Actifs et engagés</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Statut du Réseau</span>
+                <div class="text-3xl font-black text-emerald-400">En Ligne</div>
+                <p class="text-[11px] text-slate-500">Disponibilité à 99.9%</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-pink-400">Sécurité Panel</span>
+                <div class="text-3xl font-black text-white">Sécurisé</div>
+                <p class="text-[11px] text-slate-500">Protection hiérarchique active</p>
+            </div>
+        </section>
 
-        <!-- PANNEAU DE CONTRÔLE -->
-        <div id="panel-content" class="w-full space-y-8 hidden">
-            
-            <!-- En-tête -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl">
-                <div class="space-y-1">
-                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Dashboard Sécurisé</h1>
-                    <p class="text-xs sm:text-sm text-slate-400">Connecté en tant que : <span id="current-role-badge" class="ml-1 px-2.5 py-0.5 text-xs font-bold rounded-md bg-pink-500/10 text-pink-400 border border-pink-500/30"></span></p>
-                </div>
-                <div class="flex items-center space-x-3 bg-slate-950 px-4 py-2 rounded-2xl border border-slate-800">
-                    <span class="text-[10px] uppercase font-bold text-slate-400">Fuseau Horaire :</span>
-                    <select id="timezone-select" onchange="changeTimezone()" class="bg-transparent text-xs font-bold text-pink-400 focus:outline-none cursor-pointer">
-                        <option value="UTC">UTC (Temps Universel)</option>
-                        <option value="LOCAL" selected>Heure Locale (Europe/Paris)</option>
-                    </select>
-                </div>
+        <!-- Section Fonctionnalités -->
+        <section id="fonctionnalites" class="space-y-8 pt-8">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Ce que nous proposons</h2>
+                <p class="text-xs text-slate-400">Une infrastructure pensée pour les joueurs et les créateurs.</p>
             </div>
 
-            <!-- STATS -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Visites (Aujourd'hui)</span>
-                    <div class="text-2xl font-black text-white" id="stat-today">0</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-lg">
+                    <div class="w-10 h-10 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center text-xl">🎮</div>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wide">Serveurs Gaming</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Des espaces de jeu optimisés et configurés pour offrir la meilleure immersion possible sans latence.</p>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Visites Totales (5 Mois)</span>
-                    <div class="text-2xl font-black text-white" id="stat-total">0</div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-lg">
+                    <div class="w-10 h-10 bg-purple-500/10 border border-purple-500/30 rounded-xl flex items-center justify-center text-xl">🤖</div>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wide">Bots & Outils</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Développement et intégration de fonctionnalités automatisées pour animer la communauté au quotidien.</p>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Membres Discord</span>
-                    <div class="text-2xl font-black text-white" id="stat-discord">1,240</div>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Sécurité & Erreurs</span>
-                    <div class="text-2xl font-black text-white" id="stat-errors">0</div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-lg">
+                    <div class="w-10 h-10 bg-pink-500/10 border border-pink-500/30 rounded-xl flex items-center justify-center text-xl">🛡️</div>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wide">Modération Active</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Une équipe staff disponible et à l'écoute pour garantir un environnement sain, respectueux et accueillant.</p>
                 </div>
             </div>
-
-            <!-- GRAPHIQUES -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trafic des 5 Derniers Mois</h3>
-                    <div class="relative h-64"><canvas id="monthlyChart"></canvas></div>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400">📊 Répartition Globale</h3>
-                    <div class="relative h-64 flex items-center justify-center"><canvas id="distributionChart"></canvas></div>
-                </div>
-            </div>
-
-            <!-- MODÉRATION -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl lg:col-span-2">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📢 Diffuser une Annonce Flash</h3>
-                    <div class="space-y-3">
-                        <input type="text" id="quick-alert-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Maintenance en cours...">
-                        <button onclick="publishFlashAlert()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
-                            🚀 Publier l'annonce
-                        </button>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Actions Modération</h3>
-                    <div class="space-y-2.5">
-                        <button onclick="triggerLogAction('MEMBER_KICK')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
-                            <span>Simuler un Kick</span>
-                            <span class="text-[10px] text-amber-400">Log #6</span>
-                        </button>
-                        <button onclick="triggerLogAction('MEMBER_BAN')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
-                            <span>Simuler un Ban</span>
-                            <span class="text-[10px] text-rose-400">Log #7</span>
-                        </button>
-                        <button onclick="triggerLogAction('WARN_GIVE')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center cursor-pointer">
-                            <span>Mettre un Warn</span>
-                            <span class="text-[10px] text-cyan-400">Log #8</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- JOURNAL DES LOGS -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
-                    <div>
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📋 Journal d'Activité</h3>
-                    </div>
-                    <div class="flex items-center space-x-2 w-full sm:w-auto">
-                        <input type="text" id="log-search" oninput="renderStaffLogs()" placeholder="Filtrer les logs..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
-                        <button onclick="clearStaffLogs()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold uppercase rounded-xl transition-colors cursor-pointer">Effacer</button>
-                    </div>
-                </div>
-                <div class="overflow-x-auto max-h-72 overflow-y-auto space-y-2" id="staff-logs-container"></div>
-            </div>
-
-            <!-- SECTION ADMIN -->
-            <div id="admin-section" class="space-y-6 hidden">
-                <div class="bg-slate-900 border border-blue-500/30 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl relative">
-                    <div class="absolute top-0 right-0 bg-blue-500/10 text-blue-400 border-l border-b border-blue-500/30 px-4 py-1.5 text-[10px] font-bold uppercase rounded-bl-2xl">
-                        ⚡ Espace Administrateur
-                    </div>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-blue-400 border-b border-slate-800 pb-2">Paramètres Standard du Site</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-bold text-slate-300">Mode du site</label>
-                            <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none cursor-pointer">
-                                <option value="active">Actif (Normal)</option>
-                                <option value="maintenance">Maintenance</option>
-                            </select>
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-bold text-slate-300">Membres en ligne</label>
-                            <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none" placeholder="42">
-                        </div>
-                    </div>
-                    <button onclick="saveAdminConfig()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
-                        💾 Enregistrer les modifications
-                    </button>
-                </div>
-            </div>
-
-            <!-- SECTION FONDATEUR -->
-            <div id="founder-section" class="space-y-6 hidden">
-                <div class="bg-slate-900 border border-amber-500/40 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl relative">
-                    <div class="absolute top-0 right-0 bg-amber-500/10 text-amber-400 border-l border-b border-amber-500/40 px-4 py-1.5 text-[10px] font-bold uppercase rounded-bl-2xl">
-                        👑 Espace Fondateur (Accès Absolu)
-                    </div>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">Commandes Fondateur</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <button onclick="founderResetStats()" class="py-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
-                            🗑️ Réinitialiser les stats
-                        </button>
-                        <button onclick="founderPurgeAllLogs()" class="py-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
-                            ⚠️ Purger tous les logs
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
+    <!-- Pied de page -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900 mt-16">
         <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
-    <!-- SCRIPT DE CONNEXION SIMPLE -->
     <script>
-        // Modifie tes mots de passe facilement ici :
-        const PASSWORDS = {
-            "Fondateur": "1234",       // Mot de passe pour le Fondateur
-            "Administrateur": "1234",  // Mot de passe pour l'Admin
-            "Modérateur": "1234"       // Mot de passe pour le Modérateur
-        };
-
-        let monthlyChartInstance = null;
-        let distributionChartInstance = null;
-
-        const LOG_TYPES = {
-            1: { name: "CONNEXION_STAFF", label: "Connexion Staff", color: "emerald" },
-            2: { name: "DECONNEXION_STAFF", label: "Déconnexion Staff", color: "rose" },
-            3: { name: "MODIFICATION_CONFIG", label: "Changement Configuration", color: "amber" },
-            4: { name: "ANNONCE_FLASH", label: "Publication Annonce Flash", color: "pink" },
-            6: { name: "MEMBER_KICK", label: "Expulsion (Kick)", color: "amber" },
-            7: { name: "MEMBER_BAN", label: "Bannissement", color: "rose" },
-            8: { name: "WARN_GIVE", label: "Avertissement (Warn)", color: "cyan" },
-            10: { name: "CLEAR_LOGS", label: "Nettoyage du Journal", color: "slate" },
-            11: { name: "SYSTEM_ALERT", label: "Alerte Sécurité", color: "rose" }
-        };
-
-        window.addEventListener('DOMContentLoaded', async () => {
+        // Effet d'apparition fluide au chargement
+        window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
-
-            if (localStorage.getItem('crackfr_logged') === 'true') {
-                showPanel(localStorage.getItem('crackfr_staff_role') || 'Modérateur');
-            }
         });
-
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('staff-password');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-            } else {
-                passwordInput.type = 'password';
-            }
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-            const selectedRole = document.getElementById('staff-role-select').value;
-            const inputPassword = document.getElementById('staff-password').value.trim();
-            const errorMsg = document.getElementById('login-error');
-
-            if (PASSWORDS[selectedRole] && inputPassword === PASSWORDS[selectedRole]) {
-                localStorage.setItem('crackfr_logged', 'true');
-                localStorage.setItem('crackfr_staff_role', selectedRole);
-                
-                logAction(1, selectedRole, `S'est connecté en tant que ${selectedRole}`);
-                showPanel(selectedRole);
-            } else {
-                errorMsg.classList.remove('hidden');
-            }
-        }
-
-        function showPanel(staffRole) {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('panel-content').classList.remove('hidden');
-            document.getElementById('logout-btn').classList.remove('hidden');
-            document.getElementById('current-role-badge').innerText = staffRole;
-
-            const adminSection = document.getElementById('admin-section');
-            const founderSection = document.getElementById('founder-section');
-
-            adminSection.classList.add('hidden');
-            founderSection.classList.add('hidden');
-
-            if (staffRole === 'Administrateur') {
-                adminSection.classList.remove('hidden');
-            } else if (staffRole === 'Fondateur') {
-                adminSection.classList.remove('hidden');
-                founderSection.classList.remove('hidden');
-            }
-
-            loadStatsAndRenderCharts();
-            renderStaffLogs();
-        }
-
-        function logout() {
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            logAction(2, staffRole, "S'est déconnecté du panel");
-
-            localStorage.removeItem('crackfr_logged');
-            localStorage.removeItem('crackfr_staff_role');
-            location.reload();
-        }
-
-        function logAction(typeId, role, details) {
-            try {
-                let logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
-                let logInfo = LOG_TYPES[typeId] || LOG_TYPES[11];
-                
-                const tzChoice = document.getElementById('timezone-select') ? document.getElementById('timezone-select').value : 'LOCAL';
-                let now = new Date();
-                let dateString = tzChoice === 'UTC' 
-                    ? now.toISOString().replace('T', ' ').substring(0, 19) + " UTC" 
-                    : now.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + " (Local)";
-
-                logs.unshift({
-                    id: typeId,
-                    code: logInfo.name,
-                    title: logInfo.label,
-                    color: logInfo.color,
-                    staff: role,
-                    role: role,
-                    details: details,
-                    date: dateString
-                });
-
-                if (logs.length > 60) logs.pop();
-                localStorage.setItem('crackfr_11_logs', JSON.stringify(logs));
-            } catch (e) {}
-        }
-
-        function renderStaffLogs() {
-            const container = document.getElementById('staff-logs-container');
-            const searchQuery = document.getElementById('log-search').value.toLowerCase();
-            const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
-
-            const filteredLogs = logs.filter(log => 
-                log.staff.toLowerCase().includes(searchQuery) || 
-                log.title.toLowerCase().includes(searchQuery) || 
-                log.details.toLowerCase().includes(searchQuery)
-            );
-
-            if (filteredLogs.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 italic p-2">Aucun log trouvé.</p>`;
-                return;
-            }
-
-            container.innerHTML = "";
-            filteredLogs.forEach(log => {
-                let badgeColor = "bg-cyan-500/10 text-cyan-400 border-cyan-500/30";
-                if (log.color === "emerald") badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/30";
-                if (log.color === "rose") badgeColor = "bg-rose-500/10 text-rose-400 border-rose-500/30";
-                if (log.color === "amber") badgeColor = "bg-amber-500/10 text-amber-400 border-amber-500/30";
-                if (log.color === "pink") badgeColor = "bg-pink-500/10 text-pink-400 border-pink-500/30";
-
-                const div = document.createElement('div');
-                div.className = "flex flex-col sm:flex-row justify-between items-start sm:items-center bg-slate-950 border border-slate-800/80 p-3 rounded-xl text-xs gap-2";
-                div.innerHTML = `
-                    <div class="flex items-center space-x-2.5 flex-wrap">
-                        <span class="px-2 py-0.5 rounded font-bold border text-[10px] ${badgeColor}">#${log.id} ${log.title}</span>
-                        <span class="text-slate-300 font-bold">${log.staff} :</span>
-                        <span class="text-slate-400">${log.details}</span>
-                    </div>
-                    <span class="text-[10px] text-slate-500 font-mono">${log.date}</span>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function clearStaffLogs() {
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            if (confirm("Vider l'historique des logs ?")) {
-                localStorage.removeItem('crackfr_11_logs');
-                logAction(10, staffRole, "A vidé l'historique du journal");
-                renderStaffLogs();
-            }
-        }
-
-        function changeTimezone() {
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            const tz = document.getElementById('timezone-select').value;
-            logAction(3, staffRole, `A basculé le fuseau horaire sur : ${tz}`);
-            renderStaffLogs();
-        }
-
-        function triggerLogAction(actionCode) {
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            if(actionCode === 'MEMBER_KICK') {
-                logAction(6, staffRole, "A expulsé un membre (Kick)");
-                alert("Log #6 : Kick enregistré !");
-            } else if(actionCode === 'MEMBER_BAN') {
-                logAction(7, staffRole, "A banni un membre (Ban)");
-                alert("Log #7 : Ban enregistré !");
-            } else if(actionCode === 'WARN_GIVE') {
-                logAction(8, staffRole, "A donné un avertissement (Warn)");
-                alert("Log #8 : Warn enregistré !");
-            }
-            renderStaffLogs();
-        }
-
-        function publishFlashAlert() {
-            const text = document.getElementById('quick-alert-input').value.trim();
-            if(!text) return alert("Écris une annonce valide !");
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            logAction(4, staffRole, `A publié l'annonce flash : "${text}"`);
-            renderStaffLogs();
-            alert("Annonce flash publiée !");
-        }
-
-        function saveAdminConfig() {
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Administrateur';
-            logAction(3, staffRole, "A mis à jour les paramètres standard du site");
-            renderStaffLogs();
-            alert("Paramètres enregistrés !");
-        }
-
-        function founderResetStats() {
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Fondateur';
-            if(confirm("Réinitialiser les stats ?")) {
-                localStorage.removeItem('crackfr_stats');
-                logAction(3, staffRole, "A réinitialisé les statistiques globales");
-                renderStaffLogs();
-                alert("Stats réinitialisées.");
-            }
-        }
-
-        function founderPurgeAllLogs() {
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Fondateur';
-            if(confirm("Purger tous les logs ?")) {
-                localStorage.removeItem('crackfr_11_logs');
-                logAction(10, staffRole, "A purgé l'ensemble des logs de sécurité");
-                renderStaffLogs();
-                alert("Logs purgés.");
-            }
-        }
-
-        function loadStatsAndRenderCharts() {
-            document.getElementById('stat-today').innerText = "142";
-            document.getElementById('stat-total').innerText = "3,850";
-            document.getElementById('stat-errors').innerText = "0";
-
-            if (monthlyChartInstance) monthlyChartInstance.destroy();
-            if (distributionChartInstance) distributionChartInstance.destroy();
-
-            const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
-            monthlyChartInstance = new Chart(ctxMonthly, {
-                type: 'bar',
-                data: {
-                    labels: ['Nov', 'Déc', 'Janv', 'Févr', 'Mars'],
-                    datasets: [{ data: [450, 780, 920, 1100, 1420], backgroundColor: 'rgba(6, 182, 212, 0.6)', borderColor: 'rgba(6, 182, 212, 1)', borderWidth: 2, borderRadius: 8 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            const ctxDist = document.getElementById('distributionChart').getContext('2d');
-            distributionChartInstance = new Chart(ctxDist, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Visites', 'Membres', 'Staff'],
-                    datasets: [{ data: [3850, 1240, 12], backgroundColor: ['#c084fc', '#06b6d4', '#f43f5e'], borderWidth: 0 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } } }
-            });
-        }
     </script>
 </body>
 </html>
