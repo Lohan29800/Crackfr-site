@@ -1,17 +1,12 @@
-{
-    "siteMode": "active",
-    "onlineMembers": 42,
-    "globalAlert": "Bienvenue sur le nouveau hub CrackFR !",
-    "bots": [
-        {
-            "name": "Bot Discord (GLaDOS)",
-            "desc": "Modération & IA intelligente",
-            "status": "Opérationnel"
-        },
-        {
-            "name": "Bot Musique",
-            "desc": "Audio haute qualité & DisTube",
-            "status": "Opérationnel"
-        }
-    ]
-}
+        window.addEventListener('DOMContentLoaded', async () => {
+            document.body.style.opacity = '1';
+
+            // --- TEST RAPIDE DE MAINTENANCE ---
+            // Décommente la ligne du dessous pour tester la maintenance direct sur ton PC :
+            // window.location.href = 'maintenance.html'; return;
+            // ----------------------------------
+
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                ...
