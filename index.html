@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Hub Communautaire</title>
+    <title>CrackFR - Serveur Discord Communautaire</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,20 +13,26 @@
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
     <!-- Header / Navbar -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 transition-all">
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-cyan-400 flex items-center space-x-2 hover:scale-105 transition-transform cursor-pointer">
+            <div class="text-lg font-black tracking-wider text-cyan-400 flex items-center space-x-2">
                 <span>⚡ CRACKFR</span>
             </div>
             
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
+                <a href="#accueil" class="hover:text-cyan-400 transition-colors">Accueil</a>
+                <a href="#apropos" class="hover:text-cyan-400 transition-colors">À propos</a>
+                <a href="#faq" class="hover:text-cyan-400 transition-colors">FAQ</a>
+                <a href="#blog" class="hover:text-cyan-400 transition-colors">Blog</a>
+                <a href="#discussions" class="hover:text-cyan-400 transition-colors">Discussions</a>
+            </nav>
+
             <div class="flex items-center space-x-3">
-                <!-- Compteur de membres -->
                 <div class="hidden sm:flex items-center space-x-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 text-xs font-bold shadow-lg shadow-emerald-500/5">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span id="online-count">--</span> <span>membres</span>
+                    <span id="online-count">--</span> <span>en ligne</span>
                 </div>
 
-                <!-- Bouton Panel Admin Interactif -->
                 <a href="panel.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 border border-pink-500/30 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg shadow-pink-500/10">
                     🔐 Panel
                 </a>
@@ -35,36 +41,142 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 space-y-10 max-w-5xl mx-auto w-full">
+    <main class="flex-grow space-y-20 pb-16">
         
-        <!-- Alerte Globale -->
-        <div id="alert-banner" class="w-full bg-cyan-500/10 border border-cyan-500/30 px-4 py-3 rounded-2xl flex items-center justify-between text-xs hidden shadow-lg animate-pulse">
-            <div class="flex items-center space-x-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-                <span id="alert-text" class="font-bold text-cyan-400">Chargement...</span>
+        <!-- SECTION ACCUEIL / HERO -->
+        <section id="accueil" class="max-w-5xl mx-auto px-4 pt-20 pb-12 text-center space-y-8">
+            <div id="alert-banner" class="w-full bg-cyan-500/10 border border-cyan-500/30 px-4 py-3 rounded-2xl flex items-center justify-between text-xs hidden shadow-lg animate-pulse max-w-xl mx-auto">
+                <div class="flex items-center space-x-2 mx-auto">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                    <span id="alert-text" class="font-bold text-cyan-400">Chargement...</span>
+                </div>
             </div>
-            <span class="text-slate-400 font-semibold">Annonce</span>
-        </div>
 
-        <!-- Hero Section -->
-        <div class="text-center space-y-4">
-            <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white">
-                Hub Communautaire <span class="text-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.3)]">CrackFR</span>
-            </h1>
-            <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-                Retrouve l'état de nos bots Discord et l'actualité du réseau en direct.
-            </p>
-        </div>
-
-        <!-- Section des Bots -->
-        <div id="poles" class="w-full space-y-6">
-            <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400 flex items-center space-x-2">
-                <span>🤖 Statut de nos Bots</span>
-            </h2>
-            <div id="bots-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Chargement dynamique -->
+            <div class="space-y-4">
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white">
+                    Rejoins la communauté <span class="text-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.3)]">CrackFR</span>
+                </h1>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                    Un espace de partage, de jeux, de discussions et de bots exclusifs. Viens t'intégrer dans une ambiance conviviale !
+                </p>
             </div>
-        </div>
+
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="https://discord.gg/ton-invitation" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#5865F2]/25 hover:scale-105">
+                    🚀 Rejoindre le Discord
+                </a>
+                <a href="#apropos" class="w-full sm:w-auto px-8 py-4 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold rounded-2xl text-xs uppercase tracking-wider transition-all">
+                    En savoir plus ↓
+                </a>
+            </div>
+        </section>
+
+        <!-- SECTION À PROPOS -->
+        <section id="apropos" class="max-w-5xl mx-auto px-4 space-y-8">
+            <div class="border-l-4 border-cyan-400 pl-4">
+                <h2 class="text-2xl font-black text-white">À propos de CrackFR</h2>
+                <p class="text-xs text-slate-400">Découvre ce qui rend notre communauté unique.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+                    <div class="text-2xl">🎮</div>
+                    <h3 class="font-bold text-sm text-white">Gaming & FiveM</h3>
+                    <p class="text-xs text-slate-400">Des sessions de jeux régulières, du roleplay et un espace dédié pour trouver des coéquipiers.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+                    <div class="text-2xl">🤖</div>
+                    <h3 class="font-bold text-sm text-white">Bots Exclusifs</h3>
+                    <p class="text-xs text-slate-400">Profite de nos bots de musique haute qualité et de nos outils développés sur mesure pour le serveur.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+                    <div class="text-2xl">🤝</div>
+                    <h3 class="font-bold text-sm text-white">Entraide & Partage</h3>
+                    <p class="text-xs text-slate-400">Une communauté bienveillante où chacun peut partager ses projets, coder ou simplement discuter.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION FAQ (Foire Aux Questions) -->
+        <section id="faq" class="max-w-5xl mx-auto px-4 space-y-6">
+            <div class="border-l-4 border-cyan-400 pl-4">
+                <h2 class="text-2xl font-black text-white">Foire Aux Questions (FAQ)</h2>
+                <p class="text-xs text-slate-400">Les réponses aux questions les plus fréquentes.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-sm text-cyan-400">Comment rejoindre le serveur Discord ?</h3>
+                    <p class="text-xs text-slate-300">Il te suffit de cliquer sur le bouton "Rejoindre le Discord" tout en haut de la page pour accéder directement à l'invitation.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-sm text-cyan-400">Quelles sont les règles principales ?</h3>
+                    <p class="text-xs text-slate-300">Le respect d'autrui est obligatoire. Aucun propos toxique, spam ou publicité non autorisée n'est toléré sur les salons.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-sm text-cyan-400">Comment obtenir de l'aide en cas de problème ?</h3>
+                    <p class="text-xs text-slate-300">Tu peux ouvrir un ticket directement dans le salon approprié sur le serveur Discord ou contacter un membre du staff.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION BLOG / ACTUALITÉS -->
+        <section id="blog" class="max-w-5xl mx-auto px-4 space-y-6">
+            <div class="border-l-4 border-cyan-400 pl-4">
+                <h2 class="text-2xl font-black text-white">Blog & Actualités</h2>
+                <p class="text-xs text-slate-400">Les dernières nouvelles du réseau CrackFR.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+                    <span class="px-2.5 py-1 bg-cyan-500/10 text-cyan-400 text-xs font-bold rounded-full border border-cyan-500/30">Mise à jour</span>
+                    <h3 class="font-bold text-sm text-white">Refonte complète du Hub CrackFR</h3>
+                    <p class="text-xs text-slate-400">Le site fait peau neuve avec une interface plus moderne, un espace de discussion intégré et une meilleure ergonomie !</p>
+                    <span class="block text-[10px] text-slate-500">Publié en Septembre 2026</span>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+                    <span class="px-2.5 py-1 bg-pink-500/10 text-pink-400 text-xs font-bold rounded-full border border-pink-500/30">Événement</span>
+                    <h3 class="font-bold text-sm text-white">Nouveaux salons et projets de bots</h3>
+                    <p class="text-xs text-slate-400">Déploie tes compétences ou viens tester nos nouveaux bots de musique et d'interaction sur le serveur principal.</p>
+                    <span class="block text-[10px] text-slate-500">Publié en Septembre 2026</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION ESPACE DISCUSSIONS / FIL DE DISCUSSION -->
+        <section id="discussions" class="max-w-5xl mx-auto px-4 space-y-6">
+            <div class="border-l-4 border-cyan-400 pl-4">
+                <h2 class="text-2xl font-black text-white">Espace Discussions</h2>
+                <p class="text-xs text-slate-400">Laisse un message ou lance un sujet de discussion avec la communauté.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-xl">
+                <!-- Formulaire pour poster -->
+                <form onsubmit="postMessage(event)" class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-300">Ton pseudo</label>
+                        <input type="text" id="author-input" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-500" placeholder="Ex: Gamer99">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-300">Ton message / Sujet</label>
+                        <textarea id="message-input" required rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-white focus:outline-none focus:border-cyan-500 resize-none" placeholder="Ex: Salut tout le monde, quelqu'un pour une partie ce soir ?"></textarea>
+                    </div>
+                    <button type="submit" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-cyan-600/20 cursor-pointer">
+                        Publier le message
+                    </button>
+                </form>
+
+                <hr class="border-slate-800">
+
+                <!-- Fil des messages -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Fil de discussion en direct :</h3>
+                    <div id="messages-container" class="space-y-3">
+                        <!-- Les messages s'afficheront ici -->
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
@@ -77,50 +189,71 @@
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
 
+            // Chargement du data.json pour l'alerte et les membres
             try {
                 const response = await fetch('data.json');
-                if (!response.ok) throw new Error("Fichier introuvable");
-
-                const data = await response.json();
-
-                if (data.siteMode === 'maintenance') {
-                    window.location.href = 'maintenance.html';
-                    return;
-                }
-
-                document.getElementById('online-count').innerText = data.onlineMembers;
-
-                if (data.globalAlert) {
-                    document.getElementById('alert-text').innerText = data.globalAlert;
-                    document.getElementById('alert-banner').classList.remove('hidden');
-                }
-
-                const grid = document.getElementById('bots-grid');
-                grid.innerHTML = "";
-
-                data.bots.forEach(bot => {
-                    let badgeClass = "px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30";
-                    if (bot.status === 'Maintenance') {
-                        badgeClass = "px-2.5 py-1 bg-amber-500/10 text-amber-400 text-xs font-bold rounded-full border border-amber-500/30";
-                    } else if (bot.status === 'Hors Ligne') {
-                        badgeClass = "px-2.5 py-1 bg-rose-500/10 text-rose-400 text-xs font-bold rounded-full border border-rose-500/30";
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.siteMode === 'maintenance') {
+                        window.location.href = 'maintenance.html';
+                        return;
                     }
-
-                    const card = document.createElement('div');
-                    card.className = "bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3 shadow-xl hover:border-cyan-500/50 hover:shadow-cyan-500/5 transition-all duration-300 hover:-translate-y-1";
-                    card.innerHTML = `
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-bold text-sm text-white">${escapeHtml(bot.name)}</h3>
-                            <span class="${badgeClass}">${escapeHtml(bot.status)}</span>
-                        </div>
-                        <p class="text-xs text-slate-400">${escapeHtml(bot.desc)}</p>
-                    `;
-                    grid.appendChild(card);
-                });
-            } catch (error) {
-                console.log("Erreur de chargement du JSON ou mode local.");
+                    document.getElementById('online-count').innerText = data.onlineMembers;
+                    if (data.globalAlert) {
+                        document.getElementById('alert-text').innerText = data.globalAlert;
+                        document.getElementById('alert-banner').classList.remove('hidden');
+                    }
+                }
+            } catch (e) {
+                console.log("Mode local ou data.json absent.");
             }
+
+            loadMessages();
         });
+
+        // Gestion de l'espace de discussion (sauvegarde dans le stockage local du navigateur)
+        function postMessage(event) {
+            event.preventDefault();
+            const author = document.getElementById('author-input').value;
+            const text = document.getElementById('message-input').value;
+
+            const newMessage = {
+                author: escapeHtml(author),
+                text: escapeHtml(text),
+                date: new Date().toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            let messages = JSON.parse(localStorage.getItem('crackfr_discussions') || '[]');
+            messages.unshift.unshift ? messages.unshift(newMessage) : messages.push(newMessage); // Ajoute en haut
+            localStorage.setItem('crackfr_discussions', JSON.stringify(messages));
+
+            document.getElementById('message-input').value = '';
+            loadMessages();
+        }
+
+        function loadMessages() {
+            const container = document.getElementById('messages-container');
+            const messages = JSON.parse(localStorage.getItem('crackfr_discussions') || '[]');
+
+            if (messages.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 italic">Aucun message pour le moment. Sois le premier à participer !</p>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            messages.forEach(msg => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-1 shadow-inner";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-xs text-cyan-400">${msg.author}</span>
+                        <span class="text-[10px] text-slate-500">${msg.date}</span>
+                    </div>
+                    <p class="text-xs text-slate-300">${msg.text}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
 
         function escapeHtml(text) {
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
