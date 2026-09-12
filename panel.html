@@ -10,7 +10,7 @@
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
     <!-- Header Panel -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <header class="border-b border-slate-800 bg-slate-900 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="text-lg font-black tracking-wider text-pink-400">
                 🔐 CRACKFR // ADMIN PANEL
@@ -26,7 +26,7 @@
         
         <div class="text-center space-y-2">
             <h1 class="text-3xl font-black tracking-tight text-white">Tableau de Bord Admin</h1>
-            <p class="text-xs sm:text-sm text-slate-400">Go gérer les configurations et les statuts du Hub en temps réel.</p>
+            <p class="text-xs sm:text-sm text-slate-400">Modifie les configurations et sauvegarde tes préférences en un clic.</p>
         </div>
 
         <!-- Grille des contrôles -->
@@ -35,10 +35,10 @@
             <!-- Contrôle 1 : Mode Maintenance -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
                 <h3 class="font-bold text-sm text-pink-400 uppercase tracking-wider">Mode du Site</h3>
-                <p class="text-xs text-slate-400">Activer la maintenance redirigera automatiquement tous les visiteurs vers la page de maintenance.</p>
+                <p class="text-xs text-slate-400">Activer la maintenance redirigera automatiquement les visiteurs.</p>
                 <div class="flex gap-2 pt-2">
-                    <button onclick="setSiteMode('active')" class="flex-1 py-2 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-bold rounded-xl text-xs hover:bg-emerald-500/30 transition-all">Actif</button>
-                    <button onclick="setSiteMode('maintenance')" class="flex-1 py-2 bg-rose-500/20 border border-rose-500/40 text-rose-400 font-bold rounded-xl text-xs hover:bg-rose-500/30 transition-all">Maintenance</button>
+                    <button type="button" onclick="selectMode('active')" id="btn-active" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-emerald-500 transition-all">Actif</button>
+                    <button type="button" onclick="selectMode('maintenance')" id="btn-maint" class="flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:border-rose-500 transition-all">Maintenance</button>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                 <div class="space-y-3">
                     <div>
                         <label class="text-[10px] uppercase font-bold text-slate-400">Bot Discord (GLaDOS)</label>
-                        <select id="select-bot1" onchange="updateBotStatus('bot1')" class="w-full mt-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+                        <select id="select-bot1" class="w-full mt-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
                             <option value="Opérationnel">Opérationnel</option>
                             <option value="Maintenance">Maintenance</option>
                             <option value="Hors Ligne">Hors Ligne</option>
@@ -56,7 +56,7 @@
                     </div>
                     <div>
                         <label class="text-[10px] uppercase font-bold text-slate-400">Serveur FiveM (Paris RP)</label>
-                        <select id="select-bot2" onchange="updateBotStatus('bot2')" class="w-full mt-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+                        <select id="select-bot2" class="w-full mt-1 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
                             <option value="En Ligne">En Ligne</option>
                             <option value="Maintenance">Maintenance</option>
                             <option value="Hors Ligne">Hors Ligne</option>
@@ -65,56 +65,81 @@
                 </div>
             </div>
 
-            <!-- Contrôle 3 : Envoyer une Alerte Globale -->
+            <!-- Contrôle 3 : Alerte Globale -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl sm:col-span-2">
                 <h3 class="font-bold text-sm text-purple-400 uppercase tracking-wider">Alerte / Notification Globale</h3>
-                <p class="text-xs text-slate-400">Envoyer un message flash visible par tous les utilisateurs connectés sur le site en direct.</p>
-                <div class="flex gap-2">
-                    <input type="text" id="alert-input" placeholder="Ex: Mise à jour du bot prévue à 20h..." class="flex-grow px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500">
-                    <button onclick="sendGlobalAlert()" class="px-5 py-2 bg-purple-500/20 border border-purple-500/40 text-purple-400 font-bold rounded-xl text-xs hover:bg-purple-500/30 transition-all">Diffuser</button>
-                </div>
+                <p class="text-xs text-slate-400">Diffuser un message flash à tous les utilisateurs connectés.</p>
+                <input type="text" id="alert-input" placeholder="Ex: Mise à jour imminente..." class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
 
+        </div>
+
+        <!-- Bouton de Sauvegarde Global -->
+        <div class="w-full pt-4">
+            <button onclick="saveAllSettings()" class="w-full py-4 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-black rounded-2xl text-sm shadow-lg transition-all flex items-center justify-center space-x-2">
+                <span>💾 Enregistrer toutes les modifications</span>
+            </button>
+            <p id="save-status" class="text-center text-xs text-emerald-400 mt-2 h-4 font-bold"></p>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900/30">
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
         <p>&copy; 2026 CrackFR. Espace sécurisé administrateur.</p>
     </footer>
 
     <script>
-        // Changer le mode du site
-        function setSiteMode(mode) {
-            localStorage.setItem('crackfr_site_mode', mode);
-            alert("Mode du site mis à jour : " + mode.toUpperCase());
+        let currentMode = 'active';
+
+        function selectMode(mode) {
+            currentMode = mode;
+            if (mode === 'active') {
+                document.getElementById('btn-active').className = "flex-1 py-2 bg-emerald-500/20 border border-emerald-500 text-emerald-400 font-bold rounded-xl text-xs";
+                document.getElementById('btn-maint').className = "flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs";
+            } else {
+                document.getElementById('btn-maint').className = "flex-1 py-2 bg-rose-500/20 border border-rose-500 text-rose-400 font-bold rounded-xl text-xs";
+                document.getElementById('btn-active').className = "flex-1 py-2 bg-slate-950 border border-slate-800 text-slate-300 font-bold rounded-xl text-xs";
+            }
         }
 
-        // Mettre à jour le statut des bots
-        function updateBotStatus(botKey) {
-            const val = document.getElementById('select-' + botKey).value;
-            localStorage.setItem('crackfr_status_' + botKey, val);
-        }
-
-        // Envoyer une alerte globale
-        function sendGlobalAlert() {
-            const msg = document.getElementById('alert-input').value.trim();
-            if (!msg) return;
-            
-            const alertData = { msg: msg, time: Date.now() };
-            localStorage.setItem('crackfr_global_alert', JSON.stringify(alertData));
-            document.getElementById('alert-input').value = '';
-            alert("Alerte diffusée avec succès sur le site !");
-        }
-
-        // Charger les valeurs actuelles au démarrage
+        // Charger l'état actuel au démarrage
         window.addEventListener('DOMContentLoaded', () => {
+            const savedMode = localStorage.getItem('crackfr_site_mode') || 'active';
+            selectMode(savedMode);
+
             const s1 = localStorage.getItem('crackfr_status_bot1');
             const s2 = localStorage.getItem('crackfr_status_bot2');
             if (s1) document.getElementById('select-bot1').value = s1;
             if (s2) document.getElementById('select-bot2').value = s2;
         });
+
+        // Fonction globale de sauvegarde
+        function saveAllSettings() {
+            // 1. Sauvegarde du mode du site
+            localStorage.setItem('crackfr_site_mode', currentMode);
+
+            // 2. Sauvegarde des statuts des bots
+            const b1 = document.getElementById('select-bot1').value;
+            const b2 = document.getElementById('select-bot2').value;
+            localStorage.setItem('crackfr_status_bot1', b1);
+            localStorage.setItem('crackfr_status_bot2', b2);
+
+            // 3. Gestion de l'alerte si remplie
+            const alertMsg = document.getElementById('alert-input').value.trim();
+            if (alertMsg) {
+                const alertData = { msg: alertMsg, time: Date.now() };
+                localStorage.setItem('crackfr_global_alert', JSON.stringify(alertData));
+                document.getElementById('alert-input').value = '';
+            }
+
+            // Retour visuel de succès
+            const statusEl = document.getElementById('save-status');
+            statusEl.innerText = "✅ Modifications enregistrées et appliquées avec succès !";
+            setTimeout(() => {
+                statusEl.innerText = "";
+            }, 4000);
+        }
     </script>
 </body>
 </html>
