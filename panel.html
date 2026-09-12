@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Admin, Stats & Graphiques 📊</title>
+    <title>CrackFR - Panel Admin & Logs Staff 🛡️</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN pour les graphiques en direct -->
+    <!-- Chart.js CDN pour les graphiques -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { opacity: 0; transition: opacity 0.4s ease-in-out; }
@@ -18,7 +18,7 @@
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="text-lg font-black tracking-wider text-pink-400">
-                ⚡ CRACKFR // ADMIN & STATS
+                ⚡ CRACKFR // ADMIN & STAFF LOGS
             </div>
             <div class="flex items-center space-x-3">
                 <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all">
@@ -34,21 +34,21 @@
     <!-- Main Admin Content -->
     <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
-        <!-- ÉTAPE 1 : BOÎTE DE CONNEXION -->
+        <!-- ÉTAPE 1 : BOÎTE DE CONNEXION AVEC CHOIX DU STAFF -->
         <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
-                🔐
+                🛡️
             </div>
             
             <div class="space-y-2">
-                <h1 class="text-2xl font-black tracking-tight text-white">Connexion Requise</h1>
-                <p class="text-xs text-slate-400">Entre tes identifiants administrateur.</p>
+                <h1 class="text-2xl font-black tracking-tight text-white">Connexion Staff</h1>
+                <p class="text-xs text-slate-400">Identifie-toi pour accéder au journal d'activité et aux réglages.</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Identifiant</label>
-                    <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: admin">
+                    <label class="text-xs font-bold text-slate-300">Pseudo Staff</label>
+                    <input type="text" id="staff-name" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Admin_Lucas">
                 </div>
 
                 <div class="space-y-1.5 text-left">
@@ -56,23 +56,25 @@
                     <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
                 </div>
 
-                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Identifiant ou mot de passe incorrect.</p>
+                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Identifiant ou mot de passe incorrect (Mot de passe requis : admin123).</p>
 
                 <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
-                    Se connecter
+                    Se connecter au Panel
                 </button>
             </form>
         </div>
 
-        <!-- ÉTAPE 2 : PANNEAU DE CONTRÔLE ET STATS (Masqué par défaut) -->
+        <!-- ÉTAPE 2 : PANNEAU DE CONTRÔLE ET STATS STAFF (Masqué par défaut) -->
         <div id="panel-content" class="w-full space-y-8 hidden">
             
-            <div class="space-y-2">
-                <h1 class="text-3xl font-black tracking-tight text-white">Tableau de Bord & Statistiques</h1>
-                <p class="text-xs sm:text-sm text-slate-400">Analyse sur 5 mois, graphiques en direct et gestion du site.</p>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="space-y-1">
+                    <h1 class="text-3xl font-black tracking-tight text-white">Tableau de Bord Staff</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Connecté en tant que : <span id="current-staff-display" class="text-pink-400 font-bold"></span></p>
+                </div>
             </div>
 
-            <!-- SECTION STATISTIQUES RAPIDES -->
+            <!-- STATISTIQUES RAPIDES -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Visites (Aujourd'hui)</span>
@@ -83,7 +85,7 @@
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
                     <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Visites Totales</span>
                     <div class="text-2xl font-black text-white" id="stat-total">0</div>
-                    <p class="text-[10px] text-slate-500">Depuis la création</p>
+                    <p class="text-[10px] text-slate-500">Depuis le début</p>
                 </div>
 
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
@@ -99,40 +101,42 @@
                 </div>
             </div>
 
-            <!-- OPTIONS DE GESTION DES STATS (5 MOIS & RÉINITIALISATION) -->
+            <!-- JOURNAL D'ACTIVITÉ DU STAFF (LOGS CONNEXIONS, DÉCONNEXIONS, ACTIONS) -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">⚙️ Gestion des Statistiques sur 5 Mois</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-300">Règle après 5 mois d'historique :</label>
-                        <select id="retention-policy" onchange="saveRetentionPolicy()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
-                            <option value="keep">Conserver l'historique (cumul continu)</option>
-                            <option value="delete">Supprimer automatiquement les mois les plus anciens</option>
-                        </select>
-                    </div>
-                    <div class="flex justify-end pt-4 sm:pt-0">
-                        <button onclick="resetStats()" class="px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">
-                            🗑️ Réinitialiser toutes les stats
-                        </button>
-                    </div>
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📋 Journal d'Activité & Connexions du Staff</h3>
+                    <button onclick="clearStaffLogs()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold uppercase rounded-lg transition-colors">Effacer les logs</button>
+                </div>
+                
+                <div class="overflow-x-auto max-h-60 overflow-y-auto space-y-2" id="staff-logs-container">
+                    <!-- Les logs s'injecteront ici dynamiquement -->
                 </div>
             </div>
 
-            <!-- GRAPHIQUES EN DIRECT (CHART.JS) -->
+            <!-- GRAPHIQUES EN DIRECT -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Graphique des 5 derniers mois -->
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
                     <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trafic des 5 Derniers Mois</h3>
-                    <div class="relative h-64">
-                        <canvas id="monthlyChart"></canvas>
-                    </div>
+                    <div class="relative h-64"><canvas id="monthlyChart"></canvas></div>
                 </div>
-
-                <!-- Graphique de répartition -->
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400">📊 Répartition Globale du Trafic</h3>
-                    <div class="relative h-64 flex items-center justify-center">
-                        <canvas id="distributionChart"></canvas>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400">📊 Répartition Globale</h3>
+                    <div class="relative h-64 flex items-center justify-center"><canvas id="distributionChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- GESTION DES STATS SUR 5 MOIS -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">⚙️ Règle de Conservation des 5 Mois</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                    <select id="retention-policy" onchange="saveRetentionPolicy()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <option value="keep">Conserver l'historique (cumul continu)</option>
+                        <option value="delete">Supprimer automatiquement les mois les plus anciens</option>
+                    </select>
+                    <div class="flex justify-end">
+                        <button onclick="resetStats()" class="px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">
+                            🗑️ Réinitialiser les statistiques
+                        </button>
                     </div>
                 </div>
             </div>
@@ -174,7 +178,7 @@
                     <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                         📋 Générer et copier le code pour data.json
                     </button>
-                    <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden animate-bounce">✓ Code JSON copié dans le presse-papier !</p>
+                    <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden animate-bounce">✓ Code JSON copié ! Configuration mise à jour et enregistrée par le staff.</p>
                 </div>
             </div>
 
@@ -193,12 +197,11 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
-        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
+        <p>&copy; 2026 CrackFR. Espace Staff Sécurisé.</p>
     </footer>
 
-    <!-- SCRIPT GESTION PANEL, STATS SUR 5 MOIS ET GRAPHIQUES -->
+    <!-- SCRIPT GESTION DU PANEL & LOGS STAFF -->
     <script>
-        const ADMIN_USER = "admin";
         const ADMIN_PASS = "admin123";
         let monthlyChartInstance = null;
         let distributionChartInstance = null;
@@ -207,7 +210,7 @@
             document.body.style.opacity = '1';
 
             if (localStorage.getItem('crackfr_logged') === 'true') {
-                showPanel();
+                showPanel(localStorage.getItem('crackfr_staff_name') || 'Staff');
             }
 
             try {
@@ -225,33 +228,100 @@
 
         function handleLogin(event) {
             event.preventDefault();
-            const user = document.getElementById('username').value;
+            const staffName = document.getElementById('staff-name').value.trim();
             const pass = document.getElementById('password').value;
             const errorMsg = document.getElementById('login-error');
 
-            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+            if (pass === ADMIN_PASS && staffName !== "") {
                 localStorage.setItem('crackfr_logged', 'true');
-                showPanel();
+                localStorage.setItem('crackfr_staff_name', staffName);
+                
+                // Enregistrer l'action de connexion dans les logs staff
+                logStaffAction(staffName, "Connexion au panel admin 🟢", "emerald");
+
+                showPanel(staffName);
             } else {
                 errorMsg.classList.remove('hidden');
             }
         }
 
-        function showPanel() {
+        function showPanel(staffName) {
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('panel-content').classList.remove('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('current-staff-display').innerText = staffName;
             loadStatsAndRenderCharts();
+            renderStaffLogs();
         }
 
-        // --- CHARGEMENT DES STATS ET GESTION DES 5 MOIS ---
+        function logout() {
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Un staff';
+            logStaffAction(staffName, "Déconnexion du panel admin 🔴", "rose");
+
+            localStorage.removeItem('crackfr_logged');
+            localStorage.removeItem('crackfr_staff_name');
+            location.reload();
+        }
+
+        // --- GESTION DES LOGS DU STAFF ---
+        function logStaffAction(staffName, actionText, color = "cyan") {
+            try {
+                let logs = JSON.parse(localStorage.getItem('crackfr_staff_logs') || '[]');
+                const newLog = {
+                    staff: staffName,
+                    action: actionText,
+                    color: color,
+                    date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
+                };
+                logs.unshift(newLog); // Ajoute en haut
+                // Garder max 50 logs
+                if (logs.length > 50) logs.pop();
+                localStorage.setItem('crackfr_staff_logs', JSON.stringify(logs));
+            } catch (e) {}
+        }
+
+        function renderStaffLogs() {
+            const container = document.getElementById('staff-logs-container');
+            const logs = JSON.parse(localStorage.getItem('crackfr_staff_logs') || '[]');
+
+            if (logs.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 italic p-2">Aucun historique d'activité pour le moment.</p>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            logs.forEach(log => {
+                let badgeColor = "bg-cyan-500/10 text-cyan-400 border-cyan-500/30";
+                if (log.color === "emerald") badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/30";
+                if (log.color === "rose") badgeColor = "bg-rose-500/10 text-rose-400 border-rose-500/30";
+                if (log.color === "amber") badgeColor = "bg-amber-500/10 text-amber-400 border-amber-500/30";
+
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center bg-slate-950 border border-slate-800/80 p-3 rounded-xl text-xs";
+                div.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="px-2 py-0.5 rounded-md font-bold border ${badgeColor}">${log.staff}</span>
+                        <span class="text-slate-300">${log.action}</span>
+                    </div>
+                    <span class="text-[10px] text-slate-500 font-mono">${log.date}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function clearStaffLogs() {
+            if (confirm("Veux-tu vider tout l'historique des actions du staff ?")) {
+                localStorage.removeItem('crackfr_staff_logs');
+                renderStaffLogs();
+            }
+        }
+
+        // --- GESTION DES STATS SUR 5 MOIS ---
         function getStoredStats() {
-            let stats = JSON.parse(localStorage.getItem('crackfr_stats') || JSON.stringify({
+            return JSON.parse(localStorage.getItem('crackfr_stats') || JSON.stringify({
                 today: 0, total: 0, blocked: 0, errors: 0, lastDate: "",
-                retention: "keep",
-                monthlyHistory: {} // Format: {"Mois Annee": nombre} ex: {"Mai 2026": 120}
+                retention: "keep", monthlyHistory: {}
             }));
-            return stats;
         }
 
         function loadStatsAndRenderCharts() {
@@ -263,7 +333,6 @@
             document.getElementById('stat-blocked').innerText = stats.blocked;
             document.getElementById('stat-errors').innerText = stats.errors;
 
-            // Générer les 5 derniers mois pour les graphiques
             const historyLabels = [];
             const historyData = [];
             const currentDate = new Date();
@@ -282,22 +351,27 @@
             let stats = getStoredStats();
             stats.retention = document.getElementById('retention-policy').value;
             localStorage.setItem('crackfr_stats', JSON.stringify(stats));
+            
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+            logStaffAction(staffName, `A modifié la règle de conservation des stats (${stats.retention}) ⚙️`, "amber");
+            renderStaffLogs();
         }
 
         function resetStats() {
-            if (confirm("Veux-tu vraiment réinitialiser toutes les statistiques et l'historique sur 5 mois ?")) {
+            if (confirm("Veux-tu vraiment réinitialiser toutes les statistiques ?")) {
                 localStorage.removeItem('crackfr_stats');
                 loadStatsAndRenderCharts();
+
+                const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+                logStaffAction(staffName, "A réinitialisé toutes les statistiques du site 🗑️", "rose");
+                renderStaffLogs();
             }
         }
 
-        // --- CRÉATION DES GRAPHIQUES AVEC CHART.JS ---
         function renderCharts(labels, dataValues, stats) {
-            // Destruction des anciens graphiques pour éviter les doublons au rechargement
             if (monthlyChartInstance) monthlyChartInstance.destroy();
             if (distributionChartInstance) distributionChartInstance.destroy();
 
-            // 1. Graphique des 5 mois (Bar Chart)
             const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
             monthlyChartInstance = new Chart(ctxMonthly, {
                 type: 'bar',
@@ -323,7 +397,6 @@
                 }
             });
 
-            // 2. Graphique de répartition (Pie Chart)
             const ctxDist = document.getElementById('distributionChart').getContext('2d');
             distributionChartInstance = new Chart(ctxDist, {
                 type: 'doughnut',
@@ -338,16 +411,9 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } }
-                    }
+                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } }
                 }
             });
-        }
-
-        function logout() {
-            localStorage.removeItem('crackfr_logged');
-            location.reload();
         }
 
         function generateJSON() {
@@ -364,6 +430,11 @@
 
             const jsonString = JSON.stringify(finalData, null, 4);
             document.getElementById('json-output').value = jsonString;
+
+            // Enregistrer l'action dans les logs du staff
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+            logStaffAction(staffName, `A mis à jour les paramètres du site (Mode: ${mode}, Membres: ${members}) 🛠️`, "amber");
+            renderStaffLogs();
 
             navigator.clipboard.writeText(jsonString).then(() => {
                 const msg = document.getElementById('success-msg');
