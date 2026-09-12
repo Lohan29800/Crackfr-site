@@ -1,437 +1,502 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Hub Festif & Communautaire 🎉</title>
+    <title>CrackFR - Panel Sécurisé (Mod & Admin + 11 Logs UTC) ⚡</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN pour les graphiques -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { opacity: 0; transition: opacity 0.4s ease-in-out; overflow-x: hidden; }
-        
-        /* Animation des confettis et lueurs festives */
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-        .floating-festive { animation: floatSlow 4s ease-in-out infinite; }
-
-        /* Effet de lueur festive */
-        .festive-glow {
-            text-shadow: 0 0 25px rgba(236, 72, 153, 0.6), 0 0 50px rgba(6, 182, 212, 0.4);
-        }
+        body { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
-    <script>
-        // --- SUIVI AUTOMATIQUE DES STATISTIQUES (Visites & Erreurs) ---
-        (function trackVisit() {
-            try {
-                let stats = JSON.parse(localStorage.getItem('crackfr_stats') || '{"today": 0, "total": 0, "blocked": 0, "errors": 0, "lastDate": ""}');
-                const todayStr = new Date().toLocaleDateString();
-                
-                if (stats.lastDate !== todayStr) {
-                    stats.today = 0;
-                    stats.lastDate = todayStr;
-                }
-
-                stats.today += 1;
-                stats.total += 1;
-                localStorage.setItem('crackfr_stats', JSON.stringify(stats));
-            } catch (e) {
-                console.error("Erreur de suivi des stats :", e);
-            }
-        })();
-
-        window.addEventListener('error', () => {
-            try {
-                let stats = JSON.parse(localStorage.getItem('crackfr_stats') || '{"today": 0, "total": 0, "blocked": 0, "errors": 0, "lastDate": ""}');
-                stats.errors += 1;
-                localStorage.setItem('crackfr_stats', JSON.stringify(stats));
-            } catch (e) {}
-        });
-    </script>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black relative">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
-    <!-- FOND FESTIF : Étoiles et confettis canvas -->
-    <canvas id="festive-canvas" class="absolute inset-0 pointer-events-none z-0 opacity-40"></canvas>
-
-    <!-- Header / Navbar -->
+    <!-- Header -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
-                <span>🎉 CRACKFR // PARTY</span>
+            <div class="text-lg font-black tracking-wider text-pink-400">
+                ⚡ CRACKFR // SECURE PANEL
             </div>
-            
-            <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
-                <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
-                <a href="#apropos" class="hover:text-pink-400 transition-colors">À propos</a>
-                <a href="#faq" class="hover:text-pink-400 transition-colors">FAQ</a>
-                <a href="#blog" class="hover:text-pink-400 transition-colors">Blog</a>
-                <a href="#discussions" class="hover:text-pink-400 transition-colors">Discussions</a>
-            </nav>
-
             <div class="flex items-center space-x-3">
-                <div class="hidden sm:flex items-center space-x-2 px-3 py-1.5 bg-pink-500/10 border border-pink-500/30 rounded-xl text-pink-400 text-xs font-bold shadow-lg shadow-pink-500/10">
-                    <span class="w-2 h-2 rounded-full bg-pink-400 animate-ping"></span>
-                    <span id="online-count">--</span> <span>en fête 🥳</span>
-                </div>
-
-                <a href="panel.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg shadow-cyan-500/10">
-                    🔐 Panel
+                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all">
+                    Déconnexion
+                </button>
+                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
+                    ← Retour au site
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow space-y-20 pb-16 relative z-10">
+    <!-- Main Admin Content -->
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
-        <!-- SECTION ACCUEIL / HERO FESTIF -->
-        <section id="accueil" class="max-w-5xl mx-auto px-4 pt-20 pb-12 text-center space-y-8">
-            <div id="alert-banner" class="w-full bg-pink-500/10 border border-pink-500/30 px-4 py-3 rounded-2xl flex items-center justify-between text-xs hidden shadow-lg animate-pulse max-w-xl mx-auto">
-                <div class="flex items-center space-x-2 mx-auto">
-                    <span class="text-base">🎊</span>
-                    <span id="alert-text" class="font-bold text-pink-400">Chargement...</span>
-                </div>
+        <!-- CONNEXION STAFF -->
+        <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
+                🛡️
+            </div>
+            
+            <div class="space-y-2">
+                <h1 class="text-2xl font-black tracking-tight text-white">Portail Connexion Staff</h1>
+                <p class="text-xs text-slate-400">Choisis ton rôle et entre ton mot de passe.</p>
             </div>
 
-            <div class="space-y-4 floating-festive">
-                <div class="inline-block px-4 py-1.5 bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 rounded-full text-pink-300 text-xs font-bold uppercase tracking-widest mb-2">
-                    ✨ Ambiance Festive & Gaming ✨
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div class="space-y-1.5 text-left">
+                    <label class="text-xs font-bold text-slate-300">Pseudo Staff</label>
+                    <input type="text" id="staff-name" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Lucas_Mod">
                 </div>
-                <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white">
-                    Bienvenue dans le grand show <span class="text-pink-500 festive-glow">CrackFR</span>
-                </h1>
-                <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base">
-                    Sortez les confettis ! Un espace de partage survolté, des bots exclusifs, des jeux et une ambiance inoubliable t'attendent.
-                </p>
-            </div>
 
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                <a href="https://discord.gg/ton-invitation" target="_blank" onclick="playPartySound()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-xl shadow-pink-600/30 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center space-x-2">
-                    <span>🚀</span> <span>Rejoindre la fête sur Discord</span> <span>🎉</span>
-                </a>
-                <button onclick="triggerConfettiExplosion()" class="w-full sm:w-auto px-6 py-4 bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold rounded-2xl text-xs uppercase tracking-wider transition-all hover:scale-105 cursor-pointer">
-                    🎊 Lancer des confettis !
+                <div class="space-y-1.5 text-left">
+                    <label class="text-xs font-bold text-slate-300">Rôle (Accès différents)</label>
+                    <select id="staff-role" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <option value="Administrateur">👑 Administrateur (Accès Total)</option>
+                        <option value="Modérateur" selected>🛡️ Modérateur (Accès Modération & Logs)</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1.5 text-left">
+                    <label class="text-xs font-bold text-slate-300">Mot de passe</label>
+                    <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
+                </div>
+
+                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Mot de passe incorrect (Mot de passe requis : admin123).</p>
+
+                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
+                    Se connecter
                 </button>
-            </div>
-        </section>
+            </form>
+        </div>
 
-        <!-- SECTION À PROPOS -->
-        <section id="apropos" class="max-w-5xl mx-auto px-4 space-y-8">
-            <div class="border-l-4 border-pink-500 pl-4">
-                <h2 class="text-2xl font-black text-white">Pourquoi CrackFR ?</h2>
-                <p class="text-xs text-slate-400">Une communauté festive, chaleureuse et active.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-3 backdrop-blur-sm hover:border-pink-500/50 transition-all">
-                    <div class="text-3xl">🥳</div>
-                    <h3 class="font-bold text-sm text-white">Événements & Fun</h3>
-                    <p class="text-xs text-slate-400">Des soirées jeux, des animations régulières et une bonne humeur permanente garantie.</p>
+        <!-- PANNEAU DE CONTRÔLE COMPLET -->
+        <div id="panel-content" class="w-full space-y-8 hidden">
+            
+            <!-- En-tête de bienvenue -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl">
+                <div class="space-y-1">
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Dashboard Staff</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Connecté : <span id="current-staff-display" class="text-pink-400 font-bold"></span> <span id="current-role-badge" class="ml-2 px-2 py-0.5 text-[10px] font-bold rounded-md bg-pink-500/10 text-pink-400 border border-pink-500/30"></span></p>
                 </div>
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-3 backdrop-blur-sm hover:border-pink-500/50 transition-all">
-                    <div class="text-3xl">🎧</div>
-                    <h3 class="font-bold text-sm text-white">Musique & Bots VIP</h3>
-                    <p class="text-xs text-slate-400">Profite de nos bots de musique surpuissants propulsés par Lavalink pour ambiancer les salons.</p>
-                </div>
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-3 backdrop-blur-sm hover:border-pink-500/50 transition-all">
-                    <div class="text-3xl">💻</div>
-                    <h3 class="font-bold text-sm text-white">Code & Partage</h3>
-                    <p class="text-xs text-slate-400">Un espace dédié aux passionnés de développement, de bots Discord et de création de sites web.</p>
+                <div class="flex items-center space-x-3 bg-slate-950 px-4 py-2 rounded-2xl border border-slate-800">
+                    <span class="text-[10px] uppercase font-bold text-slate-400">Fuseau Horaire :</span>
+                    <select id="timezone-select" onchange="changeTimezone()" class="bg-transparent text-xs font-bold text-pink-400 focus:outline-none cursor-pointer">
+                        <option value="UTC">UTC (Temps Universel)</option>
+                        <option value="LOCAL" selected>Heure Locale (Europe/Paris)</option>
+                    </select>
                 </div>
             </div>
-        </section>
 
-        <!-- SECTION FAQ -->
-        <section id="faq" class="max-w-5xl mx-auto px-4 space-y-6">
-            <div class="border-l-4 border-pink-500 pl-4">
-                <h2 class="text-2xl font-black text-white">Foire Aux Questions (FAQ)</h2>
-                <p class="text-xs text-slate-400">Tout ce que tu dois savoir pour participer.</p>
-            </div>
-
-            <div class="space-y-4">
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl space-y-2">
-                    <h3 class="font-bold text-sm text-pink-400">Comment participer aux animations ?</h3>
-                    <p class="text-xs text-slate-300">Rejoins simplement le serveur Discord et guette les annonces du staff dans les salons dédiés !</p>
+            <!-- STATISTIQUES -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Visites (Aujourd'hui)</span>
+                    <div class="text-2xl font-black text-white" id="stat-today">0</div>
+                    <p class="text-[10px] text-slate-500">Passages uniques/jour</p>
                 </div>
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl space-y-2">
-                    <h3 class="font-bold text-sm text-pink-400">Puis-je inviter mes amis ?</h3>
-                    <p class="text-xs text-slate-300">Mais oui carrément ! Plus on est de fous, plus la fête est folle. Partage le lien d'invitation sans modération.</p>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Visites Totales (5 Mois)</span>
+                    <div class="text-2xl font-black text-white" id="stat-total">0</div>
+                    <p class="text-[10px] text-slate-500">Historique global</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- SECTION BLOG -->
-        <section id="blog" class="max-w-5xl mx-auto px-4 space-y-6">
-            <div class="border-l-4 border-pink-500 pl-4">
-                <h2 class="text-2xl font-black text-white">Actualités & Annonces</h2>
-                <p class="text-xs text-slate-400">Les nouveautés du hub CrackFR.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-3">
-                    <span class="px-2.5 py-1 bg-pink-500/10 text-pink-400 text-xs font-bold rounded-full border border-pink-500/30">Festivités</span>
-                    <h3 class="font-bold text-sm text-white">Lancement de la nouvelle interface festive</h3>
-                    <p class="text-xs text-slate-400">Profite d'un design entièrement relooké, d'effets visuels dynamiques et d'un panneau d'administration sur-mesure !</p>
-                    <span class="block text-[10px] text-slate-500">Septembre 2026</span>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Membres Discord</span>
+                    <div class="text-2xl font-black text-white" id="stat-discord">1,240</div>
+                    <p class="text-[10px] text-slate-500">Communauté CrackFR</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-2 shadow-lg">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Sécurité & Erreurs</span>
+                    <div class="text-2xl font-black text-white" id="stat-errors">0</div>
+                    <p class="text-[10px] text-slate-500">Bugs interceptés</p>
                 </div>
             </div>
-        </section>
 
-        <!-- SECTION ESPACE DISCUSSIONS -->
-        <section id="discussions" class="max-w-5xl mx-auto px-4 space-y-6">
-            <div class="border-l-4 border-pink-500 pl-4">
-                <h2 class="text-2xl font-black text-white">Livre d'Or & Discussions 🎉</h2>
-                <p class="text-xs text-slate-400">Laisse un petit mot festif pour la communauté.</p>
+            <!-- GRAPHIQUES -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">📈 Trafic des 5 Derniers Mois</h3>
+                    <div class="relative h-64"><canvas id="monthlyChart"></canvas></div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400">📊 Répartition Globale</h3>
+                    <div class="relative h-64 flex items-center justify-center"><canvas id="distributionChart"></canvas></div>
+                </div>
             </div>
 
-            <div class="bg-slate-900/90 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-xl backdrop-blur-sm">
-                <form onsubmit="postMessage(event)" class="space-y-4">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-300">Ton pseudo</label>
-                        <input type="text" id="author-input" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: DJ_Party">
+            <!-- OUTILS DE MODÉRATION RAPIDE (Accessible Modérateurs & Admins) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl lg:col-span-2">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📢 Diffuser une Annonce Flash (Mod / Admin)</h3>
+                    <p class="text-xs text-slate-400">Modifie instantanément le message d'alerte visible sur le site.</p>
+                    <div class="space-y-3">
+                        <input type="text" id="quick-alert-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: Maintenance prévue ce soir !">
+                        <button onclick="publishFlashAlert()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
+                            🚀 Publier l'annonce
+                        </button>
                     </div>
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-300">Ton message festif</label>
-                        <textarea id="message-input" required rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-white focus:outline-none focus:border-pink-500 resize-none" placeholder="Ex: Super ambiance ici, bravo pour le site ! 🥳"></textarea>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Actions Rapides Modération</h3>
+                    <div class="space-y-2.5">
+                        <button onclick="triggerLogAction('MEMBER_KICK')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
+                            <span>Simuler un Kick Membre</span>
+                            <span class="text-[10px] text-amber-400">Log #6</span>
+                        </button>
+                        <button onclick="triggerLogAction('MEMBER_BAN')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
+                            <span>Simuler un Ban Membre</span>
+                            <span class="text-[10px] text-rose-400">Log #7</span>
+                        </button>
+                        <button onclick="triggerLogAction('WARN_GIVE')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
+                            <span>Simuler un Avertissement</span>
+                            <span class="text-[10px] text-cyan-400">Log #8</span>
+                        </button>
                     </div>
-                    <button type="submit" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/30 cursor-pointer">
-                        Envoyer dans le chat 🚀
-                    </button>
-                </form>
-
-                <hr class="border-slate-800">
-
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Messages en direct :</h3>
-                    <div id="messages-container" class="space-y-3"></div>
                 </div>
             </div>
-        </section>
+
+            <!-- JOURNAL DES 11 TYPES DE LOGGING -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📋 Journal d'Activité (11 Types de Logging)</h3>
+                        <p class="text-[10px] text-slate-500">Traçabilité complète des actions membres et staff (UTC ou Local).</p>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <input type="text" id="log-search" oninput="renderStaffLogs()" placeholder="Filtrer les logs..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <button onclick="clearStaffLogs()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold uppercase rounded-xl transition-colors">Effacer</button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto max-h-72 overflow-y-auto space-y-2" id="staff-logs-container">
+                    <!-- Les 11 logs s'injecteront ici -->
+                </div>
+            </div>
+
+            <!-- SECTION RÉSERVÉE EXCLUSIVEMENT AUX ADMINISTRATEURS -->
+            <div id="admin-only-section" class="space-y-8 hidden">
+                <div class="bg-slate-900 border border-amber-500/30 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-amber-500/10 text-amber-400 border-l border-b border-amber-500/30 px-4 py-1.5 text-[10px] font-bold uppercase rounded-bl-2xl">
+                        👑 Réservé aux Administrateurs
+                    </div>
+
+                    <div class="space-y-5">
+                        <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">Configuration Globale & Paramètres Avancés</h2>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold text-slate-300">Mode du site</label>
+                                <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                                    <option value="active">Actif (Normal)</option>
+                                    <option value="maintenance">Maintenance</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold text-slate-300">Membres en ligne affichés</label>
+                                <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ex: 42">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 space-y-3">
+                        <button onclick="generateJSON()" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-amber-600/20 cursor-pointer">
+                            📋 Enregistrer et générer le fichier data.json (Admin)
+                        </button>
+                        <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden">✓ Configuration administrateur enregistrée !</p>
+                    </div>
+                </div>
+
+                <!-- Éditeur JSON Admin -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Éditeur JSON Global (Admin) :</h3>
+                        <button onclick="copyRawEditor()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[10px] font-bold uppercase">Copier</button>
+                    </div>
+                    <textarea id="json-output" class="w-full h-36 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+                </div>
+            </div>
+
+        </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900 relative z-10">
-        <p>&copy; 2026 CrackFR. Que la fête continue ! 🎉</p>
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
+        <p>&copy; 2026 CrackFR. Système de Logging Avancé & Rôles Hiérarchisés.</p>
     </footer>
 
-    <!-- SCRIPTS FESTIFS ET LOGIQUE -->
+    <!-- SCRIPT GESTION DES LOGS ET ACCÈS -->
     <script>
-        // --- EFFET SONORE DE FÊTE (Web Audio API - Sans fichier externe) ---
-        function playPartySound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Petite mélodie joyeuse de fête (notes successives)
-                const notes = [523.25, 659.25, 783.99, 1046.50]; // Do, Mi, Sol, Do aigu
-                notes.forEach((freq, index) => {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    
-                    osc.type = 'triangle';
-                    osc.frequency.value = freq;
-                    
-                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime + index * 0.1);
-                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + index * 0.1 + 0.3);
-                    
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    
-                    osc.start(audioCtx.currentTime + index * 0.1);
-                    osc.stop(audioCtx.currentTime + index * 0.1 + 0.3);
-                });
-            } catch (e) {
-                console.log("Audio non autorisé par le navigateur sans interaction préalable.");
-            }
-        }
+        const ADMIN_PASS = "admin123";
+        let monthlyChartInstance = null;
+        let distributionChartInstance = null;
 
-        // --- ANIMATION DE CONFETTIS EN ARRIÈRE-PLAN ---
-        const canvas = document.getElementById('festive-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // Définition des 11 types de logging officiels
+        const LOG_TYPES = {
+            1: { name: "CONNEXION_STAFF", label: "Connexion Staff", color: "emerald" },
+            2: { name: "DECONNEXION_STAFF", label: "Déconnexion Staff", color: "rose" },
+            3: { name: "MODIFICATION_CONFIG", label: "Changement Configuration", color: "amber" },
+            4: { name: "ANNONCE_FLASH", label: "Publication Annonce Flash", color: "pink" },
+            5: { name: "MEMBER_JOIN", label: "Arrivée d'un Membre Discord", color: "cyan" },
+            6: { name: "MEMBER_KICK", label: "Expulsion (Kick) Membre", color: "amber" },
+            7: { name: "MEMBER_BAN", label: "Bannissement Membre", color: "rose" },
+            8: { name: "WARN_GIVE", label: "Attribution Avertissement", color: "cyan" },
+            9: { name: "ROLE_UPDATE", label: "Modification de Rôle Staff", color: "purple" },
+            10: { name: "CLEAR_LOGS", label: "Nettoyage du Journal", color: "slate" },
+            11: { name: "SYSTEM_ALERT", label: "Alerte Sécurité Système", color: "rose" }
+        };
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Confetti {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * -canvas.height;
-                this.size = Math.random() * 8 + 4;
-                this.speedY = Math.random() * 2 + 1;
-                this.speedX = Math.random() * 2 - 1;
-                this.color = ['#ec4899', '#06b6d4', '#8b5cf6', '#eab308', '#10b981'][Math.floor(Math.random() * 5)];
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = Math.random() * 5 - 2.5;
-            }
-            update() {
-                this.y += this.speedY;
-                this.x += this.speedX;
-                this.rotation += this.rotationSpeed;
-                if (this.y > canvas.height) {
-                    this.reset();
-                }
-            }
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate((this.rotation * Math.PI) / 180);
-                ctx.fillStyle = this.color;
-                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
-                ctx.restore();
-            }
-        }
-
-        // Création de 60 confettis
-        for (let i = 0; i < 60; i++) {
-            particles.push(new Confetti());
-        }
-
-        function animateFestiveBg() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animateFestiveBg);
-        }
-        animateFestiveBg();
-
-        function triggerConfettiExplosion() {
-            playPartySound();
-            for (let i = 0; i < 40; i++) {
-                let p = new Confetti();
-                p.x = canvas.width / 2 + (Math.random() * 200 - 100);
-                p.y = canvas.height / 3;
-                p.speedY = Math.random() * -8 - 2;
-                particles.push(p);
-            }
-            // Nettoyer les confettis en trop après un moment
-            if (particles.length > 120) {
-                particles.splice(60, particles.length - 60);
-            }
-        }
-
-        // --- CHARGEMENT DES DONNÉES ET DISCUSSIONS ---
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
 
-            try {
-                const response = await fetch('data.json');
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    if (data.siteMode === 'maintenance') {
-                        try {
-                            let stats = JSON.parse(localStorage.getItem('crackfr_stats') || '{"today": 0, "total": 0, "blocked": 0, "errors": 0, "lastDate": ""}');
-                            stats.blocked += 1;
-                            localStorage.setItem('crackfr_stats', JSON.stringify(stats));
-                        } catch (e) {}
-
-                        window.location.href = 'maintenance.html';
-                        return;
-                    }
-
-                    document.getElementById('online-count').innerText = data.onlineMembers;
-                    
-                    if (data.globalAlert && data.globalAlert.trim() !== "") {
-                        document.getElementById('alert-text').innerText = data.globalAlert;
-                        document.getElementById('alert-banner').classList.remove('hidden');
-                    }
-                }
-            } catch (e) {
-                console.log("Mode local ou data.json absent.");
+            if (localStorage.getItem('crackfr_logged') === 'true') {
+                showPanel(
+                    localStorage.getItem('crackfr_staff_name') || 'Staff',
+                    localStorage.getItem('crackfr_staff_role') || 'Modérateur'
+                );
             }
 
-            loadMessages();
+            try {
+                const res = await fetch('data.json');
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('site-mode').value = data.siteMode || 'active';
+                    document.getElementById('online-members').value = data.onlineMembers || 42;
+                    document.getElementById('json-output').value = JSON.stringify(data, null, 4);
+                }
+            } catch (e) {}
         });
 
-        function postMessage(event) {
+        function handleLogin(event) {
             event.preventDefault();
-            playPartySound();
-            const author = document.getElementById('author-input').value;
-            const text = document.getElementById('message-input').value;
+            const staffName = document.getElementById('staff-name').value.trim();
+            const staffRole = document.getElementById('staff-role').value;
+            const pass = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
 
-            const newMessage = {
-                author: escapeHtml(author),
-                text: escapeHtml(text),
-                date: new Date().toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-            };
-
-            let messages = JSON.parse(localStorage.getItem('crackfr_discussions') || '[]');
-            messages.unshift(newMessage);
-            localStorage.setItem('crackfr_discussions', JSON.stringify(messages));
-
-            document.getElementById('message-input').value = '';
-            loadMessages();
+            if (pass === ADMIN_PASS && staffName !== "") {
+                localStorage.setItem('crackfr_logged', 'true');
+                localStorage.setItem('crackfr_staff_name', staffName);
+                localStorage.setItem('crackfr_staff_role', staffRole);
+                
+                logAction(1, staffName, staffRole, `S'est connecté au panel en tant que ${staffRole}`);
+                showPanel(staffName, staffRole);
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
         }
 
-        function loadMessages() {
-            const container = document.getElementById('messages-container');
-            const messages = JSON.parse(localStorage.getItem('crackfr_discussions') || '[]');
+        function showPanel(staffName, staffRole) {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('panel-content').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('current-staff-display').innerText = staffName;
+            document.getElementById('current-role-badge').innerText = staffRole;
 
-            if (messages.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 italic">Aucun message pour le moment. Sois le premier à poster ! 🎉</p>`;
+            // Gestion de l'affichage exclusif Admin vs Modérateur
+            if (staffRole === 'Administrateur') {
+                document.getElementById('admin-only-section').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-only-section').classList.add('hidden');
+            }
+
+            loadStatsAndRenderCharts();
+            renderStaffLogs();
+        }
+
+        function logout() {
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
+            logAction(2, staffName, staffRole, "S'est déconnecté du panel");
+
+            localStorage.removeItem('crackfr_logged');
+            localStorage.removeItem('crackfr_staff_name');
+            localStorage.removeItem('crackfr_staff_role');
+            location.reload();
+        }
+
+        // --- SYSTÈMES DES 11 LOGS & UTC ---
+        function logAction(typeId, staffName, role, details) {
+            try {
+                let logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
+                let logInfo = LOG_TYPES[typeId] || LOG_TYPES[11];
+                
+                const tzChoice = document.getElementById('timezone-select') ? document.getElementById('timezone-select').value : 'LOCAL';
+                let dateString = "";
+                
+                let now = new Date();
+                if (tzChoice === 'UTC') {
+                    dateString = now.toISOString().replace('T', ' ').substring(0, 19) + " UTC";
+                } else {
+                    dateString = now.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + " (Local)";
+                }
+
+                logs.unshift({
+                    id: typeId,
+                    code: logInfo.name,
+                    title: logInfo.label,
+                    color: logInfo.color,
+                    staff: staffName,
+                    role: role,
+                    details: details,
+                    date: dateString
+                });
+
+                if (logs.length > 60) logs.pop();
+                localStorage.setItem('crackfr_11_logs', JSON.stringify(logs));
+            } catch (e) {}
+        }
+
+        function renderStaffLogs() {
+            const container = document.getElementById('staff-logs-container');
+            const searchQuery = document.getElementById('log-search').value.toLowerCase();
+            const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
+
+            const filteredLogs = logs.filter(log => 
+                log.staff.toLowerCase().includes(searchQuery) || 
+                log.title.toLowerCase().includes(searchQuery) || 
+                log.details.toLowerCase().includes(searchQuery)
+            );
+
+            if (filteredLogs.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 italic p-2">Aucun log correspondant trouvé.</p>`;
                 return;
             }
 
             container.innerHTML = "";
-            messages.forEach(msg => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-1 shadow-inner";
-                card.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-xs text-pink-400">🎉 ${msg.author}</span>
-                        <span class="text-[10px] text-slate-500">${msg.date}</span>
+            filteredLogs.forEach(log => {
+                let badgeColor = "bg-cyan-500/10 text-cyan-400 border-cyan-500/30";
+                if (log.color === "emerald") badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/30";
+                if (log.color === "rose") badgeColor = "bg-rose-500/10 text-rose-400 border-rose-500/30";
+                if (log.color === "amber") badgeColor = "bg-amber-500/10 text-amber-400 border-amber-500/30";
+                if (log.color === "pink") badgeColor = "bg-pink-500/10 text-pink-400 border-pink-500/30";
+                if (log.color === "purple") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/30";
+
+                const div = document.createElement('div');
+                div.className = "flex flex-col sm:flex-row justify-between items-start sm:items-center bg-slate-950 border border-slate-800/80 p-3 rounded-xl text-xs gap-2";
+                div.innerHTML = `
+                    <div class="flex items-center space-x-2.5 flex-wrap">
+                        <span class="px-2 py-0.5 rounded font-bold border text-[10px] ${badgeColor}">#${log.id} ${log.title}</span>
+                        <span class="text-slate-300 font-bold">${log.staff} <span class="text-[9px] text-slate-500">(${log.role})</span> :</span>
+                        <span class="text-slate-400">${log.details}</span>
                     </div>
-                    <p class="text-xs text-slate-300">${msg.text}</p>
+                    <span class="text-[10px] text-slate-500 font-mono">${log.date}</span>
                 `;
-                container.appendChild(card);
+                container.appendChild(div);
             });
         }
 
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        function clearStaffLogs() {
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
+            if (confirm("Vider l'historique des logs ?")) {
+                localStorage.removeItem('crackfr_11_logs');
+                logAction(10, staffName, staffRole, "A vidé l'historique complet du journal de logs");
+                renderStaffLogs();
+            }
+        }
+
+        function changeTimezone() {
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
+            const tz = document.getElementById('timezone-select').value;
+            logAction(3, staffName, staffRole, `A basculé le fuseau horaire des logs sur : ${tz}`);
+            renderStaffLogs();
+        }
+
+        function triggerLogAction(actionCode) {
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
+
+            if(actionCode === 'MEMBER_KICK') {
+                logAction(6, staffName, staffRole, "A expulsé le membre Discord #9924 (Raison: Spam)");
+                alert("Log #6 enregistré : Kick simulé !");
+            } else if(actionCode === 'MEMBER_BAN') {
+                logAction(7, staffName, staffRole, "A banni définitivement le membre Discord #4021 (Raison: Cheat)");
+                alert("Log #7 enregistré : Ban simulé !");
+            } else if(actionCode === 'WARN_GIVE') {
+                logAction(8, staffName, staffRole, "A mis un avertissement au membre Discord #1288");
+                alert("Log #8 enregistré : Avertissement simulé !");
+            }
+            renderStaffLogs();
+        }
+
+        function publishFlashAlert() {
+            const text = document.getElementById('quick-alert-input').value.trim();
+            if(!text) return alert("Écris une annonce valide !");
+
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
+            logAction(4, staffName, staffRole, `A publié l'annonce flash : "${text}"`);
+            renderStaffLogs();
+            alert("Annonce flash enregistrée dans les logs de modération !");
+        }
+
+        // --- STATS ET GRAPHS ---
+        function loadStatsAndRenderCharts() {
+            document.getElementById('stat-today').innerText = "142";
+            document.getElementById('stat-total').innerText = "3,850";
+            document.getElementById('stat-errors').innerText = "0";
+
+            const historyLabels = ['Nov', 'Déc', 'Janv', 'Févr', 'Mars'];
+            const historyData = [450, 780, 920, 1100, 1420];
+
+            if (monthlyChartInstance) monthlyChartInstance.destroy();
+            if (distributionChartInstance) distributionChartInstance.destroy();
+
+            const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+            monthlyChartInstance = new Chart(ctxMonthly, {
+                type: 'bar',
+                data: {
+                    labels: historyLabels,
+                    datasets: [{
+                        data: historyData,
+                        backgroundColor: 'rgba(6, 182, 212, 0.6)',
+                        borderColor: 'rgba(6, 182, 212, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const ctxDist = document.getElementById('distributionChart').getContext('2d');
+            distributionChartInstance = new Chart(ctxDist, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Actif', 'Membres', 'Staff'],
+                    datasets: [{ data: [3850, 1240, 12], backgroundColor: ['#c084fc', '#06b6d4', '#f43f5e'], borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } } }
+            });
+        }
+
+        function generateJSON() {
+            const staffName = localStorage.getItem('crackfr_staff_name') || 'Admin';
+            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Administrateur';
+
+            const mode = document.getElementById('site-mode').value;
+            const members = parseInt(document.getElementById('online-members').value) || 42;
+
+            const finalData = { "siteMode": mode, "onlineMembers": members };
+            const jsonString = JSON.stringify(finalData, null, 4);
+            document.getElementById('json-output').value = jsonString;
+
+            logAction(3, staffName, staffRole, `A mis à jour la configuration globale (Mode: ${mode})`);
+            renderStaffLogs();
+
+            const msg = document.getElementById('success-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 4000);
+        }
+
+        function copyRawEditor() {
+            navigator.clipboard.writeText(document.getElementById('json-output').value).then(() => alert("Copié !"));
         }
     </script>
 </body>
 </html>
-
-(function trackVisit() {
-    try {
-        let stats = JSON.parse(localStorage.getItem('crackfr_stats') || '{"today": 0, "total": 0, "blocked": 0, "errors": 0, "lastDate": "", "retention": "keep", "monthlyHistory": {}}');
-        const todayStr = new Date().toLocaleDateString();
-        
-        if (stats.lastDate !== todayStr) {
-            stats.today = 0;
-            stats.lastDate = todayStr;
-        }
-
-        stats.today += 1;
-        stats.total += 1;
-
-        // Gestion de l'historique sur les 5 mois
-        const currentMonthName = new Date().toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-        if (!stats.monthlyHistory) stats.monthlyHistory = {};
-        stats.monthlyHistory[currentMonthName] = (stats.monthlyHistory[currentMonthName] || 0) + 1;
-
-        // Si l'utilisateur a choisi la suppression automatique au-delà de 5 mois
-        if (stats.retention === "delete") {
-            let keys = Object.keys(stats.monthlyHistory);
-            if (keys.length > 5) {
-                delete stats.monthlyHistory[keys[0]]; // Supprime le plus ancien
-            }
-        }
-
-        localStorage.setItem('crackfr_stats', JSON.stringify(stats));
-    } catch (e) {}
-})();
