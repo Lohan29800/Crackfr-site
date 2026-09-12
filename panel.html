@@ -18,62 +18,102 @@
             <div class="text-lg font-black tracking-wider text-pink-400">
                 ⚡ CRACKFR // ADMIN
             </div>
-            <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95">
-                ← Retour au site
-            </a>
+            <div class="flex items-center space-x-3">
+                <button id="logout-btn" onclick="logout()" class="hidden px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all duration-200">
+                    Déconnexion
+                </button>
+                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95">
+                    ← Retour au site
+                </a>
+            </div>
         </div>
     </header>
 
     <!-- Main Admin Content -->
-    <main class="flex-grow max-w-3xl mx-auto px-4 py-10 w-full space-y-8">
+    <main class="flex-grow max-w-3xl mx-auto px-4 py-10 w-full flex items-center justify-center">
         
-        <div class="space-y-2">
-            <h1 class="text-3xl font-black tracking-tight text-white">Panneau de Contrôle</h1>
-            <p class="text-xs sm:text-sm text-slate-400">Modifie les paramètres de ton hub ou génère ton fichier de configuration.</p>
-        </div>
-
-        <!-- Formulaire de réglages -->
-        <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
+        <!-- ÉTAPE 1 : BOÎTE DE CONNEXION (Identifiant / Mot de passe) -->
+        <div id="login-section" class="w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-2xl max-w-md">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-3xl animate-pulse">
+                🔐
+            </div>
             
-            <div class="space-y-4">
-                <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 border-b border-slate-800 pb-2">Paramètres Généraux</h2>
-                
-                <!-- Mode du site -->
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-300">Mode du site</label>
-                    <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
-                        <option value="active">Actif (En ligne)</option>
-                        <option value="maintenance">Maintenance</option>
-                    </select>
-                </div>
-
-                <!-- Nombre de membres -->
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-300">Nombre de membres affiché</label>
-                    <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" value="42">
-                </div>
-
-                <!-- Alerte globale -->
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-300">Message d'alerte globale (laisser vide pour masquer)</label>
-                    <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: Bienvenue sur le hub !">
-                </div>
+            <div class="space-y-2">
+                <h1 class="text-2xl font-black tracking-tight text-white">Connexion Requise</h1>
+                <p class="text-xs text-slate-400">Entre tes identifiants administrateur pour accéder au panel de configuration.</p>
             </div>
 
-            <!-- Bouton de génération interactif -->
-            <div class="pt-4 space-y-3">
-                <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-pink-600/20 cursor-pointer">
-                    📋 Générer et copier le code pour data.json
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div class="space-y-1.5 text-left">
+                    <label class="text-xs font-bold text-slate-300">Identifiant</label>
+                    <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ton identifiant">
+                </div>
+
+                <div class="space-y-1.5 text-left">
+                    <label class="text-xs font-bold text-slate-300">Mot de passe</label>
+                    <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="••••••••••••">
+                </div>
+
+                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Identifiant ou mot de passe incorrect.</p>
+
+                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-pink-600/20 cursor-pointer">
+                    Se connecter
                 </button>
-                <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden animate-bounce">✓ Code JSON copié dans le presse-papier ! Colle-le dans ton `data.json` sur GitHub.</p>
-            </div>
-
+            </form>
         </div>
 
-        <!-- Boîte d'affichage du JSON généré -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Aperçu du JSON à mettre sur GitHub :</h3>
-            <textarea id="json-output" readonly class="w-full h-40 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+        <!-- ÉTAPE 2 : PANNEAU DE CONTRÔLE (Masqué tant qu'on n'est pas connectés) -->
+        <div id="panel-content" class="w-full space-y-8 hidden">
+            
+            <div class="space-y-2">
+                <h1 class="text-3xl font-black tracking-tight text-white">Panneau de Contrôle</h1>
+                <p class="text-xs sm:text-sm text-slate-400">Modifie les paramètres de ton hub ou génère ton fichier de configuration.</p>
+            </div>
+
+            <!-- Formulaire de réglages -->
+            <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6 shadow-2xl">
+                
+                <div class="space-y-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 border-b border-slate-800 pb-2">Paramètres Généraux</h2>
+                    
+                    <!-- Mode du site -->
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-300">Mode du site</label>
+                        <select id="site-mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                            <option value="active">Actif (En ligne)</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
+
+                    <!-- Nombre de membres -->
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-300">Nombre de membres affiché</label>
+                        <input type="number" id="online-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" value="42">
+                    </div>
+
+                    <!-- Alerte globale -->
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-slate-300">Message d'alerte globale (laisser vide pour masquer)</label>
+                        <input type="text" id="global-alert" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors" placeholder="Ex: Bienvenue sur le hub !">
+                    </div>
+                </div>
+
+                <!-- Bouton de génération interactif -->
+                <div class="pt-4 space-y-3">
+                    <button onclick="generateJSON()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-lg shadow-pink-600/20 cursor-pointer">
+                        📋 Générer et copier le code pour data.json
+                    </button>
+                    <p id="success-msg" class="text-center text-xs text-emerald-400 font-bold hidden animate-bounce">✓ Code JSON copié dans le presse-papier ! Colle-le dans ton `data.json` sur GitHub.</p>
+                </div>
+
+            </div>
+
+            <!-- Boîte d'affichage du JSON généré -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Aperçu du JSON à mettre sur GitHub :</h3>
+                <textarea id="json-output" readonly class="w-full h-40 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+            </div>
+
         </div>
 
     </main>
@@ -84,9 +124,19 @@
     </footer>
 
     <script>
+        // MODIFIE ICI TON IDENTIFIANT ET TON MOT DE PASSE ADMIN :
+        const ADMIN_USER = "admin";
+        const ADMIN_PASS = "crackfr2026"; // Change le mot de passe ici par celui de ton choix
+
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
 
+            // Vérifier si l'admin est déjà connecté dans le navigateur
+            if (localStorage.getItem('crackfr_logged') === 'true') {
+                showPanel();
+            }
+
+            // Charger les données du data.json pour le formulaire
             try {
                 const res = await fetch('data.json');
                 const data = await res.json();
@@ -98,6 +148,31 @@
                 console.log("Valeurs par défaut chargées.");
             }
         });
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
+
+            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                localStorage.setItem('crackfr_logged', 'true');
+                showPanel();
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function showPanel() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('panel-content').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem('crackfr_logged');
+            location.reload();
+        }
 
         function generateJSON() {
             const mode = document.getElementById('site-mode').value;
