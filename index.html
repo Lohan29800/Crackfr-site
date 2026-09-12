@@ -16,11 +16,14 @@
                 CRACKFR
             </div>
             
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
-                <a href="index.html" class="text-cyan-400">Accueil</a>
-                <a href="#poles" class="hover:text-cyan-400 transition-colors">Nos Bots</a>
-                <a href="#chat-section" class="hover:text-cyan-400 transition-colors">Mur Live</a>
-            </nav>
+            <!-- Horloge & Compteur en direct -->
+            <div class="hidden sm:flex items-center space-x-4 text-xs font-bold text-slate-400">
+                <span id="live-clock">00:00:00</span>
+                <div class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="online-count">42</span> <span>en ligne</span>
+                </div>
+            </div>
 
             <div class="flex items-center space-x-3">
                 <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 border border-pink-500/30 rounded-xl">
@@ -31,28 +34,33 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 space-y-16 max-w-5xl mx-auto w-full">
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12 space-y-12 max-w-5xl mx-auto w-full">
         
         <!-- Hero Section -->
-        <div class="text-center space-y-6">
+        <div class="text-center space-y-4">
             <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white">
                 Hub Communautaire <span class="text-cyan-400">CrackFR</span>
             </h1>
             <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-                Suivez en direct l'état de tous nos bots Discord et de ceux de la communauté.
+                Supervise l'état de nos bots Discord en temps réel et discute avec la communauté.
             </p>
         </div>
 
-        <!-- Section dynamique de tous les Bots -->
+        <!-- Section Recherche & Bots -->
         <div id="poles" class="w-full space-y-6">
-            <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400 text-center">🤖 Statut de Tous les Bots Discord</h2>
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400">🤖 Statut des Bots</h2>
+                <!-- Barre de recherche populaire -->
+                <input type="text" id="search-bot" placeholder="🔍 Rechercher un bot..." onkeyup="filterBots()" class="w-full sm:w-72 px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
+            </div>
+
             <div id="dynamic-bots-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Les cartes de bots vont s'afficher ici automatiquement -->
+                <!-- Les bots s'injectent ici -->
             </div>
         </div>
 
         <!-- Mur de Messages (Chat) -->
-        <div id="chat-section" class="w-full bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+        <div id="chat-section" class="w-full bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
             <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400">💬 Mur des Visiteurs (Live)</h3>
             <div id="chat-messages" class="space-y-2 max-h-40 overflow-y-auto pr-2 text-xs text-slate-300">
                 <div class="p-2 bg-slate-950 rounded-lg text-slate-500">Bienvenue sur le mur CrackFR !</div>
@@ -75,19 +83,25 @@
     </footer>
 
     <script>
-        // Afficher tous les bots dynamiquement sur l'accueil
+        // Horloge en direct
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+        }, 1000);
+
+        // Charger et afficher les bots
         function renderBots() {
             const grid = document.getElementById('dynamic-bots-grid');
             const savedBots = localStorage.getItem('crackfr_bots_list');
+            const membersCount = localStorage.getItem('crackfr_members_count') || '42';
+            document.getElementById('online-count').innerText = membersCount;
             
             let bots = [
-                { name: "Bot Discord (GLaDOS)", status: "Opérationnel" },
-                { name: "Bot Serveur 1", status: "Opérationnel" }
+                { name: "Bot Discord (GLaDOS)", desc: "Modération & IA intelligente", status: "Opérationnel" },
+                { name: "Bot Musique", desc: "Audio haute qualité & DisTube", status: "Opérationnel" }
             ];
 
-            if (savedBots) {
-                bots = JSON.parse(savedBots);
-            }
+            if (savedBots) bots = JSON.parse(savedBots);
 
             grid.innerHTML = "";
 
@@ -100,15 +114,30 @@
                 }
 
                 const card = document.createElement('div');
-                card.className = "bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3";
+                card.className = "bot-card bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3";
+                card.setAttribute('data-name', bot.name.toLowerCase());
                 card.innerHTML = `
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-sm text-white">🤖 ${escapeHtml(bot.name)}</h3>
                         <span class="${badgeClass}">${escapeHtml(bot.status)}</span>
                     </div>
-                    <p class="text-xs text-slate-400">Bot Discord actif sur l'infrastructure du réseau CrackFR.</p>
+                    <p class="text-xs text-slate-400">${escapeHtml(bot.desc || 'Bot Discord actif')}</p>
                 `;
                 grid.appendChild(card);
+            });
+        }
+
+        // Fonction de recherche de bot en direct
+        function filterBots() {
+            const query = document.getElementById('search-bot').value.toLowerCase();
+            const cards = document.querySelectorAll('.bot-card');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                if (name.includes(query)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
             });
         }
 
@@ -148,13 +177,7 @@
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'crackfr_bots_list') renderBots();
-            if (e.key === 'crackfr_global_alert') {
-                const alertData = JSON.parse(e.newValue);
-                if (alertData) showToast(alertData.msg);
-            }
-        });
+        window.addEventListener('storage', () => { renderBots(); });
 
         window.addEventListener('DOMContentLoaded', () => {
             const siteMode = localStorage.getItem('crackfr_site_mode');
