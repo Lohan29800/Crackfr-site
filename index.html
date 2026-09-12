@@ -7,7 +7,6 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Effet de fondu fluide lors du chargement */
         body { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
@@ -75,12 +74,13 @@
     </footer>
 
     <script>
-        // Effet d'apparition fluide de la page
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
 
             try {
                 const response = await fetch('data.json');
+                if (!response.ok) throw new Error("Fichier introuvable");
+
                 const data = await response.json();
 
                 if (data.siteMode === 'maintenance') {
@@ -118,7 +118,7 @@
                     grid.appendChild(card);
                 });
             } catch (error) {
-                console.error("Erreur de chargement :", error);
+                console.log("Erreur de chargement du JSON ou mode local.");
             }
         });
 
