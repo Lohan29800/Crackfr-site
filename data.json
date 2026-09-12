@@ -1,17 +1,5 @@
 {
-    "siteMode": "maintenance",
+    "siteMode": "active",
     "onlineMembers": 350,
-    "globalAlert": "Bienvenue sur le site web du blog crack fR ",
-    "bots": [
-        {
-            "name": "Bot Discord (GLaDOS)",
-            "desc": "Modération & IA intelligente",
-            "status": "Opérationnel"
-        },
-        {
-            "name": "Bot Musique",
-            "desc": "Audio haute qualité & DisTube",
-            "status": "Opérationnel"
-        }
-    ]
+    "globalAlert": "Bienvenue sur le site web du blog crack fR "
 }
