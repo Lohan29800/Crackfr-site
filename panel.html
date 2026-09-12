@@ -42,7 +42,7 @@
             
             <div class="space-y-2">
                 <h1 class="text-2xl font-black tracking-tight text-white">Connexion Staff</h1>
-                <p class="text-xs text-slate-400">Choisis ton rôle et entre ton mot de passe.</p>
+                <p class="text-xs text-slate-400">Choisis ton rôle, entre ton mot de passe et résous le calcul.</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4">
@@ -65,7 +65,13 @@
                     </div>
                 </div>
 
-                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Mot de passe incorrect.</p>
+                <!-- Petit Captcha Mathématique Aléatoire -->
+                <div class="space-y-1.5 text-left">
+                    <label id="captcha-question-label" class="text-xs font-bold text-slate-300">Sécurité : Combien font ... ?</label>
+                    <input type="number" id="staff-captcha" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ta réponse...">
+                </div>
+
+                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Mot de passe ou vérification incorrecte.</p>
 
                 <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                     Connexion Sécurisée
@@ -221,15 +227,15 @@
         <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
-    <!-- SCRIPT DE CONNEXION SIMPLE -->
+    <!-- SCRIPT DE CONNEXION AVEC CAPTCHA MATHÉMATIQUE -->
     <script>
-        // Modifie tes mots de passe facilement ici :
         const PASSWORDS = {
-            "Fondateur": "1234",       // Mot de passe pour le Fondateur
-            "Administrateur": "1234",  // Mot de passe pour l'Admin
-            "Modérateur": "1234"       // Mot de passe pour le Modérateur
+            "Fondateur": "1234",       
+            "Administrateur": "1234",  
+            "Modérateur": "1234"       
         };
 
+        let currentCaptchaResult = 0;
         let monthlyChartInstance = null;
         let distributionChartInstance = null;
 
@@ -247,11 +253,21 @@
 
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
+            generateNewCaptcha();
 
             if (localStorage.getItem('crackfr_logged') === 'true') {
                 showPanel(localStorage.getItem('crackfr_staff_role') || 'Modérateur');
             }
         });
+
+        // Génère une addition aléatoire simple
+        function generateNewCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1; // Entre 1 et 10
+            const num2 = Math.floor(Math.random() * 10) + 1; // Entre 1 et 10
+            currentCaptchaResult = num1 + num2;
+            document.getElementById('captcha-question-label').innerText = `Sécurité : Combien font ${num1} + ${num2} ?`;
+            document.getElementById('staff-captcha').value = '';
+        }
 
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('staff-password');
@@ -266,8 +282,18 @@
             event.preventDefault();
             const selectedRole = document.getElementById('staff-role-select').value;
             const inputPassword = document.getElementById('staff-password').value.trim();
+            const userCaptchaInput = parseInt(document.getElementById('staff-captcha').value.trim(), 10);
             const errorMsg = document.getElementById('login-error');
 
+            // Vérifie d'abord le captcha mathématique
+            if (userCaptchaInput !== currentCaptchaResult) {
+                errorMsg.innerText = "Réponse de sécurité (captcha) incorrecte.";
+                errorMsg.classList.remove('hidden');
+                generateNewCaptcha(); // Change le calcul pour éviter le spam
+                return;
+            }
+
+            // Ensuite vérifie le mot de passe
             if (PASSWORDS[selectedRole] && inputPassword === PASSWORDS[selectedRole]) {
                 localStorage.setItem('crackfr_logged', 'true');
                 localStorage.setItem('crackfr_staff_role', selectedRole);
@@ -275,7 +301,9 @@
                 logAction(1, selectedRole, `S'est connecté en tant que ${selectedRole}`);
                 showPanel(selectedRole);
             } else {
+                errorMsg.innerText = "Mot de passe incorrect.";
                 errorMsg.classList.remove('hidden');
+                generateNewCaptcha(); // Change aussi le calcul par sécurité
             }
         }
 
