@@ -42,26 +42,30 @@
             
             <div class="space-y-2">
                 <h1 class="text-2xl font-black tracking-tight text-white">Connexion Staff</h1>
-                <p class="text-xs text-slate-400">Veuillez entrer votre pseudo et votre clé d'accès secrète.</p>
+                <p class="text-xs text-slate-400">Choisis ton rôle et entre ton mot de passe.</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Pseudo Staff</label>
-                    <input type="text" id="staff-name" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Votre pseudo...">
+                    <label class="text-xs font-bold text-slate-300">Choisis ton Compte / Rôle</label>
+                    <select id="staff-role-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 cursor-pointer">
+                        <option value="Fondateur">👑 Fondateur</option>
+                        <option value="Administrateur">⚡ Administrateur</option>
+                        <option value="Modérateur">🛡️ Modérateur</option>
+                    </select>
                 </div>
 
                 <div class="space-y-1.5 text-left">
-                    <label class="text-xs font-bold text-slate-300">Clé d'accès / Mot de passe</label>
+                    <label class="text-xs font-bold text-slate-300">Mot de passe</label>
                     <div class="relative">
-                        <input type="password" id="staff-token" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pr-10 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="••••••••••••">
+                        <input type="password" id="staff-password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pr-10 text-xs text-white focus:outline-none focus:border-pink-500" placeholder="Ton mot de passe...">
                         <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm focus:outline-none">
                             👁️
                         </button>
                     </div>
                 </div>
 
-                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Identifiants incorrects. Vérifie ta clé ou ton pseudo.</p>
+                <p id="login-error" class="text-xs text-rose-400 font-bold hidden">Mot de passe incorrect.</p>
 
                 <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                     Connexion Sécurisée
@@ -76,7 +80,7 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-3xl shadow-xl">
                 <div class="space-y-1">
                     <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Dashboard Sécurisé</h1>
-                    <p class="text-xs sm:text-sm text-slate-400">Connecté : <span id="current-staff-display" class="text-pink-400 font-bold"></span> <span id="current-role-badge" class="ml-2 px-2 py-0.5 text-[10px] font-bold rounded-md bg-pink-500/10 text-pink-400 border border-pink-500/30"></span></p>
+                    <p class="text-xs sm:text-sm text-slate-400">Connecté en tant que : <span id="current-role-badge" class="ml-1 px-2.5 py-0.5 text-xs font-bold rounded-md bg-pink-500/10 text-pink-400 border border-pink-500/30"></span></p>
                 </div>
                 <div class="flex items-center space-x-3 bg-slate-950 px-4 py-2 rounded-2xl border border-slate-800">
                     <span class="text-[10px] uppercase font-bold text-slate-400">Fuseau Horaire :</span>
@@ -132,7 +136,7 @@
                 </div>
 
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Actions Modération (11 Logs)</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">⚡ Actions Modération</h3>
                     <div class="space-y-2.5">
                         <button onclick="triggerLogAction('MEMBER_KICK')" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-bold transition-colors text-left px-3 flex justify-between items-center">
                             <span>Simuler un Kick</span>
@@ -154,7 +158,7 @@
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
                     <div>
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📋 Journal d'Activité (11 Types de Logging)</h3>
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-pink-400">📋 Journal d'Activité</h3>
                     </div>
                     <div class="flex items-center space-x-2 w-full sm:w-auto">
                         <input type="text" id="log-search" oninput="renderStaffLogs()" placeholder="Filtrer les logs..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
@@ -185,7 +189,7 @@
                         </div>
                     </div>
                     <button onclick="saveAdminConfig()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
-                        💾 Enregistrer les modifications Admin
+                        💾 Enregistrer les modifications
                     </button>
                 </div>
             </div>
@@ -196,19 +200,13 @@
                     <div class="absolute top-0 right-0 bg-amber-500/10 text-amber-400 border-l border-b border-amber-500/40 px-4 py-1.5 text-[10px] font-bold uppercase rounded-bl-2xl">
                         👑 Espace Fondateur (Accès Absolu)
                     </div>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">Commandes Fondateur & Éditeur JSON</h2>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 pb-2">Commandes Fondateur</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <button onclick="founderResetStats()" class="py-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
                             🗑️ Réinitialiser les stats
                         </button>
                         <button onclick="founderPurgeAllLogs()" class="py-3 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
                             ⚠️ Purger tous les logs
-                        </button>
-                    </div>
-                    <div class="space-y-3 pt-4 border-t border-slate-800">
-                        <textarea id="json-output" class="w-full h-36 bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
-                        <button onclick="saveFounderJSON()" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer">
-                            ⚡ Forcer l'enregistrement du code JSON
                         </button>
                     </div>
                 </div>
@@ -223,12 +221,13 @@
         <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
-    <!-- SCRIPT GESTION DES IDENTIFIANTS -->
+    <!-- SCRIPT DE CONNEXION SIMPLE -->
     <script>
-        const VALID_CREDENTIALS = {
-            "KEY-FOUNDER-777": { role: "Fondateur" },
-            "KEY-ADMIN-444": { role: "Administrateur" },
-            "KEY-MOD-111": { role: "Modérateur" }
+        // MODifie tes mots de passe facilement ici :
+        const PASSWORDS = {
+            "Fondateur": "1234",       // Mot de passe pour le Fondateur
+            "Administrateur": "1234",  // Mot de passe pour l'Admin
+            "Modérateur": "1234"       // Mot de passe pour le Modérateur
         };
 
         let monthlyChartInstance = null;
@@ -239,11 +238,9 @@
             2: { name: "DECONNEXION_STAFF", label: "Déconnexion Staff", color: "rose" },
             3: { name: "MODIFICATION_CONFIG", label: "Changement Configuration", color: "amber" },
             4: { name: "ANNONCE_FLASH", label: "Publication Annonce Flash", color: "pink" },
-            5: { name: "MEMBER_JOIN", label: "Arrivée d'un Membre", color: "cyan" },
             6: { name: "MEMBER_KICK", label: "Expulsion (Kick)", color: "amber" },
             7: { name: "MEMBER_BAN", label: "Bannissement", color: "rose" },
             8: { name: "WARN_GIVE", label: "Avertissement (Warn)", color: "cyan" },
-            9: { name: "ROLE_UPDATE", label: "Modification de Rôle", color: "purple" },
             10: { name: "CLEAR_LOGS", label: "Nettoyage du Journal", color: "slate" },
             11: { name: "SYSTEM_ALERT", label: "Alerte Sécurité", color: "rose" }
         };
@@ -252,47 +249,40 @@
             document.body.style.opacity = '1';
 
             if (localStorage.getItem('crackfr_logged') === 'true') {
-                showPanel(
-                    localStorage.getItem('crackfr_staff_name') || 'Staff',
-                    localStorage.getItem('crackfr_staff_role') || 'Modérateur'
-                );
+                showPanel(localStorage.getItem('crackfr_staff_role') || 'Modérateur');
             }
         });
 
-        // Fonction pour afficher/masquer le mot de passe avec l'œil
         function togglePasswordVisibility() {
-            const tokenInput = document.getElementById('staff-token');
-            if (tokenInput.type === 'password') {
-                tokenInput.type = 'text';
+            const passwordInput = document.getElementById('staff-password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
             } else {
-                tokenInput.type = 'password';
+                passwordInput.type = 'password';
             }
         }
 
         function handleLogin(event) {
             event.preventDefault();
-            const staffName = document.getElementById('staff-name').value.trim();
-            const tokenInput = document.getElementById('staff-token').value.trim();
+            const selectedRole = document.getElementById('staff-role-select').value;
+            const inputPassword = document.getElementById('staff-password').value.trim();
             const errorMsg = document.getElementById('login-error');
 
-            if (VALID_CREDENTIALS[tokenInput] && staffName !== "") {
-                const staffData = VALID_CREDENTIALS[tokenInput];
+            if (PASSWORDS[selectedRole] && inputPassword === PASSWORDS[selectedRole]) {
                 localStorage.setItem('crackfr_logged', 'true');
-                localStorage.setItem('crackfr_staff_name', staffName);
-                localStorage.setItem('crackfr_staff_role', staffData.role);
+                localStorage.setItem('crackfr_staff_role', selectedRole);
                 
-                logAction(1, staffName, staffData.role, `S'est connecté avec les identifiants (${staffData.role})`);
-                showPanel(staffName, staffData.role);
+                logAction(1, selectedRole, `S'est connecté en tant que ${selectedRole}`);
+                showPanel(selectedRole);
             } else {
                 errorMsg.classList.remove('hidden');
             }
         }
 
-        function showPanel(staffName, staffRole) {
+        function showPanel(staffRole) {
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('panel-content').classList.remove('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
-            document.getElementById('current-staff-display').innerText = staffName;
             document.getElementById('current-role-badge').innerText = staffRole;
 
             const adminSection = document.getElementById('admin-section');
@@ -313,17 +303,15 @@
         }
 
         function logout() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            logAction(2, staffName, staffRole, "S'est déconnecté du panel");
+            logAction(2, staffRole, "S'est déconnecté du panel");
 
             localStorage.removeItem('crackfr_logged');
-            localStorage.removeItem('crackfr_staff_name');
             localStorage.removeItem('crackfr_staff_role');
             location.reload();
         }
 
-        function logAction(typeId, staffName, role, details) {
+        function logAction(typeId, role, details) {
             try {
                 let logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
                 let logInfo = LOG_TYPES[typeId] || LOG_TYPES[11];
@@ -339,7 +327,7 @@
                     code: logInfo.name,
                     title: logInfo.label,
                     color: logInfo.color,
-                    staff: staffName,
+                    staff: role,
                     role: role,
                     details: details,
                     date: dateString
@@ -379,7 +367,7 @@
                 div.innerHTML = `
                     <div class="flex items-center space-x-2.5 flex-wrap">
                         <span class="px-2 py-0.5 rounded font-bold border text-[10px] ${badgeColor}">#${log.id} ${log.title}</span>
-                        <span class="text-slate-300 font-bold">${log.staff} <span class="text-[9px] text-slate-500">(${log.role})</span> :</span>
+                        <span class="text-slate-300 font-bold">${log.staff} :</span>
                         <span class="text-slate-400">${log.details}</span>
                     </div>
                     <span class="text-[10px] text-slate-500 font-mono">${log.date}</span>
@@ -389,34 +377,31 @@
         }
 
         function clearStaffLogs() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
             if (confirm("Vider l'historique des logs ?")) {
                 localStorage.removeItem('crackfr_11_logs');
-                logAction(10, staffName, staffRole, "A vidé l'historique du journal");
+                logAction(10, staffRole, "A vidé l'historique du journal");
                 renderStaffLogs();
             }
         }
 
         function changeTimezone() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
             const tz = document.getElementById('timezone-select').value;
-            logAction(3, staffName, staffRole, `A basculé le fuseau horaire sur : ${tz}`);
+            logAction(3, staffRole, `A basculé le fuseau horaire sur : ${tz}`);
             renderStaffLogs();
         }
 
         function triggerLogAction(actionCode) {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
             if(actionCode === 'MEMBER_KICK') {
-                logAction(6, staffName, staffRole, "A expulsé un membre (Kick)");
+                logAction(6, staffRole, "A expulsé un membre (Kick)");
                 alert("Log #6 : Kick enregistré !");
             } else if(actionCode === 'MEMBER_BAN') {
-                logAction(7, staffName, staffRole, "A banni un membre (Ban)");
+                logAction(7, staffRole, "A banni un membre (Ban)");
                 alert("Log #7 : Ban enregistré !");
             } else if(actionCode === 'WARN_GIVE') {
-                logAction(8, staffName, staffRole, "A donné un avertissement (Warn)");
+                logAction(8, staffRole, "A donné un avertissement (Warn)");
                 alert("Log #8 : Warn enregistré !");
             }
             renderStaffLogs();
@@ -425,49 +410,37 @@
         function publishFlashAlert() {
             const text = document.getElementById('quick-alert-input').value.trim();
             if(!text) return alert("Écris une annonce valide !");
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Staff';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Modérateur';
-            logAction(4, staffName, staffRole, `A publié l'annonce flash : "${text}"`);
+            logAction(4, staffRole, `A publié l'annonce flash : "${text}"`);
             renderStaffLogs();
             alert("Annonce flash publiée !");
         }
 
         function saveAdminConfig() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Admin';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Administrateur';
-            logAction(3, staffName, staffRole, "A mis à jour les paramètres standard du site");
+            logAction(3, staffRole, "A mis à jour les paramètres standard du site");
             renderStaffLogs();
             alert("Paramètres enregistrés !");
         }
 
         function founderResetStats() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Fondateur';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Fondateur';
             if(confirm("Réinitialiser les stats ?")) {
                 localStorage.removeItem('crackfr_stats');
-                logAction(3, staffName, staffRole, "A réinitialisé les statistiques globales");
+                logAction(3, staffRole, "A réinitialisé les statistiques globales");
                 renderStaffLogs();
                 alert("Stats réinitialisées.");
             }
         }
 
         function founderPurgeAllLogs() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Fondateur';
             const staffRole = localStorage.getItem('crackfr_staff_role') || 'Fondateur';
             if(confirm("Purger tous les logs ?")) {
                 localStorage.removeItem('crackfr_11_logs');
-                logAction(10, staffName, staffRole, "A purgé l'ensemble des logs de sécurité");
+                logAction(10, staffRole, "A purgé l'ensemble des logs de sécurité");
                 renderStaffLogs();
                 alert("Logs purgés.");
             }
-        }
-
-        function saveFounderJSON() {
-            const staffName = localStorage.getItem('crackfr_staff_name') || 'Fondateur';
-            const staffRole = localStorage.getItem('crackfr_staff_role') || 'Fondateur';
-            logAction(3, staffName, staffRole, "A forcé l'enregistrement via l'éditeur JSON");
-            renderStaffLogs();
-            alert("JSON enregistré avec succès !");
         }
 
         function loadStatsAndRenderCharts() {
@@ -488,8 +461,8 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            const ctxDist = document.getElementById('distributionChart').getContext('2d');
-            distributionChartInstance = new Chart(ctxDist, {
+            postDistCtx = document.getElementById('distributionChart').getContext('2d');
+            distributionChartInstance = new Chart(postDistCtx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Visites', 'Membres', 'Staff'],
@@ -501,9 +474,3 @@
     </script>
 </body>
 </html>
-
-const VALID_CREDENTIALS = {
-    "fonda1234": { role: "Fondateur" },
-    "admin1234": { role: "Administrateur" },
-    "modo1234": { role: "Modérateur" }
-};
