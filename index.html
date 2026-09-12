@@ -16,19 +16,12 @@
                 CRACKFR
             </div>
             
-            <!-- Horloge & Compteur en direct -->
-            <div class="hidden sm:flex items-center space-x-4 text-xs font-bold text-slate-400">
-                <span id="live-clock">00:00:00</span>
+            <!-- Compteur de membres fixe (modifiable ici directement) -->
+            <div class="flex items-center space-x-4 text-xs font-bold text-slate-400">
                 <div class="flex items-center space-x-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span id="online-count">42</span> <span>en ligne</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>42</span> <span>membres</span>
                 </div>
-            </div>
-
-            <div class="flex items-center space-x-3">
-                <a href="panel.html" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 border border-pink-500/30 rounded-xl">
-                    🔐 Panel Admin
-                </a>
             </div>
         </div>
     </header>
@@ -42,158 +35,45 @@
                 Hub Communautaire <span class="text-cyan-400">CrackFR</span>
             </h1>
             <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-                Supervise l'état de nos bots Discord en temps réel et discute avec la communauté.
+                Retrouve l'état de nos bots Discord et rejoins la communauté.
             </p>
         </div>
 
-        <!-- Section Recherche & Bots -->
+        <!-- Section des Bots (Modifie tes bots directement ici) -->
         <div id="poles" class="w-full space-y-6">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400">🤖 Statut des Bots</h2>
-                <!-- Barre de recherche populaire -->
-                <input type="text" id="search-bot" placeholder="🔍 Rechercher un bot..." onkeyup="filterBots()" class="w-full sm:w-72 px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
-            </div>
+            <h2 class="text-xl font-bold uppercase tracking-wider text-cyan-400">🤖 Statut de nos Bots</h2>
 
-            <div id="dynamic-bots-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Les bots s'injectent ici -->
-            </div>
-        </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                
+                <!-- BOT 1 -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-sm text-white">🤖 Bot Discord (GLaDOS)</h3>
+                        <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30">Opérationnel</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Modération & IA intelligente</p>
+                </div>
 
-        <!-- Mur de Messages (Chat) -->
-        <div id="chat-section" class="w-full bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-            <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400">💬 Mur des Visiteurs (Live)</h3>
-            <div id="chat-messages" class="space-y-2 max-h-40 overflow-y-auto pr-2 text-xs text-slate-300">
-                <div class="p-2 bg-slate-950 rounded-lg text-slate-500">Bienvenue sur le mur CrackFR !</div>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-2 pt-2">
-                <input type="text" id="chat-pseudo" placeholder="Pseudo..." maxlength="20" class="sm:w-1/4 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500">
-                <input type="text" id="chat-text" placeholder="Votre message..." maxlength="150" class="sm:w-2/4 px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500" onkeypress="if(event.key === 'Enter') postMessage();">
-                <button onclick="postMessage()" class="sm:w-1/4 px-4 py-2 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-cyan-400">Envoyer</button>
+                <!-- BOT 2 -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-sm text-white">🤖 Bot Musique</h3>
+                        <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30">Opérationnel</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Audio haute qualité & DisTube</p>
+                </div>
+
+                <!-- Tu peux rajouter d'autres bots en copiant un bloc ci-dessus -->
+
             </div>
         </div>
 
     </main>
-
-    <!-- Zone de Notification Toast -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
         <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
-    <script>
-        // Horloge en direct
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
-        }, 1000);
-
-        // Charger et afficher les bots
-        function renderBots() {
-            const grid = document.getElementById('dynamic-bots-grid');
-            const savedBots = localStorage.getItem('crackfr_bots_list');
-            const membersCount = localStorage.getItem('crackfr_members_count') || '42';
-            document.getElementById('online-count').innerText = membersCount;
-            
-            let bots = [
-                { name: "Bot Discord (GLaDOS)", desc: "Modération & IA intelligente", status: "Opérationnel" },
-                { name: "Bot Musique", desc: "Audio haute qualité & DisTube", status: "Opérationnel" }
-            ];
-
-            if (savedBots) bots = JSON.parse(savedBots);
-
-            grid.innerHTML = "";
-
-            bots.forEach(bot => {
-                let badgeClass = "px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30";
-                if (bot.status === 'Maintenance') {
-                    badgeClass = "px-2.5 py-1 bg-amber-500/10 text-amber-400 text-xs font-bold rounded-full border border-amber-500/30";
-                } else if (bot.status === 'Hors Ligne') {
-                    badgeClass = "px-2.5 py-1 bg-rose-500/10 text-rose-400 text-xs font-bold rounded-full border border-rose-500/30";
-                }
-
-                const card = document.createElement('div');
-                card.className = "bot-card bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3";
-                card.setAttribute('data-name', bot.name.toLowerCase());
-                card.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-sm text-white">🤖 ${escapeHtml(bot.name)}</h3>
-                        <span class="${badgeClass}">${escapeHtml(bot.status)}</span>
-                    </div>
-                    <p class="text-xs text-slate-400">${escapeHtml(bot.desc || 'Bot Discord actif')}</p>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // Fonction de recherche de bot en direct
-        function filterBots() {
-            const query = document.getElementById('search-bot').value.toLowerCase();
-            const cards = document.querySelectorAll('.bot-card');
-            cards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                if (name.includes(query)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        }
-
-        function showToast(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = "pointer-events-auto px-4 py-3 bg-slate-900 border border-purple-500 text-xs text-white rounded-xl shadow-lg flex items-center space-x-2";
-            toast.innerHTML = `<span>⚡</span> <span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 6000);
-        }
-
-        function loadMessages() {
-            const container = document.getElementById('chat-messages');
-            const saved = localStorage.getItem('crackfr_chat_messages');
-            if (saved) container.innerHTML = saved;
-        }
-
-        function postMessage() {
-            const p = document.getElementById('chat-pseudo').value.trim();
-            const t = document.getElementById('chat-text').value.trim();
-            const container = document.getElementById('chat-messages');
-            
-            if (!p || !t) return;
-
-            const div = document.createElement('div');
-            div.className = "p-2 bg-slate-950 rounded-lg text-xs";
-            div.innerHTML = `<span class="font-bold text-cyan-400">${escapeHtml(p)} :</span> ${escapeHtml(t)}`;
-            container.appendChild(div);
-            
-            document.getElementById('chat-text').value = '';
-            container.scrollTop = container.scrollHeight;
-            localStorage.setItem('crackfr_chat_messages', container.innerHTML);
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        window.addEventListener('storage', () => { renderBots(); });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const siteMode = localStorage.getItem('crackfr_site_mode');
-            if (siteMode === 'maintenance') {
-                window.location.href = 'maintenance.html';
-            }
-
-            loadMessages();
-            renderBots();
-
-            const pendingAlert = localStorage.getItem('crackfr_global_alert');
-            if (pendingAlert) {
-                const alertData = JSON.parse(pendingAlert);
-                showToast(alertData.msg);
-            }
-        });
-    </script>
 </body>
 </html>
