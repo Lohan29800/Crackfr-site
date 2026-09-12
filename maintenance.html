@@ -1,55 +1,58 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Maintenance en cours</title>
+    <title>CrackFR - Site en Maintenance</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        neon: { cyan: '#00f3ff', purple: '#b026ff', pink: '#ff007f', bg: '#05050a', card: '#0a0a16', border: '#1a1a3a' }
-                    },
-                    boxShadow: { 'neon-pink': '0 0 25px rgba(255, 0, 127, 0.4)' }
-                }
-            }
-        }
-    </script>
 </head>
-<body class="bg-neon-bg text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-6 text-center">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 selection:bg-rose-500 selection:text-black">
 
-    <div class="max-w-md w-full bg-neon-card border border-neon-border p-8 rounded-3xl shadow-2xl relative space-y-6">
-        <div class="absolute -top-12 -left-12 w-32 h-32 bg-neon-pink/20 rounded-full blur-2xl"></div>
-
+    <div class="max-w-md w-full bg-slate-900 border border-slate-800 p-8 rounded-3xl text-center space-y-6 shadow-2xl">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-3xl animate-pulse">
+            🛠️
+        </div>
+        
         <div class="space-y-2">
-            <span class="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink">
-                CRACKFR
-            </span>
-            <h1 class="text-lg font-bold text-white pt-2">🔧 Maintenance Technique</h1>
-            <p class="text-xs text-slate-400 leading-relaxed">
-                Nos serveurs subissent des optimisations pour vous offrir une meilleure expérience de jeu. Revenez très vite !
+            <h1 class="text-2xl font-black tracking-tight text-white">Maintenance en cours</h1>
+            <p id="maintenance-reason" class="text-xs sm:text-sm text-slate-400">
+                Le hub CrackFR est actuellement indisponible pour cause de maintenance et de mises à jour.
             </p>
         </div>
 
-        <div class="p-4 bg-slate-900/60 border border-neon-border rounded-2xl">
-            <div class="flex items-center justify-center space-x-2 text-xs font-bold text-amber-400">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-                <span>Statut : Mise à jour en cours</span>
-            </div>
+        <div class="p-4 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-slate-400 space-y-1">
+            <p class="font-bold text-slate-300">Statut du Réseau</p>
+            <p class="text-rose-400 font-bold">● Accès temporairement restreint</p>
         </div>
 
-        <div class="pt-4 border-t border-neon-border flex flex-col gap-2">
-            <a href="panel.html" class="w-full py-3 bg-neon-pink/10 hover:bg-neon-pink/20 text-neon-pink border border-neon-pink/30 rounded-xl text-xs font-bold transition-all shadow-neon-pink">
-                🔐 Accéder au Panel Admin
-            </a>
-            <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-                ← Tenter de retourner à l'accueil
-            </a>
-        </div>
+        <button onclick="checkStatus()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition-all border border-slate-700">
+            🔄 Vérifier si le site est de retour
+        </button>
     </div>
 
+    <footer class="absolute bottom-6 text-xs text-slate-600">
+        &copy; 2026 CrackFR. Tous droits réservés.
+    </footer>
+
+    <script>
+        // Charger la raison de la maintenance personnalisée si définie dans le panel
+        window.addEventListener('DOMContentLoaded', () => {
+            const customReason = localStorage.getItem('crackfr_maintenance_reason');
+            if (customReason) {
+                document.getElementById('maintenance-reason').innerText = customReason;
+            }
+        });
+
+        // Bouton pour retenter l'accès
+        function checkStatus() {
+            const mode = localStorage.getItem('crackfr_site_mode');
+            if (mode === 'active') {
+                window.location.href = 'index.html';
+            } else {
+                alert("Le site est toujours en maintenance. Revenez un peu plus tard !");
+            }
+        }
+    </script>
 </body>
 </html>
