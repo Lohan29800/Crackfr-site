@@ -16,7 +16,7 @@
         
         <div class="space-y-2">
             <h1 class="text-2xl font-black tracking-tight text-white">Maintenance en cours</h1>
-            <p id="maintenance-reason" class="text-xs sm:text-sm text-slate-400">
+            <p class="text-xs sm:text-sm text-slate-400">
                 Le hub CrackFR est actuellement indisponible pour cause de maintenance et de mises à jour.
             </p>
         </div>
@@ -25,39 +25,11 @@
             <p class="font-bold text-slate-300">Statut du Réseau</p>
             <p class="text-rose-400 font-bold">● Accès temporairement restreint</p>
         </div>
-
-        <div class="space-y-2 pt-2">
-            <button onclick="checkStatus()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs transition-all border border-slate-700">
-                🔄 Vérifier si le site est de retour
-            </button>
-            <a href="panel.html" class="block w-full py-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 font-bold rounded-xl text-xs transition-all border border-pink-500/30">
-                🔐 Accéder au Panel Admin
-            </a>
-        </div>
     </div>
 
     <footer class="absolute bottom-6 text-xs text-slate-600">
         &copy; 2026 CrackFR. Tous droits réservés.
     </footer>
 
-    <script>
-        // Charger la raison de la maintenance personnalisée si définie dans le panel
-        window.addEventListener('DOMContentLoaded', () => {
-            const customReason = localStorage.getItem('crackfr_maintenance_reason');
-            if (customReason) {
-                document.getElementById('maintenance-reason').innerText = customReason;
-            }
-        });
-
-        // Bouton pour retenter l'accès
-        function checkStatus() {
-            const mode = localStorage.getItem('crackfr_site_mode');
-            if (mode === 'active') {
-                window.location.href = 'index.html';
-            } else {
-                alert("Le site est toujours en maintenance. Revenez un peu plus tard !");
-            }
-        }
-    </script>
 </body>
 </html>
