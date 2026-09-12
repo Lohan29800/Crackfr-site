@@ -223,7 +223,7 @@
 
     <!-- SCRIPT DE CONNEXION SIMPLE -->
     <script>
-        // MODifie tes mots de passe facilement ici :
+        // Modifie tes mots de passe facilement ici :
         const PASSWORDS = {
             "Fondateur": "1234",       // Mot de passe pour le Fondateur
             "Administrateur": "1234",  // Mot de passe pour l'Admin
@@ -461,8 +461,8 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            postDistCtx = document.getElementById('distributionChart').getContext('2d');
-            distributionChartInstance = new Chart(postDistCtx, {
+            const ctxDist = document.getElementById('distributionChart').getContext('2d');
+            distributionChartInstance = new Chart(ctxDist, {
                 type: 'doughnut',
                 data: {
                     labels: ['Visites', 'Membres', 'Staff'],
