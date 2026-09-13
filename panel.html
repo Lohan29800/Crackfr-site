@@ -12,57 +12,87 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
-    <!-- En-tête / Navigation Panel -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
-                <span>🔐</span>
-                <span>PANEL STAFF - CRACKFR</span>
-            </div>
-            <div class="flex items-center space-x-3">
-                <a href="index.html" onclick="playClickSound()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
-                    🏠 Retour Accueil
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Contenu Principal du Panel -->
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
-        
-        <div class="space-y-2">
-            <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Gestion des Annonces Flash</h1>
-            <p class="text-xs text-slate-400">Publie une annonce qui s'affichera instantanément en haut de la page d'accueil.</p>
-        </div>
-
-        <!-- Formulaire de Publication -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+    <!-- Section Connexion (Affichée par défaut si non connecté) -->
+    <div id="login-section" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full space-y-6 shadow-2xl text-center">
             <div class="space-y-2">
-                <label for="inputAnnonce" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Message de l'annonce :</label>
-                <input type="text" id="inputAnnonce" placeholder="Ex: Maintenance prévue ce soir à 21h sur le serveur..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                <span class="text-3xl">🔐</span>
+                <h1 class="text-xl font-black text-white uppercase tracking-wider">Accès Restreint - Staff</h1>
+                <p class="text-xs text-slate-400">Entre le mot de passe administrateur pour accéder au panel.</p>
             </div>
-            <button onclick="envoyerAnnoncePanel(); playClickSound();" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
-                ⚡ Publier et Synchroniser
-            </button>
-        </div>
-
-        <!-- Historique des actions -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Historique des annonces</h2>
-            <div id="logs-container" class="space-y-2 text-xs text-slate-400">
-                <p class="italic">Aucune annonce récente...</p>
+            <form onsubmit="verifierMotDe Passe(event)" class="space-y-4 text-left">
+                <div class="space-y-1">
+                    <label for="password-input" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Mot de passe :</label>
+                    <input type="password" id="password-input" placeholder="••••••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
+                    Se connecter
+                </button>
+            </form>
+            <div>
+                <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">← Retour à l'accueil</a>
             </div>
         </div>
+    </div>
 
-    </main>
+    <!-- Interface du Panel (Masquée tant que l'admin n'est pas connecté) -->
+    <div id="panel-content" class="hidden flex flex-col min-h-screen justify-between">
+        <!-- En-tête / Navigation Panel -->
+        <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
+                    <span>🔐</span>
+                    <span>PANEL STAFF - CRACKFR</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="deconnexion()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
+                        🔒 Déconnexion
+                    </button>
+                    <a href="index.html" onclick="playClickSound()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
+                        🏠 Accueil
+                    </a>
+                </div>
+            </div>
+        </header>
 
-    <!-- Pied de page -->
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900 mt-16">
-        <p>&copy; 2026 CrackFR. Tous droits réservés - Espace Staff sécurisé.</p>
-    </footer>
+        <!-- Contenu Principal du Panel -->
+        <main class="flex-grow max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
+            <div class="space-y-2">
+                <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Gestion des Annonces Flash</h1>
+                <p class="text-xs text-slate-400">Publie une annonce qui s'affichera instantanément en haut de la page d'accueil.</p>
+            </div>
+
+            <!-- Formulaire de Publication -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <div class="space-y-2">
+                    <label for="inputAnnonce" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Message de l'annonce :</label>
+                    <input type="text" id="inputAnnonce" placeholder="Ex: Maintenance prévue ce soir à 21h sur le serveur..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                </div>
+                <button onclick="envoyerAnnoncePanel(); playClickSound();" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
+                    ⚡ Publier et Synchroniser
+                </button>
+            </div>
+
+            <!-- Historique des actions -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Historique des annonces</h2>
+                <div id="logs-container" class="space-y-2 text-xs text-slate-400">
+                    <p class="italic">Aucune annonce récente...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Pied de page -->
+        <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900 mt-16">
+            <p>&copy; 2026 CrackFR. Tous droits réservés - Espace Staff sécurisé.</p>
+        </footer>
+    </div>
 
     <!-- SCRIPT PANEL -->
     <script>
+        // Mot de passe administrateur (Tu peux le modifier ici si besoin)
+        const ADMIN_PASSWORD = "crackfr2026"; 
+
         function playClickSound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -84,7 +114,31 @@
             } catch (e) {}
         }
 
-        // Fonction pour envoyer et synchroniser l'annonce flash avec la page d'accueil
+        // Vérification du mot de passe
+        function verifierMotDePasse(event) {
+            event.preventDefault();
+            const inputPass = document.getElementById('password-input').value;
+            
+            if (inputPass === ADMIN_PASSWORD) {
+                localStorage.setItem('crackfr_logged_in', 'true');
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('panel-content').classList.remove('hidden');
+                afficherLogs();
+            } else {
+                alert("Mot de passe incorrect !");
+                document.getElementById('password-input').value = '';
+            }
+        }
+
+        // Déconnexion
+        function deconnexion() {
+            localStorage.removeItem('crackfr_logged_in');
+            document.getElementById('panel-content').classList.add('hidden');
+            document.getElementById('login-section').classList.remove('hidden');
+            document.getElementById('password-input').value = '';
+        }
+
+        // Fonction pour envoyer et synchroniser l'annonce flash
         function envoyerAnnoncePanel() {
             const inputField = document.getElementById('inputAnnonce');
             if (!inputField) return;
@@ -130,7 +184,13 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
-            afficherLogs();
+
+            // Vérifie si l'admin est déjà connecté dans la session du navigateur
+            if (localStorage.getItem('crackfr_logged_in') === 'true') {
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('panel-content').classList.remove('hidden');
+                afficherLogs();
+            }
         });
     </script>
 </body>
