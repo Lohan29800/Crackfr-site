@@ -18,7 +18,7 @@
     <!-- Effet de lueur d'arrière-plan -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 glow-effect pointer-events-none -z-10"></div>
 
-    <!-- Bandeau d'annonce flash (Dynamique / Lié au panel) -->
+    <!-- Bandeau d'annonce flash (Synchronisé avec le panel) -->
     <div id="flash-banner" class="hidden bg-pink-600/10 border-b border-pink-500/30 text-pink-400 px-4 py-2.5 text-xs font-bold text-center flex items-center justify-center space-x-2 animate-pulse">
         <span>⚡ Annonce Staff :</span>
         <span id="flash-text" class="text-slate-200">Chargement de l'annonce...</span>
@@ -189,7 +189,7 @@
     </main>
 
     <!-- Bouton Retour en haut -->
-    <button onclick="scrollToTop(); playClickSound();" id="backToTop" class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700 text-pink-400 p-3 rounded-2xl shadow-2xl hidden hover:bg-slate-800 transition-all z-40">
+    <button onclick="scrollToTop(); playClickSound();" id="backToTop" class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700 text-pink-400 p-3 rounded-2xl shadow-2xl hidden hover:bg-slate-800 transition-all z-40 cursor-pointer">
         ⬆️
     </button>
 
@@ -255,7 +255,7 @@
                 }
             });
 
-            // Récupère l'annonce flash du panel staff si elle existe
+            // Récupère l'annonce flash du panel staff en direct
             try {
                 const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
                 const flashLog = logs.find(log => log.id === 4); 
