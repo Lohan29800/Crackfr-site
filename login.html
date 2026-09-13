@@ -51,7 +51,7 @@
         };
 
         const MAX_ATTEMPTS = 5;  
-        const LOCK_TIME = 172800; // 48 heures (2 jours) en secondes
+        const LOCK_TIME = 172800; // 48 heures pour les autres rôles
 
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
@@ -114,8 +114,6 @@
             errorBox.classList.remove('hidden');
 
             let timer = secondesInitiales;
-            
-            // Affichage initial immédiat
             errorBox.innerText = formaterTemps(timer);
 
             const interval = setInterval(() => {
@@ -142,8 +140,6 @@
             const inputPass = document.getElementById('password-input').value.trim();
             const errorBox = document.getElementById('error-box');
 
-            let attempts = parseInt(localStorage.getItem('crackfr_attempts') || '0');
-
             if (inputPass === PASSWORDS[selectedRole]) {
                 enregistrerTentativeSecurite(selectedRole, true);
                 localStorage.setItem('crackfr_logged_in', 'true');
@@ -151,9 +147,19 @@
                 localStorage.removeItem('crackfr_attempts');
                 window.location.href = 'panel.html';
             } else {
+                enregistrerTentativeSecurite(selectedRole, false);
+
+                // EXCLUSION : Le rôle Fondateur ne subit jamais de blocage
+                if (selectedRole === "Fondateur") {
+                    errorBox.classList.remove('hidden');
+                    errorBox.innerText = "Mot de passe Fondateur incorrect (Accès immunisé contre le blocage).";
+                    document.getElementById('password-input').value = '';
+                    return;
+                }
+
+                let attempts = parseInt(localStorage.getItem('crackfr_attempts') || '0');
                 attempts++;
                 localStorage.setItem('crackfr_attempts', attempts.toString());
-                enregistrerTentativeSecurite(selectedRole, false);
 
                 if (attempts >= MAX_ATTEMPTS) {
                     const lockTimeEnd = Date.now() + (LOCK_TIME * 1000);
