@@ -4,41 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrackFR - Serveur Communautaire & Gaming ⚡</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { opacity: 0; transition: opacity 0.4s ease-in-out; }
-        .glow-effect {
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
-        }
-    </style>
+    <style>body { opacity: 0; transition: opacity 0.4s ease-in-out; }</style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black relative overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
-    <!-- Effet de lueur d'arrière-plan -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 glow-effect pointer-events-none -z-10"></div>
-
-    <!-- Bandeau d'annonce flash (Synchronisé avec le panel) -->
+    <!-- Bandeau d'annonce flash synchronisé -->
     <div id="flash-banner" class="hidden bg-pink-600/10 border-b border-pink-500/30 text-pink-400 px-4 py-2.5 text-xs font-bold text-center flex items-center justify-center space-x-2 animate-pulse">
         <span>⚡ Annonce Staff :</span>
-        <span id="flash-text" class="text-slate-200">Chargement de l'annonce...</span>
+        <span id="flash-text" class="text-slate-200"></span>
     </div>
 
-    <!-- En-tête / Navigation -->
-    <header class="border-b border-slate-800/80 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <!-- En-tête -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
-                <span class="animate-bounce">⚡</span>
-                <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">CRACKFR</span>
-            </div>
-            <nav class="hidden sm:flex items-center space-x-6 text-xs font-bold uppercase tracking-wider text-slate-300">
-                <a href="#accueil" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Accueil</a>
-                <a href="#fonctionnalites" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Services</a>
-                <a href="#staff" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Staff</a>
-                <a href="#communaute" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Communauté</a>
-            </nav>
+            <div class="text-lg font-black tracking-wider text-pink-400">CRACKFR</div>
             <div class="flex items-center space-x-3">
-                <a href="panel.html" onclick="playClickSound()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block shadow-sm">
+                <a href="login.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
                     🔐 Panel Staff
                 </a>
             </div>
@@ -46,224 +28,30 @@
     </header>
 
     <!-- Contenu Principal -->
-    <main id="accueil" class="flex-grow max-w-6xl mx-auto px-4 py-16 w-full space-y-24">
-        
-        <!-- Section Héroïque (Hero) -->
-        <section class="text-center space-y-6 relative">
-            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-pink-500/10 border border-pink-500/30 rounded-full text-pink-400 text-xs font-bold uppercase tracking-wider shadow-lg shadow-pink-500/5">
-                <span>🔥</span>
-                <span>Serveur Communautaire & Gaming Actif</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-7xl font-black tracking-tight text-white max-w-3xl mx-auto leading-tight">
-                Bienvenue sur <span class="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">CrackFR</span>
-            </h1>
-
-            <p class="text-sm sm:text-base text-slate-400 max-w-xl mx-auto leading-relaxed">
-                Rejoins une communauté passionnée de jeux vidéo, profite de nos bots exclusifs, de nos serveurs optimisés et d'un espace interactif unique.
-            </p>
-
-            <div class="flex flex-wrap justify-center gap-4 pt-4">
-                <a href="https://discord.gg/25XdSrFQve" target="_blank" onclick="playClickSound()" class="px-7 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-xl shadow-pink-600/25 transform hover:-translate-y-0.5 inline-block cursor-pointer">
-                    💬 Rejoindre le Discord
-                </a>
-                <a href="#fonctionnalites" onclick="playClickSound()" class="px-7 py-4 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold rounded-2xl text-xs uppercase tracking-wider transition-all inline-block hover:border-slate-700">
-                    Découvrir les services
-                </a>
-            </div>
-        </section>
-
-        <!-- Grille de Statistiques & Compteur en direct -->
-        <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center hover:border-cyan-500/40 transition-all group relative overflow-hidden">
-                <span class="absolute top-3 right-3 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full animate-pulse">Live</span>
-                <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Membres Discord</span>
-                <div class="text-3xl font-black text-white group-hover:scale-105 transition-transform" id="live-member-count">1,240</div>
-                <p class="text-[11px] text-slate-500">Compteur en direct</p>
-            </div>
-            <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center hover:border-emerald-500/40 transition-all group">
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Statut du Réseau</span>
-                <div class="text-3xl font-black text-emerald-400 flex items-center justify-center space-x-2 group-hover:scale-105 transition-transform relative">
-                    <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping absolute"></span>
-                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                    <span>En Ligne</span>
-                </div>
-                <p class="text-[11px] text-slate-500">Disponibilité à 99.9%</p>
-            </div>
-            <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center hover:border-pink-500/40 transition-all group">
-                <span class="text-xs font-bold uppercase tracking-wider text-pink-400">Sécurité Panel</span>
-                <div class="text-3xl font-black text-white group-hover:scale-105 transition-transform">Protégé</div>
-                <p class="text-[11px] text-slate-500">Système hiérarchique actif</p>
-            </div>
-        </section>
-
-        <!-- Section Fonctionnalités -->
-        <section id="fonctionnalites" class="space-y-8 pt-4">
-            <div class="text-center space-y-2">
-                <span class="px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full">Services</span>
-                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Ce que nous proposons</h2>
-                <p class="text-xs text-slate-400">Une infrastructure pensée pour les joueurs et les créateurs.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-900/80 border border-slate-800/80 p-6 rounded-3xl space-y-3 shadow-lg hover:border-cyan-500/40 hover:-translate-y-1 transition-all">
-                    <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-2xl flex items-center justify-center text-xl">🎮</div>
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wide">Serveurs Gaming</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Des espaces de jeu optimisés et configurés pour offrir la meilleure immersion possible sans latence.</p>
-                </div>
-                <div class="bg-slate-900/80 border border-slate-800/80 p-6 rounded-3xl space-y-3 shadow-lg hover:border-purple-500/40 hover:-translate-y-1 transition-all">
-                    <div class="w-12 h-12 bg-purple-500/10 border border-purple-500/30 rounded-2xl flex items-center justify-center text-xl">🤖</div>
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wide">Bots & Outils</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Développement et intégration de fonctionnalités automatisées pour animer la communauté au quotidien.</p>
-                </div>
-                <div class="bg-slate-900/80 border border-slate-800/80 p-6 rounded-3xl space-y-3 shadow-lg hover:border-pink-500/40 hover:-translate-y-1 transition-all">
-                    <div class="w-12 h-12 bg-pink-500/10 border border-pink-500/30 rounded-2xl flex items-center justify-center text-xl">🛡️</div>
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wide">Modération Active</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Une équipe staff disponible et à l'écoute pour garantir un environnement sain, respectueux et accueillant.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION STAFF -->
-        <section id="staff" class="space-y-8 pt-4">
-            <div class="text-center space-y-2">
-                <span class="px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full">Hiérarchie</span>
-                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">L'Équipe Staff</h2>
-                <p class="text-xs text-slate-400">Ceux qui gèrent et protègent la communauté au quotidien.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <!-- Fondateur -->
-                <div class="bg-slate-900/90 border border-amber-500/30 p-6 rounded-3xl space-y-4 shadow-xl text-center relative hover:scale-[1.02] transition-transform">
-                    <div class="absolute top-4 right-4 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full">👑 Fondateur</div>
-                    <div class="w-16 h-16 bg-amber-500/10 border border-amber-500/30 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black text-amber-400 shadow-lg shadow-amber-500/10">
-                        ⚡
-                    </div>
-                    <div class="space-y-1">
-                        <h3 class="text-sm font-bold text-white">Direction CrackFR</h3>
-                        <p class="text-[11px] text-slate-400">Gestion globale, développement et administration générale.</p>
-                    </div>
-                </div>
-
-                <!-- Administrateur -->
-                <div class="bg-slate-900/90 border border-blue-500/30 p-6 rounded-3xl space-y-4 shadow-xl text-center relative hover:scale-[1.02] transition-transform">
-                    <div class="absolute top-4 right-4 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-blue-500/10 text-blue-400 border border-blue-500/30 rounded-full">⚡ Admin</div>
-                    <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black text-blue-400 shadow-lg shadow-blue-500/10">
-                        ⚙️
-                    </div>
-                    <div class="space-y-1">
-                        <h3 class="text-sm font-bold text-white">Équipe Technique</h3>
-                        <p class="text-[11px] text-slate-400">Configuration des serveurs, configuration des bots et sécurité.</p>
-                    </div>
-                </div>
-
-                <!-- Modérateur -->
-                <div class="bg-slate-900/90 border border-pink-500/30 p-6 rounded-3xl space-y-4 shadow-xl text-center relative hover:scale-[1.02] transition-transform">
-                    <div class="absolute top-4 right-4 px-2 py-0.5 text-[9px] font-extrabold uppercase bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full">🛡️ Modérateur</div>
-                    <div class="w-16 h-16 bg-pink-500/10 border border-pink-500/30 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black text-pink-400 shadow-lg shadow-pink-500/10">
-                        ⚖️
-                    </div>
-                    <div class="space-y-1">
-                        <h3 class="text-sm font-bold text-white">Équipe Modération</h3>
-                        <p class="text-[11px] text-slate-400">Surveillance des salons, animation et support des membres.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Communauté / Appel à l'action -->
-        <section id="communaute" class="bg-gradient-to-r from-slate-900 via-slate-900 to-pink-950/30 border border-slate-800 p-8 sm:p-12 rounded-3xl text-center space-y-6 shadow-2xl relative overflow-hidden">
-            <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Prêt à rejoindre l'aventure ?</h2>
-            <p class="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
-                Viens discuter avec les membres, participer aux événements et suivre l'actualité du projet en temps réel sur notre serveur Discord.
-            </p>
-            <div>
-                <a href="https://discord.gg/25XdSrFQve" target="_blank" onclick="playClickSound()" class="px-8 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-xl shadow-pink-600/30 inline-block cursor-pointer transform hover:-translate-y-0.5">
-                    🚀 Entrer sur le Discord CrackFR
-                </a>
-            </div>
-        </section>
-
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
+        <h1 class="text-5xl font-black text-white">Bienvenue sur <span class="text-pink-500">CrackFR</span></h1>
+        <p class="text-slate-400 text-sm">Serveur communautaire et gaming actif.</p>
+        <a href="https://discord.gg/25XdSrFQve" target="_blank" class="inline-block px-7 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20">
+            💬 Rejoindre le Discord
+        </a>
     </main>
 
-    <!-- Bouton Retour en haut -->
-    <button onclick="scrollToTop(); playClickSound();" id="backToTop" class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700 text-pink-400 p-3 rounded-2xl shadow-2xl hidden hover:bg-slate-800 transition-all z-40 cursor-pointer">
-        ⬆️
-    </button>
-
-    <!-- Pied de page -->
-    <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 bg-slate-900/60 mt-16">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
-            <div class="flex items-center space-x-4">
-                <a href="panel.html" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Panel Staff</a>
-                <span class="text-slate-700">•</span>
-                <a href="https://discord.gg/25XdSrFQve" target="_blank" onclick="playClickSound()" class="hover:text-pink-400 transition-colors">Support Discord</a>
-            </div>
-        </div>
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
+        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
-    <!-- SCRIPT INTERACTIONS -->
     <script>
-        function playClickSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
-                
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.05);
-            } catch (e) {}
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
 
-            // Animation du compteur de membres en direct
-            const memberCountEl = document.getElementById('live-member-count');
-            let baseCount = 1240;
-            setInterval(() => {
-                const randomVariation = Math.floor(Math.random() * 5) - 2;
-                baseCount += randomVariation;
-                if(baseCount < 1230) baseCount = 1230;
-                if(memberCountEl) memberCountEl.innerText = baseCount.toLocaleString('fr-FR');
-            }, 8000);
-
-            // Gestion du bouton retour en haut
-            const backToTopBtn = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.remove('hidden');
-                } else {
-                    backToTopBtn.classList.add('hidden');
-                }
-            });
-
-            // Récupère l'annonce flash du panel staff en direct
+            // Synchronisation de l'annonce flash en temps réel
             try {
-                const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
-                const flashLog = logs.find(log => log.id === 4); 
-                if (flashLog) {
+                const annonceActuelle = localStorage.getItem('crackfr_active_flash');
+                if (annonceActuelle) {
                     const banner = document.getElementById('flash-banner');
                     const flashText = document.getElementById('flash-text');
-                    let cleanText = flashLog.details.replace(/^A publié l'annonce flash : /, '');
-                    if(flashText) flashText.innerText = cleanText;
+                    if(flashText) flashText.innerText = annonceActuelle;
                     if(banner) banner.classList.remove('hidden');
                 }
             } catch (e) {}
