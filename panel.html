@@ -20,15 +20,15 @@
                 <h1 class="text-xl font-black text-white uppercase tracking-wider">Accès Restreint - Staff</h1>
                 <p class="text-xs text-slate-400">Entre le mot de passe administrateur pour accéder au panel.</p>
             </div>
-            <form onsubmit="verifierMotDe Passe(event)" class="space-y-4 text-left">
+            <div class="space-y-4 text-left">
                 <div class="space-y-1">
                     <label for="password-input" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Mot de passe :</label>
-                    <input type="password" id="password-input" placeholder="••••••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                    <input type="password" id="password-input" placeholder="admin123" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
                 </div>
-                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
+                <button onclick="verifierMotDePasse()" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                     Se connecter
                 </button>
-            </form>
+            </div>
             <div>
                 <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">← Retour à l'accueil</a>
             </div>
@@ -90,8 +90,8 @@
 
     <!-- SCRIPT PANEL -->
     <script>
-        // Mot de passe administrateur (Tu peux le modifier ici si besoin)
-        const ADMIN_PASSWORD = "crackfr2026"; 
+        // Mot de passe administrateur actuel : admin123 (tu peux le modifier ici)
+        const ADMIN_PASSWORD = "admin123"; 
 
         function playClickSound() {
             try {
@@ -115,17 +115,16 @@
         }
 
         // Vérification du mot de passe
-        function verifierMotDePasse(event) {
-            event.preventDefault();
-            const inputPass = document.getElementById('password-input').value;
+        function verifierMotDePasse() {
+            const inputPass = document.getElementById('password-input').value.trim();
             
             if (inputPass === ADMIN_PASSWORD) {
                 localStorage.setItem('crackfr_logged_in', 'true');
-                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('login-section').style.display = 'none';
                 document.getElementById('panel-content').classList.remove('hidden');
                 afficherLogs();
             } else {
-                alert("Mot de passe incorrect !");
+                alert("Mot de passe incorrect ! (Mot de passe par défaut : admin123)");
                 document.getElementById('password-input').value = '';
             }
         }
@@ -134,7 +133,7 @@
         function deconnexion() {
             localStorage.removeItem('crackfr_logged_in');
             document.getElementById('panel-content').classList.add('hidden');
-            document.getElementById('login-section').classList.remove('hidden');
+            document.getElementById('login-section').style.display = 'flex';
             document.getElementById('password-input').value = '';
         }
 
@@ -185,9 +184,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
 
-            // Vérifie si l'admin est déjà connecté dans la session du navigateur
+            // Vérifie si l'admin est déjà connecté
             if (localStorage.getItem('crackfr_logged_in') === 'true') {
-                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('login-section').style.display = 'none';
                 document.getElementById('panel-content').classList.remove('hidden');
                 afficherLogs();
             }
