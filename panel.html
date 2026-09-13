@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Staff Avancé ⚡</title>
+    <title>CrackFR - Panel Sécurisé Avancé ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>body { opacity: 0; transition: opacity 0.4s ease-in-out; }</style>
 </head>
@@ -11,7 +11,7 @@
 
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-pink-400">PANEL STAFF</div>
+            <div class="text-lg font-black tracking-wider text-pink-400">PANEL SÉCURISÉ</div>
             <div class="flex items-center space-x-3">
                 <span id="badge-role" class="px-3 py-1 text-[10px] font-extrabold uppercase bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full">Rôle</span>
                 <button onclick="deconnexion()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
@@ -26,102 +26,89 @@
 
     <main class="flex-grow max-w-5xl mx-auto px-4 py-12 w-full space-y-8">
         
+        <!-- Navigation Onglets -->
         <div class="flex flex-wrap gap-2 pb-4 border-b border-slate-800">
             <button onclick="changerOnglet('stats')" id="btn-stats" class="px-4 py-2 bg-pink-600 text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-pink-600/20 cursor-pointer">
-                📊 Statistiques & Graphiques
+                📊 Statistiques
             </button>
             <button onclick="changerOnglet('annonces')" id="btn-annonces" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all cursor-pointer">
                 ⚡ Annonces Flash
             </button>
             <button onclick="changerOnglet('membres')" id="btn-membres" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all cursor-pointer">
-                👥 Gestion Membres
+                👥 Membres
+            </button>
+            <button onclick="changerOnglet('securite')" id="btn-securite" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all cursor-pointer">
+                🛡️ Journal de Sécurité
             </button>
         </div>
 
-        <!-- STATISTIQUES -->
+        <!-- ONGLET 1 : STATS -->
         <div id="section-stats" class="space-y-6">
             <div class="space-y-2">
-                <h1 class="text-2xl sm:text-3xl font-black text-white">Vue d'ensemble du Réseau</h1>
-                <p class="text-xs text-slate-400">Statistiques d'activité et graphiques de performance du serveur.</p>
+                <h1 class="text-2xl sm:text-3xl font-black text-white">Vue d'ensemble</h1>
+                <p class="text-xs text-slate-400">Performances et flux de trafic globale.</p>
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
                     <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Membres Actifs</span>
                     <div class="text-3xl font-black text-white">1,240</div>
-                    <p class="text-[11px] text-emerald-400">+12% cette semaine</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
                     <span class="text-xs font-bold uppercase tracking-wider text-pink-400">Visites du Site</span>
                     <div class="text-3xl font-black text-white">8,420</div>
-                    <p class="text-[11px] text-emerald-400">Pic hier à 21h</p>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
-                    <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Disponibilité Bots</span>
-                    <div class="text-3xl font-black text-emerald-400">99.9%</div>
-                    <p class="text-[11px] text-slate-500">Aucune coupure</p>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Activité des 7 derniers jours</h2>
-                <div class="grid grid-cols-7 gap-3 items-end h-40 pt-8 border-b border-slate-800 px-2">
-                    <div class="bg-pink-600/30 rounded-t-lg h-[40%] flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Lun</div>
-                    <div class="bg-pink-600/40 rounded-t-lg h-[60%] flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Mar</div>
-                    <div class="bg-pink-600/50 rounded-t-lg h-[55%] flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Mer</div>
-                    <div class="bg-pink-600/60 rounded-t-lg h-[75%] flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Jeu</div>
-                    <div class="bg-pink-600/80 rounded-t-lg h-[90%] flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Ven</div>
-                    <div class="bg-pink-600 rounded-t-lg h-[100%] flex items-start justify-center pt-2 text-[10px] font-bold text-white shadow-lg shadow-pink-600/30">Sam</div>
-                    <div class="bg-pink-600/70 rounded-t-lg h-[80%] flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Dim</div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-400">État Serveur</span>
+                    <div class="text-3xl font-black text-emerald-400">ONLINE</div>
                 </div>
             </div>
         </div>
 
-        <!-- ANNONCES FLASH -->
+        <!-- ONGLET 2 : ANNONCES -->
         <div id="section-annonces" class="space-y-6 hidden">
             <div class="space-y-2">
-                <h1 class="text-2xl sm:text-3xl font-black text-white">Gestion des Annonces Flash</h1>
-                <p class="text-xs text-slate-400">Publie ou supprime les annonces affichées sur l'accueil.</p>
+                <h1 class="text-2xl sm:text-3xl font-black text-white">Annonces Flash</h1>
+                <p class="text-xs text-slate-400">Diffuse l'information en direct sur la page d'accueil.</p>
             </div>
-
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <div class="space-y-2">
-                    <label for="inputAnnonce" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Message de l'annonce :</label>
-                    <input type="text" id="inputAnnonce" placeholder="Ex: Maintenance prévue ce soir..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
-                </div>
-                <button onclick="envoyerAnnoncePanel()" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-lg shadow-pink-600/20">
-                    ⚡ Publier et Synchroniser
-                </button>
+                <input type="text" id="inputAnnonce" placeholder="Ex: Maintenance du serveur à 22h..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                <button onclick="envoyerAnnoncePanel()" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-lg">Publier</button>
             </div>
-
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Historique et Suppression</h2>
-                <div id="logs-container" class="space-y-2 text-xs text-slate-400">
-                    <p class="italic">Aucune annonce récente...</p>
-                </div>
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Historique</h2>
+                <div id="logs-container" class="space-y-2 text-xs text-slate-400"><p class="italic">Aucune annonce...</p></div>
             </div>
         </div>
 
-        <!-- GESTION DES MEMBRES -->
+        <!-- ONGLET 3 : MEMBRES -->
         <div id="section-membres" class="space-y-6 hidden">
             <div class="space-y-2">
-                <h1 class="text-2xl sm:text-3xl font-black text-white">Gestion des Membres</h1>
-                <p class="text-xs text-slate-400">Ajoute ou consulte les utilisateurs enregistrés sur le réseau.</p>
+                <h1 class="text-2xl sm:text-3xl font-black text-white">Membres</h1>
+                <p class="text-xs text-slate-400">Registre des membres enregistrés.</p>
             </div>
-
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
-                <div class="space-y-2">
-                    <label for="inputMembre" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Nom du nouveau membre :</label>
-                    <input type="text" id="inputMembre" placeholder="Ex: #Alex_Gamer" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
-                </div>
-                <button onclick="ajouterMembre()" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-lg shadow-pink-600/20">
-                    ➕ Ajouter le membre
-                </button>
+                <input type="text" id="inputMembre" placeholder="Ex: #Pseudo_Discord" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                <button onclick="ajouterMembre()" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-lg">Ajouter</button>
             </div>
-
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 mb-4">Membres inscrits</h2>
                 <div id="membres-container" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <!-- ONGLET 4 : JOURNAL DE SÉCURITÉ (NOUVEAU) -->
+        <div id="section-securite" class="space-y-6 hidden">
+            <div class="space-y-2">
+                <h1 class="text-2xl sm:text-3xl font-black text-white">Journal de Sécurité (Audit)</h1>
+                <p class="text-xs text-slate-400">Surveille les tentatives de connexion au portail d'administration.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Tentatives de Connexion</h2>
+                    <button onclick="viderSecuriteLogs()" class="text-rose-400 hover:text-rose-300 text-xs font-bold px-3 py-1.5 bg-rose-500/10 border border-rose-500/30 rounded-xl cursor-pointer">Effacer l'historique</button>
+                </div>
+                <div id="security-logs-container" class="space-y-2 text-xs text-slate-400">
+                    <p class="italic">Aucune tentative enregistrée...</p>
+                </div>
             </div>
         </div>
 
@@ -141,6 +128,7 @@
             document.getElementById('badge-role').innerText = localStorage.getItem('crackfr_role') || 'Staff';
             afficherLogs();
             afficherMembres();
+            afficherSecurityLogs();
         });
 
         function deconnexion() {
@@ -150,110 +138,89 @@
         }
 
         function changerOnglet(onglet) {
-            document.getElementById('section-stats').classList.add('hidden');
-            document.getElementById('section-annonces').classList.add('hidden');
-            document.getElementById('section-membres').classList.add('hidden');
-
-            document.getElementById('btn-stats').className = "px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all cursor-pointer";
-            document.getElementById('btn-annonces').className = "px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all cursor-pointer";
-            document.getElementById('btn-membres').className = "px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all cursor-pointer";
-
+            ['stats', 'annonces', 'membres', 'securite'].forEach(o => {
+                document.getElementById('section-' + o).classList.add('hidden');
+                document.getElementById('btn-' + o).className = "px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all cursor-pointer";
+            });
             document.getElementById('section-' + onglet).classList.remove('hidden');
             document.getElementById('btn-' + onglet).className = "px-4 py-2 bg-pink-600 text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-pink-600/20 cursor-pointer";
         }
 
         function envoyerAnnoncePanel() {
             const inputField = document.getElementById('inputAnnonce');
-            if (!inputField) return;
-            
-            const texteAnnonce = inputField.value.trim();
-            if (!texteAnnonce) {
-                alert("Veuillez écrire une annonce !");
-                return;
-            }
-
-            localStorage.setItem('crackfr_active_flash', texteAnnonce);
+            if (!inputField || !inputField.value.trim()) return;
+            const text = inputField.value.trim();
+            localStorage.setItem('crackfr_active_flash', text);
 
             let logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
-            logs.unshift({
-                id: Date.now(),
-                text: texteAnnonce,
-                time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-            });
+            logs.unshift({ id: Date.now(), text, time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) });
             localStorage.setItem('crackfr_11_logs', JSON.stringify(logs));
-
             inputField.value = '';
             afficherLogs();
-            alert("Annonce publiée et synchronisée avec l'accueil ! ⚡");
+            alert("Annonce publiée !");
         }
 
         function supprimerAnnonce(id) {
             let logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
-            logs = logs.filter(log => log.id !== id);
+            logs = logs.filter(l => l.id !== id);
             localStorage.setItem('crackfr_11_logs', JSON.stringify(logs));
             localStorage.removeItem('crackfr_active_flash');
             afficherLogs();
-            alert("Annonce supprimée !");
         }
 
         function afficherLogs() {
-            const logsContainer = document.getElementById('logs-container');
+            const container = document.getElementById('logs-container');
             const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
-            
-            if (logs.length === 0) {
-                logsContainer.innerHTML = '<p class="italic">Aucune annonce récente...</p>';
-                return;
-            }
-
-            logsContainer.innerHTML = logs.map(log => `
+            if (logs.length === 0) { container.innerHTML = '<p class="italic">Aucune annonce...</p>'; return; }
+            container.innerHTML = logs.map(l => `
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <span>${log.text}</span>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-[10px] text-slate-500">${log.time || ''}</span>
-                        <button onclick="supprimerAnnonce(${log.id})" class="text-rose-400 hover:text-rose-300 text-xs font-bold px-2 py-1 bg-rose-500/10 rounded-lg cursor-pointer">🗑️</button>
-                    </div>
+                    <span>${l.text}</span>
+                    <button onclick="supprimerAnnonce(${l.id})" class="text-rose-400 px-2 py-1 bg-rose-500/10 rounded-lg cursor-pointer">🗑️</button>
                 </div>
             `).join('');
         }
 
         function ajouterMembre() {
-            const inputMembre = document.getElementById('inputMembre');
-            if (!inputMembre) return;
-
-            const nomMembre = inputMembre.value.trim();
-            if (!nomMembre) {
-                alert("Entre un nom de membre !");
-                return;
-            }
-
+            const input = document.getElementById('inputMembre');
+            if (!input || !input.value.trim()) return;
+            const name = input.value.trim();
             let membres = JSON.parse(localStorage.getItem('crackfr_membres_list') || '[]');
-            membres.unshift({
-                id: Date.now(),
-                name: nomMembre,
-                joined: new Date().toLocaleDateString('fr-FR')
-            });
+            membres.unshift({ id: Date.now(), name, joined: new Date().toLocaleDateString('fr-FR') });
             localStorage.setItem('crackfr_membres_list', JSON.stringify(membres));
-
-            inputMembre.value = '';
+            input.value = '';
             afficherMembres();
-            alert("Membre ajouté avec succès !");
         }
 
         function afficherMembres() {
-            const membresContainer = document.getElementById('membres-container');
+            const container = document.getElementById('membres-container');
             let membres = JSON.parse(localStorage.getItem('crackfr_membres_list') || '[]');
-
-            if (membres.length === 0) {
-                membresContainer.innerHTML = '<p class="italic text-xs text-slate-500">Aucun membre personnalisé pour l’instant...</p>';
-                return;
-            }
-
-            membresContainer.innerHTML = membres.map(m => `
+            if (membres.length === 0) { container.innerHTML = '<p class="italic text-xs text-slate-500">Aucun membre...</p>'; return; }
+            container.innerHTML = membres.map(m => `
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
                     <span class="font-bold text-white">${m.name}</span>
-                    <span class="text-slate-500">Inscrit le : ${m.joined}</span>
+                    <span class="text-slate-500">${m.joined}</span>
                 </div>
             `).join('');
+        }
+
+        function afficherSecurityLogs() {
+            const container = document.getElementById('security-logs-container');
+            const logs = JSON.parse(localStorage.getItem('crackfr_security_logs') || '[]');
+            if (logs.length === 0) { container.innerHTML = '<p class="italic">Aucune tentative enregistrée...</p>'; return; }
+            container.innerHTML = logs.map(l => `
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                    <span>Tentative rôle : <strong class="text-white">${l.role}</strong></span>
+                    <div class="flex items-center space-x-3">
+                        <span class="px-2 py-0.5 rounded font-bold ${l.status === 'SUCCÈS' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}">${l.status}</span>
+                        <span class="text-slate-500">${l.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viderSecuriteLogs() {
+            localStorage.removeItem('crackfr_security_logs');
+            afficherSecurityLogs();
         }
     </script>
 </body>
