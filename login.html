@@ -36,7 +36,7 @@
             </button>
         </form>
 
-        <div id="error-box" class="hidden p-3 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs rounded-xl font-bold"></div>
+        <div id="error-box" class="hidden p-3 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs rounded-xl font-bold leading-relaxed"></div>
 
         <div>
             <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300">← Retour à l'accueil</a>
@@ -50,8 +50,8 @@
             "Modérateur": "modo123"
         };
 
-        const MAX_ATTEMPTS = 5;  // 5 essais autorisés pour plus de confort
-        const LOCK_TIME = 45;    // 45 secondes de blocage en cas d'abus
+        const MAX_ATTEMPTS = 5;  
+        const LOCK_TIME = 172800; // 48 heures (2 jours) en secondes
 
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
@@ -87,7 +87,21 @@
             }
         }
 
-        function bloquerInterface(secondes) {
+        function formaterTemps(secondes) {
+            const jours = Math.floor(secondes / 86400);
+            const heures = Math.floor((secondes % 86400) / 3600);
+            const minutes = Math.floor((secondes % 3600) / 60);
+            const secs = secondes % 60;
+
+            let texte = "Verrouillé. Réessayez dans ";
+            if (jours > 0) texte += `${jours}j `;
+            if (heures > 0 || jours > 0) texte += `${heures}h `;
+            if (minutes > 0 || heures > 0 || jours > 0) texte += `${minutes}m `;
+            texte += `${secs}s.`;
+            return texte;
+        }
+
+        function bloquerInterface(secondesInitiales) {
             const btn = document.getElementById('submit-btn');
             const input = document.getElementById('password-input');
             const select = document.getElementById('role-select');
@@ -99,10 +113,17 @@
             btn.className = "w-full py-3.5 bg-slate-800 text-slate-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-not-allowed";
             errorBox.classList.remove('hidden');
 
-            let timer = secondes;
+            let timer = secondesInitiales;
+            
+            // Affichage initial immédiat
+            errorBox.innerText = formaterTemps(timer);
+
             const interval = setInterval(() => {
-                errorBox.innerText = `Trop d'échecs. Accès verrouillé pour ${timer}s.`;
                 timer--;
+                if (timer >= 0) {
+                    errorBox.innerText = formaterTemps(timer);
+                }
+                
                 if (timer < 0) {
                     clearInterval(interval);
                     btn.disabled = false;
