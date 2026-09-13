@@ -83,7 +83,7 @@
             </div>
             <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center hover:border-emerald-500/40 transition-all group">
                 <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Statut du Réseau</span>
-                <div class="text-3xl font-black text-emerald-400 flex items-center justify-center space-x-2 group-hover:scale-105 transition-transform">
+                <div class="text-3xl font-black text-emerald-400 flex items-center justify-center space-x-2 group-hover:scale-105 transition-transform relative">
                     <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping absolute"></span>
                     <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
                     <span>En Ligne</span>
@@ -224,9 +224,50 @@
                 gain.connect(audioCtx.destination);
                 
                 osc.start();
-                osc.stop*(Règle 2 : Expert Guide)* Pour rendre ta page d'accueil encore plus immersive et professionnelle, je te propose d'ajouter des détails visuels ultra-stylés :
-* **Un effet de particule ou une lueur dynamique** en arrière-plan pour donner du relief.
-* **Un widget de statut en direct** pour tes services ou tes bots connectés.
-* **Des cartes de présentation interactives** avec un effet de survol plus prononcé.
+                osc.stop(audioCtx.currentTime + 0.05);
+            } catch (e) {}
+        }
 
-Qu'est-ce qui te dirait le plus d'ajouter pour perfectionner ton site ?
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+
+            // Animation du compteur de membres en direct
+            const memberCountEl = document.getElementById('live-member-count');
+            let baseCount = 1240;
+            setInterval(() => {
+                const randomVariation = Math.floor(Math.random() * 5) - 2;
+                baseCount += randomVariation;
+                if(baseCount < 1230) baseCount = 1230;
+                if(memberCountEl) memberCountEl.innerText = baseCount.toLocaleString('fr-FR');
+            }, 8000);
+
+            // Gestion du bouton retour en haut
+            const backToTopBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.remove('hidden');
+                } else {
+                    backToTopBtn.classList.add('hidden');
+                }
+            });
+
+            // Récupère l'annonce flash du panel staff si elle existe
+            try {
+                const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
+                const flashLog = logs.find(log => log.id === 4); 
+                if (flashLog) {
+                    const banner = document.getElementById('flash-banner');
+                    const flashText = document.getElementById('flash-text');
+                    let cleanText = flashLog.details.replace(/^A publié l'annonce flash : /, '');
+                    if(flashText) flashText.innerText = cleanText;
+                    if(banner) banner.classList.remove('hidden');
+                }
+            } catch (e) {}
+        });
+    </script>
+</body>
+</html>
