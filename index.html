@@ -18,7 +18,14 @@
     <!-- En-tête -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-pink-400">CRACKFR</div>
+            <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
+                <span>🔥</span>
+                <span>CRACKFR</span>
+            </div>
+            <nav class="hidden sm:flex items-center space-x-6 text-xs font-bold uppercase tracking-wider text-slate-300">
+                <a href="#features" class="hover:text-pink-400 transition-colors">Fonctionnalités</a>
+                <a href="#stats-section" class="hover:text-pink-400 transition-colors">Statistiques</a>
+            </nav>
             <div class="flex items-center space-x-3">
                 <a href="login.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all">
                     🔐 Panel Staff
@@ -28,12 +35,51 @@
     </header>
 
     <!-- Contenu Principal -->
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
-        <h1 class="text-5xl font-black text-white">Bienvenue sur <span class="text-pink-500">CrackFR</span></h1>
-        <p class="text-slate-400 text-sm">Serveur communautaire et gaming actif.</p>
-        <a href="https://discord.gg/25XdSrFQve" target="_blank" class="inline-block px-7 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20">
-            💬 Rejoindre le Discord
-        </a>
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-16 space-y-16">
+        
+        <!-- Hero Section -->
+        <section class="text-center space-y-6">
+            <span class="px-3.5 py-1.5 text-xs font-extrabold uppercase tracking-widest bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full inline-block">
+                Communauté & Gaming
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight">
+                Bienvenue sur <span class="text-pink-500">CrackFR</span>
+            </h1>
+            <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+                Rejoins notre communauté gaming, participe à nos projets, profite de nos bots et connecte-toi avec d'autres passionnés.
+            </p>
+            <div class="pt-4 flex flex-wrap justify-center gap-4">
+                <a href="https://discord.gg/25XdSrFQve" target="_blank" class="px-7 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 inline-block">
+                    💬 Rejoindre le Discord
+                </a>
+            </div>
+        </section>
+
+        <!-- Section Blocs / Fonctionnalités -->
+        <section id="features" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                <span class="text-2xl">⚡</span>
+                <h2 class="text-sm font-bold uppercase tracking-wider text-white">Bots Exclusifs</h2>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Développements sur-mesure pour animer les salons et gérer la modération de manière ultra-rapide.
+                </p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                <span class="text-2xl">🎮</span>
+                <h2 class="text-sm font-bold uppercase tracking-wider text-white">Salons Gaming</h2>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Des espaces dédiés à tes jeux favoris pour trouver des coéquipiers et partager tes meilleures sessions.
+                </p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                <span class="text-2xl">🛡️</span>
+                <h2 class="text-sm font-bold uppercase tracking-wider text-white">Staff Actif</h2>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Une équipe à l'écoute et disponible pour garantir une ambiance saine et agréable au quotidien.
+                </p>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -45,6 +91,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
 
+            // Synchronisation de l'annonce flash
             try {
                 const annonceActuelle = localStorage.getItem('crackfr_active_flash');
                 if (annonceActuelle) {
