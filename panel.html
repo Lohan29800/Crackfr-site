@@ -3,142 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Staff 🔐</title>
-    <!-- Tailwind CSS CDN -->
+    <title>CrackFR - Panel Staff Avancé ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { opacity: 0; transition: opacity 0.4s ease-in-out; }
-    </style>
+    <style>body { opacity: 0; transition: opacity 0.4s ease-in-out; }</style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
 
-    <!-- Section Connexion (Affichée par défaut si non connecté) -->
-    <div id="login-section" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full space-y-6 shadow-2xl text-center">
-            <div class="space-y-2">
-                <span class="text-3xl">🔐</span>
-                <h1 class="text-xl font-black text-white uppercase tracking-wider">Accès Restreint - Staff</h1>
-                <p class="text-xs text-slate-400">Entre le mot de passe administrateur pour accéder au panel.</p>
+    <!-- En-tête / Navigation Panel -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
+                <span>🔐</span>
+                <span>PANEL STAFF - CRACKFR</span>
             </div>
-            <!-- On empêche le rechargement automatique avec onsubmit="event.preventDefault();" -->
-            <form onsubmit="event.preventDefault(); verifierMotDePasse();" class="space-y-4 text-left">
-                <div class="space-y-1">
-                    <label for="password-input" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Mot de passe :</label>
-                    <input type="password" id="password-input" placeholder="admin123" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
-                </div>
-                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
-                    Se connecter
+            <div class="flex items-center space-x-3">
+                <span id="badge-role" class="px-3 py-1 text-[10px] font-extrabold uppercase bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full">Rôle</span>
+                <button onclick="deconnexion()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
+                    🔒 Déconnexion
                 </button>
-            </form>
-            <div>
-                <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">← Retour à l'accueil</a>
+                <a href="index.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
+                    🏠 Accueil
+                </a>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Interface du Panel (Masquée tant que l'admin n'est pas connecté) -->
-    <div id="panel-content" class="hidden flex flex-col min-h-screen justify-between">
-        <!-- En-tête / Navigation Panel -->
-        <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
-            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-                <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
-                    <span>🔐</span>
-                    <span>PANEL STAFF - CRACKFR</span>
+    <!-- Contenu Principal -->
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-12 w-full space-y-8">
+        
+        <!-- Menu des Catégories du Panel -->
+        <div class="flex flex-wrap gap-2 pb-4 border-b border-slate-800">
+            <button onclick="changerOnglet('stats')" id="btn-stats" class="px-4 py-2 bg-pink-600 text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-pink-600/20">
+                📊 Statistiques & Graphiques
+            </button>
+            <button onclick="changerOnglet('annonces')" id="btn-annonces" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all">
+                ⚡ Annonces Flash
+            </button>
+            <button onclick="changerOnglet('membres')" id="btn-membres" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all">
+                👥 Gestion Membres
+            </button>
+        </div>
+
+        <!-- ONGLET 1 : STATISTIQUES ET GRAPHIQUES -->
+        <div id="section-stats" class="space-y-6">
+            <div class="space-y-2">
+                <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Vue d'ensemble du Réseau</h1>
+                <p class="text-xs text-slate-400">Statistiques d'activité et graphiques de performance du serveur.</p>
+            </div>
+
+            <!-- Grille de stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Membres Actifs</span>
+                    <div class="text-3xl font-black text-white">1,240</div>
+                    <p class="text-[11px] text-emerald-400">+12% cette semaine</p>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <button onclick="deconnexion()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-xl transition-all cursor-pointer">
-                        🔒 Déconnexion
-                    </button>
-                    <a href="index.html" onclick="playClickSound()" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all inline-block">
-                        🏠 Accueil
-                    </a>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-pink-400">Visites du Site</span>
+                    <div class="text-3xl font-black text-white">8,420</div>
+                    <p class="text-[11px] text-emerald-400">Pic hier à 21h</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Disponibilité Bots</span>
+                    <div class="text-3xl font-black text-emerald-400">99.9%</div>
+                    <p class="text-[11px] text-slate-500">Aucune coupure</p>
                 </div>
             </div>
-        </header>
 
-        <!-- Contenu Principal du Panel -->
-        <main class="flex-grow max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
+            <!-- Faux Graphique visuel en barres stylisées -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Activité des 7 derniers jours</h2>
+                <div class="grid grid-cols-7 gap-3 items-end h-40 pt-8 border-b border-slate-800 px-2">
+                    <div class="bg-pink-600/30 hover:bg-pink-600 rounded-t-lg h-[40%] transition-all flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Lun</div>
+                    <div class="bg-pink-600/40 hover:bg-pink-600 rounded-t-lg h-[60%] transition-all flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Mar</div>
+                    <div class="bg-pink-600/50 hover:bg-pink-600 rounded-t-lg h-[55%] transition-all flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Mer</div>
+                    <div class="bg-pink-600/60 hover:bg-pink-600 rounded-t-lg h-[75%] transition-all flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Jeu</div>
+                    <div class="bg-pink-600/80 hover:bg-pink-600 rounded-t-lg h-[90%] transition-all flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Ven</div>
+                    <div class="bg-pink-600 rounded-t-lg h-[100%] transition-all flex items-start justify-center pt-2 text-[10px] font-bold text-white shadow-lg shadow-pink-600/30">Sam</div>
+                    <div class="bg-pink-600/70 hover:bg-pink-600 rounded-t-lg h-[80%] transition-all flex items-start justify-center pt-2 text-[10px] font-bold text-pink-300">Dim</div>
+                </div>
+                <div class="flex justify-between text-[11px] text-slate-500 px-2">
+                    <span>Flux de connexion stabilisé</span>
+                    <span>Mise à jour en direct</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ONGLET 2 : ANNONCES FLASH -->
+        <div id="section-annonces" class="space-y-6 hidden">
             <div class="space-y-2">
                 <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Gestion des Annonces Flash</h1>
                 <p class="text-xs text-slate-400">Publie une annonce qui s'affichera instantanément en haut de la page d'accueil.</p>
             </div>
 
-            <!-- Formulaire de Publication -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
                 <div class="space-y-2">
                     <label for="inputAnnonce" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Message de l'annonce :</label>
-                    <input type="text" id="inputAnnonce" placeholder="Ex: Maintenance prévue ce soir à 21h sur le serveur..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                    <input type="text" id="inputAnnonce" placeholder="Ex: Maintenance prévue ce soir à 21h..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
                 </div>
-                <button onclick="envoyerAnnoncePanel(); playClickSound();" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
+                <button onclick="envoyerAnnoncePanel()" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
                     ⚡ Publier et Synchroniser
                 </button>
             </div>
 
-            <!-- Historique des actions -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
                 <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">Historique des annonces</h2>
                 <div id="logs-container" class="space-y-2 text-xs text-slate-400">
                     <p class="italic">Aucune annonce récente...</p>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <!-- Pied de page -->
-        <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900 mt-16">
-            <p>&copy; 2026 CrackFR. Tous droits réservés - Espace Staff sécurisé.</p>
-        </footer>
-    </div>
+        <!-- ONGLET 3 : GESTION MEMBRES -->
+        <div id="section-membres" class="space-y-6 hidden">
+            <div class="space-y-2">
+                <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Gestion des Membres</h1>
+                <p class="text-xs text-slate-400">Liste des derniers utilisateurs enregistrés sur le réseau.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
+                    <span class="font-bold text-white">#User_9921</span>
+                    <span class="text-xs text-emerald-400">Actif il y a 2 min</span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
+                    <span class="font-bold text-white">#Gamer_77</span>
+                    <span class="text-xs text-emerald-400">Actif il y a 15 min</span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
+                    <span class="font-bold text-white">#Staff_Alex</span>
+                    <span class="text-xs text-pink-400">En ligne</span>
+                </div>
+            </div>
+        </div>
 
-    <!-- SCRIPT PANEL -->
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900 mt-16">
+        <p>&copy; 2026 CrackFR. Tous droits réservés - Espace Staff sécurisé.</p>
+    </footer>
+
     <script>
-        // Mot de passe administrateur actuel : admin123 (tu peux le modifier ici)
-        const ADMIN_PASSWORD = "admin123"; 
-
-        function playClickSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
-                
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.05);
-            } catch (e) {}
-        }
-
-        // Vérification du mot de passe
-        function verifierMotDePasse() {
-            const inputPass = document.getElementById('password-input').value.trim();
-            
-            if (inputPass === ADMIN_PASSWORD) {
-                localStorage.setItem('crackfr_logged_in', 'true');
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('panel-content').classList.remove('hidden');
-                afficherLogs();
-            } else {
-                alert("Mot de passe incorrect ! (Mot de passe par défaut : admin123)");
-                document.getElementById('password-input').value = '';
+        // Sécurité et affichage du rôle
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('crackfr_logged_in') !== 'true') {
+                window.location.href = 'login.html';
+                return;
             }
-        }
+            document.body.style.opacity = '1';
+            
+            const role = localStorage.getItem('crackfr_role') || 'Staff';
+            const badgeRole = document.getElementById('badge-role');
+            if(badgeRole) badgeRole.innerText = role;
+
+            afficherLogs();
+        });
 
         // Déconnexion
         function deconnexion() {
             localStorage.removeItem('crackfr_logged_in');
-            document.getElementById('panel-content').classList.add('hidden');
-            document.getElementById('login-section').style.display = 'flex';
-            document.getElementById('password-input').value = '';
+            localStorage.removeItem('crackfr_role');
+            window.location.href = 'login.html';
         }
 
-        // Fonction pour envoyer et synchroniser l'annonce flash
+        // Changement d'onglets
+        function changerOnglet(onglet) {
+            document.getElementById('section-stats').classList.add('hidden');
+            document.getElementById('section-annonces').classList.add('hidden');
+            document.getElementById('section-membres').classList.add('hidden');
+
+            document.getElementById('btn-stats').className = "px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all";
+            document.getElementById('btn-annonces').className = "px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all";
+            document.getElementById('btn-membres').className = "px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-800 transition-all";
+
+            document.getElementById('section-' + onglet).classList.remove('hidden');
+            document.getElementById('btn-' + onglet).className = "px-4 py-2 bg-pink-600 text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-pink-600/20";
+        }
+
+        // Publication de l'annonce flash
         function envoyerAnnoncePanel() {
             const inputField = document.getElementById('inputAnnonce');
             if (!inputField) return;
@@ -164,7 +206,7 @@
             alert("Annonce publiée et synchronisée avec l'accueil ! ⚡");
         }
 
-        // Affiche l'historique dans le panel
+        // Affichage de l'historique
         function afficherLogs() {
             const logsContainer = document.getElementById('logs-container');
             const logs = JSON.parse(localStorage.getItem('crackfr_11_logs') || '[]');
@@ -181,17 +223,6 @@
                 </div>
             `).join('');
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            document.body.style.opacity = '1';
-
-            // Vérifie si l'admin est déjà connecté
-            if (localStorage.getItem('crackfr_logged_in') === 'true') {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('panel-content').classList.remove('hidden');
-                afficherLogs();
-            }
-        });
     </script>
 </body>
 </html>
