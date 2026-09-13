@@ -51,15 +51,18 @@
         };
 
         const MAX_ATTEMPTS = 5;  
-        const LOCK_TIME = 172800; // 48 heures pour les autres rôles
+        const LOCK_TIME = 30;    // 30 secondes maximum de sécurité
 
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
+            // Nettoyage automatique des anciens blocages longs en mémoire
+            localStorage.removeItem('crackfr_lock_until');
+            localStorage.removeItem('crackfr_attempts');
+
             if (localStorage.getItem('crackfr_logged_in') === 'true') {
                 window.location.href = 'panel.html';
                 return;
             }
-            verifierBlocage();
         });
 
         function enregistrerTentativeSecurite(role, succes) {
@@ -74,34 +77,7 @@
             localStorage.setItem('crackfr_security_logs', JSON.stringify(securiteLogs));
         }
 
-        function verifierBlocage() {
-            const lockUntil = localStorage.getItem('crackfr_lock_until');
-            if (lockUntil) {
-                const timeLeft = Math.ceil((parseInt(lockUntil) - Date.now()) / 1000);
-                if (timeLeft > 0) {
-                    bloquerInterface(timeLeft);
-                } else {
-                    localStorage.removeItem('crackfr_lock_until');
-                    localStorage.setItem('crackfr_attempts', '0');
-                }
-            }
-        }
-
-        function formaterTemps(secondes) {
-            const jours = Math.floor(secondes / 86400);
-            const heures = Math.floor((secondes % 86400) / 3600);
-            const minutes = Math.floor((secondes % 3600) / 60);
-            const secs = secondes % 60;
-
-            let texte = "Verrouillé. Réessayez dans ";
-            if (jours > 0) texte += `${jours}j `;
-            if (heures > 0 || jours > 0) texte += `${heures}h `;
-            if (minutes > 0 || heures > 0 || jours > 0) texte += `${minutes}m `;
-            texte += `${secs}s.`;
-            return texte;
-        }
-
-        function bloquerInterface(secondesInitiales) {
+        function bloquerInterface(secondes) {
             const btn = document.getElementById('submit-btn');
             const input = document.getElementById('password-input');
             const select = document.getElementById('role-select');
@@ -113,15 +89,10 @@
             btn.className = "w-full py-3.5 bg-slate-800 text-slate-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-not-allowed";
             errorBox.classList.remove('hidden');
 
-            let timer = secondesInitiales;
-            errorBox.innerText = formaterTemps(timer);
-
+            let timer = secondes;
             const interval = setInterval(() => {
+                errorBox.innerText = `Trop d'échecs. Patientez ${timer}s.`;
                 timer--;
-                if (timer >= 0) {
-                    errorBox.innerText = formaterTemps(timer);
-                }
-                
                 if (timer < 0) {
                     clearInterval(interval);
                     btn.disabled = false;
@@ -130,7 +101,7 @@
                     btn.className = "w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer";
                     errorBox.classList.add('hidden');
                     localStorage.removeItem('crackfr_lock_until');
-                    localStorage.setItem('crackfr_attempts', '0');
+                    localStorage.removeItem('crackfr_attempts');
                 }
             }, 1000);
         }
@@ -149,10 +120,10 @@
             } else {
                 enregistrerTentativeSecurite(selectedRole, false);
 
-                // EXCLUSION : Le rôle Fondateur ne subit jamais de blocage
+                // EXCLUSION TOTALE : Le Fondateur n'a jamais de blocage
                 if (selectedRole === "Fondateur") {
                     errorBox.classList.remove('hidden');
-                    errorBox.innerText = "Mot de passe Fondateur incorrect (Accès immunisé contre le blocage).";
+                    errorBox.innerText = "Mot de passe Fondateur incorrect (Accès Fondateur immunisé).";
                     document.getElementById('password-input').value = '';
                     return;
                 }
@@ -162,8 +133,6 @@
                 localStorage.setItem('crackfr_attempts', attempts.toString());
 
                 if (attempts >= MAX_ATTEMPTS) {
-                    const lockTimeEnd = Date.now() + (LOCK_TIME * 1000);
-                    localStorage.setItem('crackfr_lock_until', lockTimeEnd.toString());
                     bloquerInterface(LOCK_TIME);
                 } else {
                     errorBox.classList.remove('hidden');
