@@ -51,7 +51,7 @@
         };
 
         const MAX_ATTEMPTS = 3;
-        const LOCK_TIME = 30; // en secondes
+        const LOCK_TIME = 30;
 
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
@@ -70,7 +70,6 @@
                 status: succes ? 'SUCCÈS' : 'ÉCHOUÉ',
                 time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
             });
-            // Garder uniquement les 20 derniers logs
             if (securiteLogs.length > 20) securiteLogs.pop();
             localStorage.setItem('crackfr_security_logs', JSON.stringify(securiteLogs));
         }
