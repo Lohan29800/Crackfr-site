@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Connexion Staff 🔐</title>
+    <title>CrackFR - Connexion Staff Sécurisée 🔐</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>body { opacity: 0; transition: opacity 0.4s ease-in-out; }</style>
 </head>
@@ -12,11 +12,11 @@
     <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full space-y-6 shadow-2xl text-center">
         <div class="space-y-2">
             <span class="text-3xl">🔐</span>
-            <h1 class="text-xl font-black text-white uppercase tracking-wider">Connexion Staff</h1>
-            <p class="text-xs text-slate-400">Sélectionne ton rôle et entre ton mot de passe.</p>
+            <h1 class="text-xl font-black text-white uppercase tracking-wider">Portail Sécurisé Staff</h1>
+            <p id="subtitle-info" class="text-xs text-slate-400">Sélectionne ton rôle et entre tes identifiants.</p>
         </div>
 
-        <form onsubmit="event.preventDefault(); connecterAdmin();" class="space-y-4 text-left">
+        <form id="login-form" onsubmit="event.preventDefault(); tenterConnexion();" class="space-y-4 text-left">
             <div class="space-y-1">
                 <label for="role-select" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Rôle Staff :</label>
                 <select id="role-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
@@ -31,10 +31,12 @@
                 <input type="password" id="password-input" placeholder="••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
             </div>
 
-            <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer">
+            <button type="submit" id="submit-btn" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer">
                 Se connecter
             </button>
         </form>
+
+        <div id="error-box" class="hidden p-3 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs rounded-xl font-bold"></div>
 
         <div>
             <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300">← Retour à l'accueil</a>
@@ -48,26 +50,102 @@
             "Modérateur": "modo123"
         };
 
-        function connecterAdmin() {
-            const selectedRole = document.getElementById('role-select').value;
-            const inputPass = document.getElementById('password-input').value.trim();
-            
-            if (inputPass === PASSWORDS[selectedRole]) {
-                localStorage.setItem('crackfr_logged_in', 'true');
-                localStorage.setItem('crackfr_role', selectedRole);
-                window.location.href = 'panel.html';
-            } else {
-                alert("Mot de passe incorrect pour le rôle " + selectedRole + " !");
-                document.getElementById('password-input').value = '';
-            }
-        }
+        const MAX_ATTEMPTS = 3;
+        const LOCK_TIME = 30; // en secondes
 
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
             if (localStorage.getItem('crackfr_logged_in') === 'true') {
                 window.location.href = 'panel.html';
+                return;
             }
+            verifierBlocage();
         });
+
+        function enregistrerTentativeSecurite(role, succes) {
+            let securiteLogs = JSON.parse(localStorage.getItem('crackfr_security_logs') || '[]');
+            securiteLogs.unshift({
+                id: Date.now(),
+                role: role,
+                status: succes ? 'SUCCÈS' : 'ÉCHOUÉ',
+                time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            });
+            // Garder uniquement les 20 derniers logs
+            if (securiteLogs.length > 20) securiteLogs.pop();
+            localStorage.setItem('crackfr_security_logs', JSON.stringify(securiteLogs));
+        }
+
+        function verifierBlocage() {
+            const lockUntil = localStorage.getItem('crackfr_lock_until');
+            if (lockUntil) {
+                const timeLeft = Math.ceil((parseInt(lockUntil) - Date.now()) / 1000);
+                if (timeLeft > 0) {
+                    bloquerInterface(timeLeft);
+                } else {
+                    localStorage.removeItem('crackfr_lock_until');
+                    localStorage.setItem('crackfr_attempts', '0');
+                }
+            }
+        }
+
+        function bloquerInterface(secondes) {
+            const btn = document.getElementById('submit-btn');
+            const input = document.getElementById('password-input');
+            const select = document.getElementById('role-select');
+            const errorBox = document.getElementById('error-box');
+
+            btn.disabled = true;
+            input.disabled = true;
+            select.disabled = true;
+            btn.className = "w-full py-3.5 bg-slate-800 text-slate-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-not-allowed";
+            errorBox.classList.remove('hidden');
+
+            let timer = secondes;
+            const interval = setInterval(() => {
+                errorBox.innerText = `Trop d'échecs. Accès verrouillé pour ${timer}s.`;
+                timer--;
+                if (timer < 0) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    input.disabled = false;
+                    select.disabled = false;
+                    btn.className = "w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer";
+                    errorBox.classList.add('hidden');
+                    localStorage.removeItem('crackfr_lock_until');
+                    localStorage.setItem('crackfr_attempts', '0');
+                }
+            }, 1000);
+        }
+
+        function tenterConnexion() {
+            const selectedRole = document.getElementById('role-select').value;
+            const inputPass = document.getElementById('password-input').value.trim();
+            const errorBox = document.getElementById('error-box');
+
+            let attempts = parseInt(localStorage.getItem('crackfr_attempts') || '0');
+
+            if (inputPass === PASSWORDS[selectedRole]) {
+                enregistrerTentativeSecurite(selectedRole, true);
+                localStorage.setItem('crackfr_logged_in', 'true');
+                localStorage.setItem('crackfr_role', selectedRole);
+                localStorage.removeItem('crackfr_attempts');
+                window.location.href = 'panel.html';
+            } else {
+                attempts++;
+                localStorage.setItem('crackfr_attempts', attempts.toString());
+                enregistrerTentativeSecurite(selectedRole, false);
+
+                if (attempts >= MAX_ATTEMPTS) {
+                    const lockTimeEnd = Date.now() + (LOCK_TIME * 1000);
+                    localStorage.setItem('crackfr_lock_until', lockTimeEnd.toString());
+                    bloquerInterface(LOCK_TIME);
+                } else {
+                    errorBox.classList.remove('hidden');
+                    errorBox.innerText = `Mot de passe incorrect (${attempts}/${MAX_ATTEMPTS} essais).`;
+                    document.getElementById('password-input').value = '';
+                }
+            }
+        }
     </script>
 </body>
 </html>
