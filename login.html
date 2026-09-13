@@ -17,34 +17,32 @@
         </div>
 
         <form onsubmit="event.preventDefault(); connecterAdmin();" class="space-y-4 text-left">
-            <!-- Sélection du rôle -->
             <div class="space-y-1">
                 <label for="role-select" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Rôle Staff :</label>
-                <select id="role-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                <select id="role-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
                     <option value="Fondateur">👑 Fondateur</option>
                     <option value="Admin">⚡ Administrateur</option>
                     <option value="Modérateur">🛡️ Modérateur</option>
                 </select>
             </div>
 
-            <!-- Mot de passe -->
             <div class="space-y-1">
                 <label for="password-input" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Mot de passe :</label>
-                <input type="password" id="password-input" placeholder="••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
+                <input type="password" id="password-input" placeholder="••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
             </div>
 
-            <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 cursor-pointer">
+            <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer">
                 Se connecter
             </button>
         </form>
 
         <div>
-            <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">← Retour à l'accueil</a>
+            <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300">← Retour à l'accueil</a>
         </div>
     </div>
 
     <script>
-        // Mots de passe par rôle (Modifie-les si tu veux)
+        // Mots de passe par défaut modifiables ici
         const PASSWORDS = {
             "Fondateur": "fondateur2026",
             "Admin": "admin123",
