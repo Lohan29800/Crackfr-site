@@ -50,8 +50,8 @@
             "Modérateur": "modo123"
         };
 
-        const MAX_ATTEMPTS = 3;
-        const LOCK_TIME = 30;
+        const MAX_ATTEMPTS = 5;  // 5 essais autorisés pour plus de confort
+        const LOCK_TIME = 45;    // 45 secondes de blocage en cas d'abus
 
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
