@@ -9,7 +9,7 @@
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white">
 
     <!-- Header / Barre du haut avec lecteur audio & Statut serveur dynamique -->
-    <header class="w-full max-w-4xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-800 my-4 shadow-xl">
+    <header class="w-full max-w-5xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-800 my-4 shadow-xl">
         <div class="flex items-center gap-3">
             <span class="relative flex h-3 w-3">
               <span id="status-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -31,7 +31,7 @@
     </header>
 
     <!-- Contenu Principal -->
-    <main class="max-w-4xl mx-auto w-full px-4 space-y-8 my-auto">
+    <main class="max-w-5xl mx-auto w-full px-4 space-y-12 my-auto">
         
         <!-- Bannière Annonce Dynamique -->
         <div id="banner" class="hidden bg-gradient-to-r from-pink-950/60 to-purple-950/60 border border-pink-500/40 p-4 rounded-2xl text-pink-200 text-xs font-bold flex items-center gap-3 shadow-lg">
@@ -40,63 +40,160 @@
         </div>
 
         <!-- Hero Section -->
-        <section class="bg-slate-900/60 border border-slate-800 p-8 sm:p-12 rounded-3xl text-center space-y-6 shadow-2xl relative overflow-hidden">
+        <section class="bg-slate-900/60 border border-slate-800 p-8 sm:p-16 rounded-3xl text-center space-y-6 shadow-2xl relative overflow-hidden">
             <div class="absolute -top-24 -right-24 w-72 h-72 bg-pink-600/10 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="space-y-2 relative z-10">
-                <span class="px-3 py-1 bg-pink-600/10 text-pink-400 border border-pink-500/20 text-[10px] font-extrabold uppercase tracking-widest rounded-full">Communauté Gaming & RP</span>
-                <h1 class="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white">CrackFR <span class="text-pink-600">⚡</span></h1>
-                <p class="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">Le repaire ultime pour les passionnés de jeux vidéo, de chill et de partages entre gamers.</p>
+            <div class="space-y-3 relative z-10">
+                <span class="px-3.5 py-1.5 bg-pink-600/10 text-pink-400 border border-pink-500/20 text-[10px] font-extrabold uppercase tracking-widest rounded-full">Communauté Gaming & Multi-Gaming</span>
+                <h1 class="text-4xl sm:text-7xl font-black uppercase tracking-tight text-white">CrackFR <span class="text-pink-600">⚡</span></h1>
+                <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">Le repaire ultime pour les passionnés de jeux vidéo, de sessions chill et de partages entre gamers. Viens poser ton casque et rejoins l'aventure !</p>
             </div>
 
             <div class="flex flex-wrap justify-center gap-3 pt-2 relative z-10">
-                <a href="https://discord.com" target="_blank" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 flex items-center gap-2">
+                <a href="https://discord.com" target="_blank" class="px-6 py-3.5 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 flex items-center gap-2">
                     🎮 Rejoindre le Discord
                 </a>
-                <a href="login.html" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl uppercase tracking-wider transition-all border border-slate-700">
-                    Panel Admin
+                <a href="#jeux" class="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl uppercase tracking-wider transition-all border border-slate-700">
+                    Découvrir nos jeux
                 </a>
+                <a href="login.html" class="px-4 py-3.5 bg-slate-900 hover:bg-slate-800 text-xs font-bold rounded-xl uppercase tracking-wider transition-all border border-slate-800 text-slate-400">
+                    🔒 Admin
+                </a>
+            </div>
+        </section>
+
+        <!-- Statistiques Rapides -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl text-center space-y-1">
+                <span class="text-2xl sm:text-3xl font-black text-pink-500">1.2K+</span>
+                <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wider">Membres Discord</p>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl text-center space-y-1">
+                <span class="text-2xl sm:text-3xl font-black text-emerald-400">15ms</span>
+                <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wider">Latence Serveur</p>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl text-center space-y-1">
+                <span class="text-2xl sm:text-3xl font-black text-purple-400">24/7</span>
+                <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wider">Disponibilité</p>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl text-center space-y-1">
+                <span class="text-2xl sm:text-3xl font-black text-blue-400">100%</span>
+                <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wider">Bonne Ambiance</p>
             </div>
         </section>
 
         <!-- Section Actualités / Patch Notes dynamique -->
-        <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-4">
-            <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Dernières Actualités du Serveur</h2>
+        <section class="bg-slate-900/50 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-4 shadow-xl">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Dernières Actualités & Patch Notes</h2>
+                <span class="text-[10px] text-slate-500 uppercase tracking-widest">Mis à jour par le Staff</span>
+            </div>
             <div id="public-news-list" class="space-y-3">
-                <!-- Injecté dynamiquement -->
+                <!-- Injecté dynamiquement depuis le panel -->
             </div>
         </section>
 
-        <!-- Grille de présentation -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-pink-600/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-lg">🎯</div>
-                <h2 class="text-sm font-bold uppercase tracking-wide text-white">Multi-Gaming Actif</h2>
-                <p class="text-xs text-slate-400 leading-relaxed">Salons dédiés à vos jeux favoris (GTA V, FiveM, Minecraft, Roblox) pour trouver des coéquipiers.</p>
+        <!-- Grille de présentation des Jeux / Pôles -->
+        <section id="jeux" class="space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-xs font-black uppercase tracking-widest text-pink-500">Nos Univers de Jeu</h2>
+                <h3 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">Où vas-tu poser tes valises ?</h3>
             </div>
-            <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg">🎧</div>
-                <h2 class="text-sm font-bold uppercase tracking-wide text-white">Ambiance & Chill</h2>
-                <p class="text-xs text-slate-400 leading-relaxed">Lecteur musical intégré et salons vocaux animés pour se détendre entre sessions.</p>
-            </div>
-            <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">🛡️</div>
-                <h2 class="text-sm font-bold uppercase tracking-wide text-white">Staff à l'écoute</h2>
-                <p class="text-xs text-slate-400 leading-relaxed">Une équipe de modération active pour garantir un espace de jeu sain et sans prises de tête.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Jeu 1 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-pink-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-600/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-xl group-hover:scale-110 transition-transform">
+                        🚗
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-black uppercase tracking-wide text-white">GTA V / FiveM</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Plonge dans notre univers Roleplay ou nos sessions chill open-world entre potes. Économie stable et fun garanti.</p>
+                    </div>
+                    <span class="inline-block text-[10px] font-bold text-pink-400 uppercase tracking-wider bg-pink-950/40 px-3 py-1 rounded-full border border-pink-500/20">Serveur RP Actif</span>
+                </div>
+
+                <!-- Jeu 2 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-purple-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl group-hover:scale-110 transition-transform">
+                        ⛏️
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-black uppercase tracking-wide text-white">Minecraft & Survie</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Un serveur survie / build convivial pour exprimer ta créativité, construire des bases épiques et explorer en communauté.</p>
+                    </div>
+                    <span class="inline-block text-[10px] font-bold text-purple-400 uppercase tracking-wider bg-purple-950/40 px-3 py-1 rounded-full border border-purple-500/20">Multijoueur / Bedrock</span>
+                </div>
+
+                <!-- Jeu 3 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl space-y-4 hover:border-blue-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 transition-transform">
+                        🎮
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-black uppercase tracking-wide text-white">Roblox & Communauté</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Des sessions découvertes sur Roblox, des tournois entre membres et des salons vocaux ultra animés chaque soir.</p>
+                    </div>
+                    <span class="inline-block text-[10px] font-bold text-blue-400 uppercase tracking-wider bg-blue-950/40 px-3 py-1 rounded-full border border-blue-500/20">Événements réguliers</span>
+                </div>
             </div>
         </section>
+
+        <!-- Section FAQ / Pourquoi nous rejoindre -->
+        <section class="bg-slate-900/40 border border-slate-800 p-8 sm:p-10 rounded-3xl space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-xs font-black uppercase tracking-widest text-pink-500">Informations Pratiques</h2>
+                <h3 class="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">Foire Aux Questions</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
+                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
+                        <span class="text-pink-500">❓</span> Comment rejoindre le serveur ?
+                    </h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Il te suffit de cliquer sur le bouton "Rejoindre le Discord" en haut ou en bas de page. Toutes les IP de nos serveurs de jeux y sont épinglées !</p>
+                </div>
+
+                <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
+                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
+                        <span class="text-pink-500">❓</span> Le serveur est-il gratuit ?
+                    </h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Totalement ! CrackFR est une communauté ouverte à tous les passionnés de jeux vidéo sans aucune condition payante.</p>
+                </div>
+
+                <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
+                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
+                        <span class="text-pink-500">❓</span> Comment contacter le staff ?
+                    </h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Notre équipe de modération et d'administration est disponible 24/7 sur notre Discord via un système de ticket rapide.</p>
+                </div>
+
+                <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
+                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
+                        <span class="text-pink-500">❓</span> Puis-je proposer un nouveau jeu ?
+                    </h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Bien sûr ! Nous sommes ouverts aux suggestions dans le salon dédié sur le Discord pour ouvrir de nouveaux pôles gaming.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
-    <footer class="w-full text-center py-6 text-[10px] tracking-widest text-slate-600 uppercase border-t border-slate-900 mt-12">
-        CrackFR 2026 — Tous droits réservés
+    <footer class="w-full text-center py-8 text-[10px] tracking-widest text-slate-500 uppercase border-t border-slate-900 mt-16 space-y-3">
+        <div class="flex justify-center gap-4 text-xs font-bold">
+            <a href="https://discord.com" target="_blank" class="text-pink-400 hover:underline">Discord</a>
+            <a href="#jeux" class="text-slate-400 hover:underline">Jeux</a>
+            <a href="login.html" class="text-slate-400 hover:underline">Panel Admin</a>
+        </div>
+        <p>CrackFR 2026 — Tous droits réservés • Fait avec passion pour les gamers</p>
     </footer>
 
     <!-- Script index -->
     <script>
         window.onload = () => {
-            // Statut Serveur
+            // Statut Serveur dynamique
             const srvStatus = localStorage.getItem('srv_status') || 'online';
             const srvPlayers = localStorage.getItem('srv_players') || '42 / 64';
             const statusText = document.getElementById('status-text');
@@ -116,20 +213,20 @@
                 statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75";
             }
 
-            // Annonce
+            // Annonce dynamique
             const ann = localStorage.getItem('annonce');
             if(ann) {
                 document.getElementById('banner-content').innerText = ann;
                 document.getElementById('banner').classList.remove('hidden');
             }
 
-            // News
+            // News dynamiques
             const newsList = JSON.parse(localStorage.getItem('news') || JSON.stringify([
                 {title: "Ouverture officielle de CrackFR !", desc: "Bienvenue à tous sur notre nouveau portail gaming."}
             ]));
             let newsHtml = '';
             newsList.forEach(n => {
-                newsHtml += `<div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1">
+                newsHtml += `<div class="bg-slate-950 p-4 rounded-2xl border border-slate-800/80 space-y-1">
                     <h3 class="text-xs font-bold text-white uppercase">${n.title}</h3>
                     <p class="text-xs text-slate-400">${n.desc}</p>
                 </div>`;
@@ -147,6 +244,7 @@
             document.getElementById('play-btn').innerText = "🎵 " + track.name;
         }
 
+        // Fonction audio
         function toggleAudio() {
             const player = document.getElementById('audio-player');
             const btn = document.getElementById('play-btn');
