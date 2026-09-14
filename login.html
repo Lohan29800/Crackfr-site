@@ -32,21 +32,13 @@
         <!-- FORMULAIRE DE CONNEXION -->
         <div id="login-section" class="bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/80 max-w-md mx-auto space-y-6 shadow-2xl my-12">
             <div class="text-center space-y-2">
-                <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-xl shadow-inner">
-                    🔐
-                </div>
+                <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-xl shadow-inner">🔐</div>
                 <h2 class="text-lg font-black uppercase tracking-wider text-white">Accès Réservé Staff</h2>
-                <p class="text-xs text-slate-400">Entre le mot de passe administrateur pour piloter les serveurs.</p>
+                <p class="text-xs text-slate-400">Entre le mot de passe administrateur.</p>
             </div>
-
             <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div class="space-y-1">
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Clé d'accès Admin</label>
-                    <input type="password" id="admin-pass" placeholder="••••••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none shadow-inner">
-                </div>
-                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/20">
-                    Déverrouiller le Panel
-                </button>
+                <input type="password" id="admin-pass" placeholder="••••••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none shadow-inner">
+                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider transition-all cursor-pointer">Déverrouiller</button>
             </form>
             <p class="text-[10px] text-center text-slate-600 font-mono">Mot de passe : crackfr2026</p>
         </div>
@@ -55,10 +47,8 @@
         <div id="admin-dashboard" class="hidden space-y-6">
             
             <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-2xl flex items-center justify-between text-xs text-emerald-300">
-                <div class="flex items-center gap-2">
-                    <span>⚡</span> <span>Connecté avec succès en tant qu'Administrateur Principal.</span>
-                </div>
-                <span class="font-mono text-[10px]">Session Active (Securée)</span>
+                <div class="flex items-center gap-2"><span>⚡</span> <span>Connecté en tant qu'Administrateur Principal.</span></div>
+                <span class="font-mono text-[10px]" id="session-time">Session active</span>
             </div>
 
             <!-- GRILLE DE CONTRÔLE -->
@@ -67,74 +57,91 @@
                 <!-- Maintenance -->
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                            <span>🛠️</span> Mode Maintenance
-                        </h3>
+                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">🛠️ Maintenance</h3>
                         <span id="maint-status-indicator" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-400">OFF</span>
                     </div>
                     <div class="space-y-2 pt-2">
                         <input type="text" id="maint-reason-input" placeholder="Raison..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <input type="datetime-local" id="maint-end-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                         <div class="grid grid-cols-2 gap-2 pt-1">
-                            <button onclick="setMaintenance('maintenance')" class="py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Activer</button>
-                            <button onclick="setMaintenance('online')" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Couper</button>
+                            <button onclick="setMaintenance('maintenance')" class="py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Activer</button>
+                            <button onclick="setMaintenance('online')" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Couper</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bannière & Stats -->
+                <!-- Bannière & Live -->
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                        <span>📢</span> Bannière & Stats Live
-                    </h3>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📢 Bannière & Stats</h3>
                     <div class="space-y-2">
                         <input type="text" id="admin-banner-txt" placeholder="Annonce globale..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                         <input type="text" id="admin-players-txt" placeholder="Joueurs (ex: 42 / 64)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <button onclick="saveLiveConfig()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Mettre à jour</button>
+                        <button onclick="saveLiveConfig()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Mettre à jour</button>
                     </div>
                 </div>
 
-                <!-- Gestion de la Playlist Audio -->
+                <!-- Gestion Playlist -->
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                        <span>🎵</span> Gestion de la Playlist
-                    </h3>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">🎵 Playlist Audio</h3>
                     <form onsubmit="addTrack(event)" class="space-y-2">
                         <input type="text" id="track-name" placeholder="Nom du morceau..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <input type="url" id="track-url" placeholder="Lien audio (.ogg/.mp3)..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <button type="submit" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[10px] rounded-xl uppercase tracking-wider transition-all">Ajouter piste</button>
+                        <input type="url" id="track-url" placeholder="Lien audio (.ogg)..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <button type="submit" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[10px] rounded-xl uppercase tracking-wider">Ajouter piste</button>
                     </form>
                 </div>
 
             </div>
 
-            <!-- SUIVI DES INSCRITS & SUGGESTIONS -->
+            <!-- NEWS & SONDAGE -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                            <span>👥</span> Inscrits alertes maintenance
-                        </h3>
-                        <span id="sub-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
-                    </div>
-                    <div id="subscribers-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <p class="text-xs text-slate-500 italic text-center py-4">Aucun inscrit.</p>
-                    </div>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Publier une News</h3>
+                    <form onsubmit="addNewsItem(event)" class="space-y-2.5">
+                        <input type="text" id="news-title-input" placeholder="Titre de l'actualité..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <textarea id="news-desc-input" rows="2" placeholder="Contenu de la news..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
+                        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Publier sur le portail</button>
+                    </form>
                 </div>
 
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                            <span>💡</span> Suggestions de la Communauté
-                        </h3>
-                        <span id="sug-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
-                    </div>
-                    <div id="suggestions-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion.</p>
-                    </div>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📊 Créer un Sondage</h3>
+                    <form onsubmit="createPoll(event)" class="space-y-2.5">
+                        <input type="text" id="poll-q-input" placeholder="Question du sondage..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <input type="text" id="poll-opt1-input" placeholder="Option 1..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <input type="text" id="poll-opt2-input" placeholder="Option 2..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <button type="submit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Lancer le sondage</button>
+                    </form>
                 </div>
 
+            </div>
+
+            <!-- ÉDITEUR JSON & ACTIONS AVANCÉES -->
+            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">💻 Éditeur de Données brut (JSON)</h3>
+                    <button onclick="saveRawJSON()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] rounded-lg">Appliquer</button>
+                </div>
+                <textarea id="raw-json-input" rows="4" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-pink-300 focus:outline-none focus:border-pink-500 resize-none"></textarea>
+            </div>
+
+            <!-- MODÉRATION & CACHE -->
+            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">⚡ Modération & Cache</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <button onclick="clearChat()" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider border border-slate-700">Vider le Chat Global</button>
+                    <button onclick="clearCacheData()" class="py-2.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 font-extrabold text-[11px] rounded-xl uppercase tracking-wider border border-pink-500/30">Réinitialiser tout le site</button>
+                </div>
+            </div>
+
+            <!-- SUGGESTIONS -->
+            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">💡 Boîte à Idées reçues</h3>
+                    <span id="sug-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
+                </div>
+                <div id="suggestions-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion.</p>
+                </div>
             </div>
 
         </div>
@@ -147,9 +154,7 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('auth') === '1') {
-                showDashboard();
-            }
+            if (localStorage.getItem('auth') === '1') showDashboard();
         });
 
         function handleLogin(e) {
@@ -158,7 +163,7 @@
                 localStorage.setItem('auth', '1');
                 showDashboard();
             } else {
-                alert("❌ Clé d'accès incorrecte !");
+                alert("❌ Clé incorrecte !");
             }
         }
 
@@ -178,7 +183,14 @@
                 ind.className = "px-2 py-0.5 bg-pink-600/20 border border-pink-500/30 text-[10px] font-bold rounded-md text-pink-400";
             }
 
-            loadSubscribers();
+            // Charger le JSON brut dans l'éditeur
+            let rawData = {};
+            for(let i=0; i<localStorage.length; i++) {
+                let key = localStorage.key(i);
+                rawData[key] = localStorage.getItem(key);
+            }
+            document.getElementById('raw-json-input').value = JSON.stringify(rawData, null, 2);
+
             loadSuggestions();
         }
 
@@ -190,8 +202,7 @@
         function setMaintenance(status) {
             localStorage.setItem('srv_status', status);
             if(document.getElementById('maint-reason-input').value) localStorage.setItem('maintenance_reason', document.getElementById('maint-reason-input').value);
-            if(document.getElementById('maint-end-input').value) localStorage.setItem('maintenance_end_date', document.getElementById('maint-end-input').value);
-            alert("Mise à jour du statut effectuée !");
+            alert("Statut de maintenance mis à jour !");
             showDashboard();
         }
 
@@ -201,40 +212,81 @@
             alert("Configuration live enregistrée !");
         }
 
-        function addTrack(e) {
-            e.preventDefault();
-            const name = document.getElementById('track-name').value;
-            const src = document.getElementById('track-url').value;
-            let playlist = JSON.parse(localStorage.getItem('playlist') || '[]');
-            playlist.push({ name, src });
-            localStorage.setItem('playlist', JSON.stringify(playlist));
-            alert("🎵 Morceau ajouté à la playlist !");
-            document.getElementById('track-name').value = '';
-            document.getElementById('track-url').value = '';
+        function saveRawJSON() {
+            try {
+                let data = JSON.parse(document.getElementById('raw-json-input').value);
+                for(let key in data) {
+                    localStorage.setItem(key, data[key]);
+                }
+                alert("Données JSON appliquées avec succès !");
+                showDashboard();
+            } catch(err) {
+                alert("Erreur de syntaxe JSON : " + err.message);
+            }
         }
 
-        function loadSubscribers() {
-            const subs = JSON.parse(localStorage.getItem('maint_subscribers') || '[]');
-            document.getElementById('sub-count').innerText = subs.length;
-            if(subs.length === 0) return;
-            let html = '';
-            subs.forEach(s => {
-                html += `<div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
-                    <span class="font-bold text-white">@${s.pseudo}</span>
-                    <span class="text-[10px] text-slate-500 font-mono">${s.date}</span>
-                </div>`;
-            });
-            document.getElementById('subscribers-list').innerHTML = html;
+        function addTrack(e) {
+            e.preventDefault();
+            let playlist = JSON.parse(localStorage.getItem('playlist') || '[]');
+            playlist.push({ name: document.getElementById('track-name').value, src: document.getElementById('track-url').value });
+            localStorage.setItem('playlist', JSON.stringify(playlist));
+            alert("🎵 Morceau ajouté !");
+            document.getElementById('track-name').value = '';
+            document.getElementById('track-url').value = '';
+            showDashboard();
+        }
+
+        function addNewsItem(e) {
+            e.preventDefault();
+            let news = JSON.parse(localStorage.getItem('news') || '[]');
+            news.unshift({ title: document.getElementById('news-title-input').value, desc: document.getElementById('news-desc-input').value });
+            localStorage.setItem('news', JSON.stringify(news));
+            alert("📰 Actualité publiée avec succès !");
+            document.getElementById('news-title-input').value = '';
+            document.getElementById('news-desc-input').value = '';
+            showDashboard();
+        }
+
+        function createPoll(e) {
+            e.preventDefault();
+            const poll = {
+                question: document.getElementById('poll-q-input').value,
+                options: [
+                    document.getElementById('poll-opt1-input').value,
+                    document.getElementById('poll-opt2-input').value
+                ]
+            };
+            localStorage.setItem('active_poll', JSON.stringify(poll));
+            localStorage.removeItem('poll_votes');
+            alert("📊 Sondage publié sur le portail !");
+            document.getElementById('poll-q-input').value = '';
+            document.getElementById('poll-opt1-input').value = '';
+            document.getElementById('poll-opt2-input').value = '';
+        }
+
+        function clearChat() {
+            localStorage.removeItem('community_chat');
+            alert("💬 Le chat a été vidé.");
+        }
+
+        function clearCacheData() {
+            if(confirm("Attention, cela va réinitialiser tout le site. Continuer ?")) {
+                localStorage.clear();
+                location.reload();
+            }
         }
 
         function loadSuggestions() {
             const suggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
             document.getElementById('sug-count').innerText = suggestions.length;
-            if(suggestions.length === 0) return;
+            if(suggestions.length === 0) {
+                document.getElementById('suggestions-list').innerHTML = '<p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion.</p>';
+                return;
+            }
             let html = '';
             suggestions.forEach(s => {
                 html += `<div class="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-1 text-xs">
-                    <div class="flex justify-between items-center"><span class="font-bold text-pink-400">@${s.name}</span><span class="text-[10px] text-slate-500">${s.date}</span></div>
+                    <div class="dis-flex flex justify-between items-center"><span class="font-bold text-pink-400">@${s.name}</span><span class="text-[10px] text-slate-500">${s.date}</span></div>
                     <p class="text-slate-300 leading-relaxed">${s.text}</p>
                 </div>`;
             });
