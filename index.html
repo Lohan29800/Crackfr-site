@@ -3,87 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Accueil Communautaire</title>
+    <title>CrackFR - Accueil Communauté ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Script de vérification du mode maintenance -->
+    <script>
+        if (localStorage.getItem('crackfr_maintenance') === 'true' && localStorage.getItem('crackfr_logged_in') !== 'true') {
+            document.write(`
+                <!DOCTYPE html>
+                <html lang="fr">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <script src="https://cdn.tailwindcss.com"></script>
+                    <title>Maintenance - CrackFR</title>
+                </head>
+                <body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-6 text-center">
+                    <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md space-y-4 shadow-2xl">
+                        <div class="text-4xl">🛠️</div>
+                        <h1 class="text-xl font-bold text-white uppercase tracking-wider">Site en Maintenance</h1>
+                        <p class="text-xs text-slate-400 leading-relaxed">Le site CrackFR est actuellement en cours de maintenance. Seul le personnel autorisé peut y accéder pour le moment.</p>
+                        <div class="pt-2">
+                            <a href="login.html" class="inline-block px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer">Accès Staff 🔐</a>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            throw new Error('Maintenance active');
+        }
+    </script>
+
     <style>
         @keyframes pulseGlow {
             0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.08); }
+            50% { opacity: 0.5; transform: scale(1.05); }
         }
-        .animate-pulse-glow { animation: pulseGlow 5s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulseGlow 6s ease-in-out infinite; }
+        body { opacity: 0; transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black relative overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 md:p-8 selection:bg-pink-500 selection:text-black relative overflow-x-hidden">
 
     <!-- Orbes lumineux d'arrière-plan -->
-    <div class="absolute -top-32 -left-32 w-80 h-80 bg-pink-600/25 rounded-full blur-3xl animate-pulse-glow pointer-events-none"></div>
-    <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-purple-600/25 rounded-full blur-3xl animate-pulse-glow pointer-events-none" style="animation-delay: 2.5s;"></div>
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-pink-600/15 rounded-full blur-3xl animate-pulse-glow pointer-events-none"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl animate-pulse-glow pointer-events-none" style="animation-delay: 3s;"></div>
 
-    <!-- En-tête / Annonce personnalisable -->
-    <header class="w-full max-w-4xl mx-auto flex justify-between items-center py-4 px-6 bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-2xl shadow-lg relative z-10">
-        <div class="flex items-center gap-3">
-            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Statut : <span class="text-emerald-400">En ligne & Opérationnel</span></span>
-        </div>
-        <div class="text-xs text-slate-400 font-mono hidden sm:block">
-            🚀 Version 2.0
-        </div>
-    </header>
-
-    <!-- Contenu Principal -->
-    <main class="w-full max-w-4xl mx-auto my-auto space-y-8 text-center relative z-10 py-10">
+    <div class="max-w-4xl mx-auto space-y-6 relative z-10">
         
-        <!-- Titre & Description -->
-        <div class="space-y-4">
-            <span class="inline-block px-4 py-1.5 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-xs font-extrabold rounded-full uppercase tracking-widest shadow-inner">
-                ✦ Bienvenue sur la communauté ✦
-            </span>
-            <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-400 bg-clip-text text-transparent">
-                CrackFR
-            </h1>
-            <p class="text-sm md:text-base text-slate-400 max-w-xl mx-auto leading-relaxed">
-                Rejoins notre écosystème, découvre nos espaces de partage, profite d'une modération active et accède aux outils de notre communauté en toute sécurité.
+        <!-- En-tête de la page d'accueil -->
+        <header class="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl">
+            <div class="flex items-center gap-4 text-center sm:text-left">
+                <div class="p-3.5 bg-slate-950 border border-slate-800 rounded-2xl text-2xl shadow-inner">
+                    ⚡
+                </div>
+                <div class="space-y-1">
+                    <h1 class="text-xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-400 bg-clip-text text-transparent">
+                        CrackFR
+                    </h1>
+                    <p class="text-xs text-slate-400">Bienvenue sur la plateforme communautaire</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="login.html" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl transition-all border border-slate-700 cursor-pointer">
+                    Connexion Staff
+                </a>
+            </div>
+        </header>
+
+        <!-- Contenu Principal -->
+        <main class="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 p-8 rounded-3xl space-y-4 shadow-2xl text-center">
+            <h2 class="text-lg font-bold text-white">Portail Ouvert</h2>
+            <p class="text-xs text-slate-400 leading-relaxed max-w-lg mx-auto">
+                Le site fonctionne normalement. Si tu actives la maintenance depuis ton panel d'administration, les visiteurs extérieurs se verront bloquer l'accès instantanément.
             </p>
-        </div>
+        </main>
 
-        <!-- Grille de fonctionnalités / Explications -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-            <div class="bg-slate-900/80 backdrop-blur-md border border-slate-800 p-6 rounded-2xl space-y-2 hover:border-pink-500/50 transition-all">
-                <div class="text-2xl">🛡️</div>
-                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Sécurité Maximale</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">Espaces réservés et protégés par un portail de connexion sécurisé pour le staff.</p>
-            </div>
+    </div>
 
-            <div class="bg-slate-900/80 backdrop-blur-md border border-slate-800 p-6 rounded-2xl space-y-2 hover:border-pink-500/50 transition-all">
-                <div class="text-2xl">⚡</div>
-                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Communauté Active</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">Des salons dynamiques, des projets continus et une entraide permanente.</p>
-            </div>
-
-            <div class="bg-slate-900/80 backdrop-blur-md border border-slate-800 p-6 rounded-2xl space-y-2 hover:border-pink-500/50 transition-all">
-                <div class="text-2xl">💬</div>
-                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Rejoins-nous</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">Viens échanger directement avec nous sur notre serveur Discord officiel.</p>
-            </div>
-        </div>
-
-        <!-- Boutons d'actions principaux -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <a href="https://discord.gg/ton-invite" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
-                <span>💬</span> Rejoindre le Discord
-            </a>
-            
-            <a href="login.html" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/30 flex items-center justify-center gap-2">
-                <span>🔐</span> Portail Staff
-            </a>
-        </div>
-    </main>
-
-    <!-- Pied de page -->
-    <footer class="w-full max-w-4xl mx-auto text-center py-6 border-t border-slate-900 text-xs text-slate-500 relative z-10 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <p>© 2026 CrackFR — Tous droits réservés.</p>
-        <p class="text-slate-600">Plateforme officielle sécurisée.</p>
-    </footer>
-
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
 </body>
 </html>
