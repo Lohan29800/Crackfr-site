@@ -3,195 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Administration ULTIMATE ⚡</title>
+    <title>CrackFR - Panel Administration ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { opacity: 0; transition: opacity 0.4s ease-in-out; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #020617; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    </style>
+    <style>body { opacity: 0; transition: opacity 0.3s ease-in-out; }</style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 md:p-8 selection:bg-pink-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 md:p-8">
 
-    <div class="max-w-6xl mx-auto space-y-6">
+    <div class="max-w-3xl mx-auto space-y-6">
         
-        <!-- En-tête Principal -->
-        <header class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl relative overflow-hidden">
-            <div class="absolute -right-10 -top-10 w-40 h-40 bg-pink-600/10 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="text-center sm:text-left space-y-1 relative z-10">
+        <!-- En-tête -->
+        <header class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div class="text-center sm:text-left space-y-1">
                 <h1 class="text-xl font-black text-white uppercase tracking-wider flex items-center justify-center sm:justify-start gap-2">
-                    <span>⚡</span> CrackFR // Command Center v3.0
+                    <span>⚡</span> Panel Admin
                 </h1>
-                <p id="user-role-display" class="text-xs font-bold text-pink-400">Chargement des privilèges...</p>
+                <p id="user-role-display" class="text-xs font-bold text-pink-400">Chargement...</p>
             </div>
-            <div class="flex items-center gap-3 w-full sm:w-auto relative z-10">
-                <a href="index.html" class="flex-1 sm:flex-initial px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl transition-all border border-slate-700 text-center">
-                    Accueil Site
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <a href="index.html" class="flex-1 sm:flex-initial px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl transition-all border border-slate-700 text-center">
+                    Accueil
                 </a>
-                <button onclick="deconnexion()" class="flex-1 sm:flex-initial px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl transition-all border border-rose-500/30 cursor-pointer">
+                <button onclick="deconnexion()" class="flex-1 sm:flex-initial px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl transition-all border border-rose-500/30 cursor-pointer">
                     Déconnexion
                 </button>
             </div>
         </header>
 
-        <!-- Statistiques et Compteurs en temps réel -->
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center gap-4 shadow-lg">
-                <div class="p-3 bg-pink-500/10 text-pink-500 rounded-xl text-xl">🌐</div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Visiteurs Simulés</p>
-                    <h3 class="text-lg font-black text-white" id="stat-visitors">19</h3>
-                </div>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center gap-4 shadow-lg">
-                <div class="p-3 bg-emerald-500/10 text-emerald-500 rounded-xl text-xl">🟢</div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">FiveM Server</p>
-                    <h3 class="text-lg font-black text-emerald-400">Opérationnel</h3>
-                </div>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center gap-4 shadow-lg">
-                <div class="p-3 bg-amber-500/10 text-amber-500 rounded-xl text-xl">🛡️</div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Sécurité IP Log</p>
-                    <h3 class="text-lg font-black text-amber-400" id="stat-ip-status">Actif</h3>
-                </div>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center gap-4 shadow-lg">
-                <div class="p-3 bg-purple-500/10 text-purple-500 rounded-xl text-xl">⏱️</div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Session Active</p>
-                    <h3 class="text-lg font-black text-purple-400" id="session-timer">00:00</h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- Grille Principale des Modules de Contrôle -->
-        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Modules de contrôle -->
+        <main class="space-y-4">
             
-            <!-- Module 1 : Maintenance Global -->
-            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
+            <!-- Module Maintenance -->
+            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+                <div>
                     <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                        <span>🛠️</span> Mode Maintenance
+                        <span>🛠️</span> Mode Maintenance Global
                     </h2>
-                    <p class="text-xs text-slate-400">Verrouille l'accès au site pour tous les visiteurs extérieurs.</p>
+                    <p class="text-xs text-slate-400 mt-1">Bloque l'accès au site pour les visiteurs.</p>
                 </div>
-                <div class="space-y-3 pt-2">
-                    <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
-                        <span class="text-xs text-slate-400 font-bold">État actuel :</span>
-                        <span id="maintenance-status" class="text-xs font-bold text-emerald-400">Actif</span>
-                    </div>
-                    <button onclick="basculerMaintenance()" class="w-full py-3 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer">
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-between">
+                    <span id="maintenance-status" class="text-xs font-bold text-emerald-400">Actif</span>
+                    <button onclick="basculerMaintenance()" class="px-4 py-2.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer">
                         Activer / Désactiver
                     </button>
                 </div>
             </section>
 
-            <!-- Module 2 : Annonce Globale -->
-            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
+            <!-- Module Annonce -->
+            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                <div>
                     <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
                         <span>📢</span> Annonce Globale
                     </h2>
-                    <p class="text-xs text-slate-400">Affiche un bandeau d'alerte sur la page d'accueil.</p>
+                    <p class="text-xs text-slate-400 mt-1">Diffuse un message sur l'accueil.</p>
                 </div>
-                <div class="space-y-3 pt-2">
-                    <input type="text" id="annonce-input" placeholder="Message d'information..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500 transition-all">
+                <div class="space-y-2">
+                    <input type="text" id="annonce-input" placeholder="Message d'information..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
                     <div class="flex gap-2">
                         <button onclick="publierAnnonce()" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer">
-                            Diffuser
+                            Publier
                         </button>
-                        <button onclick="effacerAnnonce()" class="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition-all cursor-pointer">
+                        <button onclick="effacerAnnonce()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition-all cursor-pointer">
                             Retirer
                         </button>
                     </div>
                 </div>
             </section>
 
-            <!-- Module 3 : Générateur d'Accès Provisoire -->
-            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                        <span>🔑</span> Clé d'Accès Provisoire
-                    </h2>
-                    <p class="text-xs text-slate-400">Génère un jeton temporaire de collaboration.</p>
-                </div>
-                <div class="space-y-3 pt-2">
-                    <input type="text" id="generated-token" readonly placeholder="Cliquez sur générer..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-400 font-mono focus:outline-none">
-                    <button onclick="genererToken()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer">
-                        Générer un Jeton
-                    </button>
-                </div>
-            </section>
-
-            <!-- Module 4 : Blacklist IP -->
-            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                        <span>🛡️</span> Sécurité & Blacklist IP
-                    </h2>
-                    <p class="text-xs text-slate-400">Bloque instantanément une adresse IP du site.</p>
-                </div>
-                <div class="space-y-3 pt-2">
-                    <input type="text" id="ip-ban-input" placeholder="Ex: 192.168.1.55" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500 transition-all">
-                    <button onclick="bannirIP()" class="w-full py-2.5 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 border border-rose-500/30 font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer">
-                        Bannir l'IP
-                    </button>
-                </div>
-            </section>
-
-            <!-- Module 5 : Sauvegarde et Cache -->
-            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                        <span>💾</span> Système & Données
-                    </h2>
-                    <p class="text-xs text-slate-400">Sauvegarde ou nettoie le stockage local.</p>
-                </div>
-                <div class="space-y-2 pt-2">
-                    <button onclick="exporterDonnees()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl transition-all cursor-pointer">
-                        Exporter la Config (JSON)
-                    </button>
-                    <button onclick="nettoyerCache()" class="w-full py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl transition-all border border-rose-500/30 cursor-pointer">
-                        Vider le Cache Local
-                    </button>
-                </div>
-            </section>
-
-            <!-- Module 6 : Zone d'Urgence -->
-            <section class="bg-rose-950/20 border border-rose-900/40 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-2">
-                        <span>🚨</span> Alerte Rouge
-                    </h2>
-                    <p class="text-xs text-slate-400">Verrouillage total et déconnexion de tous les staffs.</p>
-                </div>
-                <div class="pt-2">
-                    <button onclick="declencherAlerteRouge()" class="w-full py-3 bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-rose-600/20 cursor-pointer">
-                        Verrouiller le Portail
-                    </button>
-                </div>
-            </section>
-
         </main>
-
-        <!-- Console Interactive / Terminal en direct -->
-        <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-            <div class="flex items-center justify-between">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                    <span>💻</span> Console des Actions Staff (Live & IP Tracked)
-                </h2>
-                <div class="flex gap-3">
-                    <button onclick="copierLogs()" class="text-[10px] text-pink-400 hover:text-pink-300 uppercase tracking-widest font-bold">Copier les logs</button>
-                    <button onclick="viderConsole()" class="text-[10px] text-slate-500 hover:text-slate-300 uppercase tracking-widest font-bold">Nettoyer</button>
-                </div>
-            </div>
-            <div id="terminal-box" class="bg-slate-950 border border-slate-800/80 p-4 rounded-2xl h-40 overflow-y-auto custom-scrollbar font-mono text-[11px] text-slate-300 space-y-1.5">
-                <div class="text-slate-500">[SYSTEM] Initialisation de la console sécurisée CrackFR...</div>
-            </div>
-        </section>
 
     </div>
 
@@ -199,18 +77,17 @@
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1548843091983859722/anp_53peUXEiqxdAah6vlYTroW4bSnDerdtdszI0OzSjh2e1eeemJ73gQsylsuXhOWOh";
         let staffIP = "IP Inconnue";
         let currentRole = "Staff";
-        let secondesSession = 0;
 
         window.addEventListener('DOMContentLoaded', async () => {
             document.body.style.opacity = '1';
 
-            if (localStorage.getItem('crackfr_logged_in') !== 'true' || localStorage.getItem('crackfr_lockdown') === 'true') {
+            if (localStorage.getItem('crackfr_logged_in') !== 'true') {
                 window.location.href = 'login.html';
                 return;
             }
 
             currentRole = localStorage.getItem('crackfr_role') || 'Staff';
-            document.getElementById('user-role-display').innerText = `Connecté en tant que : ${currentRole}`;
+            document.getElementById('user-role-display').innerText = `Connecté : ${currentRole}`;
             mettreAJourUIMaintenance();
 
             const annonceActuelle = localStorage.getItem('crackfr_annonce');
@@ -218,155 +95,68 @@
                 document.getElementById('annonce-input').value = annonceActuelle;
             }
 
-            // Chronomètre de session
-            setInterval(() => {
-                secondesSession++;
-                let m = Math.floor(secondesSession / 60).toString().padStart(2, '0');
-                let s = (secondesSession % 60).toString().padStart(2, '0');
-                document.getElementById('session-timer').innerText = `${m}:${s}`;
-            }, 1000);
-
-            // Récupération IP via ipify
             try {
-                let response = await fetch('https://api.ipify.org?format=json');
-                let data = await response.json();
+                let res = await fetch('https://api.ipify.org?format=json');
+                let data = await res.json();
                 staffIP = data.ip;
-                document.getElementById('stat-ip-status').innerText = "Sécurisé";
-                ajouterLogTerminal(`IP enregistrée avec succès : ${staffIP}`);
             } catch (e) {
-                document.getElementById('stat-ip-status').innerText = "Hors ligne";
-                ajouterLogTerminal(`Impossible de récupérer l'adresse IP`);
+                console.error("IP non récupérée");
             }
         });
 
-        function ajouterLogTerminal(texte) {
-            const term = document.getElementById('terminal-box');
-            const heure = new Date().toLocaleTimeString('fr-FR');
-            const div = document.createElement('div');
-            div.className = "text-slate-300";
-            div.innerHTML = `<span class="text-pink-500 font-bold">[${heure}]</span> ${texte}`;
-            term.appendChild(div);
-            term.scrollTop = term.scrollHeight;
-        }
-
-        function notifierActionDiscord(actionDescription) {
-            const heure = new Date().toLocaleTimeString('fr-FR');
+        function notifierDiscord(action) {
             const date = new Date().toLocaleDateString('fr-FR');
-
+            const heure = new Date().toLocaleTimeString('fr-FR');
             const payload = {
-                content: `🛠️ **Action Staff / Panel Ultimate**\n> **Rôle :** ${currentRole}\n> **Action :** ${actionDescription}\n> **Adresse IP :** \`${staffIP}\`\n> **Heure :** ${date} à ${heure}`
+                content: `🛠️ **Action Staff / Panel**\n> **Rôle :** ${currentRole}\n> **Action :** ${action}\n> **IP :** \`${staffIP}\`\n> **Heure :** ${date} à ${heure}`
             };
 
-            const data = JSON.stringify(payload);
+            const dataStr = JSON.stringify(payload);
             if (navigator.sendBeacon) {
-                const blob = new Blob([data], { type: 'application/json' });
-                navigator.sendBeacon(DISCORD_WEBHOOK_URL, blob);
+                navigator.sendBeacon(DISCORD_WEBHOOK_URL, new Blob([dataStr], { type: 'application/json' }));
             } else {
                 fetch(DISCORD_WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: data,
+                    body: dataStr,
                     mode: 'no-cors'
-                }).catch(err => console.error("Erreur d'envoi Discord:", err));
+                }).catch(err => console.error(err));
             }
-
-            ajouterLogTerminal(actionDescription);
         }
 
         function mettreAJourUIMaintenance() {
-            const isMaintenance = localStorage.getItem('crackfr_maintenance') === 'true';
-            const statusText = document.getElementById('maintenance-status');
-            if (isMaintenance) {
-                statusText.innerText = "Mode Maintenance Actif ⚠️";
-                statusText.className = "text-xs font-bold text-amber-400";
+            const isMaint = localStorage.getItem('crackfr_maintenance') === 'true';
+            const status = document.getElementById('maintenance-status');
+            if (isMaint) {
+                status.innerText = "Actif ⚠️";
+                status.className = "text-xs font-bold text-amber-400";
             } else {
-                statusText.innerText = "Site Opérationnel ✅";
-                statusText.className = "text-xs font-bold text-emerald-400";
+                status.innerText = "Inactif ✅";
+                status.className = "text-xs font-bold text-emerald-400";
             }
         }
 
         function basculerMaintenance() {
             const current = localStorage.getItem('crackfr_maintenance') === 'true';
-            const nouveauStatut = !current;
-            localStorage.setItem('crackfr_maintenance', nouveauStatut.toString());
-            
+            const nextVal = !current;
+            localStorage.setItem('crackfr_maintenance', nextVal.toString());
             mettreAJourUIMaintenance();
-            const actionText = nouveauStatut ? "Activation du Mode Maintenance 🔒" : "Désactivation du Mode Maintenance 🟢";
-            notifierActionDiscord(actionText);
+            notifierDiscord(nextVal ? "Activation du Mode Maintenance 🔒" : "Désactivation du Mode Maintenance 🟢");
         }
 
         function publierAnnonce() {
-            const texte = document.getElementById('annonce-input').value.trim();
-            if (!texte) return;
-            localStorage.setItem('crackfr_annonce', texte);
-            notifierActionDiscord(`Publication d'une annonce globale : "${texte}"`);
-            alert("Annonce diffusée sur le site !");
+            const val = document.getElementById('annonce-input').value.trim();
+            if (!val) return;
+            localStorage.setItem('crackfr_annonce', val);
+            notifierDiscord(`Publication d'une annonce : "${val}"`);
+            alert("Annonce publiée !");
         }
 
         function effacerAnnonce() {
             localStorage.removeItem('crackfr_annonce');
             document.getElementById('annonce-input').value = '';
-            notifierActionDiscord("Suppression de l'annonce globale");
+            notifierDiscord("Suppression de l'annonce globale");
             alert("Annonce retirée.");
-        }
-
-        function genererToken() {
-            const token = 'CRACKFR-KEY-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-            document.getElementById('generated-token').value = token;
-            notifierActionDiscord(`Génération d'un jeton d'accès temporaire (${token})`);
-        }
-
-        function bannirIP() {
-            const ip = document.getElementById('ip-ban-input').value.trim();
-            if (!ip) return;
-            localStorage.setItem('banned_' + ip, 'true');
-            notifierActionDiscord(`Bannissement de l'adresse IP : ${ip}`);
-            alert(`L'adresse IP ${ip} a été bannie du site.`);
-            document.getElementById('ip-ban-input').value = '';
-        }
-
-        function exporterDonnees() {
-            const data = {
-                maintenance: localStorage.getItem('crackfr_maintenance'),
-                annonce: localStorage.getItem('crackfr_annonce'),
-                exportDate: new Date().toISOString()
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'crackfr-config-backup.json';
-            a.click();
-            notifierActionDiscord("Exportation des paramètres du site en JSON 💾");
-        }
-
-        function nettoyerCache() {
-            if (confirm("Voulez-vous vraiment vider les configurations locales ?")) {
-                localStorage.removeItem('crackfr_maintenance');
-                localStorage.removeItem('crackfr_annonce');
-                mettreAJourUIMaintenance();
-                document.getElementById('annonce-input').value = '';
-                notifierActionDiscord("Nettoyage du cache local effectué 🧹");
-                alert("Cache nettoyé.");
-            }
-        }
-
-        function viderConsole() {
-            document.getElementById('terminal-box').innerHTML = '<div class="text-slate-500">[SYSTEM] Console nettoyée.</div>';
-        }
-
-        function copierLogs() {
-            const termText = document.getElementById('terminal-box').innerText;
-            navigator.clipboard.writeText(termText);
-            alert("Logs copiés dans le presse-papier !");
-        }
-
-        function declencherAlerteRouge() {
-            if (confirm("🚨 ALERTE ROUGE : Voulez-vous vraiment verrouiller le portail et déconnecter tout le monde ?")) {
-                localStorage.setItem('crackfr_lockdown', 'true');
-                notifierActionDiscord("🚨 ALERTE ROUGE DÉCLENCHÉE - Verrouillage total et expulsion !");
-                deconnexion();
-            }
         }
 
         function deconnexion() {
