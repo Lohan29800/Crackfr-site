@@ -30,9 +30,9 @@
         <!-- 2. Dashboard Complet (Caché par défaut) -->
         <div id="dashboard" class="hidden space-y-6">
             
-            <!-- MODULE 1 : STATUT DU SERVEUR -->
+            <!-- MODULE 1 : STATUT DU SERVEUR & STATS -->
             <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🟢 Statut & Joueurs en direct</h2>
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🟢 Statut & Statistiques du Site</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">État du serveur :</label>
@@ -46,8 +46,16 @@
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Joueurs connectés :</label>
                         <input type="text" id="server-players" placeholder="ex: 42 / 64" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
                     </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Membres Discord (ex: 1.2K+) :</label>
+                        <input type="text" id="stat-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Latence (ex: 15ms) :</label>
+                        <input type="text" id="stat-ping" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                    </div>
                 </div>
-                <button onclick="saveServerStatus()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Mettre à jour le statut</button>
+                <button onclick="saveGlobalStats()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Enregistrer les stats</button>
             </div>
 
             <!-- MODULE 2 : BANNIÈRE D'ANNONCE -->
@@ -60,7 +68,19 @@
                 </div>
             </div>
 
-            <!-- MODULE 3 : GESTIONNAIRE DE MUSIQUE -->
+            <!-- MODULE 3 : GESTION DES JEUX (Grille Accueil) -->
+            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🎮 Gestion des Univers de Jeu</h2>
+                <div class="space-y-2">
+                    <input type="text" id="game-emoji" placeholder="Emoji (ex: 🚗)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                    <input type="text" id="game-title" placeholder="Nom du jeu (ex: GTA V / FiveM)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                    <textarea id="game-desc" rows="2" placeholder="Description courte..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs resize-none"></textarea>
+                    <button onclick="addGame()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter un jeu</button>
+                </div>
+                <div id="games-list-admin" class="space-y-2 pt-2 border-t border-slate-800 max-h-40 overflow-y-auto"></div>
+            </div>
+
+            <!-- MODULE 4 : GESTIONNAIRE DE MUSIQUE -->
             <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
                 <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🎵 Gestionnaire de Playlist (Chill)</h2>
                 <div class="space-y-2">
@@ -71,11 +91,11 @@
                 <div id="playlist-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-40 overflow-y-auto"></div>
             </div>
 
-            <!-- MODULE 4 : AJOUTER UNE NEWS / PATCH NOTE -->
+            <!-- MODULE 5 : PUBLIER UNE NEWS -->
             <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-3 shadow-xl">
                 <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Publier une News / Patch Note</h2>
-                <input type="text" id="news-title" placeholder="Titre de la news (ex: Mise à jour v1.2)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
-                <textarea id="news-desc" rows="2" placeholder="Description de la mise à jour..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs resize-none"></textarea>
+                <input type="text" id="news-title" placeholder="Titre de la news" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                <textarea id="news-desc" rows="2" placeholder="Description..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs resize-none"></textarea>
                 <button onclick="addNews()" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier la News</button>
                 <div id="news-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-32 overflow-y-auto"></div>
             </div>
@@ -85,7 +105,6 @@
         </div>
     </div>
 
-    <!-- Script de gestion globale du panel -->
     <script>
         window.onload = () => {
             if(localStorage.getItem('auth') === '1') showDash();
@@ -107,8 +126,11 @@
             document.getElementById('annonce-txt').value = localStorage.getItem('annonce') || '';
             document.getElementById('server-status').value = localStorage.getItem('srv_status') || 'online';
             document.getElementById('server-players').value = localStorage.getItem('srv_players') || '42 / 64';
+            document.getElementById('stat-members').value = localStorage.getItem('stat_members') || '1.2K+';
+            document.getElementById('stat-ping').value = localStorage.getItem('stat_ping') || '15ms';
             renderList();
             renderNews();
+            renderGamesAdmin();
         }
 
         function logout() {
@@ -116,14 +138,14 @@
             location.reload();
         }
 
-        // --- STATUT ---
-        function saveServerStatus() {
+        function saveGlobalStats() {
             localStorage.setItem('srv_status', document.getElementById('server-status').value);
             localStorage.setItem('srv_players', document.getElementById('server-players').value);
-            alert("Statut du serveur mis à jour !");
+            localStorage.setItem('stat_members', document.getElementById('stat-members').value);
+            localStorage.setItem('stat_ping', document.getElementById('stat-ping').value);
+            alert("Statistiques et statut mis à jour !");
         }
 
-        // --- ANNONCE ---
         function saveAnnonce() {
             localStorage.setItem('annonce', document.getElementById('annonce-txt').value);
             alert("Annonce publiée !");
@@ -132,6 +154,45 @@
             localStorage.removeItem('annonce');
             document.getElementById('annonce-txt').value = '';
             alert("Annonce retirée.");
+        }
+
+        // --- GESTION DES JEUX ---
+        function getGames() {
+            return JSON.parse(localStorage.getItem('games') || JSON.stringify([
+                {emoji: "🚗", title: "GTA V / FiveM", desc: "Plonge dans notre univers Roleplay ou nos sessions chill open-world entre potes."},
+                {emoji: "⛏️", title: "Minecraft & Survie", desc: "Un serveur survie / build convivial pour exprimer ta créativité."},
+                {emoji: "🎮", title: "Roblox & Communauté", desc: "Des sessions découvertes sur Roblox et des tournois entre membres."}
+            ]));
+        }
+        function renderGamesAdmin() {
+            const games = getGames();
+            let html = '';
+            games.forEach((g, i) => {
+                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
+                    <span class="truncate pr-2 text-white font-bold">${g.emoji} ${g.title}</span>
+                    <button onclick="delGame(${i})" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer">✕</button>
+                </div>`;
+            });
+            document.getElementById('games-list-admin').innerHTML = html;
+        }
+        function addGame() {
+            const emoji = document.getElementById('game-emoji').value;
+            const title = document.getElementById('game-title').value;
+            const desc = document.getElementById('game-desc').value;
+            if(!emoji || !title || !desc) return alert("Remplis tous les champs du jeu !");
+            let games = getGames();
+            games.push({emoji, title, desc});
+            localStorage.setItem('games', JSON.stringify(games));
+            document.getElementById('game-emoji').value = '';
+            document.getElementById('game-title').value = '';
+            document.getElementById('game-desc').value = '';
+            renderGamesAdmin();
+        }
+        function delGame(i) {
+            let games = getGames();
+            games.splice(i, 1);
+            localStorage.setItem('games', JSON.stringify(games));
+            renderGamesAdmin();
         }
 
         // --- PLAYLIST ---
@@ -152,8 +213,8 @@
                 html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
                     <span class="truncate pr-2 ${i == active ? 'text-pink-400 font-bold' : 'text-slate-300'}">${m.name}</span>
                     <div class="flex gap-1 shrink-0">
-                        <button onclick="setActive(${i})" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg cursor-pointer">Activer</button>
-                        <button onclick="del(${i})" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer">✕</button>
+                        <button onclick="localStorage.setItem('active_m', ${i}); renderList(); alert('Musique active !');" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg cursor-pointer">Activer</button>
+                        <button onclick="let l=getPl(); l.splice(${i},1); savePl(l);" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer">✕</button>
                     </div>
                 </div>`;
             });
@@ -169,19 +230,6 @@
             document.getElementById('m-name').value = '';
             document.getElementById('m-url').value = '';
         }
-        function setActive(i) {
-            localStorage.setItem('active_m', i);
-            renderList();
-            alert("Musique active mise à jour !");
-        }
-        function del(i) {
-            let list = getPl();
-            list.splice(i, 1);
-            savePl(list);
-            let currentActive = parseInt(localStorage.getItem('active_m') || '0');
-            if (currentActive >= list.length) localStorage.setItem('active_m', Math.max(0, list.length - 1));
-            renderList();
-        }
 
         // --- NEWS ---
         function getNews() {
@@ -189,19 +237,13 @@
                 {title: "Ouverture officielle de CrackFR !", desc: "Bienvenue à tous sur notre nouveau portail gaming."}
             ]));
         }
-        function saveNewsList(list) {
-            localStorage.setItem('news', JSON.stringify(list));
-            renderNews();
-        }
         function renderNews() {
             const list = getNews();
             let html = '';
             list.forEach((n, i) => {
                 html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
-                    <div class="truncate pr-2">
-                        <span class="font-bold text-white">${n.title}</span>
-                    </div>
-                    <button onclick="delNews(${i})" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer shrink-0">✕</button>
+                    <span class="font-bold text-white truncate pr-2">${n.title}</span>
+                    <button onclick="let l=getNews(); l.splice(${i},1); localStorage.setItem('news', JSON.stringify(l)); renderNews();" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer shrink-0">✕</button>
                 </div>`;
             });
             document.getElementById('news-list').innerHTML = html;
@@ -212,15 +254,11 @@
             if(!title || !desc) return alert("Remplis le titre et la description !");
             let list = getNews();
             list.unshift({title, desc});
-            saveNewsList(list);
+            localStorage.setItem('news', JSON.stringify(list));
             document.getElementById('news-title').value = '';
             document.getElementById('news-desc').value = '';
-            alert("News publiée avec succès !");
-        }
-        function delNews(i) {
-            let list = getNews();
-            list.splice(i, 1);
-            saveNewsList(list);
+            renderNews();
+            alert("News publiée !");
         }
     </script>
 </body>
