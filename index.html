@@ -57,7 +57,6 @@
                 <span class="w-1 bg-pink-500 rounded-full wave-bar"></span>
             </div>
             
-            <!-- Élément audio avec source alternative ultra-stable -->
             <audio id="bg-music" preload="auto" loop>
                 <source src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" type="audio/ogg">
                 <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
@@ -218,8 +217,8 @@
                     waves.classList.remove('hidden');
                     waves.classList.add('flex');
                 }).catch(error => {
-                    console.error("Erreur de lecture audio :", error);
-                    alert("Le navigateur bloque le lancement direct. Clique une deuxième fois sur le bouton !");
+                    alert("Appuie une seconde fois sur le bouton pour autoriser la lecture audio sur ton téléphone !");
+                    music.load();
                 });
             } else {
                 music.pause();
