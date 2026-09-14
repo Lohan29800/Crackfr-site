@@ -64,7 +64,7 @@
                 </button>
             </form>
             
-            <div id="err" class="hidden bg-red-950/40 border border-red-900/50 p-3 rounded-xl text-red-400 text-xs text-center font-bold animate-shake">
+            <div id="err" class="hidden bg-red-950/40 border border-red-900/50 p-3 rounded-xl text-red-400 text-xs text-center font-bold">
                 ⚠️ Identifiants incorrects. Accès refusé.
             </div>
         </div>
@@ -72,6 +72,19 @@
         <!-- 2. Dashboard Complet (Caché par défaut) -->
         <div id="dashboard" class="hidden space-y-6">
             
+            <!-- NOUVEAU MODULE : OBSERVATEUR D'ÉVÉNEMENTS (LOGS DE CONNEXION) -->
+            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                        <span>🛡️</span> Observateur d'Événements (Logs)
+                    </h2>
+                    <button onclick="clearLogs()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[10px] font-bold text-slate-300 rounded-lg cursor-pointer transition-colors">Effacer l'historique</button>
+                </div>
+                <div id="logs-container" class="bg-slate-950 border border-slate-800 rounded-2xl p-3 max-h-48 overflow-y-auto space-y-2 font-mono text-[11px]">
+                    <!-- Les logs s'injectent ici dynamiquement -->
+                </div>
+            </div>
+
             <!-- MODULE 1 : STATUT DU SERVEUR & STATS -->
             <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                 <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
@@ -179,13 +192,59 @@
             }
         }
 
+        // --- GESTION DES LOGS DE CONNEXION ---
+        function addLog(username, status) {
+            const logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
+            const now = new Date();
+            const timeString = now.toLocaleDateString('fr-FR', {day: '2-digit', month: '2-digit'}) + ' à ' + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+            
+            logs.unshift({ time: timeString, user: username, status: status });
+            // Garder uniquement les 50 derniers logs
+            if(logs.length > 50) logs.pop();
+            localStorage.setItem('admin_logs', JSON.stringify(logs));
+        }
+
+        function renderLogs() {
+            const logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
+            const container = document.getElementById('logs-container');
+            if(logs.length === 0) {
+                container.innerHTML = '<p class="text-slate-600 text-center italic py-2">Aucun événement enregistré.</p>';
+                return;
+            }
+            let html = '';
+            logs.forEach(log => {
+                const isSuccess = log.status === 'SUCCESS';
+                const badgeColor = isSuccess ? 'text-emerald-400 bg-emerald-950/50 border-emerald-900/50' : 'text-red-400 bg-red-950/50 border-red-900/50';
+                const statusText = isSuccess ? 'AUTORISÉ' : 'REFUSÉ';
+                html += `<div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/80 border border-slate-800/60">
+                    <div class="flex items-center gap-2 truncate pr-2">
+                        <span class="text-slate-500">[${log.time}]</span>
+                        <span class="text-slate-200">Tentative par <strong class="text-white">"${log.user || 'inconnu'}"</strong></span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${badgeColor} shrink-0">${statusText}</span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearLogs() {
+            localStorage.removeItem('admin_logs');
+            renderLogs();
+        }
+
         function login(e) {
             e.preventDefault();
-            if(document.getElementById('user').value === 'admin' && document.getElementById('pass').value === 'crackfr2026') {
+            const enteredUser = document.getElementById('user').value;
+            const enteredPass = document.getElementById('pass').value;
+
+            if(enteredUser === 'admin' && enteredPass === 'crackfr2026') {
+                addLog(enteredUser, 'SUCCESS');
                 localStorage.setItem('auth', '1');
                 showDash();
             } else {
+                addLog(enteredUser, 'FAILED');
                 document.getElementById('err').classList.remove('hidden');
+                // Si le dashboard est déjà ouvert dans une autre session ou si on veut rafraîchir les logs en arrière-plan
             }
         }
 
@@ -197,6 +256,7 @@
             document.getElementById('server-players').value = localStorage.getItem('srv_players') || '42 / 64';
             document.getElementById('stat-members').value = localStorage.getItem('stat_members') || '1.2K+';
             document.getElementById('stat-ping').value = localStorage.getItem('stat_ping') || '15ms';
+            renderLogs();
             renderList();
             renderNews();
             renderGamesAdmin();
