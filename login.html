@@ -20,9 +20,16 @@
         <div id="login-box" class="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
             <h2 class="text-sm font-bold uppercase text-center tracking-wider">Connexion Staff</h2>
             <form onsubmit="login(event)" class="space-y-3">
-                <!-- Champs vides (plus de valeurs par défaut) -->
+                <!-- Identifiant vide -->
                 <input type="text" id="user" placeholder="Identifiant" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
-                <input type="password" id="pass" placeholder="Mot de passe" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
+                
+                <!-- Mot de passe avec bouton œil pour voir/cacher -->
+                <div class="relative">
+                    <input type="password" id="pass" placeholder="Mot de passe" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 pr-10 text-xs focus:border-pink-500 focus:outline-none">
+                    <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs cursor-pointer focus:outline-none">
+                        👁️
+                    </button>
+                </div>
                 
                 <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/20">Se connecter</button>
             </form>
@@ -110,6 +117,16 @@
     <script>
         window.onload = () => {
             if(localStorage.getItem('auth') === '1') showDash();
+        }
+
+        // Fonction pour afficher/masquer le mot de passe
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('pass');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+            } else {
+                passInput.type = 'password';
+            }
         }
 
         function login(e) {
