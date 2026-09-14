@@ -72,7 +72,7 @@
         <!-- 2. Dashboard Complet (Caché par défaut) -->
         <div id="dashboard" class="hidden space-y-6">
             
-            <!-- NOUVEAU MODULE : OBSERVATEUR D'ÉVÉNEMENTS (LOGS DE CONNEXION) -->
+            <!-- MODULE : OBSERVATEUR D'ÉVÉNEMENTS (LOGS DE CONNEXION) -->
             <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
@@ -88,14 +88,14 @@
             <!-- MODULE 1 : STATUT DU SERVEUR & STATS -->
             <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                 <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>🟢</span> Statut & Statistiques du Site
+                    <span>🟢</span> Statut & Maintenance du Site
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">État du serveur :</label>
                         <select id="server-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                             <option value="online">En Ligne (Actif)</option>
-                            <option value="maintenance">Maintenance</option>
+                            <option value="maintenance">Maintenance (Bloque les visiteurs)</option>
                             <option value="full">Complet</option>
                         </select>
                     </div>
@@ -170,13 +170,45 @@
         </div>
     </div>
 
+    <!-- ÉCRAN DE MAINTENANCE VISITEUR (Injecté dynamiquement si le mode est actif et que l'utilisateur n'est pas admin) -->
+    <div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-6 text-center">
+        <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800 space-y-6 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600"></div>
+            <div class="w-16 h-16 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-2xl shadow-inner">
+                🛠️
+            </div>
+            <div class="space-y-2">
+                <h2 class="text-lg font-black uppercase tracking-wider text-white">Site en Maintenance</h2>
+                <p class="text-xs text-slate-400 leading-relaxed">CrackFR fait peau neuve ou subit une mise à jour technique. Nos équipes reviennent très vite !</p>
+            </div>
+            <div class="pt-2">
+                <a href="login.html" class="inline-block w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl uppercase tracking-wider transition-all">
+                    Accès Staff (Connexion)
+                </a>
+            </div>
+        </div>
+    </div>
+
     <footer class="w-full text-center py-6 text-[10px] tracking-widest text-slate-600 uppercase mt-12 relative z-10">
         CrackFR Security System — 2026
     </footer>
 
     <script>
         window.onload = () => {
-            if(localStorage.getItem('auth') === '1') showDash();
+            // SCRIPT DE MAINTENANCE INTELLIGENT
+            const isMaintenance = localStorage.getItem('srv_status') === 'maintenance';
+            const isAdmin = localStorage.getItem('auth') === '1';
+
+            // Si on est sur index.html ou login.html et que le mode maintenance est actif pour les visiteurs non-admin
+            if (isMaintenance && !isAdmin) {
+                // Si on est sur le panel/login, on laisse la possibilité de se connecter, MAIS on peut afficher l'écran de maintenance si on est sur la page d'accueil principale.
+                // Ici, vérifions si on est sur la page principale index.html ou login.html
+                if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '') {
+                    document.getElementById('maintenance-screen').classList.remove('hidden');
+                }
+            }
+
+            if(isAdmin) showDash();
         }
 
         // Fonction pour afficher/masquer le mot de passe
@@ -199,7 +231,6 @@
             const timeString = now.toLocaleDateString('fr-FR', {day: '2-digit', month: '2-digit'}) + ' à ' + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
             
             logs.unshift({ time: timeString, user: username, status: status });
-            // Garder uniquement les 50 derniers logs
             if(logs.length > 50) logs.pop();
             localStorage.setItem('admin_logs', JSON.stringify(logs));
         }
@@ -244,12 +275,12 @@
             } else {
                 addLog(enteredUser, 'FAILED');
                 document.getElementById('err').classList.remove('hidden');
-                // Si le dashboard est déjà ouvert dans une autre session ou si on veut rafraîchir les logs en arrière-plan
             }
         }
 
         function showDash() {
             document.getElementById('login-box').classList.add('hidden');
+            document.getElementById('maintenance-screen').classList.add('hidden'); // Masquer l'écran de maintenance si l'admin est connecté
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('annonce-txt').value = localStorage.getItem('annonce') || '';
             document.getElementById('server-status').value = localStorage.getItem('srv_status') || 'online';
@@ -272,7 +303,7 @@
             localStorage.setItem('srv_players', document.getElementById('server-players').value);
             localStorage.setItem('stat_members', document.getElementById('stat-members').value);
             localStorage.setItem('stat_ping', document.getElementById('stat-ping').value);
-            alert("Statistiques et statut mis à jour !");
+            alert("Statistiques et mode maintenance mis à jour !");
         }
 
         function saveAnnonce() {
