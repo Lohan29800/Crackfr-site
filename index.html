@@ -3,78 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Communauté Gaming & Services ⚡</title>
+    <title>CrackFR - Communauté Gaming ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { opacity: 0; transition: opacity 0.4s ease-in-out; }</style>
+    <style>
+        body { opacity: 0; transition: opacity 0.5s ease-in-out; }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.15); opacity: 0.6; }
+        }
+        .glow-effect { animation: pulseGlow 6s infinite ease-in-out; }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black overflow-x-hidden relative">
 
-    <div class="max-w-4xl mx-auto w-full space-y-6 my-auto">
+    <!-- Effets d'arrière-plan lumineux -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-600/15 rounded-full blur-[120px] pointer-events-none glow-effect"></div>
+    <div class="absolute bottom-10 right-10 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none glow-effect"></div>
+
+    <!-- Top bar / Lecteur Musical Ambiant -->
+    <header class="max-w-4xl mx-auto w-full flex items-center justify-between bg-slate-900/60 backdrop-blur-md border border-slate-800/80 px-6 py-3 rounded-2xl shadow-xl relative z-10">
+        <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
+            <span class="text-xs font-black uppercase tracking-wider text-white">CrackFR // Live</span>
+        </div>
         
-        <!-- Bannière d'annonce dynamique (masquée par défaut si aucune annonce) -->
-        <div id="global-banner" class="hidden bg-pink-600/10 border border-pink-500/30 p-4 rounded-2xl text-pink-400 text-xs font-bold text-center shadow-lg flex items-center justify-center gap-2">
+        <!-- Lecteur Audio Intégré -->
+        <div class="flex items-center gap-3">
+            <span id="audio-status" class="text-[10px] text-slate-400 uppercase tracking-widest hidden sm:inline">Ambiance Lofi</span>
+            <audio id="bg-music" loop>
+                <!-- Lien audio libre de droit / lofi -->
+                <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="toggleMusic()" id="music-btn" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 border border-pink-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-md">
+                <span>🎵</span> <span id="music-btn-text">Play Musique</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto w-full space-y-6 my-auto relative z-10">
+        
+        <!-- Bannière d'annonce dynamique -->
+        <div id="global-banner" class="hidden bg-pink-600/10 border border-pink-500/30 p-4 rounded-2xl text-pink-400 text-xs font-bold text-center shadow-lg flex items-center justify-center gap-2 animate-bounce">
             <span>📢</span> <span id="banner-text"></span>
         </div>
 
-        <!-- Carte de Présentation du Serveur -->
-        <header class="bg-slate-900 border border-slate-800 p-8 md:p-12 rounded-3xl shadow-2xl relative overflow-hidden text-center space-y-6">
-            <div class="absolute -right-16 -top-16 w-48 h-48 bg-pink-600/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="space-y-2 relative z-10">
+        <!-- Carte Principale de Présentation -->
+        <main class="bg-slate-900/80 backdrop-blur-xl border border-slate-800 p-8 md:p-12 rounded-3xl shadow-2xl text-center space-y-6 relative overflow-hidden">
+            <div class="space-y-3">
                 <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/20 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full">
-                    Communauté Gaming Officielle
+                    Plateforme Communautaire
                 </span>
-                <h1 class="text-3xl md:text-5xl font-black text-white uppercase tracking-wider pt-2">
+                <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-400 bg-clip-text text-transparent pt-2">
                     CrackFR ⚡
                 </h1>
-                <p class="text-xs md:text-sm text-slate-400 max-w-lg mx-auto">
-                    Le repaire ultime des joueurs et des créateurs. Rejoins notre écosystème de serveurs, profite de nos outils et connecte-toi avec la communauté.
+                <p class="text-xs md:text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
+                    Le portail de référence pour les passionnés de jeux vidéo et de projets techniques. Plonge dans l'univers de notre communauté.
                 </p>
             </div>
 
-            <!-- Boutons d'Action -->
-            <div class="flex flex-wrap items-center justify-center gap-3 pt-2 relative z-10">
-                <a href="login.html" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-pink-600/20">
+            <!-- Boutons d'Action Stylés -->
+            <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+                <a href="login.html" class="px-7 py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-pink-600/30 hover:scale-105 transform duration-200">
                     Portail Staff (Login)
                 </a>
-                <a href="https://discord.com" target="_blank" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-slate-700">
+                <a href="https://discord.com" target="_blank" class="px-7 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-slate-700 hover:scale-105 transform duration-200">
                     Rejoindre le Discord
                 </a>
             </div>
-        </header>
+        </main>
 
-        <!-- Statistiques / Atouts de la communauté -->
+        <!-- Grille d'Atouts avec effets de survol -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-            <div class="bg-slate-900/80 border border-slate-800/80 p-5 rounded-2xl">
+            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-800/80 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300">
                 <h3 class="text-xl font-black text-white">100%</h3>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Communautaire</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Actif & Dynamique</p>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800/80 p-5 rounded-2xl">
-                <h3 class="text-xl font-black text-pink-400">24/7</h3>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Disponibilité</p>
+            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-800/80 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300">
+                <h3 class="text-xl font-black text-pink-400">Gaming</h3>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">& Projets Tech</p>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800/80 p-5 rounded-2xl">
+            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-800/80 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300">
                 <h3 class="text-xl font-black text-white">Sécurisé</h3>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Logs & Webhooks</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Webhooks & Logs</p>
             </div>
         </div>
 
     </div>
 
-    <footer class="text-center text-[10px] text-slate-600 uppercase tracking-widest pt-6">
+    <footer class="text-center text-[10px] text-slate-600 uppercase tracking-widest pt-6 relative z-10">
         CrackFR © 2026 - Tous droits réservés
     </footer>
 
     <script>
+        // Gestion de l'affichage global et de la musique
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
+            
+            // Affichage de l'annonce du panel si elle existe
             const annonce = localStorage.getItem('crackfr_annonce');
             if (annonce) {
                 document.getElementById('banner-text').innerText = annonce;
                 document.getElementById('global-banner').classList.remove('hidden');
             }
         });
+
+        // Contrôle du lecteur audio
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            const btnText = document.getElementById('music-btn-text');
+            
+            if (music.paused) {
+                music.play().then(() => {
+                    btnText.innerText = "Pause Musique";
+                }).catch(e => {
+                    alert("Impossible de lancer la musique automatiquement. Interaction requise.");
+                });
+            } else {
+                music.pause();
+                btnText.innerText = "Play Musique";
+            }
+        }
     </script>
 </body>
 </html>
