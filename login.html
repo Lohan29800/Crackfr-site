@@ -1,258 +1,167 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - CrackFR ⚡</title>
+    <title>Panel Admin - CrackFR</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { opacity: 0; transition: opacity 0.5s ease-in-out; background-color: #020617; }
-    </style>
 </head>
-<body class="text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-6 flex flex-col justify-between">
 
-    <header class="max-w-4xl mx-auto w-full flex items-center justify-between bg-slate-900/80 backdrop-blur-xl border border-slate-800 px-6 py-3.5 rounded-2xl shadow-2xl">
-        <a href="index.html" class="text-xs font-black uppercase tracking-wider text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-2">
-            <span>←</span> Retour au site
-        </a>
-        <h1 class="text-xs font-black uppercase tracking-wider text-white">Panel Administration ⚡</h1>
-    </header>
+    <div class="max-w-xl mx-auto w-full space-y-6">
+        <div class="flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
+            <a href="index.html" class="text-xs text-pink-400 font-bold">← Retour au site</a>
+            <h1 class="text-xs font-bold uppercase">Administration</h1>
+        </div>
 
-    <main class="max-w-4xl mx-auto w-full space-y-6 my-8">
-        
-        <!-- Formulaire de Connexion -->
-        <div id="login-card" class="bg-slate-900/85 backdrop-blur-2xl border border-slate-800 p-8 rounded-3xl shadow-2xl max-w-md mx-auto space-y-6">
-            <div class="space-y-2 text-center">
-                <h2 class="text-xl font-black text-white uppercase">Connexion Staff</h2>
-                <p class="text-xs text-slate-400">Entre tes identifiants pour accéder aux options avancées.</p>
-            </div>
-            
-            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-[10px] uppercase font-black tracking-widest text-slate-400 mb-1">Identifiant</label>
-                    <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase font-black tracking-widest text-slate-400 mb-1">Mot de passe</label>
-                    <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
-                </div>
-                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-pink-600/30 cursor-pointer">
-                    Se connecter
-                </button>
+        <!-- 1. Formulaire de Connexion -->
+        <div id="login-box" class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+            <h2 class="text-sm font-bold uppercase text-center">Connexion Staff</h2>
+            <form onsubmit="login(event)" class="space-y-3">
+                <input type="text" id="user" placeholder="Identifiant (admin)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
+                <input type="password" id="pass" placeholder="Mot de passe (crackfr2026)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
+                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-bold text-xs rounded-lg uppercase">Se connecter</button>
             </form>
-            <p id="error-msg" class="text-red-400 text-xs text-center hidden font-bold">Identifiants incorrects (admin / crackfr2026).</p>
+            <p id="err" class="text-red-400 text-xs text-center hidden">Identifiants incorrects.</p>
         </div>
 
-        <!-- Dashboard Admin (Caché par défaut) -->
-        <div id="admin-dashboard" class="hidden space-y-6">
+        <!-- 2. Dashboard (Caché au début) -->
+        <div id="dashboard" class="hidden space-y-6">
             
-            <!-- Gestion de l'Annonce Globale -->
-            <div class="bg-slate-900/85 backdrop-blur-2xl border border-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl space-y-4">
-                <h2 class="text-lg font-black text-white uppercase flex items-center gap-2">
-                    <span>📢</span> Gestion de l'Annonce du Site
-                </h2>
-                <form onsubmit="saveAnnonce(event)" class="space-y-4">
-                    <div>
-                        <input type="text" id="annonce-input" placeholder="Ex: Maintenance prévue ce soir à 21h !" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
-                    </div>
-                    <div class="flex gap-3 flex-wrap">
-                        <button type="submit" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-black text-xs uppercase rounded-xl transition-all shadow-lg shadow-pink-600/30 cursor-pointer">
-                            Publier l'annonce
-                        </button>
-                        <button type="button" onclick="clearAnnonce()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs uppercase rounded-xl transition-all cursor-pointer">
-                            Retirer l'annonce
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Gestionnaire de Musiques & Playlist -->
-            <div class="bg-slate-900/85 backdrop-blur-2xl border border-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl space-y-6">
-                <h2 class="text-lg font-black text-white uppercase flex items-center gap-2">
-                    <span>🎵</span> Gestionnaire de Playlist Audio
-                </h2>
-
-                <!-- Ajouter une musique par lien URL -->
-                <form onsubmit="addMusicLink(event)" class="space-y-4 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h3 class="text-xs font-black uppercase text-pink-400 tracking-wider">Ajouter une musique par lien direct (URL MP3 / OGG)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <input type="text" id="music-title" placeholder="Nom (ex: Lofi Chill)" required class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
-                        <input type="url" id="music-url" placeholder="Lien direct (ex: https://.../audio.mp3)" required class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
-                    </div>
-                    <button type="submit" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-pink-300 border border-pink-500/30 font-bold text-xs rounded-xl transition-all cursor-pointer">
-                        Ajouter ce lien à la playlist
-                    </button>
-                </form>
-
-                <!-- Importer un fichier audio localement -->
-                <div class="space-y-3 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h3 class="text-xs font-black uppercase text-pink-400 tracking-wider">Importer un fichier audio (MP3 / WAV depuis l'appareil)</h3>
-                    <input type="file" id="local-audio-file" accept="audio/*" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-pink-600 file:text-white hover:file:bg-pink-500 file:cursor-pointer">
-                    <button type="button" onclick="uploadLocalMusic()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-lg shadow-pink-600/20">
-                        Uploader et ajouter le fichier
-                    </button>
-                </div>
-
-                <!-- Liste des musiques -->
-                <div class="space-y-3">
-                    <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider">Playlist Actuelle</h3>
-                    <div id="playlist-container" class="space-y-2 max-h-60 overflow-y-auto pr-2">
-                        <!-- Rempli par JS -->
-                    </div>
+            <!-- Gestion Annonce -->
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
+                <h2 class="text-xs font-bold uppercase text-pink-400">📢 Annonce du site</h2>
+                <input type="text" id="annonce-txt" placeholder="Texte de l'annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
+                <div class="flex gap-2">
+                    <button onclick="saveAnnonce()" class="px-4 py-2 bg-pink-600 text-xs font-bold rounded-lg">Publier</button>
+                    <button onclick="clearAnnonce()" class="px-4 py-2 bg-slate-800 text-xs font-bold rounded-lg">Retirer</button>
                 </div>
             </div>
 
-            <div class="text-center pt-2">
-                <button onclick="logout()" class="px-6 py-3 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 font-bold text-xs uppercase rounded-xl transition-all cursor-pointer">
-                    Se déconnecter du Panel
-                </button>
+            <!-- Gestion Musique -->
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Musique</h2>
+                
+                <!-- Par lien -->
+                <div class="space-y-2">
+                    <input type="text" id="m-name" placeholder="Nom de la musique" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
+                    <input type="url" id="m-url" placeholder="Lien direct MP3/OGG" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
+                    <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg">Ajouter par lien</button>
+                </div>
+
+                <!-- Par fichier local -->
+                <div class="space-y-2 pt-2 border-t border-slate-800">
+                    <input type="file" id="m-file" accept="audio/*" class="w-full text-xs text-slate-400">
+                    <button onclick="addFile()" class="w-full py-2 bg-pink-600 text-xs font-bold rounded-lg">Uploader le fichier local</button>
+                </div>
+
+                <!-- Liste -->
+                <div id="playlist-list" class="space-y-2 pt-2"></div>
             </div>
+
+            <button onclick="logout()" class="w-full py-2 bg-red-900/30 text-red-400 text-xs font-bold rounded-lg">Déconnexion</button>
         </div>
-    </main>
-
-    <footer class="text-center text-[10px] text-slate-600 uppercase tracking-widest pt-6">
-        CrackFR Admin © 2026
-    </footer>
+    </div>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            document.body.style.opacity = '1';
-            if (localStorage.getItem('crackfr_auth') === 'true') {
-                showDashboard();
-            }
-        });
+        window.onload = () => {
+            if(localStorage.getItem('auth') === '1') showDash();
+        }
 
-        function handleLogin(e) {
+        function login(e) {
             e.preventDefault();
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value.trim();
-            
-            if (u === 'admin' && p === 'crackfr2026') {
-                localStorage.setItem('crackfr_auth', 'true');
-                showDashboard();
+            if(document.getElementById('user').value === 'admin' && document.getElementById('pass').value === 'crackfr2026') {
+                localStorage.setItem('auth', '1');
+                showDash();
             } else {
-                document.getElementById('error-msg').classList.remove('hidden');
+                document.getElementById('err').classList.remove('hidden');
             }
         }
 
-        function showDashboard() {
-            document.getElementById('login-card').classList.add('hidden');
-            document.getElementById('admin-dashboard').classList.remove('hidden');
-            const savedAnnonce = localStorage.getItem('crackfr_annonce');
-            if(savedAnnonce) document.getElementById('annonce-input').value = savedAnnonce;
-            renderPlaylistAdmin();
+        function showDash() {
+            document.getElementById('login-box').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('annonce-txt').value = localStorage.getItem('annonce') || '';
+            renderList();
         }
 
         function logout() {
-            localStorage.removeItem('crackfr_auth');
+            localStorage.removeItem('auth');
             location.reload();
         }
 
-        function saveAnnonce(e) {
-            e.preventDefault();
-            const val = document.getElementById('annonce-input').value.trim();
-            localStorage.setItem('crackfr_annonce', val);
-            alert("Annonce publiée avec succès !");
+        function saveAnnonce() {
+            localStorage.setItem('annonce', document.getElementById('annonce-txt').value);
+            alert("Annonce enregistrée !");
         }
 
         function clearAnnonce() {
-            localStorage.removeItem('crackfr_annonce');
-            document.getElementById('annonce-input').value = '';
+            localStorage.removeItem('annonce');
+            document.getElementById('annonce-txt').value = '';
             alert("Annonce retirée.");
         }
 
-        // --- Gestion Playlists ---
-        function getPlaylist() {
-            const defaultList = [
-                { name: "Coffee Shop Ambience", src: "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" },
-                { name: "Lofi Study Beats", src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" }
-            ];
-            const stored = localStorage.getItem('crackfr_playlist');
-            return stored ? JSON.parse(stored) : defaultList;
+        function getPl() {
+            return JSON.parse(localStorage.getItem('playlist') || JSON.stringify([
+                {name: "Ambiance Café", src: "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"}
+            ]));
         }
 
-        function savePlaylist(list) {
-            localStorage.setItem('crackfr_playlist', JSON.stringify(list));
-            renderPlaylistAdmin();
+        function savePl(list) {
+            localStorage.setItem('playlist', JSON.stringify(list));
+            renderList();
         }
 
-        function renderPlaylistAdmin() {
-            const list = getPlaylist();
-            const activeIdx = parseInt(localStorage.getItem('crackfr_active_music') || '0');
-            const container = document.getElementById('playlist-container');
-            container.innerHTML = '';
-
-            if (list.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 italic">Aucune musique dans la playlist.</p>`;
-                return;
-            }
-
-            list.forEach((track, index) => {
-                const isActive = index === activeIdx;
-                const div = document.createElement('div');
-                div.className = `flex items-center justify-between p-3 rounded-xl border ${isActive ? 'bg-pink-600/15 border-pink-500/50 text-white' : 'bg-slate-950 border-slate-800 text-slate-300'}`;
-                div.innerHTML = `
-                    <div class="flex items-center gap-3 overflow-hidden pr-2">
-                        <span class="text-xs font-bold text-pink-400">#${index + 1}</span>
-                        <span class="text-xs truncate font-medium">${track.name}</span>
-                        ${isActive ? '<span class="text-[9px] bg-pink-500 text-black font-black px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">Active</span>' : ''}
+        function renderList() {
+            const list = getPl();
+            const active = localStorage.getItem('active_m') || '0';
+            let html = '';
+            list.forEach((m, i) => {
+                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
+                    <span class="truncate pr-2 ${i == active ? 'text-pink-400 font-bold' : ''}">${m.name}</span>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="setActive(${i})" class="px-2 py-1 bg-slate-800 rounded">Activer</button>
+                        <button onclick="del(${i})" class="px-2 py-1 bg-red-900/50 text-red-400 rounded">✕</button>
                     </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <button type="button" onclick="setActiveMusic(${index})" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg cursor-pointer transition-colors">Activer</button>
-                        <button type="button" onclick="deleteMusic(${index})" class="px-3 py-1.5 bg-red-600/20 hover:bg-red-600/30 text-red-400 text-xs font-bold rounded-lg cursor-pointer transition-colors">✕</button>
-                    </div>
-                `;
-                container.appendChild(div);
+                </div>`;
             });
+            document.getElementById('playlist-list').innerHTML = html;
         }
 
-        function addMusicLink(e) {
-            e.preventDefault();
-            const name = document.getElementById('music-title').value.trim();
-            const src = document.getElementById('music-url').value.trim();
-            const list = getPlaylist();
-            list.push({ name, src });
-            savePlaylist(list);
-            document.getElementById('music-title').value = '';
-            document.getElementById('music-url').value = '';
-            alert("Musique ajoutée avec succès !");
+        function addLink() {
+            const name = document.getElementById('m-name').value;
+            const src = document.getElementById('m-url').value;
+            if(!name || !src) return alert("Remplis tous les champs !");
+            let list = getPl();
+            list.push({name, src});
+            savePl(list);
+            document.getElementById('m-name').value = '';
+            document.getElementById('m-url').value = '';
         }
 
-        function uploadLocalMusic() {
-            const fileInput = document.getElementById('local-audio-file');
-            if (fileInput.files.length === 0) {
-                alert("Sélectionne d'abord un fichier audio !");
-                return;
-            }
-            const file = fileInput.files[0];
+        function addFile() {
+            const file = document.getElementById('m-file').files[0];
+            if(!file) return alert("Choisis un fichier !");
             const reader = new FileReader();
-            
             reader.onload = function(e) {
-                const base64Audio = e.target.result;
-                const list = getPlaylist();
-                list.push({ name: file.name, src: base64Audio });
-                savePlaylist(list);
-                fileInput.value = '';
-                alert("Fichier audio importé et enregistré avec succès !");
+                let list = getPl();
+                list.push({name: file.name, src: e.target.result});
+                savePl(list);
+                document.getElementById('m-file').value = '';
             };
             reader.readAsDataURL(file);
         }
 
-        function setActiveMusic(index) {
-            localStorage.setItem('crackfr_active_music', index);
-            renderPlaylistAdmin();
-            alert("Musique active modifiée pour le site principal !");
+        function setActive(i) {
+            localStorage.setItem('active_m', i);
+            renderList();
+            alert("Musique active mise à jour !");
         }
 
-        function deleteMusic(index) {
-            let list = getPlaylist();
-            list.splice(index, 1);
-            savePlaylist(list);
-            let currentActive = parseInt(localStorage.getItem('crackfr_active_music') || '0');
-            if (currentActive >= list.length) {
-                localStorage.setItem('crackfr_active_music', Math.max(0, list.length - 1));
-            }
-            renderPlaylistAdmin();
+        function del(i) {
+            let list = getPl();
+            list.splice(i, 1);
+            savePl(list);
         }
     </script>
 </body>
