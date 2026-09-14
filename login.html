@@ -3,44 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Accueil</title>
+    <title>CrackFR - Connexion Staff Sécurisée 🔐</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { opacity: 0; transition: opacity 0.5s ease-in-out; }</style>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulseGlow 6s ease-in-out infinite; }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        body { opacity: 0; transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-6 selection:bg-pink-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex items-center justify-center p-4 selection:bg-pink-500 selection:text-black overflow-hidden relative">
 
-    <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-lg w-full space-y-6 text-center shadow-2xl">
-        <h1 class="text-3xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white to-pink-400 bg-clip-text text-transparent">
-            Bienvenue sur CrackFR
-        </h1>
-        <p class="text-xs text-slate-400 leading-relaxed">
-            Plateforme communautaire et espace de gestion. Accède au portail de connexion staff sécurisé ci-dessous.
-        </p>
+    <!-- Arrière-plan animé lumineux -->
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl animate-pulse-glow pointer-events-none"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse-glow pointer-events-none" style="animation-delay: 3s;"></div>
 
-        <div class="pt-4">
-            <a href="login.html" class="inline-block w-full py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20">
-                🔐 Accès Portail Staff
+    <!-- Carte principale avec effet d'apparition fluide -->
+    <div id="login-card" class="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 p-8 rounded-3xl max-w-md w-full space-y-6 shadow-2xl text-center relative z-10 transition-all duration-500 hover:border-slate-700">
+        
+        <!-- Icône animée -->
+        <div class="space-y-3">
+            <div class="inline-block text-4xl animate-float p-4 bg-slate-950/60 border border-slate-800 rounded-2xl shadow-inner">
+                🔐
+            </div>
+            <h1 class="text-2xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white via-slate-200 to-pink-400 bg-clip-text text-transparent">
+                Portail Staff
+            </h1>
+            <p id="subtitle-info" class="text-xs text-slate-400 font-medium">Sélectionne ton rôle et entre tes identifiants sécurisés.</p>
+        </div>
+
+        <form id="login-form" onsubmit="event.preventDefault(); tenterConnexion();" class="space-y-4 text-left">
+            <div class="space-y-1.5 transition-all duration-300">
+                <label for="role-select" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Rôle Staff :</label>
+                <select id="role-select" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3.5 text-xs text-white focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 transition-all cursor-pointer">
+                    <option value="Fondateur">👑 Fondateur</option>
+                    <option value="Admin">⚡ Administrateur</option>
+                    <option value="Modérateur">🛡️ Modérateur</option>
+                </select>
+            </div>
+
+            <div class="space-y-1.5 transition-all duration-300">
+                <label for="password-input" class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Mot de passe :</label>
+                <input type="password" id="password-input" placeholder="••••••••" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3.5 text-xs text-white focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 transition-all">
+            </div>
+
+            <button type="submit" id="submit-btn" class="w-full py-4 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-pink-600/20 hover:shadow-pink-600/40 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+                Se connecter
+            </button>
+        </form>
+
+        <!-- Boîte d'erreur animée -->
+        <div id="error-box" class="hidden p-3.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs rounded-xl font-bold transition-all duration-300 transform"></div>
+
+        <div>
+            <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition-colors inline-flex items-center gap-1 group">
+                <span class="transition-transform group-hover:-translate-x-1">←</span> Retour à l'accueil
             </a>
         </div>
     </div>
 
-    <!-- Script de suivi des visiteurs pour le Panel Admin -->
     <script>
+        const PASSWORDS = {
+            "Fondateur": "fondateur2026",
+            "Admin": "admin123",
+            "Modérateur": "modo123"
+        };
+
+        const MAX_ATTEMPTS = 5;  
+        const LOCK_TIME = 30;    // 30 secondes max de sécurité
+
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
+            localStorage.removeItem('crackfr_lock_until');
+            localStorage.removeItem('crackfr_attempts');
 
-            // Enregistrement de la visite
-            let visites = JSON.parse(localStorage.getItem('crackfr_visiteurs') || '[]');
-            visites.unshift({
-                id: Date.now(),
-                page: document.title || "Accueil",
-                time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-                date: new Date().toLocaleDateString('fr-FR')
-            });
-
-            if (visites.length > 30) visites.pop();
-            localStorage.setItem('crackfr_visiteurs', JSON.stringify(visites));
+            if (localStorage.getItem('crackfr_logged_in') === 'true') {
+                window.location.href = 'panel.html';
+                return;
+            }
         });
+
+        function enregistrerTentativeSecurite(role, succes) {
+            let securiteLogs = JSON.parse(localStorage.getItem('crackfr_security_logs') || '[]');
+            securiteLogs.unshift({
+                id: Date.now(),
+                role: role,
+                status: succes ? 'SUCCÈS' : 'ÉCHOUÉ',
+                time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            });
+            if (securiteLogs.length > 20) securiteLogs.pop();
+            localStorage.setItem('crackfr_security_logs', JSON.stringify(securiteLogs));
+        }
+
+        function declencherSecousse() {
+            const card = document.getElementById('login-card');
+            card.classList.add('animate-shake');
+            setTimeout(() => {
+                card.classList.remove('animate-shake');
+            }, 400);
+        }
+
+        function bloquerInterface(secondes) {
+            const btn = document.getElementById('submit-btn');
+            const input = document.getElementById('password-input');
+            const select = document.getElementById('role-select');
+            const errorBox = document.getElementById('error-box');
+
+            btn.disabled = true;
+            input.disabled = true;
+            select.disabled = true;
+            btn.className = "w-full py-4 bg-slate-800 text-slate-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-not-allowed transition-all";
+            errorBox.classList.remove('hidden');
+
+            let timer = secondes;
+            const interval = setInterval(() => {
+                errorBox.innerText = `Trop d'échecs. Patientez ${timer}s.`;
+                timer--;
+                if (timer < 0) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    input.disabled = false;
+                    select.disabled = false;
+                    btn.className = "w-full py-4 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-pink-600/20 cursor-pointer";
+                    errorBox.classList.add('hidden');
+                    localStorage.removeItem('crackfr_lock_until');
+                    localStorage.removeItem('crackfr_attempts');
+                }
+            }, 1000);
+        }
+
+        function tenterConnexion() {
+            const selectedRole = document.getElementById('role-select').value;
+            const inputPass = document.getElementById('password-input').value.trim();
+            const errorBox = document.getElementById('error-box');
+
+            if (inputPass === PASSWORDS[selectedRole]) {
+                enregistrerTentativeSecurite(selectedRole, true);
+                localStorage.setItem('crackfr_logged_in', 'true');
+                localStorage.setItem('crackfr_role', selectedRole);
+                localStorage.removeItem('crackfr_attempts');
+                
+                const btn = document.getElementById('submit-btn');
+                btn.innerText = "Connexion réussie ! Redirection...";
+                btn.className = "w-full py-4 bg-emerald-600 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30";
+                
+                setTimeout(() => {
+                    window.location.href = 'panel.html';
+                }, 600);
+            } else {
+                enregistrerTentativeSecurite(selectedRole, false);
+                declencherSecousse();
+
+                // EXCLUSION TOTALE : Le Fondateur n'a jamais de blocage
+                if (selectedRole === "Fondateur") {
+                    errorBox.classList.remove('hidden');
+                    errorBox.innerText = "Mot de passe Fondateur incorrect (Accès Fondateur immunisé).";
+                    document.getElementById('password-input').value = '';
+                    return;
+                }
+
+                let attempts = parseInt(localStorage.getItem('crackfr_attempts') || '0');
+                attempts++;
+                localStorage.setItem('crackfr_attempts', attempts.toString());
+
+                if (attempts >= MAX_ATTEMPTS) {
+                    bloquerInterface(LOCK_TIME);
+                } else {
+                    errorBox.classList.remove('hidden');
+                    errorBox.innerText = `Mot de passe incorrect (${attempts}/${MAX_ATTEMPTS} essais).`;
+                    document.getElementById('password-input').value = '';
+                }
+            }
+        }
     </script>
 </body>
 </html>
