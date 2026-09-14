@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Portail Gaming & Communauté</title>
+    <title>CrackFR - Portail Gaming & Communauté Ultime</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white">
@@ -45,7 +45,7 @@
             <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="space-y-3 relative z-10">
-                <span class="px-3.5 py-1.5 bg-pink-600/10 text-pink-400 border border-pink-500/20 text-[10px] font-extrabold uppercase tracking-widest rounded-full">Communauté Gaming & Multi-Gaming</span>
+                <span class="px-3.5 py-1.5 bg-pink-600/10 text-pink-400 border border-pink-500/20 text-[10px] font-extrabold uppercase tracking-widest rounded-full">Communauté Gaming & Multi-Gaming Française</span>
                 <h1 class="text-4xl sm:text-7xl font-black uppercase tracking-tight text-white">CrackFR <span class="text-pink-600">⚡</span></h1>
                 <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">Le repaire ultime pour les passionnés de jeux vidéo, de sessions chill et de partages entre gamers. Viens poser ton casque et rejoins l'aventure !</p>
             </div>
@@ -81,6 +81,18 @@
                 <span class="text-2xl sm:text-3xl font-black text-blue-400">100%</span>
                 <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wider">Bonne Ambiance</p>
             </div>
+        </section>
+
+        <!-- Section Événement / Prochain Event en cours -->
+        <section class="bg-gradient-to-r from-pink-950/40 via-slate-900 to-purple-950/40 border border-pink-500/30 p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl">
+            <div class="space-y-2 text-center md:text-left">
+                <span class="px-3 py-1 bg-pink-600/20 text-pink-400 border border-pink-500/30 text-[10px] font-extrabold uppercase tracking-widest rounded-full">🗓️ Événement Communautaire</span>
+                <h3 class="text-lg sm:text-xl font-black uppercase text-white">Soirée Tournoi Multi-Gaming ce Vendredi !</h3>
+                <p class="text-xs text-slate-400 max-w-xl">Rejoins-nous sur le salon vocal principal pour des tournois exclusifs avec des rôles spéciaux à gagner sur le Discord.</p>
+            </div>
+            <a href="https://discord.com" target="_blank" class="px-5 py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider shrink-0 transition-all shadow-lg shadow-pink-600/20">
+                Participer
+            </a>
         </section>
 
         <!-- Section Actualités / Patch Notes dynamique -->
@@ -127,7 +139,7 @@
                 </div>
 
                 <!-- Jeu 3 -->
-                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl space-y-4 hover:border-blue-500/50 transition-all group">
+                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-blue-500/50 transition-all group">
                     <div class="w-12 h-12 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 transition-transform">
                         🎮
                     </div>
@@ -137,6 +149,43 @@
                     </div>
                     <span class="inline-block text-[10px] font-bold text-blue-400 uppercase tracking-wider bg-blue-950/40 px-3 py-1 rounded-full border border-blue-500/20">Événements réguliers</span>
                 </div>
+            </div>
+        </section>
+
+        <!-- Section Sondage Interactif -->
+        <section class="bg-slate-900/50 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6">
+            <div class="space-y-1">
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-pink-400">📊 Espace Communauté</span>
+                <h3 class="text-lg sm:text-xl font-black uppercase text-white">Quel est ton mode de jeu favori sur CrackFR ?</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="poll-options">
+                <button onclick="vote('gta')" class="p-4 bg-slate-950 border border-slate-800 hover:border-pink-500 rounded-2xl text-left space-y-2 cursor-pointer transition-all">
+                    <span class="text-xs font-bold text-white block">GTA V / FiveM</span>
+                    <span id="vote-gta" class="text-[10px] text-pink-400 font-extrabold">Votes : 0</span>
+                </button>
+                <button onclick="vote('minecraft')" class="p-4 bg-slate-950 border border-slate-800 hover:border-pink-500 rounded-2xl text-left space-y-2 cursor-pointer transition-all">
+                    <span class="text-xs font-bold text-white block">Minecraft Survie</span>
+                    <span id="vote-minecraft" class="text-[10px] text-pink-400 font-extrabold">Votes : 0</span>
+                </button>
+                <button onclick="vote('roblox')" class="p-4 bg-slate-950 border border-slate-800 hover:border-pink-500 rounded-2xl text-left space-y-2 cursor-pointer transition-all">
+                    <span class="text-xs font-bold text-white block">Roblox & Chill</span>
+                    <span id="vote-roblox" class="text-[10px] text-pink-400 font-extrabold">Votes : 0</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Section Galerie / Aperçus du serveur -->
+        <section class="space-y-4">
+            <div class="text-center space-y-1">
+                <h2 class="text-xs font-black uppercase tracking-widest text-pink-500">Galerie</h2>
+                <h3 class="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">Aperçus de la Communauté</h3>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #1</div>
+                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #2</div>
+                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #3</div>
+                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #4</div>
             </div>
         </section>
 
@@ -242,6 +291,25 @@
             const player = document.getElementById('audio-player');
             player.src = track.src;
             document.getElementById('play-btn').innerText = "🎵 " + track.name;
+
+            // Chargement des votes
+            updateVoteDisplay();
+        }
+
+        // Système de vote interactif
+        function vote(type) {
+            let votes = JSON.parse(localStorage.getItem('poll_votes') || '{"gta": 12, "minecraft": 8, "roblox": 5}');
+            votes[type]++;
+            localStorage.setItem('poll_votes', JSON.stringify(votes));
+            updateVoteDisplay();
+            alert("Merci pour ton vote !");
+        }
+
+        function updateVoteDisplay() {
+            let votes = JSON.parse(localStorage.getItem('poll_votes') || '{"gta": 12, "minecraft": 8, "roblox": 5}');
+            document.getElementById('vote-gta').innerText = "Votes : " + votes.gta;
+            document.getElementById('vote-minecraft').innerText = "Votes : " + votes.minecraft;
+            document.getElementById('vote-roblox').innerText = "Votes : " + votes.roblox;
         }
 
         // Fonction audio
