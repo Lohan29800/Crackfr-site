@@ -1,3 +1,7 @@
+if (localStorage.getItem('srv_status') === 'maintenance' && localStorage.getItem('auth') !== '1') {
+    window.location.href = 'login.html'; // Redirige vers la page de login/maintenance
+}
+
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
