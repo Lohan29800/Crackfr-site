@@ -1,217 +1,155 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin Ultime - CrackFR</title>
+    <title>CrackFR — Centre de Commandement Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-6 flex flex-col justify-between selection:bg-pink-600 selection:text-white relative overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white relative overflow-x-hidden">
 
-    <!-- Effets d'ambiance lumineux en arrière-plan -->
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <!-- Effets d'ambiance néon -->
+    <div class="absolute top-0 right-1/4 w-[500px] h-[300px] bg-pink-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="absolute bottom-10 left-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[130px] pointer-events-none"></div>
 
-    <div class="max-w-2xl mx-auto w-full space-y-6 relative z-10">
+    <div class="max-w-4xl mx-auto w-full p-4 sm:p-6 space-y-6 relative z-10">
         
-        <!-- Top bar -->
-        <div class="flex justify-between items-center bg-slate-900/80 backdrop-blur-md p-4 rounded-2xl border border-slate-800/80 shadow-xl">
-            <a href="index.html" class="text-xs text-pink-400 font-bold hover:text-pink-300 transition-colors flex items-center gap-1.5">
-                <span>←</span> Retour au site
-            </a>
-            <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
-                <h1 class="text-xs font-black uppercase tracking-wider text-white">CrackFR <span class="text-pink-500">Security</span></h1>
+        <!-- HEADER ADMIN -->
+        <header class="flex justify-between items-center bg-slate-900/80 backdrop-blur-md p-4 sm:px-6 rounded-2xl border border-slate-800/80 shadow-xl">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse shadow-lg shadow-pink-500/50"></span>
+                <h1 class="text-xs sm:text-sm font-black uppercase tracking-wider text-white">Crack<span class="text-pink-500">FR</span> // Command Center</h1>
             </div>
-        </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-extrabold rounded-xl transition-all border border-slate-700/50 flex items-center gap-1.5">
+                    <span>🏠</span> Voir le Portail
+                </a>
+                <button id="logout-btn" onclick="logout()" class="hidden px-3.5 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-xs font-extrabold rounded-xl transition-all border border-pink-500/30">
+                    Déconnexion 🔒
+                </button>
+            </div>
+        </header>
 
-        <!-- 1. Écran de Connexion Stylé -->
-        <div id="login-box" class="bg-slate-900/90 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-slate-800/80 space-y-6 shadow-2xl shadow-black/50 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600"></div>
-            
+        <!-- ========================================== -->
+        <!-- ÉCRAN 1 : FORMULAIRE DE CONNEXION STAFF -->
+        <!-- ========================================== -->
+        <div id="login-section" class="bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/80 max-w-md mx-auto space-y-6 shadow-2xl my-12">
             <div class="text-center space-y-2">
-                <div class="w-14 h-14 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-xl shadow-inner mb-4">
-                    ⚡
+                <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-xl shadow-inner">
+                    🔐
                 </div>
-                <h2 class="text-base font-black uppercase tracking-wider text-white">Espace Staff Réservé</h2>
-                <p class="text-xs text-slate-400">Veuillez vous identifier pour accéder au panneau d'administration.</p>
+                <h2 class="text-lg font-black uppercase tracking-wider text-white">Accès Réservé Staff</h2>
+                <p class="text-xs text-slate-400">Entre le mot de passe administrateur pour piloter les serveurs.</p>
             </div>
 
-            <form onsubmit="login(event)" class="space-y-4">
+            <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div class="space-y-1">
-                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Identifiant</label>
-                    <div class="relative">
-                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs">👤</span>
-                        <input type="text" id="user" placeholder="Entrez votre identifiant" required class="w-full bg-slate-950/80 border border-slate-800/80 rounded-xl p-3 pl-10 text-xs text-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 focus:outline-none transition-all">
-                    </div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Clé d'accès Admin</label>
+                    <input type="password" id="admin-pass" placeholder="••••••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none shadow-inner">
                 </div>
-                
-                <div class="space-y-1">
-                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mot de passe</label>
-                    <div class="relative">
-                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs">🔑</span>
-                        <input type="password" id="pass" placeholder="••••••••••••" required class="w-full bg-slate-950/80 border border-slate-800/80 rounded-xl p-3 pl-10 pr-10 text-xs text-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 focus:outline-none transition-all">
-                        <button type="button" onclick="togglePasswordVisibility()" id="eye-btn" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs cursor-pointer transition-colors focus:outline-none">
-                            👁️
-                        </button>
-                    </div>
-                </div>
-                
-                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/25 active:scale-[0.99] mt-2">
-                    Accéder au Dashboard
+                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/20">
+                    Déverrouiller le Panel
                 </button>
             </form>
-            
-            <div id="err" class="hidden bg-red-950/40 border border-red-900/50 p-3 rounded-xl text-red-400 text-xs text-center font-bold">
-                ⚠️ Identifiants incorrects. Accès refusé.
-            </div>
+            <p class="text-[10px] text-center text-slate-600 font-mono">Indice par défaut : crackfr2026</p>
         </div>
 
-        <!-- 2. Dashboard Complet (Caché par défaut) -->
-        <div id="dashboard" class="hidden space-y-6">
+        <!-- ========================================== -->
+        <!-- ÉCRAN 2 : DASHBOARD ADMINISTRATIF COMPLET -->
+        <!-- ========================================== -->
+        <div id="admin-dashboard" class="hidden space-y-6">
             
-            <!-- MODULE : OBSERVATEUR D'ÉVÉNEMENTS (LOGS DE CONNEXION) -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                        <span>🛡️</span> Observateur d'Événements (Logs)
-                    </h2>
-                    <button onclick="clearLogs()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[10px] font-bold text-slate-300 rounded-lg cursor-pointer transition-colors">Effacer l'historique</button>
+            <!-- Alerte de bienvenue -->
+            <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-2xl flex items-center justify-between text-xs text-emerald-300">
+                <div class="flex items-center gap-2">
+                    <span>⚡</span> <span>Connecté avec succès en tant qu'Administrateur Principal.</span>
                 </div>
-                <div id="logs-container" class="bg-slate-950 border border-slate-800 rounded-2xl p-3 max-h-48 overflow-y-auto space-y-2 font-mono text-[11px]">
-                </div>
+                <span class="font-mono text-[10px]">Session Active (Securée)</span>
             </div>
 
-            <!-- MODULE 1 : STATUT DU SERVEUR & CONFIG MAINTENANCE AVANCÉE -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>🟢</span> Contrôle Avancé & Maintenance
-                </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">État du serveur :</label>
-                        <select id="server-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                            <option value="online">En Ligne (Actif)</option>
-                            <option value="maintenance">Maintenance Intelligente Active</option>
-                            <option value="full">Complet</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Date/Heure exacte de fin :</label>
-                        <input type="datetime-local" id="maintenance-end-time" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Raison de la maintenance (affichée aux joueurs) :</label>
-                        <input type="text" id="maintenance-reason" placeholder="ex: Optimisation des scripts ESX & mise à jour base de données..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Joueurs connectés :</label>
-                        <input type="text" id="server-players" placeholder="ex: 42 / 64" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Membres Discord :</label>
-                        <input type="text" id="stat-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    </div>
-                </div>
-                <button onclick="saveGlobalStats()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Enregistrer les paramètres</button>
-            </div>
-
-            <!-- MODULE 2 : BANNIÈRE D'ANNONCE -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-3 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>📢</span> Annonce du site
-                </h2>
-                <input type="text" id="annonce-txt" placeholder="Texte de l'alerte/annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                <div class="flex gap-2">
-                    <button onclick="saveAnnonce()" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier</button>
-                    <button onclick="clearAnnonce()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Retirer</button>
-                </div>
-            </div>
-
-            <!-- MODULE 3 : GESTION DES JEUX -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>🎮</span> Gestion des Univers de Jeu
-                </h2>
-                <div class="space-y-2">
-                    <input type="text" id="game-emoji" placeholder="Emoji (ex: 🚗)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <input type="text" id="game-title" placeholder="Nom du jeu" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <textarea id="game-desc" rows="2" placeholder="Description courte..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
-                    <button onclick="addGame()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter un jeu</button>
-                </div>
-                <div id="games-list-admin" class="space-y-2 pt-2 border-t border-slate-800 max-h-40 overflow-y-auto"></div>
-            </div>
-
-            <!-- MODULE 4 : GESTIONNAIRE DE MUSIQUE -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>🎵</span> Gestionnaire de Playlist (Chill)
-                </h2>
-                <div class="space-y-2">
-                    <input type="text" id="m-name" placeholder="Nom de la musique" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <input type="url" id="m-url" placeholder="Lien direct MP3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <button onclick="addLink()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter à la playlist</button>
-                </div>
-                <div id="playlist-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-40 overflow-y-auto"></div>
-            </div>
-
-            <!-- MODULE 5 : PUBLIER UNE NEWS -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-3 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>📰</span> Publier une News / Patch Note
-                </h2>
-                <input type="text" id="news-title" placeholder="Titre de la news" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                <textarea id="news-desc" rows="2" placeholder="Description..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
-                <button onclick="addNews()" class="w-full py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier la News</button>
-                <div id="news-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-32 overflow-y-auto"></div>
-            </div>
-
-            <!-- Déconnexion -->
-            <button onclick="logout()" class="w-full py-3 bg-red-950/40 border border-red-900/50 hover:bg-red-900/40 text-red-400 text-xs font-extrabold rounded-xl transition-all cursor-pointer shadow-lg">🔒 Se déconnecter</button>
-        </div>
-    </div>
-
-    <!-- ÉCRAN DE MAINTENANCE ULTRA-AVANCÉ AVEC COMPTE À REBOURS -->
-    <div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-6 text-center">
-        <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800 space-y-6 shadow-2xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600"></div>
-            <div class="w-16 h-16 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-2xl shadow-inner animate-pulse">
-                🛠️
-            </div>
-            <div class="space-y-2">
-                <h2 class="text-lg font-black uppercase tracking-wider text-white">Maintenance en Cours</h2>
-                <p id="display-maint-reason" class="text-xs text-slate-400 leading-relaxed">Mise à jour majeure du portail et des serveurs de jeu en cours.</p>
+            <!-- GRILLE DE CONTRÔLE RAPIDE -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 
-                <!-- Compte à rebours dynamique -->
-                <div class="grid grid-cols-4 gap-2 pt-3">
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-days" class="block text-sm font-black text-pink-400">00</span>
-                        <span class="text-[9px] text-slate-500 uppercase font-bold">Jours</span>
+                <!-- Contrôle Maintenance -->
+                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                            <span>🛠️</span> Mode Maintenance
+                        </h3>
+                        <span id="maint-status-indicator" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-400">OFF</span>
                     </div>
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-hours" class="block text-sm font-black text-pink-400">00</span>
-                        <span class="text-[9px] text-slate-500 uppercase font-bold">Heures</span>
-                    </div>
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-mins" class="block text-sm font-black text-pink-400">00</span>
-                        <span class="text-[9px] text-slate-500 uppercase font-bold">Min</span>
-                    </div>
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-secs" class="block text-sm font-black text-pink-400">00</span>
-                        <span class="text-[9px] text-slate-500 uppercase font-bold">Sec</span>
+                    <p class="text-xs text-slate-400">Active ou désactive le mode lockdown sur le portail public.</p>
+                    <div class="space-y-2 pt-2">
+                        <input type="text" id="maint-reason-input" placeholder="Raison (ex: Maintenance TXAdmin)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <input type="datetime-local" id="maint-end-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <button onclick="setMaintenance('maintenance')" class="py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Activer</button>
+                            <button onclick="setMaintenance('online')" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Couper</button>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Gestion Banner & Stats -->
+                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                        <span>📢</span> Bannière & Stats Live
+                    </h3>
+                    <div class="space-y-2">
+                        <input type="text" id="admin-banner-txt" placeholder="Texte de l'annonce globale..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <input type="text" id="admin-players-txt" placeholder="Joueurs (ex: 42 / 64)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <button onclick="saveLiveConfig()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Mettre à jour le direct</button>
+                    </div>
+                </div>
+
+                <!-- Actions Rapides -->
+                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                            <span>⚡</span> Actions Système
+                        </h3>
+                        <p class="text-xs text-slate-400">Commandes rapides pour la gestion de la communauté.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <button onclick="clearCacheData()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all border border-slate-700">Réinitialiser les caches</button>
+                        <a href="index.html?bypass=crackfr2026" target="_blank" class="block w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/25">Tester le Bypass</a>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="space-y-2 pt-2">
-                <a href="https://discord.gg/crackfr" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/20">
-                    <span>💬</span> Suivre l'avancement sur Discord
-                </a>
-                <a href="login.html" class="block w-full py-2.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-bold text-[11px] rounded-xl uppercase tracking-wider transition-all">
-                    Accès Staff (Connexion)
-                </a>
+            <!-- SECTION : SUIVI DES INSCRITS & SUGGESTIONS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Inscrits maintenance -->
+                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                            <span>👥</span> Utilisateurs en attente d'alerte
+                        </h3>
+                        <span id="sub-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
+                    </div>
+                    <div id="subscribers-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        <p class="text-xs text-slate-500 italic text-center py-4">Aucun utilisateur inscrit pour le moment.</p>
+                    </div>
+                </div>
+
+                <!-- Boîte à idées / Suggestions -->
+                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                            <span>💡</span> Suggestions de la Communauté
+                        </h3>
+                        <span id="sug-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
+                    </div>
+                    <div id="suggestions-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        <p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion reçue.</p>
+                    </div>
+                </div>
+
             </div>
+
         </div>
+
     </div>
 
     <footer class="w-full text-center py-6 text-[10px] tracking-widest text-slate-600 uppercase mt-12 relative z-10">
@@ -219,140 +157,51 @@
     </footer>
 
     <script>
-        window.onload = () => {
-            // SYSTÈME DE BYPASS URL SÉCURISÉ POUR LE STAFF (Ex: login.html?bypass=crackfr2026)
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('bypass') === 'crackfr2026') {
-                localStorage.setItem('auth', '1');
+        window.addEventListener('DOMContentLoaded', () => {
+            const isAuth = localStorage.getItem('auth') === '1';
+            if (isAuth) {
+                showDashboard();
             }
+        });
 
-            const isMaintenance = localStorage.getItem('srv_status') === 'maintenance';
-            const isAdmin = localStorage.getItem('auth') === '1';
-
-            // Afficher la raison personnalisée
-            const customReason = localStorage.getItem('maintenance_reason');
-            if(customReason) {
-                document.getElementById('display-maint-reason').innerText = customReason;
-            }
-
-            // Gestion de l'affichage de l'écran de maintenance intelligent
-            if (isMaintenance && !isAdmin) {
-                if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '') {
-                    document.getElementById('maintenance-screen').classList.remove('hidden');
-                    startCountdown();
-                }
-            }
-
-            if(isAdmin) showDash();
-        }
-
-        // --- COMPTE À REBOURS DYNAMIQUE ---
-        function startCountdown() {
-            const endTimeStr = localStorage.getItem('maintenance_end_date');
-            if(!endTimeStr) return;
-            
-            const targetTime = new Date(endTimeStr).getTime();
-
-            setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetTime - now;
-
-                if (distance < 0) {
-                    document.getElementById('display-maint-reason').innerText = "Ouverture imminente imminente... Actualisez la page !";
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                document.getElementById('cd-days').innerText = String(days).padStart(2, '0');
-                document.getElementById('cd-hours').innerText = String(hours).padStart(2, '0');
-                document.getElementById('cd-mins').innerText = String(minutes).padStart(2, '0');
-                document.getElementById('cd-secs').innerText = String(seconds).padStart(2, '0');
-            }, 1000);
-        }
-
-        function togglePasswordVisibility() {
-            const passInput = document.getElementById('pass');
-            const eyeBtn = document.getElementById('eye-btn');
-            if (passInput.type === 'password') {
-                passInput.type = 'text';
-                eyeBtn.innerText = '🙈';
-            } else {
-                passInput.type = 'password';
-                eyeBtn.innerText = '👁️';
-            }
-        }
-
-        function addLog(username, status) {
-            const logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
-            const now = new Date();
-            const timeString = now.toLocaleDateString('fr-FR', {day: '2-digit', month: '2-digit'}) + ' à ' + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-            
-            logs.unshift({ time: timeString, user: username, status: status });
-            if(logs.length > 50) logs.pop();
-            localStorage.setItem('admin_logs', JSON.stringify(logs));
-        }
-
-        function renderLogs() {
-            const logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
-            const container = document.getElementById('logs-container');
-            if(logs.length === 0) {
-                container.innerHTML = '<p class="text-slate-600 text-center italic py-2">Aucun événement enregistré.</p>';
-                return;
-            }
-            let html = '';
-            logs.forEach(log => {
-                const isSuccess = log.status === 'SUCCESS';
-                const badgeColor = isSuccess ? 'text-emerald-400 bg-emerald-950/50 border-emerald-900/50' : 'text-red-400 bg-red-950/50 border-red-900/50';
-                const statusText = isSuccess ? 'AUTORISÉ' : 'REFUSÉ';
-                html += `<div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/80 border border-slate-800/60">
-                    <div class="flex items-center gap-2 truncate pr-2">
-                        <span class="text-slate-500">[${log.time}]</span>
-                        <span class="text-slate-200">Tentative par <strong class="text-white">"${log.user || 'inconnu'}"</strong></span>
-                    </div>
-                    <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${badgeColor} shrink-0">${statusText}</span>
-                </div>`;
-            });
-            container.innerHTML = html;
-        }
-
-        function clearLogs() {
-            localStorage.removeItem('admin_logs');
-            renderLogs();
-        }
-
-        function login(e) {
+        function handleLogin(e) {
             e.preventDefault();
-            const enteredUser = document.getElementById('user').value;
-            const enteredPass = document.getElementById('pass').value;
-
-            if(enteredUser === 'admin' && enteredPass === 'crackfr2026') {
-                addLog(enteredUser, 'SUCCESS');
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
-                showDash();
+                showDashboard();
             } else {
-                addLog(enteredUser, 'FAILED');
-                document.getElementById('err').classList.remove('hidden');
+                alert("❌ Clé d'accès incorrecte !");
             }
         }
 
-        function showDash() {
-            document.getElementById('login-box').classList.add('hidden');
-            document.getElementById('maintenance-screen').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('annonce-txt').value = localStorage.getItem('annonce') || '';
-            document.getElementById('server-status').value = localStorage.getItem('srv_status') || 'online';
-            document.getElementById('maintenance-end-time').value = localStorage.getItem('maintenance_end_date') || '';
-            document.getElementById('maintenance-reason').value = localStorage.getItem('maintenance_reason') || '';
-            document.getElementById('server-players').value = localStorage.getItem('srv_players') || '42 / 64';
-            document.getElementById('stat-members').value = localStorage.getItem('stat_members') || '1.2K+';
-            renderLogs();
-            renderList();
-            renderNews();
-            renderGamesAdmin();
+        function showDashboard() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            
+            // Charger les valeurs actuelles
+            const currentReason = localStorage.getItem('maintenance_reason');
+            if(currentReason) document.getElementById('maint-reason-input').value = currentReason;
+
+            const banner = localStorage.getItem('annonce');
+            if(banner) document.getElementById('admin-banner-txt').value = banner;
+
+            const players = localStorage.getItem('srv_players');
+            if(players) document.getElementById('admin-players-txt').value = players;
+
+            const srvStatus = localStorage.getItem('srv_status');
+            const ind = document.getElementById('maint-status-indicator');
+            if(srvStatus === 'maintenance') {
+                ind.innerText = "ACTIF";
+                ind.className = "px-2 py-0.5 bg-pink-600/20 border border-pink-500/30 text-[10px] font-bold rounded-md text-pink-400";
+            } else {
+                ind.innerText = "OFF";
+                ind.className = "px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-400";
+            }
+
+            loadSubscribers();
+            loadSuggestions();
         }
 
         function logout() {
@@ -360,128 +209,64 @@
             location.reload();
         }
 
-        function saveGlobalStats() {
-            localStorage.setItem('srv_status', document.getElementById('server-status').value);
-            localStorage.setItem('maintenance_end_date', document.getElementById('maintenance-end-time').value);
-            localStorage.setItem('maintenance_reason', document.getElementById('maintenance-reason').value);
-            localStorage.setItem('srv_players', document.getElementById('server-players').value);
-            localStorage.setItem('stat_members', document.getElementById('stat-members').value);
-            alert("Paramètres de maintenance avancés enregistrés !");
+        function setMaintenance(status) {
+            localStorage.setItem('srv_status', status);
+            const reason = document.getElementById('maint-reason-input').value;
+            if(reason) localStorage.setItem('maintenance_reason', reason);
+
+            const endDate = document.getElementById('maint-end-input').value;
+            if(endDate) localStorage.setItem('maintenance_end_date', endDate);
+
+            alert(status === 'maintenance' ? "🛠️ Mode maintenance activé sur le portail !" : "✅ Mode maintenance désactivé !");
+            showDashboard();
         }
 
-        function saveAnnonce() {
-            localStorage.setItem('annonce', document.getElementById('annonce-txt').value);
-            alert("Annonce publiée !");
-        }
-        function clearAnnonce() {
-            localStorage.removeItem('annonce');
-            document.getElementById('annonce-txt').value = '';
-            alert("Annonce retirée.");
+        function saveLiveConfig() {
+            const banner = document.getElementById('admin-banner-txt').value;
+            localStorage.setItem('annonce', banner);
+
+            const players = document.getElementById('admin-players-txt').value;
+            localStorage.setItem('srv_players', players);
+
+            alert("⚡ Configuration live mise à jour avec succès !");
         }
 
-        // --- GESTION DES JEUX ---
-        function getGames() {
-            return JSON.parse(localStorage.getItem('games') || JSON.stringify([
-                {emoji: "🚗", title: "GTA V / FiveM", desc: "Plonge dans notre univers Roleplay ou nos sessions chill open-world entre potes."},
-                {emoji: "⛏️", title: "Minecraft & Survie", desc: "Un serveur survie / build convivial pour exprimer ta créativité."},
-                {emoji: "🎮", title: "Roblox & Communauté", desc: "Des sessions découvertes sur Roblox et des tournois entre membres."}
-            ]));
-        }
-        function renderGamesAdmin() {
-            const games = getGames();
+        function loadSubscribers() {
+            const subs = JSON.parse(localStorage.getItem('maint_subscribers') || '[]');
+            document.getElementById('sub-count').innerText = subs.length;
+            if(subs.length === 0) return;
+
             let html = '';
-            games.forEach((g, i) => {
-                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
-                    <span class="truncate pr-2 text-white font-bold">${g.emoji} ${g.title}</span>
-                    <button onclick="delGame(${i})" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer">✕</button>
+            subs.forEach(s => {
+                html += `<div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
+                    <span class="font-bold text-white">@${s.pseudo}</span>
+                    <span class="text-[10px] text-slate-500 font-mono">${s.date}</span>
                 </div>`;
             });
-            document.getElementById('games-list-admin').innerHTML = html;
-        }
-        function addGame() {
-            const emoji = document.getElementById('game-emoji').value;
-            const title = document.getElementById('game-title').value;
-            const desc = document.getElementById('game-desc').value;
-            if(!emoji || !title || !desc) return alert("Remplis tous les champs du jeu !");
-            let games = getGames();
-            games.push({emoji, title, desc});
-            localStorage.setItem('games', JSON.stringify(games));
-            document.getElementById('game-emoji').value = '';
-            document.getElementById('game-title').value = '';
-            document.getElementById('game-desc').value = '';
-            renderGamesAdmin();
-        }
-        function delGame(i) {
-            let games = getGames();
-            games.splice(i, 1);
-            localStorage.setItem('games', JSON.stringify(games));
-            renderGamesAdmin();
+            document.getElementById('subscribers-list').innerHTML = html;
         }
 
-        // --- PLAYLIST ---
-        function getPl() {
-            return JSON.parse(localStorage.getItem('playlist') || JSON.stringify([
-                {name: "Lofi Chill & Study", src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3"}
-            ]));
-        }
-        function savePl(list) {
-            localStorage.setItem('playlist', JSON.stringify(list));
-            renderList();
-        }
-        function renderList() {
-            const list = getPl();
-            const active = localStorage.getItem('active_m') || '0';
+        function loadSuggestions() {
+            const suggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
+            document.getElementById('sug-count').innerText = suggestions.length;
+            if(suggestions.length === 0) return;
+
             let html = '';
-            list.forEach((m, i) => {
-                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
-                    <span class="truncate pr-2 ${i == active ? 'text-pink-400 font-bold' : 'text-slate-300'}">${m.name}</span>
-                    <div class="flex gap-1 shrink-0">
-                        <button onclick="localStorage.setItem('active_m', ${i}); renderList(); alert('Musique active !');" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg cursor-pointer">Activer</button>
-                        <button onclick="let l=getPl(); l.splice(${i},1); savePl(l);" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer">✕</button>
-                    </div>
+            suggestions.forEach(s => {
+                html += `<div class="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-1 text-xs">
+                    <div class="flex justify-between items-center"><span class="font-bold text-pink-400">@${s.name}</span><span class="text-[10px] text-slate-500">${s.date}</span></div>
+                    <p class="text-slate-300 leading-relaxed">${s.text}</p>
                 </div>`;
             });
-            document.getElementById('playlist-list').innerHTML = html;
-        }
-        function addLink() {
-            const name = document.getElementById('m-name').value;
-            const src = document.getElementById('m-url').value;
-            if(!name || !src) return alert("Remplis tous les champs !");
-            let list = getPl();
-            list.push({name, src});
-            savePl(list);
-            document.getElementById('m-name').value = '';
-            document.getElementById('m-url').value = '';
+            document.getElementById('suggestions-list').innerHTML = html;
         }
 
-        // --- NEWS ---
-        function getNews() {
-            return JSON.parse(localStorage.getItem('news') || JSON.stringify([
-                {title: "Ouverture officielle de CrackFR !", desc: "Bienvenue à tous sur notre nouveau portail gaming."}
-            ]));
-        }
-        function renderNews() {
-            const list = getNews();
-            let html = '';
-            list.forEach((n, i) => {
-                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
-                    <span class="font-bold text-white truncate pr-2">${n.title}</span>
-                    <button onclick="let l=getNews(); l.splice(${i},1); localStorage.setItem('news', JSON.stringify(l)); renderNews();" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer shrink-0">✕</button>
-                </div>`;
-            });
-            document.getElementById('news-list').innerHTML = html;
-        }
-        function addNews() {
-            const title = document.getElementById('news-title').value;
-            const desc = document.getElementById('news-desc').value;
-            if(!title || !desc) return alert("Remplis le titre et la description !");
-            let list = getNews();
-            list.unshift({title, desc});
-            localStorage.setItem('news', JSON.stringify(list));
-            document.getElementById('news-title').value = '';
-            document.getElementById('news-desc').value = '';
-            renderNews();
-            alert("News publiée !");
+        function clearCacheData() {
+            if(confirm("Attention, cela va vider toutes les données temporaires stockées localement. Continuer ?")) {
+                localStorage.clear();
+                alert("Cache nettoyé.");
+                location.reload();
+            }
         }
     </script>
 </body>
