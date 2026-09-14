@@ -54,6 +54,35 @@
             </div>
         </section>
 
+        <!-- NOUVEAUTÉ 1 : WIDGET DE STATUT DES SERVEURS EN DIRECT -->
+        <section class="space-y-4">
+            <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                <span>🟢</span> État des Serveurs en Direct
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-slate-800/80 flex items-center justify-between shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 text-xs">🚗</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Paris Nation RP (FiveM)</h4>
+                            <p class="text-[10px] text-emerald-400 font-medium">● En ligne (18ms)</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 bg-slate-950 border border-slate-800 rounded-lg text-[10px] font-bold text-slate-300">42 / 64</span>
+                </div>
+                <div class="bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-slate-800/80 flex items-center justify-between shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 bg-purple-600/10 border border-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 text-xs">⛏️</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Minecraft Survie</h4>
+                            <p class="text-[10px] text-emerald-400 font-medium">● En ligne (12ms)</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 bg-slate-950 border border-slate-800 rounded-lg text-[10px] font-bold text-slate-300">14 / 50</span>
+                </div>
+            </div>
+        </section>
+
         <!-- SECTION : UNIVERS DE JEU (Dynamique) -->
         <section class="space-y-4">
             <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
@@ -72,6 +101,50 @@
             <div id="news-container" class="space-y-3">
                 <!-- Injecté dynamiquement par JS -->
             </div>
+        </section>
+
+        <!-- NOUVEAUTÉ 2 : GALERIE MÉDIAS / APERÇUS -->
+        <section class="space-y-4">
+            <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                <span>📸</span> Galerie de la Communauté
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 group overflow-hidden relative">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3">
+                        <span class="text-[11px] font-bold text-white">Session FiveM RP</span>
+                    </div>
+                    <span>🚗💨</span>
+                </div>
+                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 group overflow-hidden relative">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3">
+                        <span class="text-[11px] font-bold text-white">Build Minecraft</span>
+                    </div>
+                    <span>🏰✨</span>
+                </div>
+                <div class="col-span-2 sm:col-span-1 bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 group overflow-hidden relative">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3">
+                        <span class="text-[11px] font-bold text-white">Soirée Chill Discord</span>
+                    </div>
+                    <span>🎧🔥</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOUVEAUTÉ 3 : BOÎTE À IDÉES / SUGGESTIONS RAPIDE -->
+        <section class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+            <div class="space-y-1">
+                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    <span>💡</span> Une idée pour le serveur ?
+                </h3>
+                <p class="text-xs text-slate-400">Propose ta suggestion directement aux administrateurs.</p>
+            </div>
+            <form onsubmit="submitSuggestion(event)" class="space-y-3">
+                <input type="text" id="sug-name" placeholder="Ton pseudo Discord" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                <textarea id="sug-text" rows="2" placeholder="Décris ton idée ou ton amélioration..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
+                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/20">
+                    Envoyer la suggestion
+                </button>
+            </form>
         </section>
 
         <!-- PLAYER AUDIO (Chill Playlist) -->
@@ -148,14 +221,12 @@
             const isMaintenance = localStorage.getItem('srv_status') === 'maintenance';
             const isAdmin = localStorage.getItem('auth') === '1';
 
-            // Afficher la raison personnalisée de la maintenance
             const customReason = localStorage.getItem('maintenance_reason');
             if(customReason) {
                 const reasonEl = document.getElementById('display-maint-reason');
                 if(reasonEl) reasonEl.innerText = customReason;
             }
 
-            // Déclenchement de l'écran de maintenance si actif et non-admin
             if (isMaintenance && !isAdmin) {
                 const maintScreen = document.getElementById('maintenance-screen');
                 if(maintScreen) {
@@ -177,15 +248,26 @@
             const members = localStorage.getItem('stat_members');
             if(members) document.getElementById('stat-members-badge').innerText = members;
 
-            // 3. CHARGEMENT DES JEUX
+            // 3. CHARGEMENT DES DONNÉES DYNAMIQUES
             loadGames();
-
-            // 4. CHARGEMENT DES NEWS
             loadNews();
-
-            // 5. CHARGEMENT DE LA PLAYLIST AUDIO
             loadPlaylist();
         });
+
+        // --- GESTION DES SUGGESTIONS ---
+        function submitSuggestion(e) {
+            e.preventDefault();
+            const name = document.getElementById('sug-name').value;
+            const text = document.getElementById('sug-text').value;
+
+            let suggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
+            suggestions.unshift({ name, text, date: new Date().toLocaleDateString('fr-FR') });
+            localStorage.setItem('suggestions', JSON.stringify(suggestions));
+
+            alert("Merci ! Ta suggestion a bien été transmise à l'équipe.");
+            document.getElementById('sug-name').value = '';
+            document.getElementById('sug-text').value = '';
+        }
 
         // --- COMPTE À REBOURS ---
         function startCountdown() {
