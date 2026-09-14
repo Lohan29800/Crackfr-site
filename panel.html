@@ -1,50 +1,46 @@
-<!-- Section Visiteurs en Direct dans le Panel Admin -->
-<div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl text-left">
-    <div class="flex items-center justify-between">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-            👀 Derniers Visiteurs du Site
-        </h2>
-        <button onclick="viderVisiteurs()" class="text-[10px] bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer">
-            Effacer l'historique
-        </button>
-    </div>
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrackFR - Panel Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-6">
 
-    <!-- Liste dynamique -->
-    <div id="visiteurs-list" class="space-y-2 max-h-60 overflow-y-auto pr-1">
-        <p class="text-xs text-slate-500 italic">Chargement des visiteurs...</p>
-    </div>
-</div>
-
-<script>
-    function chargerVisiteursPanel() {
-        const container = document.getElementById('visiteurs-list');
-        const visites = JSON.parse(localStorage.getItem('crackfr_visiteurs') || '[]');
-
-        if (visites.length === 0) {
-            container.innerHTML = `<p class="text-xs text-slate-500 italic">Aucun visiteur récent enregistré.</p>`;
-            return;
-        }
-
-        container.innerHTML = visites.map(v => `
-            <div class="bg-slate-950/60 border border-slate-800/80 p-3 rounded-xl flex items-center justify-between text-xs">
-                <div class="flex items-center gap-2.5">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <div>
-                        <span class="text-white font-bold">Page visitée :</span> 
-                        <span class="text-slate-300">${v.page}</span>
-                    </div>
-                </div>
-                <div class="text-slate-400 font-mono text-[11px]">
-                    ${v.date} à ${v.time}
-                </div>
+    <div class="max-w-4xl mx-auto space-y-6">
+        <!-- En-tête du Panel -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex items-center justify-between shadow-xl">
+            <div>
+                <h1 class="text-xl font-black text-white uppercase tracking-wider">Panneau d'Administration</h1>
+                <p id="user-role-display" class="text-xs text-slate-400 mt-1">Connecté en tant que Staff</p>
             </div>
-        `).join('');
-    }
+            <button onclick="deconnexion()" class="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl transition-all border border-rose-500/30 cursor-pointer">
+                Se déconnecter
+            </button>
+        </div>
 
-    function viderVisiteurs() {
-        localStorage.removeItem('crackfr_visiteurs');
-        chargerVisiteursPanel();
-    }
+        <!-- Tes autres modules du panel (Maintenance, etc.) iront ici -->
+    </div>
 
-    window.addEventListener('DOMContentLoaded', chargerVisiteursPanel);
-</script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Sécurité : Vérifier si l'utilisateur est bien connecté
+            if (localStorage.getItem('crackfr_logged_in') !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Afficher le rôle actuel
+            const role = localStorage.getItem('crackfr_role') || 'Staff';
+            document.getElementById('user-role-display').innerText = `Connecté en tant que : ${role}`;
+        });
+
+        function deconnexion() {
+            localStorage.removeItem('crackfr_logged_in');
+            localStorage.removeItem('crackfr_role');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
