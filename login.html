@@ -3,64 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - CrackFR</title>
+    <title>Panel Admin Ultime - CrackFR</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-6 flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-6 flex flex-col justify-between selection:bg-pink-600 selection:text-white">
 
-    <div class="max-w-xl mx-auto w-full space-y-6">
-        <div class="flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
-            <a href="index.html" class="text-xs text-pink-400 font-bold">← Retour au site</a>
-            <h1 class="text-xs font-bold uppercase">Administration</h1>
+    <div class="max-w-2xl mx-auto w-full space-y-6">
+        
+        <!-- Top bar -->
+        <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-lg">
+            <a href="index.html" class="text-xs text-pink-400 font-bold hover:underline">← Retour au site</a>
+            <h1 class="text-xs font-black uppercase tracking-wider text-white">⚡ Administration CrackFR</h1>
         </div>
 
-        <!-- 1. Connexion -->
-        <div id="login-box" class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-            <h2 class="text-sm font-bold uppercase text-center">Connexion Staff</h2>
+        <!-- 1. Écran de Connexion -->
+        <div id="login-box" class="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+            <h2 class="text-sm font-bold uppercase text-center tracking-wider">Connexion Staff</h2>
             <form onsubmit="login(event)" class="space-y-3">
-                <input type="text" id="user" placeholder="Identifiant (admin)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
-                <input type="password" id="pass" placeholder="Mot de passe (crackfr2026)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
-                <button type="submit" class="w-full py-3 bg-pink-600 font-bold text-xs rounded-lg uppercase cursor-pointer">Se connecter</button>
+                <input type="text" id="user" placeholder="Identifiant (admin)" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
+                <input type="password" id="pass" placeholder="Mot de passe (crackfr2026)" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
+                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/20">Se connecter</button>
             </form>
-            <p id="err" class="text-red-400 text-xs text-center hidden">Identifiants incorrects.</p>
+            <p id="err" class="text-red-400 text-xs text-center hidden font-bold">Identifiants incorrects.</p>
         </div>
 
-        <!-- 2. Dashboard -->
+        <!-- 2. Dashboard Complet (Caché par défaut) -->
         <div id="dashboard" class="hidden space-y-6">
             
-            <!-- Annonce -->
-            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
-                <h2 class="text-xs font-bold uppercase text-pink-400">📢 Annonce du site</h2>
-                <input type="text" id="annonce-txt" placeholder="Texte de l'annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
+            <!-- MODULE 1 : STATUT DU SERVEUR -->
+            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🟢 Statut & Joueurs en direct</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">État du serveur :</label>
+                        <select id="server-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+                            <option value="online">En Ligne (Actif)</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="full">Complet</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Joueurs connectés :</label>
+                        <input type="text" id="server-players" placeholder="ex: 42 / 64" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                    </div>
+                </div>
+                <button onclick="saveServerStatus()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Mettre à jour le statut</button>
+            </div>
+
+            <!-- MODULE 2 : BANNIÈRE D'ANNONCE -->
+            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-3 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📢 Annonce du site</h2>
+                <input type="text" id="annonce-txt" placeholder="Texte de l'alerte/annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs">
                 <div class="flex gap-2">
-                    <button onclick="saveAnnonce()" class="px-4 py-2 bg-pink-600 text-xs font-bold rounded-lg cursor-pointer">Publier</button>
-                    <button onclick="clearAnnonce()" class="px-4 py-2 bg-slate-800 text-xs font-bold rounded-lg cursor-pointer">Retirer</button>
+                    <button onclick="saveAnnonce()" class="flex-1 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier</button>
+                    <button onclick="clearAnnonce()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Retirer</button>
                 </div>
             </div>
 
-            <!-- Gestion Musique -->
-            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Playlist (MP3 recommandé)</h2>
-                
+            <!-- MODULE 3 : GESTIONNAIRE DE MUSIQUE -->
+            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🎵 Gestionnaire de Playlist (Chill)</h2>
                 <div class="space-y-2">
-                    <input type="text" id="m-name" placeholder="Nom du son" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
-                    <input type="url" id="m-url" placeholder="Lien direct MP3" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
-                    <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg cursor-pointer">Ajouter par lien</button>
+                    <input type="text" id="m-name" placeholder="Nom de la musique" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                    <input type="url" id="m-url" placeholder="Lien direct MP3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                    <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter à la playlist</button>
                 </div>
-
-                <div class="space-y-2 pt-2 border-t border-slate-800">
-                    <label class="block text-[10px] text-slate-400 uppercase font-bold">Importer un fichier audio (MP3) :</label>
-                    <input type="file" id="m-file" accept=".mp3,audio/mp3" class="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-pink-600 file:text-white cursor-pointer">
-                    <button onclick="addFile()" class="w-full py-2 bg-pink-600 text-xs font-bold rounded-lg cursor-pointer">Uploader le fichier</button>
-                </div>
-
-                <div id="playlist-list" class="space-y-2 pt-2"></div>
+                <div id="playlist-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-40 overflow-y-auto"></div>
             </div>
 
-            <button onclick="logout()" class="w-full py-2 bg-red-900/30 text-red-400 text-xs font-bold rounded-lg cursor-pointer">Déconnexion</button>
+            <!-- MODULE 4 : AJOUTER UNE NEWS / PATCH NOTE -->
+            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-3 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Publier une News / Patch Note</h2>
+                <input type="text" id="news-title" placeholder="Titre de la news (ex: Mise à jour v1.2)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                <textarea id="news-desc" rows="2" placeholder="Description de la mise à jour..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs resize-none"></textarea>
+                <button onclick="addNews()" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier la News</button>
+                <div id="news-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-32 overflow-y-auto"></div>
+            </div>
+
+            <!-- Déconnexion -->
+            <button onclick="logout()" class="w-full py-3 bg-red-950/40 border border-red-900/50 hover:bg-red-900/40 text-red-400 text-xs font-extrabold rounded-xl transition-all cursor-pointer">🔒 Se déconnecter</button>
         </div>
     </div>
 
+    <!-- Script de gestion globale du panel -->
     <script>
         window.onload = () => {
             if(localStorage.getItem('auth') === '1') showDash();
@@ -80,7 +105,10 @@
             document.getElementById('login-box').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('annonce-txt').value = localStorage.getItem('annonce') || '';
+            document.getElementById('server-status').value = localStorage.getItem('srv_status') || 'online';
+            document.getElementById('server-players').value = localStorage.getItem('srv_players') || '42 / 64';
             renderList();
+            renderNews();
         }
 
         function logout() {
@@ -88,48 +116,49 @@
             location.reload();
         }
 
-        function saveAnnonce() {
-            localStorage.setItem('annonce', document.getElementById('annonce-txt').value);
-            alert("Annonce enregistrée !");
+        // --- STATUT ---
+        function saveServerStatus() {
+            localStorage.setItem('srv_status', document.getElementById('server-status').value);
+            localStorage.setItem('srv_players', document.getElementById('server-players').value);
+            alert("Statut du serveur mis à jour !");
         }
 
+        // --- ANNONCE ---
+        function saveAnnonce() {
+            localStorage.setItem('annonce', document.getElementById('annonce-txt').value);
+            alert("Annonce publiée !");
+        }
         function clearAnnonce() {
             localStorage.removeItem('annonce');
             document.getElementById('annonce-txt').value = '';
             alert("Annonce retirée.");
         }
 
+        // --- PLAYLIST ---
         function getPl() {
             return JSON.parse(localStorage.getItem('playlist') || JSON.stringify([
                 {name: "Lofi Chill & Study", src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3"}
             ]));
         }
-
         function savePl(list) {
-            try {
-                localStorage.setItem('playlist', JSON.stringify(list));
-                renderList();
-            } catch (err) {
-                alert("Erreur : Le fichier est trop lourd pour la mémoire du navigateur ! Choisis un fichier plus petit.");
-            }
+            localStorage.setItem('playlist', JSON.stringify(list));
+            renderList();
         }
-
         function renderList() {
             const list = getPl();
             const active = localStorage.getItem('active_m') || '0';
             let html = '';
             list.forEach((m, i) => {
-                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
-                    <span class="truncate pr-2 ${i == active ? 'text-pink-400 font-bold' : ''}">${m.name}</span>
+                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
+                    <span class="truncate pr-2 ${i == active ? 'text-pink-400 font-bold' : 'text-slate-300'}">${m.name}</span>
                     <div class="flex gap-1 shrink-0">
-                        <button onclick="setActive(${i})" class="px-2 py-1 bg-slate-800 rounded cursor-pointer">Activer</button>
-                        <button onclick="del(${i})" class="px-2 py-1 bg-red-900/50 text-red-400 rounded cursor-pointer">✕</button>
+                        <button onclick="setActive(${i})" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg cursor-pointer">Activer</button>
+                        <button onclick="del(${i})" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer">✕</button>
                     </div>
                 </div>`;
             });
             document.getElementById('playlist-list').innerHTML = html;
         }
-
         function addLink() {
             const name = document.getElementById('m-name').value;
             const src = document.getElementById('m-url').value;
@@ -140,37 +169,58 @@
             document.getElementById('m-name').value = '';
             document.getElementById('m-url').value = '';
         }
-
-        function addFile() {
-            const fileInput = document.getElementById('m-file');
-            if(fileInput.files.length === 0) return alert("Choisis un fichier !");
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                let list = getPl();
-                list.push({name: file.name, src: e.target.result});
-                savePl(list);
-                fileInput.value = '';
-                alert("Fichier ajouté avec succès !");
-            };
-            reader.readAsDataURL(file);
-        }
-
         function setActive(i) {
             localStorage.setItem('active_m', i);
             renderList();
-            alert("Média actif mis à jour !");
+            alert("Musique active mise à jour !");
         }
-
         function del(i) {
             let list = getPl();
             list.splice(i, 1);
             savePl(list);
             let currentActive = parseInt(localStorage.getItem('active_m') || '0');
-            if (currentActive >= list.length) {
-                localStorage.setItem('active_m', Math.max(0, list.length - 1));
-            }
+            if (currentActive >= list.length) localStorage.setItem('active_m', Math.max(0, list.length - 1));
             renderList();
+        }
+
+        // --- NEWS ---
+        function getNews() {
+            return JSON.parse(localStorage.getItem('news') || JSON.stringify([
+                {title: "Ouverture officielle de CrackFR !", desc: "Bienvenue à tous sur notre nouveau portail gaming."}
+            ]));
+        }
+        function saveNewsList(list) {
+            localStorage.setItem('news', JSON.stringify(list));
+            renderNews();
+        }
+        function renderNews() {
+            const list = getNews();
+            let html = '';
+            list.forEach((n, i) => {
+                html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs">
+                    <div class="truncate pr-2">
+                        <span class="font-bold text-white">${n.title}</span>
+                    </div>
+                    <button onclick="delNews(${i})" class="px-2.5 py-1 bg-red-950/60 text-red-400 rounded-lg cursor-pointer shrink-0">✕</button>
+                </div>`;
+            });
+            document.getElementById('news-list').innerHTML = html;
+        }
+        function addNews() {
+            const title = document.getElementById('news-title').value;
+            const desc = document.getElementById('news-desc').value;
+            if(!title || !desc) return alert("Remplis le titre et la description !");
+            let list = getNews();
+            list.unshift({title, desc});
+            saveNewsList(list);
+            document.getElementById('news-title').value = '';
+            document.getElementById('news-desc').value = '';
+            alert("News publiée avec succès !");
+        }
+        function delNews(i) {
+            let list = getNews();
+            list.splice(i, 1);
+            saveNewsList(list);
         }
     </script>
 </body>
