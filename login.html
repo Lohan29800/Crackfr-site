@@ -8,7 +8,6 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white relative overflow-x-hidden">
 
-    <!-- Effets d'ambiance néon -->
     <div class="absolute top-0 right-1/4 w-[500px] h-[300px] bg-pink-600/10 rounded-full blur-[150px] pointer-events-none"></div>
     <div class="absolute bottom-10 left-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[130px] pointer-events-none"></div>
 
@@ -30,9 +29,7 @@
             </div>
         </header>
 
-        <!-- ========================================== -->
-        <!-- ÉCRAN 1 : FORMULAIRE DE CONNEXION STAFF -->
-        <!-- ========================================== -->
+        <!-- FORMULAIRE DE CONNEXION -->
         <div id="login-section" class="bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/80 max-w-md mx-auto space-y-6 shadow-2xl my-12">
             <div class="text-center space-y-2">
                 <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-xl shadow-inner">
@@ -51,15 +48,12 @@
                     Déverrouiller le Panel
                 </button>
             </form>
-            <p class="text-[10px] text-center text-slate-600 font-mono">Indice par défaut : crackfr2026</p>
+            <p class="text-[10px] text-center text-slate-600 font-mono">Mot de passe : crackfr2026</p>
         </div>
 
-        <!-- ========================================== -->
-        <!-- ÉCRAN 2 : DASHBOARD ADMINISTRATIF COMPLET -->
-        <!-- ========================================== -->
+        <!-- DASHBOARD ADMINISTRATIF -->
         <div id="admin-dashboard" class="hidden space-y-6">
             
-            <!-- Alerte de bienvenue -->
             <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-2xl flex items-center justify-between text-xs text-emerald-300">
                 <div class="flex items-center gap-2">
                     <span>⚡</span> <span>Connecté avec succès en tant qu'Administrateur Principal.</span>
@@ -67,10 +61,10 @@
                 <span class="font-mono text-[10px]">Session Active (Securée)</span>
             </div>
 
-            <!-- GRILLE DE CONTRÔLE RAPIDE -->
+            <!-- GRILLE DE CONTRÔLE -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 
-                <!-- Contrôle Maintenance -->
+                <!-- Maintenance -->
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                     <div class="flex items-center justify-between">
                         <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
@@ -78,9 +72,8 @@
                         </h3>
                         <span id="maint-status-indicator" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-400">OFF</span>
                     </div>
-                    <p class="text-xs text-slate-400">Active ou désactive le mode lockdown sur le portail public.</p>
                     <div class="space-y-2 pt-2">
-                        <input type="text" id="maint-reason-input" placeholder="Raison (ex: Maintenance TXAdmin)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <input type="text" id="maint-reason-input" placeholder="Raison..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                         <input type="datetime-local" id="maint-end-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                         <div class="grid grid-cols-2 gap-2 pt-1">
                             <button onclick="setMaintenance('maintenance')" class="py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Activer</button>
@@ -89,51 +82,47 @@
                     </div>
                 </div>
 
-                <!-- Gestion Banner & Stats -->
+                <!-- Bannière & Stats -->
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                     <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
                         <span>📢</span> Bannière & Stats Live
                     </h3>
                     <div class="space-y-2">
-                        <input type="text" id="admin-banner-txt" placeholder="Texte de l'annonce globale..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <input type="text" id="admin-banner-txt" placeholder="Annonce globale..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                         <input type="text" id="admin-players-txt" placeholder="Joueurs (ex: 42 / 64)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <button onclick="saveLiveConfig()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Mettre à jour le direct</button>
+                        <button onclick="saveLiveConfig()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all">Mettre à jour</button>
                     </div>
                 </div>
 
-                <!-- Actions Rapides -->
-                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl flex flex-col justify-between">
-                    <div class="space-y-3">
-                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                            <span>⚡</span> Actions Système
-                        </h3>
-                        <p class="text-xs text-slate-400">Commandes rapides pour la gestion de la communauté.</p>
-                    </div>
-                    <div class="space-y-2">
-                        <button onclick="clearCacheData()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all border border-slate-700">Réinitialiser les caches</button>
-                        <a href="index.html?bypass=crackfr2026" target="_blank" class="block w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-center text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/25">Tester le Bypass</a>
-                    </div>
+                <!-- Gestion de la Playlist Audio -->
+                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                        <span>🎵</span> Gestion de la Playlist
+                    </h3>
+                    <form onsubmit="addTrack(event)" class="space-y-2">
+                        <input type="text" id="track-name" placeholder="Nom du morceau..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <input type="url" id="track-url" placeholder="Lien audio (.ogg/.mp3)..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <button type="submit" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[10px] rounded-xl uppercase tracking-wider transition-all">Ajouter piste</button>
+                    </form>
                 </div>
 
             </div>
 
-            <!-- SECTION : SUIVI DES INSCRITS & SUGGESTIONS -->
+            <!-- SUIVI DES INSCRITS & SUGGESTIONS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 
-                <!-- Inscrits maintenance -->
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                            <span>👥</span> Utilisateurs en attente d'alerte
+                            <span>👥</span> Inscrits alertes maintenance
                         </h3>
                         <span id="sub-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
                     </div>
                     <div id="subscribers-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <p class="text-xs text-slate-500 italic text-center py-4">Aucun utilisateur inscrit pour le moment.</p>
+                        <p class="text-xs text-slate-500 italic text-center py-4">Aucun inscrit.</p>
                     </div>
                 </div>
 
-                <!-- Boîte à idées / Suggestions -->
                 <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
@@ -142,7 +131,7 @@
                         <span id="sug-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
                     </div>
                     <div id="suggestions-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion reçue.</p>
+                        <p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion.</p>
                     </div>
                 </div>
 
@@ -158,16 +147,14 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const isAuth = localStorage.getItem('auth') === '1';
-            if (isAuth) {
+            if (localStorage.getItem('auth') === '1') {
                 showDashboard();
             }
         });
 
         function handleLogin(e) {
             e.preventDefault();
-            const pass = document.getElementById('admin-pass').value;
-            if (pass === 'crackfr2026') {
+            if (document.getElementById('admin-pass').value === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
                 showDashboard();
             } else {
@@ -180,24 +167,15 @@
             document.getElementById('admin-dashboard').classList.remove('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
             
-            // Charger les valeurs actuelles
-            const currentReason = localStorage.getItem('maintenance_reason');
-            if(currentReason) document.getElementById('maint-reason-input').value = currentReason;
-
-            const banner = localStorage.getItem('annonce');
-            if(banner) document.getElementById('admin-banner-txt').value = banner;
-
-            const players = localStorage.getItem('srv_players');
-            if(players) document.getElementById('admin-players-txt').value = players;
+            if(localStorage.getItem('maintenance_reason')) document.getElementById('maint-reason-input').value = localStorage.getItem('maintenance_reason');
+            if(localStorage.getItem('annonce')) document.getElementById('admin-banner-txt').value = localStorage.getItem('annonce');
+            if(localStorage.getItem('srv_players')) document.getElementById('admin-players-txt').value = localStorage.getItem('srv_players');
 
             const srvStatus = localStorage.getItem('srv_status');
             const ind = document.getElementById('maint-status-indicator');
             if(srvStatus === 'maintenance') {
                 ind.innerText = "ACTIF";
                 ind.className = "px-2 py-0.5 bg-pink-600/20 border border-pink-500/30 text-[10px] font-bold rounded-md text-pink-400";
-            } else {
-                ind.innerText = "OFF";
-                ind.className = "px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-400";
             }
 
             loadSubscribers();
@@ -211,31 +189,34 @@
 
         function setMaintenance(status) {
             localStorage.setItem('srv_status', status);
-            const reason = document.getElementById('maint-reason-input').value;
-            if(reason) localStorage.setItem('maintenance_reason', reason);
-
-            const endDate = document.getElementById('maint-end-input').value;
-            if(endDate) localStorage.setItem('maintenance_end_date', endDate);
-
-            alert(status === 'maintenance' ? "🛠️ Mode maintenance activé sur le portail !" : "✅ Mode maintenance désactivé !");
+            if(document.getElementById('maint-reason-input').value) localStorage.setItem('maintenance_reason', document.getElementById('maint-reason-input').value);
+            if(document.getElementById('maint-end-input').value) localStorage.setItem('maintenance_end_date', document.getElementById('maint-end-input').value);
+            alert("Mise à jour du statut effectuée !");
             showDashboard();
         }
 
         function saveLiveConfig() {
-            const banner = document.getElementById('admin-banner-txt').value;
-            localStorage.setItem('annonce', banner);
+            localStorage.setItem('annonce', document.getElementById('admin-banner-txt').value);
+            localStorage.setItem('srv_players', document.getElementById('admin-players-txt').value);
+            alert("Configuration live enregistrée !");
+        }
 
-            const players = document.getElementById('admin-players-txt').value;
-            localStorage.setItem('srv_players', players);
-
-            alert("⚡ Configuration live mise à jour avec succès !");
+        function addTrack(e) {
+            e.preventDefault();
+            const name = document.getElementById('track-name').value;
+            const src = document.getElementById('track-url').value;
+            let playlist = JSON.parse(localStorage.getItem('playlist') || '[]');
+            playlist.push({ name, src });
+            localStorage.setItem('playlist', JSON.stringify(playlist));
+            alert("🎵 Morceau ajouté à la playlist !");
+            document.getElementById('track-name').value = '';
+            document.getElementById('track-url').value = '';
         }
 
         function loadSubscribers() {
             const subs = JSON.parse(localStorage.getItem('maint_subscribers') || '[]');
             document.getElementById('sub-count').innerText = subs.length;
             if(subs.length === 0) return;
-
             let html = '';
             subs.forEach(s => {
                 html += `<div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex justify-between items-center text-xs">
@@ -250,7 +231,6 @@
             const suggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
             document.getElementById('sug-count').innerText = suggestions.length;
             if(suggestions.length === 0) return;
-
             let html = '';
             suggestions.forEach(s => {
                 html += `<div class="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-1 text-xs">
@@ -259,14 +239,6 @@
                 </div>`;
             });
             document.getElementById('suggestions-list').innerHTML = html;
-        }
-
-        function clearCacheData() {
-            if(confirm("Attention, cela va vider toutes les données temporaires stockées localement. Continuer ?")) {
-                localStorage.clear();
-                alert("Cache nettoyé.");
-                location.reload();
-            }
         }
     </script>
 </body>
