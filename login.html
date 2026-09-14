@@ -40,11 +40,11 @@
 
             <!-- Gestion Musique -->
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Musique</h2>
+                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Playlist (Chill)</h2>
                 
                 <!-- Par lien -->
                 <div class="space-y-2">
-                    <input type="text" id="m-name" placeholder="Nom de la musique" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
+                    <input type="text" id="m-name" placeholder="Nom de la musique chill" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
                     <input type="url" id="m-url" placeholder="Lien direct MP3/OGG" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
                     <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg">Ajouter par lien</button>
                 </div>
@@ -103,7 +103,7 @@
 
         function getPl() {
             return JSON.parse(localStorage.getItem('playlist') || JSON.stringify([
-                {name: "Ambiance Café", src: "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"}
+                {name: "Lofi Chill & Study", src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3"}
             ]));
         }
 
@@ -123,7 +123,7 @@
                         <button onclick="setActive(${i})" class="px-2 py-1 bg-slate-800 rounded">Activer</button>
                         <button onclick="del(${i})" class="px-2 py-1 bg-red-900/50 text-red-400 rounded">✕</button>
                     </div>
-                </div>`;
+                `;
             });
             document.getElementById('playlist-list').innerHTML = html;
         }
