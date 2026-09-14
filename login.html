@@ -20,8 +20,10 @@
         <div id="login-box" class="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
             <h2 class="text-sm font-bold uppercase text-center tracking-wider">Connexion Staff</h2>
             <form onsubmit="login(event)" class="space-y-3">
-                <input type="text" id="user" placeholder="Identifiant (admin)" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
-                <input type="password" id="pass" placeholder="Mot de passe (crackfr2026)" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
+                <!-- Champs vides (plus de valeurs par défaut) -->
+                <input type="text" id="user" placeholder="Identifiant" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
+                <input type="password" id="pass" placeholder="Mot de passe" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
+                
                 <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/20">Se connecter</button>
             </form>
             <p id="err" class="text-red-400 text-xs text-center hidden font-bold">Identifiants incorrects.</p>
