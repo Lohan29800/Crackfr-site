@@ -20,7 +20,7 @@
             <form onsubmit="login(event)" class="space-y-3">
                 <input type="text" id="user" placeholder="Identifiant (admin)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
                 <input type="password" id="pass" placeholder="Mot de passe (crackfr2026)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
-                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-bold text-xs rounded-lg uppercase">Se connecter</button>
+                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-bold text-xs rounded-lg uppercase cursor-pointer">Se connecter</button>
             </form>
             <p id="err" class="text-red-400 text-xs text-center hidden">Identifiants incorrects.</p>
         </div>
@@ -33,33 +33,34 @@
                 <h2 class="text-xs font-bold uppercase text-pink-400">📢 Annonce du site</h2>
                 <input type="text" id="annonce-txt" placeholder="Texte de l'annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
                 <div class="flex gap-2">
-                    <button onclick="saveAnnonce()" class="px-4 py-2 bg-pink-600 text-xs font-bold rounded-lg">Publier</button>
-                    <button onclick="clearAnnonce()" class="px-4 py-2 bg-slate-800 text-xs font-bold rounded-lg">Retirer</button>
+                    <button onclick="saveAnnonce()" class="px-4 py-2 bg-pink-600 text-xs font-bold rounded-lg cursor-pointer">Publier</button>
+                    <button onclick="clearAnnonce()" class="px-4 py-2 bg-slate-800 text-xs font-bold rounded-lg cursor-pointer">Retirer</button>
                 </div>
             </div>
 
-            <!-- Gestion Musique -->
+            <!-- Gestion Musique / Médias -->
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Playlist (Chill)</h2>
+                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Playlist (MP3 / MP4)</h2>
                 
                 <!-- Par lien -->
                 <div class="space-y-2">
-                    <input type="text" id="m-name" placeholder="Nom de la musique chill" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
-                    <input type="url" id="m-url" placeholder="Lien direct MP3/OGG" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
-                    <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg">Ajouter par lien</button>
+                    <input type="text" id="m-name" placeholder="Nom du média (ex: Son Chill)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
+                    <input type="url" id="m-url" placeholder="Lien direct (MP3 ou MP4)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
+                    <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg cursor-pointer">Ajouter par lien</button>
                 </div>
 
-                <!-- Par fichier local -->
+                <!-- Par fichier local (compatible MP3 et MP4) -->
                 <div class="space-y-2 pt-2 border-t border-slate-800">
-                    <input type="file" id="m-file" accept="audio/*" class="w-full text-xs text-slate-400">
-                    <button onclick="addFile()" class="w-full py-2 bg-pink-600 text-xs font-bold rounded-lg">Uploader le fichier local</button>
+                    <label class="block text-[10px] text-slate-400 uppercase font-bold">Sélectionner un fichier MP3 ou MP4 depuis l'appareil :</label>
+                    <input type="file" id="m-file" accept=".mp3,.mp4,audio/*,video/mp4" class="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-pink-600 file:text-white hover:file:bg-pink-500 file:cursor-pointer">
+                    <button onclick="addFile()" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-lg cursor-pointer">Uploader le fichier local</button>
                 </div>
 
                 <!-- Liste -->
                 <div id="playlist-list" class="space-y-2 pt-2"></div>
             </div>
 
-            <button onclick="logout()" class="w-full py-2 bg-red-900/30 text-red-400 text-xs font-bold rounded-lg">Déconnexion</button>
+            <button onclick="logout()" class="w-full py-2 bg-red-900/30 text-red-400 text-xs font-bold rounded-lg cursor-pointer">Déconnexion</button>
         </div>
     </div>
 
@@ -120,10 +121,10 @@
                 html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
                     <span class="truncate pr-2 ${i == active ? 'text-pink-400 font-bold' : ''}">${m.name}</span>
                     <div class="flex gap-1 shrink-0">
-                        <button onclick="setActive(${i})" class="px-2 py-1 bg-slate-800 rounded">Activer</button>
-                        <button onclick="del(${i})" class="px-2 py-1 bg-red-900/50 text-red-400 rounded">✕</button>
+                        <button onclick="setActive(${i})" class="px-2 py-1 bg-slate-800 rounded cursor-pointer">Activer</button>
+                        <button onclick="del(${i})" class="px-2 py-1 bg-red-900/50 text-red-400 rounded cursor-pointer">✕</button>
                     </div>
-                `;
+                </div>`;
             });
             document.getElementById('playlist-list').innerHTML = html;
         }
@@ -140,14 +141,16 @@
         }
 
         function addFile() {
-            const file = document.getElementById('m-file').files[0];
-            if(!file) return alert("Choisis un fichier !");
+            const fileInput = document.getElementById('m-file');
+            if(fileInput.files.length === 0) return alert("Choisis un fichier MP3 ou MP4 !");
+            const file = fileInput.files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
                 let list = getPl();
                 list.push({name: file.name, src: e.target.result});
                 savePl(list);
-                document.getElementById('m-file').value = '';
+                fileInput.value = '';
+                alert("Fichier MP3/MP4 ajouté avec succès !");
             };
             reader.readAsDataURL(file);
         }
@@ -155,13 +158,18 @@
         function setActive(i) {
             localStorage.setItem('active_m', i);
             renderList();
-            alert("Musique active mise à jour !");
+            alert("Média actif mis à jour !");
         }
 
         function del(i) {
             let list = getPl();
             list.splice(i, 1);
             savePl(list);
+            let currentActive = parseInt(localStorage.getItem('active_m') || '0');
+            if (currentActive >= list.length) {
+                localStorage.setItem('active_m', Math.max(0, list.length - 1));
+            }
+            renderList();
         }
     </script>
 </body>
