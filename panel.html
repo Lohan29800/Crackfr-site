@@ -29,32 +29,14 @@
             </div>
         </header>
 
-        <!-- Modules de contrôle -->
+        <!-- Module d'Annonce Unique -->
         <main class="space-y-4">
-            
-            <!-- Module Maintenance -->
-            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                        <span>🛠️</span> Mode Maintenance Global
-                    </h2>
-                    <p class="text-xs text-slate-400 mt-1">Bloque l'accès au site pour les visiteurs.</p>
-                </div>
-                <div class="flex items-center gap-3 w-full sm:w-auto justify-between">
-                    <span id="maintenance-status" class="text-xs font-bold text-emerald-400">Actif</span>
-                    <button onclick="basculerMaintenance()" class="px-4 py-2.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer">
-                        Activer / Désactiver
-                    </button>
-                </div>
-            </section>
-
-            <!-- Module Annonce -->
             <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
                 <div>
                     <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
                         <span>📢</span> Annonce Globale
                     </h2>
-                    <p class="text-xs text-slate-400 mt-1">Diffuse un message sur l'accueil.</p>
+                    <p class="text-xs text-slate-400 mt-1">Diffuse un message sur la page d'accueil.</p>
                 </div>
                 <div class="space-y-2">
                     <input type="text" id="annonce-input" placeholder="Message d'information..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500">
@@ -68,7 +50,6 @@
                     </div>
                 </div>
             </section>
-
         </main>
 
     </div>
@@ -88,7 +69,6 @@
 
             currentRole = localStorage.getItem('crackfr_role') || 'Staff';
             document.getElementById('user-role-display').innerText = `Connecté : ${currentRole}`;
-            mettreAJourUIMaintenance();
 
             const annonceActuelle = localStorage.getItem('crackfr_annonce');
             if (annonceActuelle) {
@@ -122,26 +102,6 @@
                     mode: 'no-cors'
                 }).catch(err => console.error(err));
             }
-        }
-
-        function mettreAJourUIMaintenance() {
-            const isMaint = localStorage.getItem('crackfr_maintenance') === 'true';
-            const status = document.getElementById('maintenance-status');
-            if (isMaint) {
-                status.innerText = "Actif ⚠️";
-                status.className = "text-xs font-bold text-amber-400";
-            } else {
-                status.innerText = "Inactif ✅";
-                status.className = "text-xs font-bold text-emerald-400";
-            }
-        }
-
-        function basculerMaintenance() {
-            const current = localStorage.getItem('crackfr_maintenance') === 'true';
-            const nextVal = !current;
-            localStorage.setItem('crackfr_maintenance', nextVal.toString());
-            mettreAJourUIMaintenance();
-            notifierDiscord(nextVal ? "Activation du Mode Maintenance 🔒" : "Désactivation du Mode Maintenance 🟢");
         }
 
         function publierAnnonce() {
