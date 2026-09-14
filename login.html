@@ -191,4 +191,30 @@
         }
     </script>
 </body>
-</html>
+</<script>
+    // Enregistrement automatique de la visite pour le panel admin
+    function enregistrerVisite() {
+        let visites = JSON.parse(localStorage.getItem('crackfr_visiteurs') || '[]');
+        
+        // On récupère la page actuelle (ex: "Accueil", "Panel", etc.)
+        const pageNom = document.title || "Page web";
+        
+        visites.unshift({
+            id: Date.now(),
+            page: pageNom,
+            time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+            date: new Date().toLocaleDateString('fr-FR')
+        });
+
+        // On garde uniquement les 30 dernières visites pour ne pas surcharger la mémoire
+        if (visites.length > 30) visites.pop();
+        
+        localStorage.setItem('crackfr_visiteurs', JSON.stringify(visites));
+    }
+
+    window.addEventListener('DOMContentLoaded', enregistrerVisite);
+</script>
+
+
+
+
