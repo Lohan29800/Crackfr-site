@@ -38,7 +38,6 @@
             </div>
 
             <form onsubmit="login(event)" class="space-y-4">
-                <!-- Identifiant avec icône -->
                 <div class="space-y-1">
                     <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Identifiant</label>
                     <div class="relative">
@@ -47,7 +46,6 @@
                     </div>
                 </div>
                 
-                <!-- Mot de passe avec icône et bouton œil -->
                 <div class="space-y-1">
                     <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mot de passe</label>
                     <div class="relative">
@@ -81,7 +79,6 @@
                     <button onclick="clearLogs()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[10px] font-bold text-slate-300 rounded-lg cursor-pointer transition-colors">Effacer l'historique</button>
                 </div>
                 <div id="logs-container" class="bg-slate-950 border border-slate-800 rounded-2xl p-3 max-h-48 overflow-y-auto space-y-2 font-mono text-[11px]">
-                    <!-- Les logs s'injectent ici dynamiquement -->
                 </div>
             </div>
 
@@ -100,19 +97,19 @@
                         </select>
                     </div>
                     <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Fin de maintenance (Heure affichée) :</label>
+                        <input type="text" id="maintenance-time" placeholder="ex: 22h30 / Bientôt de retour" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    </div>
+                    <div>
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Joueurs connectés :</label>
                         <input type="text" id="server-players" placeholder="ex: 42 / 64" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Membres Discord (ex: 1.2K+) :</label>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Membres Discord :</label>
                         <input type="text" id="stat-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                     </div>
-                    <div>
-                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Latence (ex: 15ms) :</label>
-                        <input type="text" id="stat-ping" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    </div>
                 </div>
-                <button onclick="saveGlobalStats()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Enregistrer les stats</button>
+                <button onclick="saveGlobalStats()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Enregistrer les stats & maintenance</button>
             </div>
 
             <!-- MODULE 2 : BANNIÈRE D'ANNONCE -->
@@ -127,14 +124,14 @@
                 </div>
             </div>
 
-            <!-- MODULE 3 : GESTION DES JEUX (Grille Accueil) -->
+            <!-- MODULE 3 : GESTION DES JEUX -->
             <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
                 <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
                     <span>🎮</span> Gestion des Univers de Jeu
                 </h2>
                 <div class="space-y-2">
                     <input type="text" id="game-emoji" placeholder="Emoji (ex: 🚗)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <input type="text" id="game-title" placeholder="Nom du jeu (ex: GTA V / FiveM)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    <input type="text" id="game-title" placeholder="Nom du jeu" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                     <textarea id="game-desc" rows="2" placeholder="Description courte..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
                     <button onclick="addGame()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter un jeu</button>
                 </div>
@@ -170,19 +167,30 @@
         </div>
     </div>
 
-    <!-- ÉCRAN DE MAINTENANCE VISITEUR (Injecté dynamiquement si le mode est actif et que l'utilisateur n'est pas admin) -->
+    <!-- ÉCRAN DE MAINTENANCE AMÉLIORÉ (Avec lien Discord et estimation de fin) -->
     <div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-6 text-center">
         <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800 space-y-6 shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600"></div>
-            <div class="w-16 h-16 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-2xl shadow-inner">
+            <div class="w-16 h-16 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-2xl shadow-inner animate-pulse">
                 🛠️
             </div>
             <div class="space-y-2">
                 <h2 class="text-lg font-black uppercase tracking-wider text-white">Site en Maintenance</h2>
-                <p class="text-xs text-slate-400 leading-relaxed">CrackFR fait peau neuve ou subit une mise à jour technique. Nos équipes reviennent très vite !</p>
+                <p class="text-xs text-slate-400 leading-relaxed">Notre équipe met à jour les serveurs et les scripts. Le portail sera de nouveau accessible très prochainement !</p>
+                
+                <!-- Badge de temps estimé -->
+                <div class="inline-flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-[11px] text-pink-400 font-mono mt-2">
+                    <span>⏱️ Retour estimé :</span> <strong id="display-maintenance-time" class="text-white">Bientôt</strong>
+                </div>
             </div>
-            <div class="pt-2">
-                <a href="login.html" class="inline-block w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl uppercase tracking-wider transition-all">
+
+            <div class="space-y-2 pt-2">
+                <!-- Bouton Discord -->
+                <a href="https://discord.gg/crackfr" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/20">
+                    <span>💬</span> Rejoindre le Discord
+                </a>
+                <!-- Bouton Connexion Staff -->
+                <a href="login.html" class="block w-full py-2.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-bold text-[11px] rounded-xl uppercase tracking-wider transition-all">
                     Accès Staff (Connexion)
                 </a>
             </div>
@@ -195,14 +203,17 @@
 
     <script>
         window.onload = () => {
-            // SCRIPT DE MAINTENANCE INTELLIGENT
             const isMaintenance = localStorage.getItem('srv_status') === 'maintenance';
             const isAdmin = localStorage.getItem('auth') === '1';
 
-            // Si on est sur index.html ou login.html et que le mode maintenance est actif pour les visiteurs non-admin
+            // Afficher le temps estimé de maintenance s'il est configuré
+            const savedTime = localStorage.getItem('maintenance_time');
+            if(savedTime) {
+                document.getElementById('display-maintenance-time').innerText = savedTime;
+            }
+
+            // Gestion de l'affichage de l'écran de maintenance pour les visiteurs
             if (isMaintenance && !isAdmin) {
-                // Si on est sur le panel/login, on laisse la possibilité de se connecter, MAIS on peut afficher l'écran de maintenance si on est sur la page d'accueil principale.
-                // Ici, vérifions si on est sur la page principale index.html ou login.html
                 if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '') {
                     document.getElementById('maintenance-screen').classList.remove('hidden');
                 }
@@ -211,7 +222,6 @@
             if(isAdmin) showDash();
         }
 
-        // Fonction pour afficher/masquer le mot de passe
         function togglePasswordVisibility() {
             const passInput = document.getElementById('pass');
             const eyeBtn = document.getElementById('eye-btn');
@@ -224,7 +234,6 @@
             }
         }
 
-        // --- GESTION DES LOGS DE CONNEXION ---
         function addLog(username, status) {
             const logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
             const now = new Date();
@@ -280,13 +289,13 @@
 
         function showDash() {
             document.getElementById('login-box').classList.add('hidden');
-            document.getElementById('maintenance-screen').classList.add('hidden'); // Masquer l'écran de maintenance si l'admin est connecté
+            document.getElementById('maintenance-screen').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('annonce-txt').value = localStorage.getItem('annonce') || '';
             document.getElementById('server-status').value = localStorage.getItem('srv_status') || 'online';
+            document.getElementById('maintenance-time').value = localStorage.getItem('maintenance_time') || 'Bientôt';
             document.getElementById('server-players').value = localStorage.getItem('srv_players') || '42 / 64';
             document.getElementById('stat-members').value = localStorage.getItem('stat_members') || '1.2K+';
-            document.getElementById('stat-ping').value = localStorage.getItem('stat_ping') || '15ms';
             renderLogs();
             renderList();
             renderNews();
@@ -300,10 +309,10 @@
 
         function saveGlobalStats() {
             localStorage.setItem('srv_status', document.getElementById('server-status').value);
+            localStorage.setItem('maintenance_time', document.getElementById('maintenance-time').value);
             localStorage.setItem('srv_players', document.getElementById('server-players').value);
             localStorage.setItem('stat_members', document.getElementById('stat-members').value);
-            localStorage.setItem('stat_ping', document.getElementById('stat-ping').value);
-            alert("Statistiques et mode maintenance mis à jour !");
+            alert("Configuration de la maintenance et stats enregistrées !");
         }
 
         function saveAnnonce() {
