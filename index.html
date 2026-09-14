@@ -22,7 +22,6 @@
         .wave-bar:nth-child(2) { animation-delay: 0.2s; }
         .wave-bar:nth-child(3) { animation-delay: 0.4s; }
 
-        /* Particules canvas */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -36,14 +35,12 @@
 </head>
 <body class="text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black overflow-x-hidden relative">
 
-    <!-- Toile de fond pour les particules dynamiques -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- Lueurs d'arrière-plan interactives -->
     <div id="blob1" class="absolute top-1/3 left-1/4 w-[450px] h-[450px] bg-pink-600/15 rounded-full blur-[160px] pointer-events-none transition-all duration-700 z-0"></div>
     <div id="blob2" class="absolute bottom-1/3 right-1/4 w-[450px] h-[450px] bg-purple-600/15 rounded-full blur-[160px] pointer-events-none transition-all duration-700 z-0"></div>
 
-    <!-- Barre supérieure interactive -->
+    <!-- Barre supérieure -->
     <header class="max-w-4xl mx-auto w-full flex items-center justify-between bg-slate-900/80 backdrop-blur-2xl border border-slate-800/80 px-6 py-3.5 rounded-2xl shadow-2xl relative z-10">
         <div class="flex items-center gap-3">
             <span class="relative flex h-3 w-3">
@@ -60,8 +57,11 @@
                 <span class="w-1 bg-pink-500 rounded-full wave-bar"></span>
             </div>
             
-            <audio id="bg-music" loop>
+            <!-- Élément audio avec source alternative ultra-stable -->
+            <audio id="bg-music" preload="auto" loop>
+                <source src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" type="audio/ogg">
                 <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'audio.
             </audio>
 
             <button onclick="toggleMusic()" id="music-btn" class="px-4 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/40 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-2 shadow-lg shadow-pink-600/10 hover:scale-105">
@@ -72,14 +72,11 @@
 
     <div class="max-w-4xl mx-auto w-full space-y-6 my-auto relative z-10">
         
-        <!-- Bannière d'annonce dynamique -->
         <div id="global-banner" class="hidden bg-gradient-to-r from-pink-600/20 via-purple-600/20 to-pink-600/20 border border-pink-500/40 p-4 rounded-2xl text-pink-300 text-xs font-bold text-center shadow-2xl flex items-center justify-center gap-2 animate-pulse">
             <span>📢</span> <span id="banner-text"></span>
         </div>
 
-        <!-- Carte Principale Ultra-Stylée -->
         <main class="bg-slate-900/85 backdrop-blur-3xl border border-slate-800 p-8 md:p-14 rounded-3xl shadow-2xl text-center space-y-8 relative overflow-hidden floating-card">
-            
             <div class="absolute -right-20 -top-20 w-40 h-40 bg-pink-500/10 rounded-full blur-2xl"></div>
             
             <div class="space-y-4 relative z-10">
@@ -94,7 +91,6 @@
                 </p>
             </div>
 
-            <!-- Boutons d'Action Néon -->
             <div class="flex flex-wrap items-center justify-center gap-4 pt-2 relative z-10">
                 <a href="login.html" class="px-8 py-4 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-pink-600/30 hover:scale-105 transform duration-200 border border-pink-400/30">
                     Portail Staff (Login)
@@ -105,7 +101,6 @@
             </div>
         </main>
 
-        <!-- Grille d'Atouts Dynamique -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             <div class="bg-slate-900/60 backdrop-blur-md border border-slate-800 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300 hover:scale-[1.02]">
                 <h3 class="text-xl font-black text-white">Live</h3>
@@ -128,7 +123,6 @@
     </footer>
 
     <script>
-        // --- Effet de Particules Étoilées en Arrière-plan ---
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -182,7 +176,6 @@
         initParticles();
         animateParticles();
 
-        // --- Suivi de la souris pour les lueurs ---
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX / window.innerWidth * 100;
             const y = e.clientY / window.innerHeight * 100;
@@ -194,7 +187,6 @@
             }
         });
 
-        // --- Chargement initial & Annonces ---
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
             
@@ -204,7 +196,6 @@
                 document.getElementById('global-banner').classList.remove('hidden');
             }
 
-            // Variation légère du compteur en ligne pour faire vivant
             setInterval(() => {
                 const countElem = document.getElementById('online-count');
                 let current = parseInt(countElem.innerText);
@@ -214,7 +205,6 @@
             }, 6000);
         });
 
-        // --- Lecteur Musique ---
         function toggleMusic() {
             const music = document.getElementById('bg-music');
             const btnText = document.getElementById('music-btn-text');
@@ -227,8 +217,9 @@
                     icon.innerText = "⏸️";
                     waves.classList.remove('hidden');
                     waves.classList.add('flex');
-                }).catch(e => {
-                    alert("Lecture audio bloquée par le navigateur. Clique à nouveau !");
+                }).catch(error => {
+                    console.error("Erreur de lecture audio :", error);
+                    alert("Le navigateur bloque le lancement direct. Clique une deuxième fois sur le bouton !");
                 });
             } else {
                 music.pause();
