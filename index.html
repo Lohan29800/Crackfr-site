@@ -3,89 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Administration ⚡</title>
+    <title>CrackFR - Accueil ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { opacity: 0; transition: opacity 0.4s ease-in-out; }</style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 md:p-8 selection:bg-pink-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8">
 
-    <div class="max-w-4xl mx-auto space-y-6">
-        
-        <!-- En-tête du Panel -->
-        <header class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
-            <div class="text-center sm:text-left space-y-1">
-                <h1 class="text-xl font-black text-white uppercase tracking-wider flex items-center justify-center sm:justify-start gap-2">
-                    <span>⚡</span> Panneau d'Administration
-                </h1>
-                <p id="user-role-display" class="text-xs font-bold text-pink-400">Chargement...</p>
-            </div>
-            <div class="flex items-center gap-3 w-full sm:w-auto">
-                <a href="index.html" class="flex-1 sm:flex-initial px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl transition-all border border-slate-700 text-center">
-                    Accueil
-                </a>
-                <button onclick="deconnexion()" class="flex-1 sm:flex-initial px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl transition-all border border-rose-500/30 cursor-pointer">
-                    Déconnexion
-                </button>
-            </div>
-        </header>
-
-        <!-- Module de Maintenance -->
-        <main class="grid grid-cols-1 gap-6">
-            <section class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="space-y-1 text-center sm:text-left">
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-white flex items-center justify-center sm:justify-start gap-2">
-                        <span>🛠️</span> Mode Maintenance Global
-                    </h2>
-                    <p class="text-xs text-slate-400">Bloque l'accès au site pour tous les visiteurs extérieurs.</p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <span id="maintenance-status" class="text-xs font-bold text-emerald-400">Actif</span>
-                    <button id="maintenance-btn" onclick="basculerMaintenance()" class="px-4 py-2.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer">
-                        Activer / Désactiver
-                    </button>
-                </div>
-            </section>
-        </main>
-
+    <!-- Bannière d'annonce globale (affichée si le staff en a publié une) -->
+    <div id="global-banner" class="hidden max-w-2xl mx-auto w-full bg-pink-600/20 border border-pink-500/40 p-4 rounded-2xl text-pink-300 text-xs font-bold text-center shadow-lg mb-4">
+        📢 <span id="banner-text"></span>
     </div>
+
+    <main class="max-w-2xl mx-auto w-full space-y-6 my-auto text-center">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-xl space-y-4">
+            <h1 class="text-2xl font-black text-white uppercase tracking-wider">CrackFR ⚡</h1>
+            <p class="text-xs text-slate-400">Bienvenue sur le portail officiel. Accès réservé aux membres autorisés.</p>
+            
+            <div class="pt-4 flex justify-center gap-3">
+                <a href="login.html" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-pink-600/20">
+                    Portail Staff (Login)
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center text-[10px] text-slate-600 uppercase tracking-widest">
+        CrackFR © 2026 - Tous droits réservés
+    </footer>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            document.body.style.opacity = '1';
-
-            if (localStorage.getItem('crackfr_logged_in') !== 'true') {
-                window.location.href = 'login.html';
+            // Vérification du mode maintenance global
+            if (localStorage.getItem('crackfr_maintenance') === 'true') {
+                document.body.innerHTML = `
+                    <div style="background:#020617; color:#f8fafc; font-family:sans-serif; display:flex; height:100vh; align-items:center; justify-content:center; text-align:center; padding:20px;">
+                        <div>
+                            <h1 style="font-size:24px; font-weight:900; color:#f59e0b; margin-bottom:10px;">⚠️ SITE EN MAINTENANCE</h1>
+                            <p style="font-size:13px; color:#94a3b8;">Le portail est temporairement verrouillé par l'administration.</p>
+                        </div>
+                    </div>
+                `;
                 return;
             }
 
-            const role = localStorage.getItem('crackfr_role') || 'Staff';
-            document.getElementById('user-role-display').innerText = `Connecté en tant que : ${role}`;
-            mettreAJourUIMaintenance();
-        });
-
-        function mettreAJourUIMaintenance() {
-            const isMaintenance = localStorage.getItem('crackfr_maintenance') === 'true';
-            const statusText = document.getElementById('maintenance-status');
-            if (isMaintenance) {
-                statusText.innerText = "Mode Maintenance Actif ⚠️";
-                statusText.className = "text-xs font-bold text-amber-400";
-            } else {
-                statusText.innerText = "Site Opérationnel ✅";
-                statusText.className = "text-xs font-bold text-emerald-400";
+            // Affichage de l'annonce globale si elle existe
+            const annonce = localStorage.getItem('crackfr_annonce');
+            if (annonce) {
+                document.getElementById('banner-text').innerText = annonce;
+                document.getElementById('global-banner').classList.remove('hidden');
             }
-        }
-
-        function basculerMaintenance() {
-            const current = localStorage.getItem('crackfr_maintenance') === 'true';
-            localStorage.setItem('crackfr_maintenance', (!current).toString());
-            mettreAJourUIMaintenance();
-        }
-
-        function deconnexion() {
-            localStorage.removeItem('crackfr_logged_in');
-            localStorage.removeItem('crackfr_role');
-            window.location.href = 'login.html';
-        }
+        });
     </script>
 </body>
 </html>
