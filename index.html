@@ -3,107 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Serveur Communautaire & Gaming ⚡</title>
+    <title>CrackFR - Accueil</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { opacity: 0; transition: opacity 0.4s ease-in-out; }</style>
+    <style>body { opacity: 0; transition: opacity 0.5s ease-in-out; }</style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-6 selection:bg-pink-500 selection:text-black">
 
-    <!-- Bandeau d'annonce flash synchronisé -->
-    <div id="flash-banner" class="hidden bg-pink-600/10 border-b border-pink-500/30 text-pink-400 px-4 py-2.5 text-xs font-bold text-center flex items-center justify-center space-x-2 animate-pulse">
-        <span>⚡ Annonce Staff :</span>
-        <span id="flash-text" class="text-slate-200"></span>
+    <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-lg w-full space-y-6 text-center shadow-2xl">
+        <h1 class="text-3xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white to-pink-400 bg-clip-text text-transparent">
+            Bienvenue sur CrackFR
+        </h1>
+        <p class="text-xs text-slate-400 leading-relaxed">
+            Plateforme communautaire et espace de gestion. Accède au portail de connexion staff sécurisé ci-dessous.
+        </p>
+
+        <div class="pt-4">
+            <a href="login.html" class="inline-block w-full py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20">
+                🔐 Accès Portail Staff
+            </a>
+        </div>
     </div>
 
-    <!-- En-tête -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="text-lg font-black tracking-wider text-pink-400 flex items-center space-x-2">
-                <span>🔥</span>
-                <span>CRACKFR</span>
-            </div>
-            <div class="flex items-center space-x-3">
-                <a href="login.html" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl transition-all shadow-md">
-                    🔐 Panel Staff Sécurisé
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Contenu Principal -->
-    <main class="flex-grow max-w-5xl mx-auto px-4 py-16 space-y-16">
-        <section class="text-center space-y-6">
-            <span class="px-3.5 py-1.5 text-xs font-extrabold uppercase tracking-widest bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full inline-block">
-                Sécurité & Performance Active
-            </span>
-            <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight">
-                Bienvenue sur <span class="text-pink-500">CrackFR</span>
-            </h1>
-            <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-                Plateforme communautaire sécurisée. Accède à nos services et rejoins l'aventure dès maintenant.
-            </p>
-            <div class="pt-4 flex flex-wrap justify-center gap-4">
-                <a href="https://discord.gg/25XdSrFQve" target="_blank" class="px-7 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-2xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-pink-600/20 inline-block">
-                    💬 Rejoindre le Discord
-                </a>
-            </div>
-        </section>
-
-        <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-                <span class="text-2xl">🛡️</span>
-                <h2 class="text-sm font-bold uppercase tracking-wider text-white">Sécurité Avancée</h2>
-                <p class="text-xs text-slate-400 leading-relaxed">Protections anti-brute-force intégrées pour l'accès aux interfaces d'administration.</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-                <span class="text-2xl">⚡</span>
-                <h2 class="text-sm font-bold uppercase tracking-wider text-white">Synchronisation Live</h2>
-                <p class="text-xs text-slate-400 leading-relaxed">Mises à jour instantanées des annonces et des journaux d'activité en temps réel.</p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-                <span class="text-2xl">🎮</span>
-                <h2 class="text-sm font-bold uppercase tracking-wider text-white">Communauté Gaming</h2>
-                <p class="text-xs text-slate-400 leading-relaxed">Espaces de partage dédiés aux passionnés de jeux et de développement.</p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 bg-slate-900">
-        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
-    </footer>
-
+    <!-- Script de suivi des visiteurs pour le Panel Admin -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // Vérification du mode maintenance
-            const maintenanceMode = localStorage.getItem('crackfr_maintenance') === 'true';
-            if (maintenanceMode) {
-                const customMsg = localStorage.getItem('crackfr_maintenance_msg') || "Le site est actuellement en maintenance. Revenez plus tard !";
-                document.body.innerHTML = `
-                    <div class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col items-center justify-center p-4 selection:bg-pink-500">
-                        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full space-y-6 shadow-2xl text-center">
-                            <span class="text-4xl">🛠️</span>
-                            <h1 class="text-xl font-black text-white uppercase tracking-wider">Site en Maintenance</h1>
-                            <p class="text-xs text-slate-400 leading-relaxed">${customMsg}</p>
-                            <div class="pt-2">
-                                <a href="login.html" class="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold rounded-xl transition-all">
-                                    🔐 Accès Staff
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
             document.body.style.opacity = '1';
-            try {
-                const annonceActuelle = localStorage.getItem('crackfr_active_flash');
-                if (annonceActuelle) {
-                    const banner = document.getElementById('flash-banner');
-                    const flashText = document.getElementById('flash-text');
-                    if(flashText) flashText.innerText = annonceActuelle;
-                    if(banner) banner.classList.remove('hidden');
-                }
-            } catch (e) {}
+
+            // Enregistrement de la visite
+            let visites = JSON.parse(localStorage.getItem('crackfr_visiteurs') || '[]');
+            visites.unshift({
+                id: Date.now(),
+                page: document.title || "Accueil",
+                time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                date: new Date().toLocaleDateString('fr-FR')
+            });
+
+            if (visites.length > 30) visites.pop();
+            localStorage.setItem('crackfr_visiteurs', JSON.stringify(visites));
         });
     </script>
 </body>
