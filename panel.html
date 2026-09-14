@@ -54,22 +54,24 @@
         <!-- Grille des Modules -->
         <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <!-- Module État du Système -->
+            <!-- Module État du Système & Maintenance -->
             <section aria-labelledby="section-etat" class="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-3xl space-y-4 shadow-2xl flex flex-col justify-between">
                 <div class="space-y-2">
                     <h2 id="section-etat" class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
                         <span>🛠️</span> État du Système & Maintenance
                     </h2>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Surveille l'intégrité globale de la plateforme et l'état des services communautaires.
+                        Active le mode maintenance pour restreindre l'accès à la plateforme aux seuls membres du staff.
                     </p>
                 </div>
                 <div class="pt-4 border-t border-slate-800/60 flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
+                    <div id="maintenance-status-text" class="flex items-center gap-2.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                        <span class="text-xs font-bold text-emerald-400">Services pleinement opérationnels</span>
+                        <span class="text-xs font-bold text-emerald-400">Système opérationnel</span>
                     </div>
-                    <span class="text-[11px] font-mono text-slate-500">v2.0-stable</span>
+                    <button id="maintenance-btn" onclick="basculerMaintenance()" class="px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer">
+                        Activer la maintenance
+                    </button>
                 </div>
             </section>
 
@@ -88,7 +90,7 @@
                 </div>
             </section>
 
-            <!-- Section exclusive Fondateur (Affichée uniquement si connecté en Fondateur) -->
+            <!-- Section exclusive Fondateur -->
             <section id="fondateur-section" aria-labelledby="section-fondateur" class="hidden md:col-span-2 bg-gradient-to-r from-slate-900 via-purple-950/20 to-slate-900 border border-purple-500/30 p-6 rounded-3xl space-y-4 shadow-2xl">
                 <div class="flex items-center gap-3">
                     <span class="text-2xl">👑</span>
@@ -98,9 +100,6 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-3 pt-2 border-t border-purple-500/20">
-                    <button onclick="alerterFondateur()" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg shadow-purple-600/20 cursor-pointer">
-                        ✨ Synchroniser les accès globaux
-                    </button>
                     <button onclick="nettoyerMemoire()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition-all border border-slate-700 cursor-pointer">
                         🧹 Réinitialiser le cache local
                     </button>
@@ -114,24 +113,49 @@
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
 
-            // Sécurité : Vérifier la connexion
             if (localStorage.getItem('crackfr_logged_in') !== 'true') {
                 window.location.href = 'login.html';
                 return;
             }
 
-            // Récupérer et afficher le rôle
             const role = localStorage.getItem('crackfr_role') || 'Staff';
-            const badge = document.getElementById('role-badge');
-            badge.innerText = `Rôle : ${role}`;
+            document.getElementById('role-badge').innerText = `Rôle : ${role}`;
 
-            // Si c'est le Fondateur, on affiche sa section exclusive
             if (role === 'Fondateur') {
                 document.getElementById('fondateur-section').classList.remove('hidden');
             }
 
+            mettreAJourUI Maintenance();
             chargerLogsSecurite();
         });
+
+        function mettreAJourUIMaintenance() {
+            const isMaintenance = localStorage.getItem('crackfr_maintenance') === 'true';
+            const statusDiv = document.getElementById('maintenance-status-text');
+            const btn = document.getElementById('maintenance-btn');
+
+            if (isMaintenance) {
+                statusDiv.innerHTML = `
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                    <span class="text-xs font-bold text-amber-400">Mode Maintenance Actif</span>
+                `;
+                btn.innerText = "Désactiver la maintenance";
+                btn.className = "px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer";
+            } else {
+                statusDiv.innerHTML = `
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span class="text-xs font-bold text-emerald-400">Système opérationnel</span>
+                `;
+                btn.innerText = "Activer la maintenance";
+                btn.className = "px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer";
+            }
+        }
+
+        function basculerMaintenance() {
+            const current = localStorage.getItem('crackfr_maintenance') === 'true';
+            localStorage.setItem('crackfr_maintenance', (!current).toString());
+            mettreAJourUIMaintenance();
+        }
 
         function chargerLogsSecurite() {
             const container = document.getElementById('logs-list');
@@ -159,12 +183,8 @@
             chargerLogsSecurite();
         }
 
-        function alerterFondateur() {
-            alert("👑 Synchronisation des accès Fondateur effectuée avec succès !");
-        }
-
         function nettoyerMemoire() {
-            if(confirm("Vux-tu vraiment vider le cache de session ?")) {
+            if(confirm("Veux-tu vraiment vider le cache de session ?")) {
                 localStorage.clear();
                 window.location.href = 'login.html';
             }
