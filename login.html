@@ -6,46 +6,81 @@
     <title>Panel Admin Ultime - CrackFR</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-6 flex flex-col justify-between selection:bg-pink-600 selection:text-white">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-6 flex flex-col justify-between selection:bg-pink-600 selection:text-white relative overflow-x-hidden">
 
-    <div class="max-w-2xl mx-auto w-full space-y-6">
+    <!-- Effets d'ambiance lumineux en arrière-plan -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-2xl mx-auto w-full space-y-6 relative z-10">
         
         <!-- Top bar -->
-        <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-lg">
-            <a href="index.html" class="text-xs text-pink-400 font-bold hover:underline">← Retour au site</a>
-            <h1 class="text-xs font-black uppercase tracking-wider text-white">⚡ Administration CrackFR</h1>
+        <div class="flex justify-between items-center bg-slate-900/80 backdrop-blur-md p-4 rounded-2xl border border-slate-800/80 shadow-xl">
+            <a href="index.html" class="text-xs text-pink-400 font-bold hover:text-pink-300 transition-colors flex items-center gap-1.5">
+                <span>←</span> Retour au site
+            </a>
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+                <h1 class="text-xs font-black uppercase tracking-wider text-white">CrackFR <span class="text-pink-500">Security</span></h1>
+            </div>
         </div>
 
-        <!-- 1. Écran de Connexion -->
-        <div id="login-box" class="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-            <h2 class="text-sm font-bold uppercase text-center tracking-wider">Connexion Staff</h2>
-            <form onsubmit="login(event)" class="space-y-3">
-                <!-- Identifiant vide -->
-                <input type="text" id="user" placeholder="Identifiant" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs focus:border-pink-500 focus:outline-none">
-                
-                <!-- Mot de passe avec bouton œil pour voir/cacher -->
-                <div class="relative">
-                    <input type="password" id="pass" placeholder="Mot de passe" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 pr-10 text-xs focus:border-pink-500 focus:outline-none">
-                    <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs cursor-pointer focus:outline-none">
-                        👁️
-                    </button>
+        <!-- 1. Écran de Connexion Stylé -->
+        <div id="login-box" class="bg-slate-900/90 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-slate-800/80 space-y-6 shadow-2xl shadow-black/50 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600"></div>
+            
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-xl shadow-inner mb-4">
+                    ⚡
+                </div>
+                <h2 class="text-base font-black uppercase tracking-wider text-white">Espace Staff Réservé</h2>
+                <p class="text-xs text-slate-400">Veuillez vous identifier pour accéder au panneau d'administration.</p>
+            </div>
+
+            <form onsubmit="login(event)" class="space-y-4">
+                <!-- Identifiant avec icône -->
+                <div class="space-y-1">
+                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Identifiant</label>
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs">👤</span>
+                        <input type="text" id="user" placeholder="Entrez votre identifiant" required class="w-full bg-slate-950/80 border border-slate-800/80 rounded-xl p-3 pl-10 text-xs text-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 focus:outline-none transition-all">
+                    </div>
                 </div>
                 
-                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/20">Se connecter</button>
+                <!-- Mot de passe avec icône et bouton œil -->
+                <div class="space-y-1">
+                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mot de passe</label>
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs">🔑</span>
+                        <input type="password" id="pass" placeholder="••••••••••••" required class="w-full bg-slate-950/80 border border-slate-800/80 rounded-xl p-3 pl-10 pr-10 text-xs text-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 focus:outline-none transition-all">
+                        <button type="button" onclick="togglePasswordVisibility()" id="eye-btn" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs cursor-pointer transition-colors focus:outline-none">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-pink-600/25 active:scale-[0.99] mt-2">
+                    Accéder au Dashboard
+                </button>
             </form>
-            <p id="err" class="text-red-400 text-xs text-center hidden font-bold">Identifiants incorrects.</p>
+            
+            <div id="err" class="hidden bg-red-950/40 border border-red-900/50 p-3 rounded-xl text-red-400 text-xs text-center font-bold animate-shake">
+                ⚠️ Identifiants incorrects. Accès refusé.
+            </div>
         </div>
 
         <!-- 2. Dashboard Complet (Caché par défaut) -->
         <div id="dashboard" class="hidden space-y-6">
             
             <!-- MODULE 1 : STATUT DU SERVEUR & STATS -->
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🟢 Statut & Statistiques du Site</h2>
+            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    <span>🟢</span> Statut & Statistiques du Site
+                </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">État du serveur :</label>
-                        <select id="server-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+                        <select id="server-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                             <option value="online">En Ligne (Actif)</option>
                             <option value="maintenance">Maintenance</option>
                             <option value="full">Complet</option>
@@ -53,66 +88,78 @@
                     </div>
                     <div>
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Joueurs connectés :</label>
-                        <input type="text" id="server-players" placeholder="ex: 42 / 64" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                        <input type="text" id="server-players" placeholder="ex: 42 / 64" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                     </div>
                     <div>
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Membres Discord (ex: 1.2K+) :</label>
-                        <input type="text" id="stat-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                        <input type="text" id="stat-members" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                     </div>
                     <div>
                         <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1">Latence (ex: 15ms) :</label>
-                        <input type="text" id="stat-ping" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
+                        <input type="text" id="stat-ping" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                     </div>
                 </div>
-                <button onclick="saveGlobalStats()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Enregistrer les stats</button>
+                <button onclick="saveGlobalStats()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Enregistrer les stats</button>
             </div>
 
             <!-- MODULE 2 : BANNIÈRE D'ANNONCE -->
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-3 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📢 Annonce du site</h2>
-                <input type="text" id="annonce-txt" placeholder="Texte de l'alerte/annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs">
+            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-3 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    <span>📢</span> Annonce du site
+                </h2>
+                <input type="text" id="annonce-txt" placeholder="Texte de l'alerte/annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
                 <div class="flex gap-2">
-                    <button onclick="saveAnnonce()" class="flex-1 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier</button>
-                    <button onclick="clearAnnonce()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Retirer</button>
+                    <button onclick="saveAnnonce()" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier</button>
+                    <button onclick="clearAnnonce()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Retirer</button>
                 </div>
             </div>
 
             <!-- MODULE 3 : GESTION DES JEUX (Grille Accueil) -->
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🎮 Gestion des Univers de Jeu</h2>
+            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    <span>🎮</span> Gestion des Univers de Jeu
+                </h2>
                 <div class="space-y-2">
-                    <input type="text" id="game-emoji" placeholder="Emoji (ex: 🚗)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
-                    <input type="text" id="game-title" placeholder="Nom du jeu (ex: GTA V / FiveM)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
-                    <textarea id="game-desc" rows="2" placeholder="Description courte..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs resize-none"></textarea>
-                    <button onclick="addGame()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter un jeu</button>
+                    <input type="text" id="game-emoji" placeholder="Emoji (ex: 🚗)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    <input type="text" id="game-title" placeholder="Nom du jeu (ex: GTA V / FiveM)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    <textarea id="game-desc" rows="2" placeholder="Description courte..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
+                    <button onclick="addGame()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter un jeu</button>
                 </div>
                 <div id="games-list-admin" class="space-y-2 pt-2 border-t border-slate-800 max-h-40 overflow-y-auto"></div>
             </div>
 
             <!-- MODULE 4 : GESTIONNAIRE DE MUSIQUE -->
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">🎵 Gestionnaire de Playlist (Chill)</h2>
+            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    <span>🎵</span> Gestionnaire de Playlist (Chill)
+                </h2>
                 <div class="space-y-2">
-                    <input type="text" id="m-name" placeholder="Nom de la musique" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
-                    <input type="url" id="m-url" placeholder="Lien direct MP3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
-                    <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter à la playlist</button>
+                    <input type="text" id="m-name" placeholder="Nom de la musique" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    <input type="url" id="m-url" placeholder="Lien direct MP3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    <button onclick="addLink()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">Ajouter à la playlist</button>
                 </div>
                 <div id="playlist-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-40 overflow-y-auto"></div>
             </div>
 
             <!-- MODULE 5 : PUBLIER UNE NEWS -->
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-3 shadow-xl">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Publier une News / Patch Note</h2>
-                <input type="text" id="news-title" placeholder="Titre de la news" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs">
-                <textarea id="news-desc" rows="2" placeholder="Description..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs resize-none"></textarea>
-                <button onclick="addNews()" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier la News</button>
+            <div class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-3 shadow-xl">
+                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    <span>📰</span> Publier une News / Patch Note
+                </h2>
+                <input type="text" id="news-title" placeholder="Titre de la news" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                <textarea id="news-desc" rows="2" placeholder="Description..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
+                <button onclick="addNews()" class="w-full py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl transition-all cursor-pointer">Publier la News</button>
                 <div id="news-list" class="space-y-2 pt-2 border-t border-slate-800 max-h-32 overflow-y-auto"></div>
             </div>
 
             <!-- Déconnexion -->
-            <button onclick="logout()" class="w-full py-3 bg-red-950/40 border border-red-900/50 hover:bg-red-900/40 text-red-400 text-xs font-extrabold rounded-xl transition-all cursor-pointer">🔒 Se déconnecter</button>
+            <button onclick="logout()" class="w-full py-3 bg-red-950/40 border border-red-900/50 hover:bg-red-900/40 text-red-400 text-xs font-extrabold rounded-xl transition-all cursor-pointer shadow-lg">🔒 Se déconnecter</button>
         </div>
     </div>
+
+    <footer class="w-full text-center py-6 text-[10px] tracking-widest text-slate-600 uppercase mt-12 relative z-10">
+        CrackFR Security System — 2026
+    </footer>
 
     <script>
         window.onload = () => {
@@ -122,10 +169,13 @@
         // Fonction pour afficher/masquer le mot de passe
         function togglePasswordVisibility() {
             const passInput = document.getElementById('pass');
+            const eyeBtn = document.getElementById('eye-btn');
             if (passInput.type === 'password') {
                 passInput.type = 'text';
+                eyeBtn.innerText = '🙈';
             } else {
                 passInput.type = 'password';
+                eyeBtn.innerText = '👁️';
             }
         }
 
