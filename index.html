@@ -3,44 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Communauté Gaming ⚡</title>
+    <title>CrackFR - Communauté Gaming & Tech ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { opacity: 0; transition: opacity 0.6s ease-in-out; }
+        body { opacity: 0; transition: opacity 0.8s ease-in-out; background-color: #020617; }
         
-        @keyframes floatAnim {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-15px) scale(1.05); }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
         }
-        .floating { animation: floatAnim 6s ease-in-out infinite; }
+        .floating-card { animation: floatSlow 7s ease-in-out infinite; }
 
         @keyframes waveAnim {
             0%, 100% { height: 4px; }
-            50% { height: 16px; }
+            50% { height: 18px; }
         }
-        .wave-bar { animation: waveAnim 1s ease-in-out infinite; }
+        .wave-bar { animation: waveAnim 0.9s ease-in-out infinite; }
         .wave-bar:nth-child(2) { animation-delay: 0.2s; }
         .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Particules canvas */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black overflow-x-hidden relative">
+<body class="text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black overflow-x-hidden relative">
 
-    <!-- Effets d'arrière-plan lumineux interactifs -->
-    <div id="blob1" class="absolute top-1/4 left-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-[140px] pointer-events-none transition-all duration-700"></div>
-    <div id="blob2" class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-[140px] pointer-events-none transition-all duration-700"></div>
+    <!-- Toile de fond pour les particules dynamiques -->
+    <canvas id="particles-canvas"></canvas>
 
-    <!-- Top bar / Lecteur Musical Ambiant Avancé -->
-    <header class="max-w-4xl mx-auto w-full flex items-center justify-between bg-slate-900/70 backdrop-blur-xl border border-slate-800 px-6 py-3.5 rounded-2xl shadow-2xl relative z-10">
+    <!-- Lueurs d'arrière-plan interactives -->
+    <div id="blob1" class="absolute top-1/3 left-1/4 w-[450px] h-[450px] bg-pink-600/15 rounded-full blur-[160px] pointer-events-none transition-all duration-700 z-0"></div>
+    <div id="blob2" class="absolute bottom-1/3 right-1/4 w-[450px] h-[450px] bg-purple-600/15 rounded-full blur-[160px] pointer-events-none transition-all duration-700 z-0"></div>
+
+    <!-- Barre supérieure interactive -->
+    <header class="max-w-4xl mx-auto w-full flex items-center justify-between bg-slate-900/80 backdrop-blur-2xl border border-slate-800/80 px-6 py-3.5 rounded-2xl shadow-2xl relative z-10">
         <div class="flex items-center gap-3">
             <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
-            <span class="text-xs font-black uppercase tracking-wider text-white">CrackFR // Live Stream</span>
+            <span class="text-xs font-black uppercase tracking-wider text-white">CrackFR // <span id="online-count" class="text-pink-400">38</span> en ligne</span>
         </div>
         
-        <!-- Lecteur Audio avec animation d'ondes -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
             <div id="audio-waves" class="hidden items-end gap-1 h-4">
                 <span class="w-1 bg-pink-500 rounded-full wave-bar"></span>
                 <span class="w-1 bg-pink-500 rounded-full wave-bar"></span>
@@ -52,7 +65,7 @@
             </audio>
 
             <button onclick="toggleMusic()" id="music-btn" class="px-4 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/40 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-2 shadow-lg shadow-pink-600/10 hover:scale-105">
-                <span id="music-icon">🎵</span> <span id="music-btn-text">Lancer l'Ambiance</span>
+                <span id="music-icon">🎵</span> <span id="music-btn-text">Ambiance Lofi</span>
             </button>
         </div>
     </header>
@@ -60,49 +73,50 @@
     <div class="max-w-4xl mx-auto w-full space-y-6 my-auto relative z-10">
         
         <!-- Bannière d'annonce dynamique -->
-        <div id="global-banner" class="hidden bg-gradient-to-r from-pink-600/20 via-purple-600/20 to-pink-600/20 border border-pink-500/40 p-4 rounded-2xl text-pink-300 text-xs font-bold text-center shadow-xl flex items-center justify-center gap-2 animate-pulse">
+        <div id="global-banner" class="hidden bg-gradient-to-r from-pink-600/20 via-purple-600/20 to-pink-600/20 border border-pink-500/40 p-4 rounded-2xl text-pink-300 text-xs font-bold text-center shadow-2xl flex items-center justify-center gap-2 animate-pulse">
             <span>📢</span> <span id="banner-text"></span>
         </div>
 
-        <!-- Carte Principale avec effet Flottant -->
-        <main class="bg-slate-900/80 backdrop-blur-2xl border border-slate-800 p-8 md:p-14 rounded-3xl shadow-2xl text-center space-y-8 relative overflow-hidden floating">
+        <!-- Carte Principale Ultra-Stylée -->
+        <main class="bg-slate-900/85 backdrop-blur-3xl border border-slate-800 p-8 md:p-14 rounded-3xl shadow-2xl text-center space-y-8 relative overflow-hidden floating-card">
             
-            <!-- Badge supérieur -->
-            <div class="space-y-3">
-                <span class="px-3.5 py-1.5 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full shadow-inner">
-                    ✨ Portail Officiel Communautaire
+            <div class="absolute -right-20 -top-20 w-40 h-40 bg-pink-500/10 rounded-full blur-2xl"></div>
+            
+            <div class="space-y-4 relative z-10">
+                <span class="px-4 py-1.5 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full shadow-inner inline-block">
+                    ⚡ Expérience Communautaire Avancée
                 </span>
-                <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white via-slate-100 to-pink-400 bg-clip-text text-transparent pt-2">
+                <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-wider bg-gradient-to-r from-white via-slate-100 to-pink-400 bg-clip-text text-transparent pt-1">
                     CrackFR ⚡
                 </h1>
                 <p class="text-xs md:text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
-                    Le repaire ultime des joueurs et des passionnés de tech. Plonge dans notre écosystème interactif, rejoins les salons et profite de nos services.
+                    Le portail incontournable des passionnés de jeux vidéo et d'infrastructures techniques. Plonge au cœur de notre écosystème interactif.
                 </p>
             </div>
 
-            <!-- Boutons d'Action avec effets néon -->
-            <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <!-- Boutons d'Action Néon -->
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-2 relative z-10">
                 <a href="login.html" class="px-8 py-4 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-pink-600/30 hover:scale-105 transform duration-200 border border-pink-400/30">
                     Portail Staff (Login)
                 </a>
-                <a href="https://discord.com" target="_blank" class="px-8 py-4 bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-slate-700 hover:scale-105 transform duration-200 shadow-xl">
+                <a href="https://discord.com" target="_blank" class="px-8 py-4 bg-slate-800/90 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-slate-700 hover:scale-105 transform duration-200 shadow-xl">
                     Rejoindre le Discord
                 </a>
             </div>
         </main>
 
-        <!-- Grille d'Atouts interactive -->
+        <!-- Grille d'Atouts Dynamique -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-800 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300 hover:scale-[1.02]">
-                <h3 class="text-xl font-black text-white">100%</h3>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Immersif & Dynamique</p>
+            <div class="bg-slate-900/60 backdrop-blur-md border border-slate-800 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300 hover:scale-[1.02]">
+                <h3 class="text-xl font-black text-white">Live</h3>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Flux & Annonces</p>
             </div>
-            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-800 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300 hover:scale-[1.02]">
+            <div class="bg-slate-900/60 backdrop-blur-md border border-slate-800 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300 hover:scale-[1.02]">
                 <h3 class="text-xl font-black text-pink-400">Gaming</h3>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">& Projets Avancés</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">& Projets Tech</p>
             </div>
-            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-800 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300 hover:scale-[1.02]">
-                <h3 class="text-xl font-black text-white">Sécurisé</h3>
+            <div class="bg-slate-900/60 backdrop-blur-md border border-slate-800 p-5 rounded-2xl hover:border-pink-500/50 transition-all duration-300 hover:scale-[1.02]">
+                <h3 class="text-xl font-black text-white">Sécurité</h3>
                 <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Logs & Webhooks</p>
             </div>
         </div>
@@ -114,20 +128,73 @@
     </footer>
 
     <script>
-        // Effet de lueur dynamique suivant la souris
+        // --- Effet de Particules Étoilées en Arrière-plan ---
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.7 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+                if (this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(236, 72, 153, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 65; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // --- Suivi de la souris pour les lueurs ---
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX / window.innerWidth * 100;
             const y = e.clientY / window.innerHeight * 100;
-            
             const blob1 = document.getElementById('blob1');
             const blob2 = document.getElementById('blob2');
-            
             if(blob1 && blob2) {
-                blob1.style.transform = `translate(${(x - 50) * 0.3}px, ${(y - 50) * 0.3}px)`;
-                blob2.style.transform = `translate(${-(x - 50) * 0.3}px, ${-(y - 50) * 0.3}px)`;
+                blob1.style.transform = `translate(${(x - 50) * 0.4}px, ${(y - 50) * 0.4}px)`;
+                blob2.style.transform = `translate(${-(x - 50) * 0.4}px, ${-(y - 50) * 0.4}px)`;
             }
         });
 
+        // --- Chargement initial & Annonces ---
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '1';
             
@@ -136,8 +203,18 @@
                 document.getElementById('banner-text').innerText = annonce;
                 document.getElementById('global-banner').classList.remove('hidden');
             }
+
+            // Variation légère du compteur en ligne pour faire vivant
+            setInterval(() => {
+                const countElem = document.getElementById('online-count');
+                let current = parseInt(countElem.innerText);
+                let change = Math.floor(Math.random() * 5) - 2;
+                let newVal = Math.max(25, current + change);
+                countElem.innerText = newVal;
+            }, 6000);
         });
 
+        // --- Lecteur Musique ---
         function toggleMusic() {
             const music = document.getElementById('bg-music');
             const btnText = document.getElementById('music-btn-text');
@@ -146,7 +223,7 @@
             
             if (music.paused) {
                 music.play().then(() => {
-                    btnText.innerText = "Couper la Musique";
+                    btnText.innerText = "Couper l'Ambiance";
                     icon.innerText = "⏸️";
                     waves.classList.remove('hidden');
                     waves.classList.add('flex');
@@ -155,7 +232,7 @@
                 });
             } else {
                 music.pause();
-                btnText.innerText = "Lancer l'Ambiance";
+                btnText.innerText = "Ambiance Lofi";
                 icon.innerText = "🎵";
                 waves.classList.remove('flex');
                 waves.classList.add('hidden');
