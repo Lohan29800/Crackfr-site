@@ -3,28 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Panel Admin</title>
+    <title>CrackFR - Panel Administration ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { opacity: 0; transition: opacity 0.5s ease-in-out; }</style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-6">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 md:p-8 selection:bg-pink-500 selection:text-black">
 
     <div class="max-w-4xl mx-auto space-y-6">
+        
         <!-- En-tête du Panel -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex items-center justify-between shadow-xl">
-            <div>
-                <h1 class="text-xl font-black text-white uppercase tracking-wider">Panneau d'Administration</h1>
-                <p id="user-role-display" class="text-xs text-slate-400 mt-1">Connecté en tant que Staff</p>
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div class="text-center sm:text-left space-y-1">
+                <h1 class="text-xl font-black text-white uppercase tracking-wider flex items-center justify-center sm:justify-start gap-2">
+                    <span>⚡</span> Panneau d'Administration
+                </h1>
+                <p id="user-role-display" class="text-xs font-bold text-pink-400">Chargement du rôle...</p>
             </div>
-            <button onclick="deconnexion()" class="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl transition-all border border-rose-500/30 cursor-pointer">
+            <button onclick="deconnexion()" class="w-full sm:w-auto px-5 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl transition-all border border-rose-500/30 cursor-pointer">
                 Se déconnecter
             </button>
         </div>
 
-        <!-- Tes autres modules du panel (Maintenance, etc.) iront ici -->
+        <!-- Section de Gestion / Modules du Panel -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Module État du Site / Maintenance -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                    🛠️ Gestion du Site
+                </h2>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Contrôle l'accès global à la plateforme et surveille l'activité du portail de sécurité.
+                </p>
+                <div class="pt-2">
+                    <span id="statut-badge" class="inline-block px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold">
+                        ● Système opérationnel
+                    </span>
+                </div>
+            </div>
+
+            <!-- Module Sécurité & Logs Staff -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                    🛡️ Journal des Connexions Staff
+                </h2>
+                <div id="logs-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 italic">Aucune tentative enregistrée pour le moment.</p>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+
             // Sécurité : Vérifier si l'utilisateur est bien connecté
             if (localStorage.getItem('crackfr_logged_in') !== 'true') {
                 window.location.href = 'login.html';
@@ -34,7 +69,30 @@
             // Afficher le rôle actuel
             const role = localStorage.getItem('crackfr_role') || 'Staff';
             document.getElementById('user-role-display').innerText = `Connecté en tant que : ${role}`;
+
+            // Charger les logs de sécurité
+            chargerLogsSecurite();
         });
+
+        function chargerLogsSecurite() {
+            const container = document.getElementById('logs-list');
+            const logs = JSON.parse(localStorage.getItem('crackfr_security_logs') || '[]');
+
+            if (logs.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 italic">Aucune tentative récente.</p>`;
+                return;
+            }
+
+            container.innerHTML = logs.map(l => `
+                <div class="bg-slate-950/60 border border-slate-800/80 p-2.5 rounded-xl flex items-center justify-between text-xs">
+                    <div>
+                        <span class="text-white font-bold">${l.role}</span> : 
+                        <span class="${l.status === 'SUCCÈS' ? 'text-emerald-400' : 'text-rose-400'} font-bold">${l.status}</span>
+                    </div>
+                    <div class="text-slate-500 font-mono text-[11px]">${l.time}</div>
+                </div>
+            `).join('');
+        }
 
         function deconnexion() {
             localStorage.removeItem('crackfr_logged_in');
