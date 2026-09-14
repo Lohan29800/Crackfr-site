@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Portail Gaming & Communauté Ultime</title>
+    <title>CrackFR - Portail Gaming & Communauté</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white">
 
-    <!-- Header / Barre du haut avec lecteur audio & Statut serveur dynamique -->
+    <!-- Header / Barre du haut -->
     <header class="w-full max-w-5xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-800 my-4 shadow-xl">
         <div class="flex items-center gap-3">
             <span class="relative flex h-3 w-3">
-              <span id="status-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span id="status-ping-icon" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span id="status-dot" class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
             <div class="flex flex-col">
@@ -21,7 +21,6 @@
             </div>
         </div>
 
-        <!-- Contrôleur Audio -->
         <div class="flex items-center gap-2">
             <button onclick="toggleAudio()" id="play-btn" class="px-4 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 border border-pink-500/30 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-2">
                 🎵 Charger la musique
@@ -33,7 +32,7 @@
     <!-- Contenu Principal -->
     <main class="max-w-5xl mx-auto w-full px-4 space-y-12 my-auto">
         
-        <!-- Bannière Annonce Dynamique -->
+        <!-- Bannière Annonce -->
         <div id="banner" class="hidden bg-gradient-to-r from-pink-950/60 to-purple-950/60 border border-pink-500/40 p-4 rounded-2xl text-pink-200 text-xs font-bold flex items-center gap-3 shadow-lg">
             <span class="text-lg">📢</span>
             <span id="banner-content"></span>
@@ -45,9 +44,9 @@
             <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div class="space-y-3 relative z-10">
-                <span class="px-3.5 py-1.5 bg-pink-600/10 text-pink-400 border border-pink-500/20 text-[10px] font-extrabold uppercase tracking-widest rounded-full">Communauté Gaming & Multi-Gaming Française</span>
+                <span class="px-3.5 py-1.5 bg-pink-600/10 text-pink-400 border border-pink-500/20 text-[10px] font-extrabold uppercase tracking-widest rounded-full">Communauté Gaming & Multi-Gaming</span>
                 <h1 class="text-4xl sm:text-7xl font-black uppercase tracking-tight text-white">CrackFR <span class="text-pink-600">⚡</span></h1>
-                <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">Le repaire ultime pour les passionnés de jeux vidéo, de sessions chill et de partages entre gamers. Viens poser ton casque et rejoins l'aventure !</p>
+                <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">Le repaire ultime pour les passionnés de jeux vidéo, de sessions chill et de partages entre gamers.</p>
             </div>
 
             <div class="flex flex-wrap justify-center gap-3 pt-2 relative z-10">
@@ -63,14 +62,14 @@
             </div>
         </section>
 
-        <!-- Statistiques Rapides -->
+        <!-- Statistiques Dynamiques -->
         <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl text-center space-y-1">
-                <span class="text-2xl sm:text-3xl font-black text-pink-500">1.2K+</span>
+                <span id="stat-disp-members" class="text-2xl sm:text-3xl font-black text-pink-500">1.2K+</span>
                 <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wider">Membres Discord</p>
             </div>
             <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl text-center space-y-1">
-                <span class="text-2xl sm:text-3xl font-black text-emerald-400">15ms</span>
+                <span id="stat-disp-ping" class="text-2xl sm:text-3xl font-black text-emerald-400">15ms</span>
                 <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wider">Latence Serveur</p>
             </div>
             <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl text-center space-y-1">
@@ -83,193 +82,80 @@
             </div>
         </section>
 
-        <!-- Section Événement / Prochain Event en cours -->
-        <section class="bg-gradient-to-r from-pink-950/40 via-slate-900 to-purple-950/40 border border-pink-500/30 p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl">
-            <div class="space-y-2 text-center md:text-left">
-                <span class="px-3 py-1 bg-pink-600/20 text-pink-400 border border-pink-500/30 text-[10px] font-extrabold uppercase tracking-widest rounded-full">🗓️ Événement Communautaire</span>
-                <h3 class="text-lg sm:text-xl font-black uppercase text-white">Soirée Tournoi Multi-Gaming ce Vendredi !</h3>
-                <p class="text-xs text-slate-400 max-w-xl">Rejoins-nous sur le salon vocal principal pour des tournois exclusifs avec des rôles spéciaux à gagner sur le Discord.</p>
-            </div>
-            <a href="https://discord.com" target="_blank" class="px-5 py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider shrink-0 transition-all shadow-lg shadow-pink-600/20">
-                Participer
-            </a>
-        </section>
-
-        <!-- Section Actualités / Patch Notes dynamique -->
+        <!-- Actualités / Patch Notes Dynamiques -->
         <section class="bg-slate-900/50 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-4 shadow-xl">
-            <div class="flex items-center justify-between">
-                <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Dernières Actualités & Patch Notes</h2>
-                <span class="text-[10px] text-slate-500 uppercase tracking-widest">Mis à jour par le Staff</span>
-            </div>
-            <div id="public-news-list" class="space-y-3">
-                <!-- Injecté dynamiquement depuis le panel -->
-            </div>
+            <h2 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Dernières Actualités & Patch Notes</h2>
+            <div id="public-news-list" class="space-y-3"></div>
         </section>
 
-        <!-- Grille de présentation des Jeux / Pôles -->
+        <!-- Grille des Jeux Dynamique -->
         <section id="jeux" class="space-y-6">
             <div class="text-center space-y-2">
                 <h2 class="text-xs font-black uppercase tracking-widest text-pink-500">Nos Univers de Jeu</h2>
                 <h3 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">Où vas-tu poser tes valises ?</h3>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Jeu 1 -->
-                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-pink-500/50 transition-all group">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-600/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-xl group-hover:scale-110 transition-transform">
-                        🚗
-                    </div>
-                    <div class="space-y-1">
-                        <h4 class="text-sm font-black uppercase tracking-wide text-white">GTA V / FiveM</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">Plonge dans notre univers Roleplay ou nos sessions chill open-world entre potes. Économie stable et fun garanti.</p>
-                    </div>
-                    <span class="inline-block text-[10px] font-bold text-pink-400 uppercase tracking-wider bg-pink-950/40 px-3 py-1 rounded-full border border-pink-500/20">Serveur RP Actif</span>
-                </div>
-
-                <!-- Jeu 2 -->
-                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-purple-500/50 transition-all group">
-                    <div class="w-12 h-12 rounded-2xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl group-hover:scale-110 transition-transform">
-                        ⛏️
-                    </div>
-                    <div class="space-y-1">
-                        <h4 class="text-sm font-black uppercase tracking-wide text-white">Minecraft & Survie</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">Un serveur survie / build convivial pour exprimer ta créativité, construire des bases épiques et explorer en communauté.</p>
-                    </div>
-                    <span class="inline-block text-[10px] font-bold text-purple-400 uppercase tracking-wider bg-purple-950/40 px-3 py-1 rounded-full border border-purple-500/20">Multijoueur / Bedrock</span>
-                </div>
-
-                <!-- Jeu 3 -->
-                <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-blue-500/50 transition-all group">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 transition-transform">
-                        🎮
-                    </div>
-                    <div class="space-y-1">
-                        <h4 class="text-sm font-black uppercase tracking-wide text-white">Roblox & Communauté</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">Des sessions découvertes sur Roblox, des tournois entre membres et des salons vocaux ultra animés chaque soir.</p>
-                    </div>
-                    <span class="inline-block text-[10px] font-bold text-blue-400 uppercase tracking-wider bg-blue-950/40 px-3 py-1 rounded-full border border-blue-500/20">Événements réguliers</span>
-                </div>
-            </div>
+            <div id="public-games-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
         </section>
 
-        <!-- Section Sondage Interactif -->
-        <section class="bg-slate-900/50 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6">
-            <div class="space-y-1">
-                <span class="text-[10px] font-extrabold uppercase tracking-widest text-pink-400">📊 Espace Communauté</span>
-                <h3 class="text-lg sm:text-xl font-black uppercase text-white">Quel est ton mode de jeu favori sur CrackFR ?</h3>
-            </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="poll-options">
-                <button onclick="vote('gta')" class="p-4 bg-slate-950 border border-slate-800 hover:border-pink-500 rounded-2xl text-left space-y-2 cursor-pointer transition-all">
-                    <span class="text-xs font-bold text-white block">GTA V / FiveM</span>
-                    <span id="vote-gta" class="text-[10px] text-pink-400 font-extrabold">Votes : 0</span>
-                </button>
-                <button onclick="vote('minecraft')" class="p-4 bg-slate-950 border border-slate-800 hover:border-pink-500 rounded-2xl text-left space-y-2 cursor-pointer transition-all">
-                    <span class="text-xs font-bold text-white block">Minecraft Survie</span>
-                    <span id="vote-minecraft" class="text-[10px] text-pink-400 font-extrabold">Votes : 0</span>
-                </button>
-                <button onclick="vote('roblox')" class="p-4 bg-slate-950 border border-slate-800 hover:border-pink-500 rounded-2xl text-left space-y-2 cursor-pointer transition-all">
-                    <span class="text-xs font-bold text-white block">Roblox & Chill</span>
-                    <span id="vote-roblox" class="text-[10px] text-pink-400 font-extrabold">Votes : 0</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- Section Galerie / Aperçus du serveur -->
-        <section class="space-y-4">
-            <div class="text-center space-y-1">
-                <h2 class="text-xs font-black uppercase tracking-widest text-pink-500">Galerie</h2>
-                <h3 class="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">Aperçus de la Communauté</h3>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #1</div>
-                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #2</div>
-                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #3</div>
-                <div class="h-36 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-xs text-slate-500 font-bold uppercase tracking-wider">Screenshot #4</div>
-            </div>
-        </section>
-
-        <!-- Section FAQ / Pourquoi nous rejoindre -->
+        <!-- FAQ -->
         <section class="bg-slate-900/40 border border-slate-800 p-8 sm:p-10 rounded-3xl space-y-6">
             <div class="text-center space-y-2">
                 <h2 class="text-xs font-black uppercase tracking-widest text-pink-500">Informations Pratiques</h2>
                 <h3 class="text-xl sm:text-2xl font-black uppercase tracking-tight text-white">Foire Aux Questions</h3>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                 <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
-                        <span class="text-pink-500">❓</span> Comment rejoindre le serveur ?
-                    </h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Il te suffit de cliquer sur le bouton "Rejoindre le Discord" en haut ou en bas de page. Toutes les IP de nos serveurs de jeux y sont épinglées !</p>
+                    <h4 class="text-xs font-bold uppercase text-white">❓ Comment rejoindre le serveur ?</h4>
+                    <p class="text-xs text-slate-400">Il te suffit de cliquer sur le bouton "Rejoindre le Discord".</p>
                 </div>
-
                 <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
-                        <span class="text-pink-500">❓</span> Le serveur est-il gratuit ?
-                    </h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Totalement ! CrackFR est une communauté ouverte à tous les passionnés de jeux vidéo sans aucune condition payante.</p>
-                </div>
-
-                <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
-                        <span class="text-pink-500">❓</span> Comment contacter le staff ?
-                    </h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Notre équipe de modération et d'administration est disponible 24/7 sur notre Discord via un système de ticket rapide.</p>
-                </div>
-
-                <div class="space-y-2 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h4 class="text-xs font-bold uppercase text-white flex items-center gap-2">
-                        <span class="text-pink-500">❓</span> Puis-je proposer un nouveau jeu ?
-                    </h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Bien sûr ! Nous sommes ouverts aux suggestions dans le salon dédié sur le Discord pour ouvrir de nouveaux pôles gaming.</p>
+                    <h4 class="text-xs font-bold uppercase text-white">❓ Le serveur est-il gratuit ?</h4>
+                    <p class="text-xs text-slate-400">Totalement ! CrackFR est ouvert à tous.</p>
                 </div>
             </div>
         </section>
-
     </main>
 
     <!-- Footer -->
     <footer class="w-full text-center py-8 text-[10px] tracking-widest text-slate-500 uppercase border-t border-slate-900 mt-16 space-y-3">
-        <div class="flex justify-center gap-4 text-xs font-bold">
-            <a href="https://discord.com" target="_blank" class="text-pink-400 hover:underline">Discord</a>
-            <a href="#jeux" class="text-slate-400 hover:underline">Jeux</a>
-            <a href="login.html" class="text-slate-400 hover:underline">Panel Admin</a>
-        </div>
-        <p>CrackFR 2026 — Tous droits réservés • Fait avec passion pour les gamers</p>
+        <p>CrackFR 2026 — Tous droits réservés</p>
     </footer>
 
-    <!-- Script index -->
+    <!-- Script de chargement dynamique -->
     <script>
         window.onload = () => {
-            // Statut Serveur dynamique
+            // Statut Serveur
             const srvStatus = localStorage.getItem('srv_status') || 'online';
             const srvPlayers = localStorage.getItem('srv_players') || '42 / 64';
             const statusText = document.getElementById('status-text');
             const statusDot = document.getElementById('status-dot');
-            const statusPing = document.getElementById('status-ping');
+            const statusPingIcon = document.getElementById('status-ping-icon');
             document.getElementById('status-players').innerText = "Joueurs : " + srvPlayers;
 
             if(srvStatus === 'maintenance') {
                 statusText.innerText = "Serveur en Maintenance";
                 statusText.className = "text-xs font-bold uppercase tracking-wider text-amber-400";
                 statusDot.className = "relative inline-flex rounded-full h-3 w-3 bg-amber-500";
-                statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75";
+                statusPingIcon.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75";
             } else if(srvStatus === 'full') {
                 statusText.innerText = "Serveur Complet";
                 statusText.className = "text-xs font-bold uppercase tracking-wider text-red-400";
                 statusDot.className = "relative inline-flex rounded-full h-3 w-3 bg-red-500";
-                statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75";
+                statusPingIcon.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75";
             }
 
-            // Annonce dynamique
+            // Stats globales
+            document.getElementById('stat-disp-members').innerText = localStorage.getItem('stat_members') || '1.2K+';
+            document.getElementById('stat-disp-ping').innerText = localStorage.getItem('stat_ping') || '15ms';
+
+            // Annonce
             const ann = localStorage.getItem('annonce');
             if(ann) {
                 document.getElementById('banner-content').innerText = ann;
                 document.getElementById('banner').classList.remove('hidden');
             }
 
-            // News dynamiques
+            // News
             const newsList = JSON.parse(localStorage.getItem('news') || JSON.stringify([
                 {title: "Ouverture officielle de CrackFR !", desc: "Bienvenue à tous sur notre nouveau portail gaming."}
             ]));
@@ -282,7 +168,25 @@
             });
             document.getElementById('public-news-list').innerHTML = newsHtml;
 
-            // Audio Playlist
+            // Grille des Jeux
+            const games = JSON.parse(localStorage.getItem('games') || JSON.stringify([
+                {emoji: "🚗", title: "GTA V / FiveM", desc: "Plonge dans notre univers Roleplay ou nos sessions chill open-world entre potes."},
+                {emoji: "⛏️", title: "Minecraft & Survie", desc: "Un serveur survie / build convivial pour exprimer ta créativité."},
+                {emoji: "🎮", title: "Roblox & Communauté", desc: "Des sessions découvertes sur Roblox et des tournois entre membres."}
+            ]));
+            let gamesHtml = '';
+            games.forEach(g => {
+                gamesHtml += `<div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-pink-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-600/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-xl group-hover:scale-110 transition-transform">${g.emoji}</div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-black uppercase tracking-wide text-white">${g.title}</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">${g.desc}</p>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('public-games-grid').innerHTML = gamesHtml;
+
+            // Audio
             const list = JSON.parse(localStorage.getItem('playlist') || JSON.stringify([
                 {name: "Lofi Chill & Study", src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3"}
             ]));
@@ -291,28 +195,8 @@
             const player = document.getElementById('audio-player');
             player.src = track.src;
             document.getElementById('play-btn').innerText = "🎵 " + track.name;
-
-            // Chargement des votes
-            updateVoteDisplay();
         }
 
-        // Système de vote interactif
-        function vote(type) {
-            let votes = JSON.parse(localStorage.getItem('poll_votes') || '{"gta": 12, "minecraft": 8, "roblox": 5}');
-            votes[type]++;
-            localStorage.setItem('poll_votes', JSON.stringify(votes));
-            updateVoteDisplay();
-            alert("Merci pour ton vote !");
-        }
-
-        function updateVoteDisplay() {
-            let votes = JSON.parse(localStorage.getItem('poll_votes') || '{"gta": 12, "minecraft": 8, "roblox": 5}');
-            document.getElementById('vote-gta').innerText = "Votes : " + votes.gta;
-            document.getElementById('vote-minecraft').innerText = "Votes : " + votes.minecraft;
-            document.getElementById('vote-roblox').innerText = "Votes : " + votes.roblox;
-        }
-
-        // Fonction audio
         function toggleAudio() {
             const player = document.getElementById('audio-player');
             const btn = document.getElementById('play-btn');
