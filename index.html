@@ -54,7 +54,7 @@
             </div>
         </section>
 
-        <!-- NOUVEAUTÉ 1 : WIDGET DE STATUT DES SERVEURS EN DIRECT -->
+        <!-- WIDGET DE STATUT DES SERVEURS -->
         <section class="space-y-4">
             <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
                 <span>🟢</span> État des Serveurs en Direct
@@ -83,54 +83,44 @@
             </div>
         </section>
 
-        <!-- SECTION : UNIVERS DE JEU (Dynamique) -->
+        <!-- SECTION : UNIVERS DE JEU -->
         <section class="space-y-4">
             <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
                 <span>🎮</span> Nos Univers de Jeu
             </h3>
-            <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <!-- Injecté dynamiquement par JS -->
-            </div>
+            <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- SECTION : NEWS & PATCH NOTES (Dynamique) -->
+        <!-- SECTION : NEWS -->
         <section class="space-y-4">
             <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
                 <span>📰</span> Dernières Actualités
             </h3>
-            <div id="news-container" class="space-y-3">
-                <!-- Injecté dynamiquement par JS -->
-            </div>
+            <div id="news-container" class="space-y-3"></div>
         </section>
 
-        <!-- NOUVEAUTÉ 2 : GALERIE MÉDIAS / APERÇUS -->
+        <!-- GALERIE MÉDIAS -->
         <section class="space-y-4">
             <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
                 <span>📸</span> Galerie de la Communauté
             </h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 group overflow-hidden relative">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3">
-                        <span class="text-[11px] font-bold text-white">Session FiveM RP</span>
-                    </div>
+                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3"><span class="text-[11px] font-bold text-white">Session FiveM RP</span></div>
                     <span>🚗💨</span>
                 </div>
-                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 group overflow-hidden relative">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3">
-                        <span class="text-[11px] font-bold text-white">Build Minecraft</span>
-                    </div>
+                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3"><span class="text-[11px] font-bold text-white">Build Minecraft</span></div>
                     <span>🏰✨</span>
                 </div>
-                <div class="col-span-2 sm:col-span-1 bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 group overflow-hidden relative">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3">
-                        <span class="text-[11px] font-bold text-white">Soirée Chill Discord</span>
-                    </div>
+                <div class="col-span-2 sm:col-span-1 bg-slate-900 border border-slate-800/80 rounded-2xl p-2 h-32 flex flex-col items-center justify-center text-center text-slate-500 text-xs gap-1 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-3"><span class="text-[11px] font-bold text-white">Soirée Chill Discord</span></div>
                     <span>🎧🔥</span>
                 </div>
             </div>
         </section>
 
-        <!-- NOUVEAUTÉ 3 : BOÎTE À IDÉES / SUGGESTIONS RAPIDE -->
+        <!-- BOÎTE À IDÉES -->
         <section class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
             <div class="space-y-1">
                 <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
@@ -147,12 +137,10 @@
             </form>
         </section>
 
-        <!-- PLAYER AUDIO (Chill Playlist) -->
+        <!-- PLAYER AUDIO -->
         <div class="bg-slate-900/80 backdrop-blur-xl p-4 rounded-2xl border border-slate-800/80 flex items-center justify-between shadow-xl">
             <div class="flex items-center gap-3 truncate pr-2">
-                <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 text-sm shrink-0">
-                    🎵
-                </div>
+                <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 text-sm shrink-0">🎵</div>
                 <div class="truncate">
                     <h4 class="text-xs font-bold text-white truncate" id="current-track-name">Chargement de la playlist...</h4>
                     <p class="text-[10px] text-slate-400 uppercase tracking-wider">Ambiance Chill</p>
@@ -163,45 +151,107 @@
 
     </div>
 
-    <!-- ÉCRAN DE MAINTENANCE ULTRA-AVANCÉ AVEC COMPTE À REBOURS -->
-    <div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-6 text-center">
-        <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800 space-y-6 shadow-2xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600"></div>
-            <div class="w-16 h-16 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-2xl shadow-inner animate-pulse">
-                🛠️
+    <!-- ======================================================= -->
+    <!-- ÉCRAN DE MAINTENANCE ULTIME (MINI-JEU + LOGS + COMPTEUR) -->
+    <!-- ======================================================= -->
+    <div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950/98 backdrop-blur-3xl z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="max-w-lg w-full bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6 shadow-2xl relative overflow-hidden my-auto">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600 animate-pulse"></div>
+            
+            <!-- En-tête -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-xl shadow-inner animate-bounce">
+                        ⚡
+                    </div>
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-600/10 border border-pink-500/20 text-pink-400 text-[9px] font-bold uppercase tracking-widest">
+                            <span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-ping"></span> Lockdown Actif
+                        </div>
+                        <h2 class="text-lg font-black uppercase tracking-wider text-white">Maintenance Générale</h2>
+                    </div>
+                </div>
+                <button onclick="toggleMiniGame()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-pink-400 text-[10px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
+                    <span>🕹️</span> <span id="game-btn-txt">Mini-Jeu</span>
+                </button>
             </div>
-            <div class="space-y-2">
-                <h2 class="text-lg font-black uppercase tracking-wider text-white">Maintenance en Cours</h2>
-                <p id="display-maint-reason" class="text-xs text-slate-400 leading-relaxed">Mise à jour majeure du portail et des serveurs de jeu en cours.</p>
+
+            <!-- Motif Principal (Compteur & Raison) -->
+            <div id="main-maintenance-view" class="space-y-4">
+                <p id="display-maint-reason" class="text-xs text-slate-400 leading-relaxed bg-slate-950/60 p-3 rounded-2xl border border-slate-800/80 text-center">
+                    Mise à jour majeure du portail et des serveurs de jeu en cours.
+                </p>
                 
-                <!-- Compte à rebours dynamique -->
-                <div class="grid grid-cols-4 gap-2 pt-3">
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-days" class="block text-sm font-black text-pink-400">00</span>
+                <!-- Console de Logs en direct -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 font-mono text-[10px] text-slate-400 space-y-1 h-20 overflow-hidden shadow-inner">
+                    <div class="text-pink-500 font-bold flex items-center gap-1"><span>></span> [SYSTEM_LOGS]:</div>
+                    <div id="log-line-1" class="text-emerald-400">✔ Sauvegarde de la base de données effectuée.</div>
+                    <div id="log-line-2" class="text-slate-300">⚙️ Redémarrage des daemons txAdmin...</div>
+                    <div id="log-line-3" class="text-purple-400 animate-pulse">⏳ Optimisation des scripts en cours...</div>
+                </div>
+
+                <!-- Barre de progression -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-[10px] text-slate-500 font-mono font-bold">
+                        <span>Progression globale</span>
+                        <span id="maint-progress-text">78%</span>
+                    </div>
+                    <div class="w-full bg-slate-950 rounded-full h-2 border border-slate-800 overflow-hidden p-0.5">
+                        <div id="maint-progress-bar" class="bg-gradient-to-r from-pink-600 to-purple-600 h-full rounded-full transition-all duration-1000" style="width: 78%;"></div>
+                    </div>
+                </div>
+
+                <!-- Compte à rebours -->
+                <div class="grid grid-cols-4 gap-2">
+                    <div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-center shadow-inner">
+                        <span id="cd-days" class="block text-sm font-black text-pink-400 font-mono">00</span>
                         <span class="text-[9px] text-slate-500 uppercase font-bold">Jours</span>
                     </div>
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-hours" class="block text-sm font-black text-pink-400">00</span>
+                    <div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-center shadow-inner">
+                        <span id="cd-hours" class="block text-sm font-black text-pink-400 font-mono">00</span>
                         <span class="text-[9px] text-slate-500 uppercase font-bold">Heures</span>
                     </div>
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-mins" class="block text-sm font-black text-pink-400">00</span>
+                    <div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-center shadow-inner">
+                        <span id="cd-mins" class="block text-sm font-black text-pink-400 font-mono">00</span>
                         <span class="text-[9px] text-slate-500 uppercase font-bold">Min</span>
                     </div>
-                    <div class="bg-slate-950 border border-slate-800 p-2 rounded-xl text-center">
-                        <span id="cd-secs" class="block text-sm font-black text-pink-400">00</span>
+                    <div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-center shadow-inner">
+                        <span id="cd-secs" class="block text-sm font-black text-pink-400 font-mono">00</span>
                         <span class="text-[9px] text-slate-500 uppercase font-bold">Sec</span>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-2 pt-2">
-                <a href="https://discord.gg/crackfr" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/20">
-                    <span>💬</span> Suivre l'avancement sur Discord
-                </a>
-                <a href="login.html" class="block w-full py-2.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-bold text-[11px] rounded-xl uppercase tracking-wider transition-all">
-                    Accès Staff (Connexion)
-                </a>
+            <!-- MINI-JEU INTÉGRÉ (Caché par défaut) -->
+            <div id="mini-game-view" class="hidden space-y-4 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                <div class="text-center space-y-1">
+                    <h3 class="text-xs font-black text-pink-400 uppercase">Mini-Jeu : Décryptage du Code</h3>
+                    <p class="text-[10px] text-slate-400">Trouve le code à 3 chiffres (entre 1 et 10) pour simuler un accès prioritaire !</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex justify-center gap-2">
+                        <input type="number" id="guess-input" min="1" max="10" placeholder="?" class="w-20 text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-sm font-bold text-white focus:outline-none focus:border-pink-500">
+                        <button onclick="checkGameGuess()" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all">Tester</button>
+                    </div>
+                    <p id="game-feedback" class="text-center text-[11px] font-bold text-slate-300">Indice : Le code change à chaque essai.</p>
+                </div>
+            </div>
+
+            <!-- Formulaire alerte & liens -->
+            <div class="space-y-3 pt-1 border-t border-slate-800/80">
+                <form onsubmit="subscribeAlert(event)" class="flex gap-2">
+                    <input type="text" id="alert-pseudo" placeholder="Votre pseudo Discord..." required class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    <button type="submit" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer">Être alerté</button>
+                </form>
+
+                <div class="flex gap-2">
+                    <a href="https://discord.gg/crackfr" target="_blank" class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/20">
+                        <span>💬</span> Discord
+                    </a>
+                    <a href="login.html" class="px-4 py-2.5 bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white font-bold text-[10px] rounded-xl uppercase tracking-wider transition-all border border-slate-800">
+                        🔐 Staff
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -212,7 +262,6 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // 1. GESTION DE LA MAINTENANCE ET DU BYPASS STAFF
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('bypass') === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
@@ -235,35 +284,80 @@
                 }
             }
 
-            // 2. CHARGEMENT DES STATS & BANNIÈRE
+            // Chargement des infos basiques
             const annonce = localStorage.getItem('annonce');
             if(annonce) {
                 document.getElementById('banner-text').innerText = annonce;
                 document.getElementById('banner-container').classList.remove('hidden');
             }
-
             const players = localStorage.getItem('srv_players');
             if(players) document.getElementById('header-players-txt').innerText = "Joueurs : " + players;
-
             const members = localStorage.getItem('stat_members');
             if(members) document.getElementById('stat-members-badge').innerText = members;
 
-            // 3. CHARGEMENT DES DONNÉES DYNAMIQUES
             loadGames();
             loadNews();
             loadPlaylist();
         });
 
-        // --- GESTION DES SUGGESTIONS ---
+        // --- GESTION DU MINI-JEU ---
+        let secretCode = Math.floor(Math.random() * 10) + 1;
+        function toggleMiniGame() {
+            const mainView = document.getElementById('main-maintenance-view');
+            const gameView = document.getElementById('mini-game-view');
+            const btnTxt = document.getElementById('game-btn-txt');
+
+            if(gameView.classList.contains('hidden')) {
+                gameView.classList.remove('hidden');
+                mainView.classList.add('hidden');
+                btnTxt.innerText = "Infos Maintenance";
+            } else {
+                gameView.classList.add('hidden');
+                mainView.classList.remove('hidden');
+                btnTxt.innerText = "Mini-Jeu";
+            }
+        }
+
+        function checkGameGuess() {
+            const guess = parseInt(document.getElementById('guess-input').value);
+            const feedback = document.getElementById('game-feedback');
+            if(isNaN(guess)) return;
+
+            if(guess === secretCode) {
+                feedback.className = "text-center text-[11px] font-bold text-emerald-400";
+                feedback.innerText = "🎉 Bravo ! Code décrypté avec succès ! (Accès VIP simulé)";
+                setTimeout(() => {
+                    alert("Accès validé par le système ! Redirection imminente...");
+                    window.location.href = window.location.pathname + "?bypass=crackfr2026";
+                }, 1500);
+            } else if(guess < secretCode) {
+                feedback.className = "text-center text-[11px] font-bold text-pink-400";
+                feedback.innerText = "📈 C'est plus haut !";
+            } else {
+                feedback.className = "text-center text-[11px] font-bold text-purple-400";
+                feedback.innerText = "📉 C'est plus bas !";
+            }
+        }
+
+        // --- INSCRIPTION ALERTE ---
+        function subscribeAlert(e) {
+            e.preventDefault();
+            const pseudo = document.getElementById('alert-pseudo').value;
+            let subs = JSON.parse(localStorage.getItem('maint_subscribers') || '[]');
+            subs.push({ pseudo, date: new Date().toLocaleTimeString('fr-FR') });
+            localStorage.setItem('maint_subscribers', JSON.stringify(subs));
+            alert("C'est noté ! Tu seras prévenu dès le retour en ligne.");
+            document.getElementById('alert-pseudo').value = '';
+        }
+
+        // --- SUGGESTIONS ---
         function submitSuggestion(e) {
             e.preventDefault();
             const name = document.getElementById('sug-name').value;
             const text = document.getElementById('sug-text').value;
-
             let suggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
             suggestions.unshift({ name, text, date: new Date().toLocaleDateString('fr-FR') });
             localStorage.setItem('suggestions', JSON.stringify(suggestions));
-
             alert("Merci ! Ta suggestion a bien été transmise à l'équipe.");
             document.getElementById('sug-name').value = '';
             document.getElementById('sug-text').value = '';
@@ -273,7 +367,6 @@
         function startCountdown() {
             const endTimeStr = localStorage.getItem('maintenance_end_date');
             if(!endTimeStr) return;
-            
             const targetTime = new Date(endTimeStr).getTime();
 
             setInterval(() => {
@@ -281,8 +374,9 @@
                 const distance = targetTime - now;
 
                 if (distance < 0) {
-                    const reasonEl = document.getElementById('display-maint-reason');
-                    if(reasonEl) reasonEl.innerText = "Ouverture imminente... Actualisez la page !";
+                    document.getElementById('display-maint-reason').innerText = "Ouverture imminente... Actualisez la page !";
+                    document.getElementById('maint-progress-bar').style.width = '100%';
+                    document.getElementById('maint-progress-text').innerText = '100%';
                     return;
                 }
 
@@ -291,31 +385,23 @@
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                const dEl = document.getElementById('cd-days');
-                const hEl = document.getElementById('cd-hours');
-                const mEl = document.getElementById('cd-mins');
-                const sEl = document.getElementById('cd-secs');
-
-                if(dEl) dEl.innerText = String(days).padStart(2, '0');
-                if(hEl) hEl.innerText = String(hours).padStart(2, '0');
-                if(mEl) mEl.innerText = String(minutes).padStart(2, '0');
-                if(sEl) sEl.innerText = String(seconds).padStart(2, '0');
+                if(document.getElementById('cd-days')) document.getElementById('cd-days').innerText = String(days).padStart(2, '0');
+                if(document.getElementById('cd-hours')) document.getElementById('cd-hours').innerText = String(hours).padStart(2, '0');
+                if(document.getElementById('cd-mins')) document.getElementById('cd-mins').innerText = String(minutes).padStart(2, '0');
+                if(document.getElementById('cd-secs')) document.getElementById('cd-secs').innerText = String(seconds).padStart(2, '0');
             }, 1000);
         }
 
-        // --- CHARGEMENT DYNAMIQUE DES DONNÉES ---
         function loadGames() {
             const games = JSON.parse(localStorage.getItem('games') || JSON.stringify([
-                {emoji: "🚗", title: "GTA V / FiveM", desc: "Plonge dans notre univers Roleplay ou nos sessions chill open-world entre potes."},
+                {emoji: "🚗", title: "GTA V / FiveM", desc: "Plonge dans notre univers Roleplay ou nos sessions chill open-world."},
                 {emoji: "⛏️", title: "Minecraft & Survie", desc: "Un serveur survie / build convivial pour exprimer ta créativité."},
                 {emoji: "🎮", title: "Roblox & Communauté", desc: "Des sessions découvertes sur Roblox et des tournois entre membres."}
             ]));
             let html = '';
             games.forEach(g => {
                 html += `<div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-3 shadow-xl hover:border-slate-700 transition-all">
-                    <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-base">
-                        ${g.emoji}
-                    </div>
+                    <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-base">${g.emoji}</div>
                     <h4 class="text-xs font-black uppercase tracking-wider text-white">${g.title}</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">${g.desc}</p>
                 </div>`;
@@ -330,9 +416,7 @@
             let html = '';
             news.forEach(n => {
                 html += `<div class="bg-slate-900/90 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-800/80 space-y-1.5 shadow-xl">
-                    <h4 class="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> ${n.title}
-                    </h4>
+                    <h4 class="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> ${n.title}</h4>
                     <p class="text-xs text-slate-400 leading-relaxed pl-3.5">${n.desc}</p>
                 </div>`;
             });
@@ -345,11 +429,9 @@
             ]));
             const activeIndex = localStorage.getItem('active_m') || '0';
             const currentTrack = playlist[activeIndex] || playlist[0];
-
             if(currentTrack) {
                 document.getElementById('current-track-name').innerText = currentTrack.name;
-                const player = document.getElementById('audio-player');
-                player.src = currentTrack.src;
+                document.getElementById('audio-player').src = currentTrack.src;
             }
         }
     </script>
