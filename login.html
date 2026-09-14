@@ -14,21 +14,21 @@
             <h1 class="text-xs font-bold uppercase">Administration</h1>
         </div>
 
-        <!-- 1. Formulaire de Connexion -->
+        <!-- 1. Connexion -->
         <div id="login-box" class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
             <h2 class="text-sm font-bold uppercase text-center">Connexion Staff</h2>
             <form onsubmit="login(event)" class="space-y-3">
                 <input type="text" id="user" placeholder="Identifiant (admin)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
                 <input type="password" id="pass" placeholder="Mot de passe (crackfr2026)" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
-                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-bold text-xs rounded-lg uppercase cursor-pointer">Se connecter</button>
+                <button type="submit" class="w-full py-3 bg-pink-600 font-bold text-xs rounded-lg uppercase cursor-pointer">Se connecter</button>
             </form>
             <p id="err" class="text-red-400 text-xs text-center hidden">Identifiants incorrects.</p>
         </div>
 
-        <!-- 2. Dashboard (Caché au début) -->
+        <!-- 2. Dashboard -->
         <div id="dashboard" class="hidden space-y-6">
             
-            <!-- Gestion Annonce -->
+            <!-- Annonce -->
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-3">
                 <h2 class="text-xs font-bold uppercase text-pink-400">📢 Annonce du site</h2>
                 <input type="text" id="annonce-txt" placeholder="Texte de l'annonce..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs">
@@ -38,25 +38,22 @@
                 </div>
             </div>
 
-            <!-- Gestion Musique / Médias -->
+            <!-- Gestion Musique -->
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Playlist (MP3 / MP4)</h2>
+                <h2 class="text-xs font-bold uppercase text-pink-400">🎵 Gestionnaire de Playlist (MP3 recommandé)</h2>
                 
-                <!-- Par lien -->
                 <div class="space-y-2">
-                    <input type="text" id="m-name" placeholder="Nom du média (ex: Son Chill)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
-                    <input type="url" id="m-url" placeholder="Lien direct (MP3 ou MP4)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
+                    <input type="text" id="m-name" placeholder="Nom du son" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
+                    <input type="url" id="m-url" placeholder="Lien direct MP3" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs">
                     <button onclick="addLink()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg cursor-pointer">Ajouter par lien</button>
                 </div>
 
-                <!-- Par fichier local (compatible MP3 et MP4) -->
                 <div class="space-y-2 pt-2 border-t border-slate-800">
-                    <label class="block text-[10px] text-slate-400 uppercase font-bold">Sélectionner un fichier MP3 ou MP4 depuis l'appareil :</label>
-                    <input type="file" id="m-file" accept=".mp3,.mp4,audio/*,video/mp4" class="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-pink-600 file:text-white hover:file:bg-pink-500 file:cursor-pointer">
-                    <button onclick="addFile()" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-lg cursor-pointer">Uploader le fichier local</button>
+                    <label class="block text-[10px] text-slate-400 uppercase font-bold">Importer un fichier audio (MP3) :</label>
+                    <input type="file" id="m-file" accept=".mp3,audio/mp3" class="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-pink-600 file:text-white cursor-pointer">
+                    <button onclick="addFile()" class="w-full py-2 bg-pink-600 text-xs font-bold rounded-lg cursor-pointer">Uploader le fichier</button>
                 </div>
 
-                <!-- Liste -->
                 <div id="playlist-list" class="space-y-2 pt-2"></div>
             </div>
 
@@ -109,8 +106,12 @@
         }
 
         function savePl(list) {
-            localStorage.setItem('playlist', JSON.stringify(list));
-            renderList();
+            try {
+                localStorage.setItem('playlist', JSON.stringify(list));
+                renderList();
+            } catch (err) {
+                alert("Erreur : Le fichier est trop lourd pour la mémoire du navigateur ! Choisis un fichier plus petit.");
+            }
         }
 
         function renderList() {
@@ -142,7 +143,7 @@
 
         function addFile() {
             const fileInput = document.getElementById('m-file');
-            if(fileInput.files.length === 0) return alert("Choisis un fichier MP3 ou MP4 !");
+            if(fileInput.files.length === 0) return alert("Choisis un fichier !");
             const file = fileInput.files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -150,7 +151,7 @@
                 list.push({name: file.name, src: e.target.result});
                 savePl(list);
                 fileInput.value = '';
-                alert("Fichier MP3/MP4 ajouté avec succès !");
+                alert("Fichier ajouté avec succès !");
             };
             reader.readAsDataURL(file);
         }
