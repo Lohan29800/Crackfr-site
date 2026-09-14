@@ -6,7 +6,7 @@
     <title>Panel Admin - CrackFR ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { opacity: 0; transition: opacity 0.6s ease-in-out; background-color: #020617; }
+        body { opacity: 0; transition: opacity 0.5s ease-in-out; background-color: #020617; }
     </style>
 </head>
 <body class="text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4 md:p-8 selection:bg-pink-500 selection:text-black">
@@ -40,7 +40,7 @@
                     Se connecter
                 </button>
             </form>
-            <p id="error-msg" class="text-red-400 text-xs text-center hidden font-bold">Identifiants incorrects.</p>
+            <p id="error-msg" class="text-red-400 text-xs text-center hidden font-bold">Identifiants incorrects (admin / crackfr2026).</p>
         </div>
 
         <!-- Dashboard Admin (Caché par défaut) -->
@@ -55,7 +55,7 @@
                     <div>
                         <input type="text" id="annonce-input" placeholder="Ex: Maintenance prévue ce soir à 21h !" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-pink-500 transition-colors">
                     </div>
-                    <div class="flex gap-3">
+                    <div class="flex gap-3 flex-wrap">
                         <button type="submit" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-black text-xs uppercase rounded-xl transition-all shadow-lg shadow-pink-600/30 cursor-pointer">
                             Publier l'annonce
                         </button>
@@ -72,11 +72,11 @@
                     <span>🎵</span> Gestionnaire de Playlist Audio
                 </h2>
 
-                <!-- Ajouter une musique par lien -->
+                <!-- Ajouter une musique par lien URL -->
                 <form onsubmit="addMusicLink(event)" class="space-y-4 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h3 class="text-xs font-black uppercase text-pink-400 tracking-wider">Ajouter une musique (Lien URL direct MP3/OGG)</h3>
+                    <h3 class="text-xs font-black uppercase text-pink-400 tracking-wider">Ajouter une musique par lien direct (URL MP3 / OGG)</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <input type="text" id="music-title" placeholder="Nom de la musique (ex: Lofi Chill #2)" required class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <input type="text" id="music-title" placeholder="Nom (ex: Lofi Chill)" required class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
                         <input type="url" id="music-url" placeholder="Lien direct (ex: https://.../audio.mp3)" required class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
                     </div>
                     <button type="submit" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-pink-300 border border-pink-500/30 font-bold text-xs rounded-xl transition-all cursor-pointer">
@@ -84,20 +84,20 @@
                     </button>
                 </form>
 
-                <!-- Importer un fichier localement (Audio upload) -->
+                <!-- Importer un fichier audio localement -->
                 <div class="space-y-3 bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                    <h3 class="text-xs font-black uppercase text-pink-400 tracking-wider">Importer un fichier audio depuis ton appareil (MP3/WAV)</h3>
+                    <h3 class="text-xs font-black uppercase text-pink-400 tracking-wider">Importer un fichier audio (MP3 / WAV depuis l'appareil)</h3>
                     <input type="file" id="local-audio-file" accept="audio/*" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-pink-600 file:text-white hover:file:bg-pink-500 file:cursor-pointer">
-                    <button onclick="uploadLocalMusic()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-lg shadow-pink-600/20">
+                    <button type="button" onclick="uploadLocalMusic()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs rounded-xl transition-all cursor-pointer shadow-lg shadow-pink-600/20">
                         Uploader et ajouter le fichier
                     </button>
                 </div>
 
-                <!-- Liste des musiques enregistrées -->
+                <!-- Liste des musiques -->
                 <div class="space-y-3">
                     <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider">Playlist Actuelle</h3>
                     <div id="playlist-container" class="space-y-2 max-h-60 overflow-y-auto pr-2">
-                        <!-- Généré en JS -->
+                        <!-- Rempli par JS -->
                     </div>
                 </div>
             </div>
@@ -124,10 +124,9 @@
 
         function handleLogin(e) {
             e.preventDefault();
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
             
-            // Identifiants par défaut du panel
             if (u === 'admin' && p === 'crackfr2026') {
                 localStorage.setItem('crackfr_auth', 'true');
                 showDashboard();
@@ -151,7 +150,7 @@
 
         function saveAnnonce(e) {
             e.preventDefault();
-            const val = document.getElementById('annonce-input').value;
+            const val = document.getElementById('annonce-input').value.trim();
             localStorage.setItem('crackfr_annonce', val);
             alert("Annonce publiée avec succès !");
         }
@@ -193,14 +192,14 @@
                 const div = document.createElement('div');
                 div.className = `flex items-center justify-between p-3 rounded-xl border ${isActive ? 'bg-pink-600/15 border-pink-500/50 text-white' : 'bg-slate-950 border-slate-800 text-slate-300'}`;
                 div.innerHTML = `
-                    <div class="flex items-center gap-3 overflow-hidden">
+                    <div class="flex items-center gap-3 overflow-hidden pr-2">
                         <span class="text-xs font-bold text-pink-400">#${index + 1}</span>
                         <span class="text-xs truncate font-medium">${track.name}</span>
-                        ${isActive ? '<span class="text-[9px] bg-pink-500 text-black font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Active</span>' : ''}
+                        ${isActive ? '<span class="text-[9px] bg-pink-500 text-black font-black px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">Active</span>' : ''}
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
-                        <button onclick="setActiveMusic(${index})" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg cursor-pointer transition-colors">Activer</button>
-                        <button onclick="deleteMusic(${index})" class="px-3 py-1.5 bg-red-600/20 hover:bg-red-600/30 text-red-400 text-xs font-bold rounded-lg cursor-pointer transition-colors">✕</button>
+                        <button type="button" onclick="setActiveMusic(${index})" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-lg cursor-pointer transition-colors">Activer</button>
+                        <button type="button" onclick="deleteMusic(${index})" class="px-3 py-1.5 bg-red-600/20 hover:bg-red-600/30 text-red-400 text-xs font-bold rounded-lg cursor-pointer transition-colors">✕</button>
                     </div>
                 `;
                 container.appendChild(div);
@@ -209,8 +208,8 @@
 
         function addMusicLink(e) {
             e.preventDefault();
-            const name = document.getElementById('music-title').value;
-            const src = document.getElementById('music-url').value;
+            const name = document.getElementById('music-title').value.trim();
+            const src = document.getElementById('music-url').value.trim();
             const list = getPlaylist();
             list.push({ name, src });
             savePlaylist(list);
@@ -234,7 +233,7 @@
                 list.push({ name: file.name, src: base64Audio });
                 savePlaylist(list);
                 fileInput.value = '';
-                alert("Fichier audio importé et sauvegardé avec succès !");
+                alert("Fichier audio importé et enregistré avec succès !");
             };
             reader.readAsDataURL(file);
         }
@@ -242,7 +241,7 @@
         function setActiveMusic(index) {
             localStorage.setItem('crackfr_active_music', index);
             renderPlaylistAdmin();
-            alert("Musique active modifiée pour le site !");
+            alert("Musique active modifiée pour le site principal !");
         }
 
         function deleteMusic(index) {
