@@ -11,9 +11,10 @@
     <!-- Barre du haut -->
     <div class="max-w-xl mx-auto w-full flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
         <span class="text-xs font-bold text-emerald-400">● En ligne</span>
-        <button onclick="toggleAudio()" id="play-btn" class="px-3 py-1.5 bg-pink-600/20 text-pink-400 border border-pink-500/30 text-xs font-bold rounded-lg">
-            🎵 Lancer la musique Chill
+        <button onclick="toggleAudio()" id="play-btn" class="px-3 py-1.5 bg-pink-600/20 text-pink-400 border border-pink-500/30 text-xs font-bold rounded-lg cursor-pointer">
+            🎵 Lancer le Média
         </button>
+        <!-- Supporte les flux audio et la piste audio des MP4 -->
         <audio id="audio-player" loop></audio>
     </div>
 
@@ -41,14 +42,12 @@
 
     <script>
         window.onload = () => {
-            // Afficher l'annonce si elle existe
             const ann = localStorage.getItem('annonce');
             if(ann) {
                 document.getElementById('banner-content').innerText = ann;
                 document.getElementById('banner').classList.remove('hidden');
             }
 
-            // Charger la musique active (Chill par défaut)
             const list = JSON.parse(localStorage.getItem('playlist') || JSON.stringify([
                 {name: "Lofi Chill & Study", src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=lofi-study-112191.mp3"}
             ]));
