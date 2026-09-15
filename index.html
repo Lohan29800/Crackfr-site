@@ -110,7 +110,7 @@
         <!-- CONTENEUR PRINCIPAL DU PANEL -->
         <div class="max-w-xl w-full bg-slate-900/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-pink-500/40 shadow-2xl space-y-6 relative z-20 pointer-events-auto">
             
-            <!-- BOUTON FERMER LE PANEL (Visible si le site n'est pas en maintenance forcée) -->
+            <!-- BOUTON FERMER LE PANEL -->
             <button type="button" onclick="closeMaintenancePanel()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold cursor-pointer">✕</button>
 
             <!-- BARRE DÉCORATIVE SUPÉRIEURE -->
@@ -222,7 +222,7 @@
                     if (val === CORRECT_PASS) {
                         msg.className = "text-[11px] font-bold text-emerald-400 text-center h-4";
                         msg.innerText = "Accès autorisé ! Redirection...";
-                        sessionStorage.setItem("site_unlocked", "true";
+                        sessionStorage.setItem("site_unlocked", "true"); // Correction de la parenthèse ici
                         setTimeout(() => {
                             overlay.style.opacity = "0";
                             setTimeout(() => {
