@@ -108,8 +108,9 @@
                 <div class="w-10 h-10 bg-gradient-to-br from-pink-600 to-purple-600 rounded-2xl flex items-center justify-center font-black text-white shadow-neon-pink transform hover:rotate-6 transition-transform">C</div>
                 <h1 class="font-black text-sm tracking-widest uppercase text-white neon-glow-text">CrackFR</h1>
             </div>
-            <div id="nav-actions">
-                <button onclick="openLoginModal()" class="px-4 py-2 bg-slate-900/80 hover:bg-pink-600/20 text-pink-400 text-xs font-extrabold rounded-xl border border-pink-500/40 transition-all cursor-pointer shadow-sm hover:shadow-neon-pink">Staff Panel</button>
+            <div id="nav-actions" class="flex gap-2">
+                <button onclick="openAdminDashboard()" class="px-4 py-2 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-xs font-extrabold rounded-xl border border-pink-500/40 transition-all cursor-pointer shadow-neon-pink">Admin Hub</button>
+                <button onclick="openLoginModal()" class="px-4 py-2 bg-slate-900/80 hover:bg-pink-600/20 text-pink-400 text-xs font-extrabold rounded-xl border border-pink-500/40 transition-all cursor-pointer shadow-sm">Connexion</button>
             </div>
         </div>
     </header>
@@ -123,7 +124,6 @@
             <div class="flex flex-wrap items-center gap-2">
                 <button onclick="toggleNeonGlowEffects()" id="btn-effects" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-[11px] font-bold rounded-xl border border-pink-500/40 transition-all cursor-pointer shadow-neon-pink">✨ Effets : ON</button>
                 <button onclick="toggleZenMode()" id="btn-zen" class="px-3 py-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-[11px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer">🌿 Soins / Zen</button>
-                <button onclick="toggleAudioPlayback()" id="btn-audio-quick" class="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 text-[11px] font-bold rounded-xl border border-purple-500/40 transition-all cursor-pointer shadow-neon-purple">🎵 Musique</button>
                 <button onclick="togglePartyMode()" id="btn-party" class="px-3 py-1.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white text-[11px] font-extrabold rounded-xl transition-all cursor-pointer shadow-neon-pink">🎉 Mode Festif</button>
             </div>
         </div>
@@ -314,41 +314,27 @@
 
     <!-- LOGIQUE JAVASCRIPT -->
     <script>
-        const DEFAULT_AUDIO_URL = "https://stream.zeno.fm/f3wvbb7538quv";
         const MASTER_PASS = "crackfr2026";
 
-        document.addEventListener("DOMContentLoaded", async () => {
-            await loadSettingsFromDB();
+        document.addEventListener("DOMContentLoaded", () => {
+            loadSettingsFromStorage();
             checkAccessState();
             renderLogs();
             renderWhitelistUI();
         });
 
-        async function loadSettingsFromDB() {
-            try {
-                const response = await fetch('/api/settings');
-                const data = await response.json();
-                window.siteSettings = {
-                    status: data.maint_status || 'normal',
-                    reason: data.maint_reason || 'Mise à jour majeure en cours.',
-                    banner: data.maint_banner || '',
-                    audioUrl: data.audio_url || DEFAULT_AUDIO_URL,
-                    auth: localStorage.getItem('auth') === '1'
-                };
-            } catch (err) {
-                window.siteSettings = {
-                    status: 'normal',
-                    reason: 'Mise à jour majeure en cours.',
-                    banner: '',
-                    audioUrl: DEFAULT_AUDIO_URL,
-                    auth: localStorage.getItem('auth') === '1'
-                };
-            }
+        function loadSettingsFromStorage() {
+            window.siteSettings = {
+                status: localStorage.getItem('maint_status') || 'normal',
+                reason: localStorage.getItem('maint_reason') || 'Mise à jour majeure en cours.',
+                banner: localStorage.getItem('maint_banner') || '',
+                auth: localStorage.getItem('auth') === '1'
+            };
             loadSettingsToUI();
         }
 
         function getSettings() {
-            return window.siteSettings || { status: 'normal', reason: 'Mise à jour majeure.', banner: '', audioUrl: DEFAULT_AUDIO_URL, auth: false };
+            return window.siteSettings || { status: 'normal', reason: 'Mise à jour majeure.', banner: '', auth: false };
         }
 
         function loadSettingsToUI() {
@@ -362,7 +348,6 @@
                 bannerEl.classList.add('hidden');
             }
 
-            document.getElementById('main-audio-stream').src = config.audioUrl;
             document.getElementById('admin-maint-status').value = config.status;
             document.getElementById('admin-maint-reason').value = config.reason;
             document.getElementById('admin-banner-text').value = config.banner;
@@ -497,26 +482,19 @@
             setTimeout(() => { location.reload(); }, 800);
         }
 
-        async function saveAdminSettings() {
+        function saveAdminSettings() {
             const status = document.getElementById('admin-maint-status').value;
             const reason = document.getElementById('admin-maint-reason').value;
             const banner = document.getElementById('admin-banner-text').value;
 
-            try {
-                const response = await fetch('/api/settings', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ maint_status: status, maint_reason: reason, maint_banner: banner })
-                });
-                if (response.ok) {
-                    await loadSettingsFromDB();
-                    checkAccessState();
-                    addLog("Modification des paramètres généraux.");
-                    showToast("Réglages sauvegardés sur Neon ! ⚡");
-                }
-            } catch (err) {
-                showToast("Erreur de sauvegarde ⚠️");
-            }
+            localStorage.setItem('maint_status', status);
+            localStorage.setItem('maint_reason', reason);
+            localStorage.setItem('maint_banner', banner);
+
+            loadSettingsFromStorage();
+            checkAccessState();
+            addLog("Modification des paramètres généraux.");
+            showToast("Réglages sauvegardés ! ⚡");
         }
 
         function switchTab(tabName) {
@@ -584,7 +562,6 @@
         function toggleZenMode() {
             zenModeActive = !zenModeActive;
             document.getElementById('orb-pink').className = zenModeActive ? "absolute -top-40 -left-40 w-96 h-96 bg-emerald-600/20 rounded-full blur-[120px] bg-orb-1 transition-all duration-700" : "absolute -top-40 -left-40 w-96 h-96 bg-pink-600/20 rounded-full blur-[120px] bg-orb-1 transition-all duration-700";
-            document.getElementById('txt-zen') ? document.getElementById('txt-zen').innerText = zenModeActive ? "Zen" : "Soins / Zen" : null;
             showToast(zenModeActive ? "Mode Zen activé 🌿" : "Mode normal");
         }
 
@@ -595,13 +572,13 @@
             showToast(partyModeActive ? "🎉 Mode Festif enclenché !" : "Mode festif arrêté");
         }
 
-        function toggleAudioPlayback() {
-            const audio = document.getElementById('main-audio-stream');
-            audio.paused ? audio.play().then(() => showToast("Musique lancée 🎵")) : audio.pause();
-        }
-
         function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
         function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+        function openAdminDashboard() { 
+            localStorage.setItem('auth', '1');
+            checkAccessState();
+            showToast("Accès Admin direct ⚡");
+        }
         function closeAdminDashboard() { document.getElementById('admin-dashboard').classList.add('hidden'); document.querySelector('main').classList.remove('hidden'); }
         function clearApplications() { showToast("Candidatures effacées !"); }
 
