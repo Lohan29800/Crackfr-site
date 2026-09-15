@@ -173,10 +173,11 @@
         </div>
 
         <!-- BARRE DES ONGLETS DU PANEL -->
-        <div class="flex overflow-x-auto gap-2 p-1 bg-slate-900/40 rounded-2xl border border-slate-900">
-            <button onclick="switchTab('control')" id="tab-btn-control" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg whitespace-nowrap">⚡ Portail</button>
-            <button onclick="switchTab('applications')" id="tab-btn-applications" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white whitespace-nowrap">📝 Candidatures</button>
-            <button onclick="switchTab('tickets')" id="tab-btn-tickets" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white whitespace-nowrap">🎫 Tickets</button>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/40 p-1.5 rounded-2xl border border-slate-900">
+            <button onclick="switchTab('control')" id="tab-btn-control" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg text-center truncate">⚡ Portail</button>
+            <button onclick="switchTab('applications')" id="tab-btn-applications" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate">📝 Candidatures</button>
+            <button onclick="switchTab('tickets')" id="tab-btn-tickets" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate">🎫 Tickets</button>
+            <button onclick="switchTab('logs')" id="tab-btn-logs" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate">🛡️ Logs EC</button>
         </div>
 
         <!-- ONGLET 1 : CONTRÔLE DU PORTAIL & LECTEUR -->
@@ -249,6 +250,22 @@
             </div>
         </div>
 
+        <!-- ONGLET 4 : LOGS DE CONNEXION EC -->
+        <div id="tab-content-logs" class="admin-tab-content hidden space-y-4">
+            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                        <span>🛡️</span> Logs de Connexion EC & Staff
+                    </h3>
+                    <button onclick="clearLogs()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-lg transition-all cursor-pointer">Effacer les logs</button>
+                </div>
+                <p class="text-xs text-slate-400">Historique des connexions et actions de sécurité du panel.</p>
+                <div id="logs-container" class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800 space-y-2 max-h-60 overflow-y-auto font-mono text-[11px]">
+                    <p class="text-slate-500 text-center py-4">Aucun log enregistré pour le moment.</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- MODALE DE CONNEXION CLASSIQUE (STAFF) -->
@@ -280,6 +297,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             loadSettingsToUI();
             checkAccessState();
+            renderLogs();
         });
 
         function getSettings() {
@@ -347,23 +365,50 @@
 
             loadSettingsToUI();
             checkAccessState();
+            addLog("Mise à jour des réglages du portail par le Staff.");
             showToast("Réglages sauvegardés avec succès ! ⚡");
         }
 
-        // Gestion du système d'onglets du Panel Admin
+        // Système d'onglets du Panel Admin
         function switchTab(tabName) {
-            const tabs = ['control', 'applications', 'tickets'];
+            const tabs = ['control', 'applications', 'tickets', 'logs'];
             tabs.forEach(t => {
                 const content = document.getElementById(`tab-content-${t}`);
                 const btn = document.getElementById(`tab-btn-${t}`);
                 if (t === tabName) {
                     content.classList.remove('hidden');
-                    btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg whitespace-nowrap";
+                    btn.className = "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg text-center truncate";
                 } else {
                     content.classList.add('hidden');
-                    btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white whitespace-nowrap";
+                    btn.className = "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate";
                 }
             });
+        }
+
+        // Système de Logs de Connexion EC
+        function addLog(actionText) {
+            let logs = JSON.parse(localStorage.getItem('ec_logs') || '[]');
+            const timestamp = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            logs.unshift(`[${timestamp}] ${actionText}`);
+            if(logs.length > 30) logs.pop(); // Garder les 30 derniers logs max
+            localStorage.setItem('ec_logs', JSON.stringify(logs));
+            renderLogs();
+        }
+
+        function renderLogs() {
+            const logsContainer = document.getElementById('logs-container');
+            let logs = JSON.parse(localStorage.getItem('ec_logs') || '[]');
+            if(logs.length === 0) {
+                logsContainer.innerHTML = `<p class="text-slate-500 text-center py-4">Aucun log enregistré pour le moment.</p>`;
+                return;
+            }
+            logsContainer.innerHTML = logs.map(log => `<div class="text-slate-300 border-b border-slate-900/50 pb-1">${log}</div>`).join('');
+        }
+
+        function clearLogs() {
+            localStorage.removeItem('ec_logs');
+            renderLogs();
+            showToast("Logs effacés avec succès 🛡️");
         }
 
         function bypassMaintenanceWithPass(e) {
@@ -371,9 +416,11 @@
             const pass = document.getElementById('staff-bypass-pass').value;
             if(pass === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
+                addLog("Connexion staff réussie (via Bypass Maintenance).");
                 showToast("Accès staff autorisé ! Redirection... ⚡");
                 setTimeout(() => { location.reload(); }, 800);
             } else {
+                addLog("Échec de tentative de connexion (Mauvais mot de passe Bypass).");
                 showToast("Mot de passe incorrect ❌");
             }
         }
@@ -384,14 +431,17 @@
             if(pass === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
                 closeLoginModal();
+                addLog("Connexion staff réussie (via Modale Classique).");
                 showToast("Bienvenue dans le Dashboard Staff ⚡");
                 setTimeout(() => { location.reload(); }, 800);
             } else {
+                addLog("Échec de tentative de connexion staff (Mauvais mot de passe).");
                 showToast("Mot de passe incorrect ❌");
             }
         }
 
         function logoutStaff() {
+            addLog("Déconnexion du compte Staff.");
             localStorage.setItem('auth', '0');
             showToast("Déconnexion réussie");
             setTimeout(() => { location.reload(); }, 800);
@@ -418,6 +468,7 @@
         }
 
         function clearApplications() {
+            addLog("Effacement des candidatures staff.");
             showToast("Candidatures effacées !");
         }
 
@@ -438,6 +489,7 @@
             }
             if(guess === secretCode) {
                 feedback.innerText = "GG ! Code trouvé, simulation d'accès validée ! 🎉";
+                addLog("Mini-jeu résolu avec succès : Accès staff simulé.");
                 setTimeout(() => {
                     localStorage.setItem('auth', '1');
                     location.reload();
