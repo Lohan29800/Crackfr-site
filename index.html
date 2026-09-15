@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Portail Gaming</title>
+    <title>CrackFR - Neon Gaming Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,68 +12,102 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: { 500: '#db2777', 600: '#be185d' }
+                        neon: {
+                            pink: '#ff007f',
+                            purple: '#9333ea',
+                            cyan: '#06b6d4',
+                            green: '#10b981'
+                        }
+                    },
+                    boxShadow: {
+                        'neon-pink': '0 0 20px rgba(255, 0, 127, 0.4), inset 0 0 15px rgba(255, 0, 127, 0.2)',
+                        'neon-cyan': '0 0 20px rgba(6, 182, 212, 0.4)',
+                        'neon-purple': '0 0 25px rgba(147, 51, 234, 0.4)',
+                        'neon-green': '0 0 20px rgba(16, 185, 129, 0.4)'
                     }
                 }
             }
         }
     </script>
+    <style>
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        @keyframes party-mode {
+            0% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        .neon-glow-text {
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.7), 0 0 20px rgba(255, 0, 127, 0.5);
+        }
+        .bg-orb-1 { animation: pulse-slow 8s infinite ease-in-out; }
+        .bg-orb-2 { animation: pulse-slow 10s infinite ease-in-out reverse; }
+        .party-active { animation: party-mode 3s infinite linear; }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white">
+<body id="body-layout" class="bg-[#030008] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white relative overflow-x-hidden">
+
+    <!-- ARRIÈRE-PLAN LUMINEUX AMBIANT (EFFET NÉON) -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div id="orb-pink" class="absolute -top-40 -left-40 w-96 h-96 bg-pink-600/20 rounded-full blur-[120px] bg-orb-1 transition-all duration-700"></div>
+        <div id="orb-purple" class="absolute top-1/2 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-[140px] bg-orb-2 transition-all duration-700"></div>
+    </div>
 
     <!-- ÉCRAN DE MAINTENANCE -->
-    <div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950/98 backdrop-blur-3xl z-50 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="max-w-lg w-full bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6 shadow-2xl relative overflow-hidden my-auto">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600 animate-pulse"></div>
+    <div id="maintenance-screen" class="hidden fixed inset-0 bg-[#030008]/95 backdrop-blur-2xl z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="max-w-lg w-full bg-slate-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-pink-500/30 shadow-neon-pink space-y-6 relative overflow-hidden my-auto">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 animate-pulse"></div>
             
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-xl shadow-inner animate-bounce">⚡</div>
+                    <div class="w-12 h-12 bg-pink-500/10 border border-pink-500/40 rounded-2xl flex items-center justify-center text-pink-400 text-xl shadow-neon-pink animate-bounce">⚡</div>
                     <div>
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-600/10 border border-pink-500/20 text-pink-400 text-[9px] font-bold uppercase tracking-widest">
-                            <span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-ping"></span> Lockdown Actif
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-extrabold uppercase tracking-widest shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-pink-500 animate-ping"></span> Lockdown Actif
                         </div>
-                        <h2 class="text-lg font-black uppercase tracking-wider text-white">Maintenance Générale</h2>
+                        <h2 class="text-lg font-black uppercase tracking-wider text-white neon-glow-text">Maintenance Générale</h2>
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="toggleStaffLoginModal()" class="px-3 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-[10px] font-extrabold rounded-xl border border-pink-500/30 transition-all cursor-pointer flex items-center gap-1.5">
+                    <button onclick="toggleStaffLoginModal()" class="px-3 py-2 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-[10px] font-extrabold rounded-xl border border-pink-500/40 transition-all cursor-pointer flex items-center gap-1.5 shadow-neon-pink">
                         <span>🔑</span> <span>Staff</span>
                     </button>
-                    <button onclick="toggleMiniGame()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
-                        <span>🕹️</span> <span id="game-btn-txt">Jeu</span>
+                    <button onclick="toggleMiniGame()" class="px-3 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
+                        <span>🕹️</span> <span>Jeu</span>
                     </button>
                 </div>
             </div>
 
             <div id="main-maintenance-view" class="space-y-4">
-                <p id="display-maint-reason" class="text-xs text-slate-400 leading-relaxed bg-slate-950/60 p-3 rounded-2xl border border-slate-800/80 text-center">
+                <p id="display-maint-reason" class="text-xs text-slate-300 leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-pink-500/20 text-center shadow-inner">
                     Mise à jour majeure du portail et des serveurs de jeu en cours.
                 </p>
             </div>
 
-            <!-- MODALE DE CONNEXION STAFF RAPIDE -->
-            <div id="staff-login-modal" class="hidden space-y-3 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+            <!-- MODALE DE CONNEXION STAFF -->
+            <div id="staff-login-modal" class="hidden space-y-3 bg-slate-950/90 p-4 rounded-2xl border border-pink-500/30">
                 <div class="text-center space-y-1">
-                    <h3 class="text-xs font-black text-pink-400 uppercase">Accès Réservé au Staff</h3>
+                    <h3 class="text-xs font-black text-pink-400 uppercase tracking-widest">Accès Réservé au Staff</h3>
                     <p class="text-[10px] text-slate-400">Entre le mot de passe admin pour contourner la maintenance.</p>
                 </div>
                 <form onsubmit="bypassMaintenanceWithPass(event)" class="space-y-2">
-                    <input type="password" id="staff-bypass-pass" placeholder="Mot de passe admin..." required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-center text-white focus:outline-none focus:border-pink-500 font-mono">
-                    <button type="submit" class="w-full py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all cursor-pointer shadow-lg">Se connecter & Entrer</button>
+                    <input type="password" id="staff-bypass-pass" placeholder="Mot de passe admin..." required class="w-full bg-slate-900 border border-pink-500/40 rounded-xl p-3 text-xs text-center text-white focus:outline-none focus:border-pink-400 focus:shadow-neon-pink font-mono transition-all">
+                    <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-xs font-extrabold rounded-xl text-white transition-all cursor-pointer shadow-neon-pink">Se connecter & Entrer</button>
                 </form>
             </div>
 
             <!-- MINI-JEU -->
-            <div id="mini-game-view" class="hidden space-y-4 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+            <div id="mini-game-view" class="hidden space-y-4 bg-slate-950/90 p-4 rounded-2xl border border-cyan-500/30">
                 <div class="text-center space-y-1">
-                    <h3 class="text-xs font-black text-pink-400 uppercase">Mini-Jeu : Décryptage du Code</h3>
-                    <p class="text-[10px] text-slate-400">Trouve le code entre 1 et 10 pour simuler un accès prioritaire !</p>
+                    <h3 class="text-xs font-black text-cyan-400 uppercase tracking-widest">Mini-Jeu : Décryptage</h3>
+                    <p class="text-[10px] text-slate-400">Trouve le code entre 1 et 10 pour un accès prioritaire !</p>
                 </div>
                 <div class="space-y-3">
                     <div class="flex justify-center gap-2">
-                        <input type="number" id="guess-input" min="1" max="10" placeholder="?" class="w-20 text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-sm font-bold text-white focus:outline-none focus:border-pink-500">
-                        <button onclick="checkGameGuess()" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all">Tester</button>
+                        <input type="number" id="guess-input" min="1" max="10" placeholder="?" class="w-20 text-center bg-slate-900 border border-cyan-500/40 rounded-xl py-2 text-sm font-bold text-white focus:outline-none focus:border-cyan-400 focus:shadow-neon-cyan">
+                        <button onclick="checkGameGuess()" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-neon-cyan">Tester</button>
                     </div>
                     <p id="game-feedback" class="text-center text-[11px] font-bold text-slate-300">Indice : Le code change à chaque essai.</p>
                 </div>
@@ -81,42 +115,69 @@
         </div>
     </div>
 
-    <!-- BANNIÈRE D'ANNONCE EN HAUT DU SITE -->
-    <div id="global-banner" class="hidden bg-pink-600 text-white text-xs font-bold text-center py-2 px-4 shadow-md">
+    <!-- BANNIÈRE D'ANNONCE NÉON -->
+    <div id="global-banner" class="hidden bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600 text-white text-xs font-bold text-center py-2.5 px-4 shadow-neon-pink relative z-30 animate-pulse">
         <span id="banner-text">Annonce importante</span>
     </div>
 
     <!-- HEADER / NAVIGATION -->
-    <header class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
+    <header class="border-b border-pink-500/20 bg-[#030008]/80 backdrop-blur-xl sticky top-0 z-40 shadow-lg">
         <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-pink-600 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-pink-600/30">C</div>
-                <h1 class="font-black text-sm tracking-wider uppercase text-white">CrackFR</h1>
+                <div class="w-10 h-10 bg-gradient-to-br from-pink-600 to-purple-600 rounded-2xl flex items-center justify-center font-black text-white shadow-neon-pink transform hover:rotate-6 transition-transform">C</div>
+                <h1 class="font-black text-sm tracking-widest uppercase text-white neon-glow-text">CrackFR</h1>
             </div>
             <div id="nav-actions">
-                <button onclick="openLoginModal()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold rounded-xl border border-slate-800 transition-all cursor-pointer">Staff</button>
+                <button onclick="openLoginModal()" class="px-4 py-2 bg-slate-900/80 hover:bg-pink-600/20 text-pink-400 text-xs font-extrabold rounded-xl border border-pink-500/40 transition-all cursor-pointer shadow-sm hover:shadow-neon-pink">Staff Panel</button>
             </div>
         </div>
     </header>
 
+    <!-- CENTRE DE CONTRÔLE DES OPTIONS RAPIDES -->
+    <div class="max-w-4xl mx-auto px-4 pt-6 w-full relative z-20">
+        <div class="bg-slate-900/60 backdrop-blur-xl border border-pink-500/30 p-3 rounded-2xl shadow-lg flex flex-wrap items-center justify-between gap-3">
+            <div class="text-[11px] font-black uppercase tracking-wider text-pink-400 flex items-center gap-2 px-2">
+                <span>🎛️</span> Options Rapides :
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <!-- Bouton Effets Néon -->
+                <button onclick="toggleNeonGlowEffects()" id="btn-effects" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-[11px] font-bold rounded-xl border border-pink-500/40 transition-all cursor-pointer flex items-center gap-1.5 shadow-neon-pink">
+                    <span>✨</span> <span id="txt-effects">Effets : ON</span>
+                </button>
+                <!-- Bouton Mode Soins / Zen -->
+                <button onclick="toggleZenMode()" id="btn-zen" class="px-3 py-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-[11px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
+                    <span>🌿</span> <span id="txt-zen">Soins / Zen</span>
+                </button>
+                <!-- Bouton Musique Rapide -->
+                <button onclick="toggleAudioPlayback()" id="btn-audio-quick" class="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 text-[11px] font-bold rounded-xl border border-purple-500/40 transition-all cursor-pointer flex items-center gap-1.5 shadow-neon-purple">
+                    <span>🎵</span> <span id="txt-audio-quick">Musique</span>
+                </button>
+                <!-- Bouton Mode Festif / Quitter -->
+                <button onclick="togglePartyMode()" id="btn-party" class="px-3 py-1.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white text-[11px] font-extrabold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-neon-pink">
+                    <span>🎉</span> <span id="txt-party">Mode Festif</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- CONTENU PRINCIPAL DU SITE -->
-    <main class="max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
+    <main class="max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full relative z-10">
         
         <!-- SECTION SONDAGE -->
-        <section class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4 shadow-xl">
-            <h2 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+        <section class="bg-slate-900/40 backdrop-blur-xl border border-pink-500/20 hover:border-pink-500/40 rounded-3xl p-6 space-y-4 shadow-xl transition-all">
+            <h2 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2">
                 <span>📊</span> Sondage de la semaine
             </h2>
-            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 space-y-3">
+            <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-3">
                 <p id="poll-question-view" class="text-xs font-bold text-white">Quel type d'événement veux-tu ce week-end sur FiveM ?</p>
                 <div class="space-y-2">
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300">
+                    <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300 hover:border-pink-500/30 transition-all">
                         <span>Course sauvage en ville</span> <span class="font-bold text-pink-400">0%</span>
                     </div>
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300">
+                    <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300 hover:border-pink-500/30 transition-all">
                         <span>Braquage de la grande banque</span> <span class="font-bold text-pink-400">0%</span>
                     </div>
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300">
+                    <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300 hover:border-pink-500/30 transition-all">
                         <span>Soirée Chill & Drift</span> <span class="font-bold text-pink-400">0%</span>
                     </div>
                 </div>
@@ -125,30 +186,30 @@
         </section>
 
         <!-- SECTION ACTUALITÉS -->
-        <section class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4 shadow-xl">
-            <h2 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+        <section class="bg-slate-900/40 backdrop-blur-xl border border-purple-500/20 hover:border-purple-500/40 rounded-3xl p-6 space-y-4 shadow-xl transition-all">
+            <h2 class="text-xs font-black uppercase tracking-widest text-purple-400 flex items-center gap-2">
                 <span>📰</span> Dernières Actualités
             </h2>
-            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 space-y-1">
-                <h3 class="text-xs font-bold text-white uppercase">Ouverture officielle de CrackFR !</h3>
-                <p class="text-xs text-slate-400">Bienvenue à tous sur notre nouveau portail gaming.</p>
+            <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-1">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wide">Ouverture officielle de CrackFR !</h3>
+                <p class="text-xs text-slate-400">Bienvenue à tous sur notre nouveau portail gaming survolté.</p>
             </div>
         </section>
 
         <!-- LECTEUR AUDIO -->
-        <section class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4 shadow-xl">
-            <h2 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+        <section class="bg-slate-900/40 backdrop-blur-xl border border-pink-500/20 hover:border-pink-500/40 rounded-3xl p-6 space-y-4 shadow-xl transition-all">
+            <h2 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2">
                 <span>🎵</span> Ambiance Sonore
             </h2>
-            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
+            <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400">📻</div>
+                    <div class="w-10 h-10 bg-pink-500/10 border border-pink-500/30 rounded-xl flex items-center justify-center text-pink-400 shadow-neon-pink">📻</div>
                     <div>
                         <h4 class="text-xs font-bold text-white">Ambiance Stream</h4>
                         <p id="audio-status-txt" class="text-[10px] text-slate-400">En pause</p>
                     </div>
                 </div>
-                <button onclick="toggleAudioPlayback()" id="audio-play-btn" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg flex items-center gap-2 cursor-pointer">
+                <button onclick="toggleAudioPlayback()" id="audio-play-btn" class="px-5 py-2.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-neon-pink flex items-center gap-2 cursor-pointer">
                     <span>▶</span> <span>Écouter</span>
                 </button>
             </div>
@@ -157,40 +218,38 @@
 
     </main>
 
-    <!-- PANNEAU D'ADMINISTRATION (DASHBOARD STAFF ORGANISÉ PAR ONGLETS) -->
-    <div id="admin-dashboard" class="hidden max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
+    <!-- PANNEAU D'ADMINISTRATION (DASHBOARD STAFF) -->
+    <div id="admin-dashboard" class="hidden max-w-4xl mx-auto px-4 py-8 space-y-6 flex-grow w-full relative z-10">
         
-        <!-- Barre de contrôle supérieure du Panel -->
-        <div class="flex items-center justify-between bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+        <div class="flex items-center justify-between bg-slate-900/80 backdrop-blur-xl p-4 rounded-2xl border border-pink-500/30 shadow-neon-pink">
             <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <h2 class="text-xs font-black uppercase tracking-wider text-white">Staff Dashboard</h2>
+                <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+                <h2 class="text-xs font-black uppercase tracking-widest text-white neon-glow-text">Staff Dashboard</h2>
             </div>
             <div class="flex gap-2">
                 <button onclick="closeAdminDashboard()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-all cursor-pointer">Voir le site</button>
-                <button onclick="logoutStaff()" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-xs font-bold rounded-xl border border-pink-500/30 transition-all cursor-pointer">Déconnexion</button>
+                <button onclick="logoutStaff()" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-xs font-bold rounded-xl border border-pink-500/40 transition-all cursor-pointer">Déconnexion</button>
             </div>
         </div>
 
-        <!-- BARRE DES ONGLETS DU PANEL -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/40 p-1.5 rounded-2xl border border-slate-900">
-            <button onclick="switchTab('control')" id="tab-btn-control" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg text-center truncate">⚡ Portail</button>
-            <button onclick="switchTab('applications')" id="tab-btn-applications" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate">📝 Candidatures</button>
-            <button onclick="switchTab('tickets')" id="tab-btn-tickets" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate">🎫 Tickets</button>
-            <button onclick="switchTab('logs')" id="tab-btn-logs" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate">🛡️ Logs EC</button>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/50 p-1.5 rounded-2xl border border-pink-500/20 backdrop-blur-md">
+            <button onclick="switchTab('control')" id="tab-btn-control" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-neon-pink text-center truncate">⚡ Portail</button>
+            <button onclick="switchTab('applications')" id="tab-btn-applications" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">📝 Candidatures</button>
+            <button onclick="switchTab('tickets')" id="tab-btn-tickets" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🎫 Tickets</button>
+            <button onclick="switchTab('logs')" id="tab-btn-logs" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🛡️ Logs EC</button>
         </div>
 
-        <!-- ONGLET 1 : CONTRÔLE DU PORTAIL & LECTEUR -->
+        <!-- ONGLET 1 : CONTRÔLE -->
         <div id="tab-content-control" class="admin-tab-content space-y-4">
-            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-5 shadow-xl">
-                <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
-                    <span>⚡</span> Contrôle du Portail & Réglages
+            <div class="bg-slate-900/40 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-6 space-y-5 shadow-xl">
+                <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2">
+                    <span>⚡</span> Contrôle du Portail & Réglages (Neon DB)
                 </h3>
                 
                 <div class="space-y-4">
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">État du Serveur / Portail</label>
-                        <select id="admin-maint-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <select id="admin-maint-status" class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 focus:shadow-neon-pink transition-all">
                             <option value="normal">En ligne (Normal)</option>
                             <option value="maintenance">Mode Maintenance Actif</option>
                         </select>
@@ -198,85 +257,80 @@
 
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Raison de la maintenance</label>
-                        <input type="text" id="admin-maint-reason" placeholder="Ex: Amélioration du site web..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <input type="text" id="admin-maint-reason" placeholder="Ex: Amélioration du site web..." class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 focus:shadow-neon-pink transition-all">
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Annonce en haut du site (Bannière)</label>
-                        <input type="text" id="admin-banner-text" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <input type="text" id="admin-banner-text" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 focus:shadow-neon-pink transition-all">
                     </div>
 
-                    <!-- LECTEUR AUDIO / URL DU FLUX -->
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Lecteur Audio / URL du flux musical (HTTPS)</label>
-                        <input type="text" id="admin-audio-url" placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500 font-mono">
-                        <p class="text-[10px] text-slate-500">Colle un lien direct de flux audio sécurisé (ex: Zeno.fm en https).</p>
+                        <input type="text" id="admin-audio-url" placeholder="https://..." class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 font-mono transition-all">
                     </div>
 
-                    <button onclick="saveAdminSettings()" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg cursor-pointer">Sauvegarder les réglages</button>
+                    <button onclick="saveAdminSettings()" class="w-full py-3.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-neon-pink cursor-pointer uppercase tracking-wider">Sauvegarder sur Neon ⚡</button>
                 </div>
             </div>
         </div>
 
-        <!-- ONGLET 2 : CANDIDATURES STAFF -->
+        <!-- ONGLET 2 : CANDIDATURES -->
         <div id="tab-content-applications" class="admin-tab-content hidden space-y-4">
-            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+            <div class="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2">
                         <span>📝</span> Candidatures Staff
                     </h3>
                     <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
                 </div>
-                <p class="text-xs text-slate-400">Candidatures envoyées par les membres.</p>
-                <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
+                <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 text-center">
                     <p class="text-xs text-slate-500">Aucune candidature reçue.</p>
                 </div>
                 <button onclick="clearApplications()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all cursor-pointer">Effacer les candidatures</button>
             </div>
         </div>
 
-        <!-- ONGLET 3 : TICKETS D'ASSISTANCE SUPPORT -->
+        <!-- ONGLET 3 : TICKETS -->
         <div id="tab-content-tickets" class="admin-tab-content hidden space-y-4">
-            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+            <div class="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
-                        <span>🎫</span> Tickets d'assistance support
+                    <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2">
+                        <span>🎫</span> Tickets Support
                     </h3>
                     <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
                 </div>
-                <p class="text-xs text-slate-400">Gestion des demandes d'aide de la communauté.</p>
-                <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
+                <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 text-center">
                     <p class="text-xs text-slate-500">Aucun ticket pour le moment.</p>
                 </div>
             </div>
         </div>
 
-        <!-- ONGLET 4 : LOGS DE CONNEXION EC -->
+        <!-- ONGLET 4 : LOGS -->
         <div id="tab-content-logs" class="admin-tab-content hidden space-y-4">
-            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+            <div class="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
-                        <span>🛡️</span> Logs de Connexion EC & Staff
+                    <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2">
+                        <span>🛡️</span> Logs de Connexion & Sécurité
                     </h3>
-                    <button onclick="clearLogs()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-lg transition-all cursor-pointer">Effacer les logs</button>
+                    <button onclick="clearLogs()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-lg transition-all cursor-pointer">Effacer</button>
                 </div>
-                <p class="text-xs text-slate-400">Historique des connexions et actions de sécurité du panel.</p>
-                <div id="logs-container" class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800 space-y-2 max-h-60 overflow-y-auto font-mono text-[11px]">
-                    <p class="text-slate-500 text-center py-4">Aucun log enregistré pour le moment.</p>
+                <div id="logs-container" class="bg-slate-950/90 p-3 rounded-2xl border border-slate-800 space-y-2 max-h-60 overflow-y-auto font-mono text-[11px]">
+                    <p class="text-slate-500 text-center py-4">Aucun log enregistré.</p>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- MODALE DE CONNEXION CLASSIQUE (STAFF) -->
-    <div id="login-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="max-w-sm w-full bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-2xl">
-            <h3 class="text-xs font-black uppercase text-pink-400 text-center">Connexion Staff</h3>
+    <!-- MODALE DE CONNEXION STAFF -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-[#030008]/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="max-w-sm w-full bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-pink-500/40 space-y-4 shadow-neon-pink">
+            <h3 class="text-xs font-black uppercase text-pink-400 text-center tracking-widest">Connexion Staff</h3>
             <form onsubmit="handleLoginSubmit(event)" class="space-y-3">
-                <input type="password" id="login-password-input" placeholder="Mot de passe..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-center text-white focus:outline-none focus:border-pink-500 font-mono">
+                <input type="password" id="login-password-input" placeholder="Mot de passe..." required class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-center text-white focus:outline-none focus:border-pink-400 focus:shadow-neon-pink font-mono transition-all">
                 <div class="flex gap-2">
-                    <button type="submit" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl text-white transition-all cursor-pointer">Valider</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-xs font-bold rounded-xl text-white transition-all shadow-neon-pink cursor-pointer">Valider</button>
                     <button type="button" onclick="closeLoginModal()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all cursor-pointer">Annuler</button>
                 </div>
             </form>
@@ -284,14 +338,14 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="border-t border-slate-900 py-6 text-center text-slate-500 text-[11px]">
-        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
+    <footer class="border-t border-pink-500/20 py-6 text-center text-slate-500 text-[11px] relative z-10 bg-[#030008]">
+        <p>&copy; 2026 CrackFR. Design Néon Cyberpunk. Tous droits réservés.</p>
     </footer>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast-notification" class="hidden fixed bottom-5 right-5 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-2xl border border-slate-800 shadow-2xl z-50 transition-all"></div>
+    <div id="toast-notification" class="hidden fixed bottom-5 right-5 bg-slate-900 text-white text-xs font-bold px-5 py-3 rounded-2xl border border-pink-500/50 shadow-neon-pink z-50 transition-all"></div>
 
-    <!-- LOGIQUE JAVASCRIPT CONNECTÉE À NEON VIA API -->
+    <!-- LOGIQUE JAVASCRIPT -->
     <script>
         const DEFAULT_AUDIO_URL = "https://stream.zeno.fm/f3wvbb7538quv";
 
@@ -314,7 +368,7 @@
                     auth: localStorage.getItem('auth') === '1'
                 };
             } catch (err) {
-                console.error("Erreur de chargement depuis la BD, fallback local :", err);
+                console.error("Erreur chargement DB, fallback local :", err);
                 window.siteSettings = {
                     status: 'normal',
                     reason: 'Mise à jour majeure du portail et des serveurs de jeu en cours.',
@@ -378,6 +432,67 @@
             }
         }
 
+        // --- NOUVELLES FONCTIONS DES OPTIONS RAPIDES ---
+        let effectsActive = true;
+        function toggleNeonGlowEffects() {
+            effectsActive = !effectsActive;
+            const orbPink = document.getElementById('orb-pink');
+            const orbPurple = document.getElementById('orb-purple');
+            const txtEffects = document.getElementById('txt-effects');
+            
+            if(effectsActive) {
+                orbPink.style.opacity = "1";
+                orbPurple.style.opacity = "1";
+                txtEffects.innerText = "Effets : ON";
+                showToast("Effets lumineux activés ✨");
+            } else {
+                orbPink.style.opacity = "0";
+                orbPurple.style.opacity = "0";
+                txtEffects.innerText = "Effets : OFF";
+                showToast("Effets lumineux désactivés");
+            }
+        }
+
+        let zenModeActive = false;
+        function toggleZenMode() {
+            zenModeActive = !zenModeActive;
+            const orbPink = document.getElementById('orb-pink');
+            const orbPurple = document.getElementById('orb-purple');
+            const txtZen = document.getElementById('txt-zen');
+
+            if(zenModeActive) {
+                orbPink.className = "absolute -top-40 -left-40 w-96 h-96 bg-emerald-600/20 rounded-full blur-[120px] bg-orb-1 transition-all duration-700";
+                orbPurple.className = "absolute top-1/2 -right-40 w-96 h-96 bg-cyan-600/20 rounded-full blur-[140px] bg-orb-2 transition-all duration-700";
+                txtZen.innerText = "Mode Zen (Actif)";
+                showToast("Mode Soins / Zen activé 🌿");
+            } else {
+                orbPink.className = "absolute -top-40 -left-40 w-96 h-96 bg-pink-600/20 rounded-full blur-[120px] bg-orb-1 transition-all duration-700";
+                orbPurple.className = "absolute top-1/2 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-[140px] bg-orb-2 transition-all duration-700";
+                txtZen.innerText = "Soins / Zen";
+                showToast("Retour au mode normal");
+            }
+        }
+
+        let partyModeActive = false;
+        function togglePartyMode() {
+            partyModeActive = !partyModeActive;
+            const bodyLayout = document.getElementById('body-layout');
+            const txtParty = document.getElementById('txt-party');
+
+            if(partyModeActive) {
+                bodyLayout.classList.add('party-active');
+                txtParty.innerText = "Quitter le festif";
+                showToast("🎉 Mode Festif enclenché ! Ambiance maximale !");
+                // Lancer la musique auto si elle n'est pas jouée
+                const audio = document.getElementById('main-audio-stream');
+                if(audio.paused) { toggleAudioPlayback(); }
+            } else {
+                bodyLayout.classList.remove('party-active');
+                txtParty.innerText = "Mode Festif";
+                showToast("Mode festif terminé 🛑");
+            }
+        }
+
         async function saveAdminSettings() {
             const status = document.getElementById('admin-maint-status').value;
             const reason = document.getElementById('admin-maint-reason').value;
@@ -399,8 +514,8 @@
                 if (response.ok) {
                     await loadSettingsFromDB();
                     checkAccessState();
-                    addLog("Mise à jour des réglages du portail par le Staff (enregistré sur Neon).");
-                    showToast("Réglages sauvegardés sur la base de données ! ⚡");
+                    addLog("Réglages mis à jour et stockés sur Neon.");
+                    showToast("Réglages sauvegardés sur Neon ! ⚡");
                 } else {
                     showToast("Erreur lors de la sauvegarde ❌");
                 }
@@ -410,7 +525,6 @@
             }
         }
 
-        // Système d'onglets du Panel Admin
         function switchTab(tabName) {
             const tabs = ['control', 'applications', 'tickets', 'logs'];
             tabs.forEach(t => {
@@ -418,15 +532,14 @@
                 const btn = document.getElementById(`tab-btn-${t}`);
                 if (t === tabName) {
                     content.classList.remove('hidden');
-                    btn.className = "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg text-center truncate";
+                    btn.className = "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-neon-pink text-center truncate";
                 } else {
                     content.classList.add('hidden');
-                    btn.className = "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white text-center truncate";
+                    btn.className = "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate";
                 }
             });
         }
 
-        // Système de Logs de Connexion EC
         function addLog(actionText) {
             let logs = JSON.parse(localStorage.getItem('ec_logs') || '[]');
             const timestamp = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -440,16 +553,16 @@
             const logsContainer = document.getElementById('logs-container');
             let logs = JSON.parse(localStorage.getItem('ec_logs') || '[]');
             if(logs.length === 0) {
-                logsContainer.innerHTML = `<p class="text-slate-500 text-center py-4">Aucun log enregistré pour le moment.</p>`;
+                logsContainer.innerHTML = `<p class="text-slate-500 text-center py-4">Aucun log enregistré.</p>`;
                 return;
             }
-            logsContainer.innerHTML = logs.map(log => `<div class="text-slate-300 border-b border-slate-900/50 pb-1">${log}</div>`).join('');
+            logsContainer.innerHTML = logs.map(log => `<div class="text-slate-300 border-b border-slate-900 pb-1">${log}</div>`).join('');
         }
 
         function clearLogs() {
             localStorage.removeItem('ec_logs');
             renderLogs();
-            showToast("Logs effacés avec succès 🛡️");
+            showToast("Logs effacés 🛡️");
         }
 
         function bypassMaintenanceWithPass(e) {
@@ -457,11 +570,11 @@
             const pass = document.getElementById('staff-bypass-pass').value;
             if(pass === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
-                addLog("Connexion staff réussie (via Bypass Maintenance).");
-                showToast("Accès staff autorisé ! Redirection... ⚡");
+                addLog("Connexion staff réussie (Bypass).");
+                showToast("Accès autorisé ! Redirection... ⚡");
                 setTimeout(() => { location.reload(); }, 800);
             } else {
-                addLog("Échec de tentative de connexion (Mauvais mot de passe Bypass).");
+                addLog("Échec tentative bypass.");
                 showToast("Mot de passe incorrect ❌");
             }
         }
@@ -472,11 +585,11 @@
             if(pass === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
                 closeLoginModal();
-                addLog("Connexion staff réussie (via Modale Classique).");
-                showToast("Bienvenue dans le Dashboard Staff ⚡");
+                addLog("Connexion staff réussie (Panel).");
+                showToast("Bienvenue dans le Dashboard ⚡");
                 setTimeout(() => { location.reload(); }, 800);
             } else {
-                addLog("Échec de tentative de connexion staff (Mauvais mot de passe).");
+                addLog("Échec tentative connexion staff.");
                 showToast("Mot de passe incorrect ❌");
             }
         }
@@ -509,7 +622,7 @@
         }
 
         function clearApplications() {
-            addLog("Effacement des candidatures staff.");
+            addLog("Effacement des candidatures.");
             showToast("Candidatures effacées !");
         }
 
@@ -529,8 +642,8 @@
                 return;
             }
             if(guess === secretCode) {
-                feedback.innerText = "GG ! Code trouvé, simulation d'accès validée ! 🎉";
-                addLog("Mini-jeu résolu avec succès : Accès staff simulé.");
+                feedback.innerText = "GG ! Code trouvé ! 🎉";
+                addLog("Mini-jeu résolu avec succès.");
                 setTimeout(() => {
                     localStorage.setItem('auth', '1');
                     location.reload();
@@ -546,23 +659,28 @@
             const audio = document.getElementById('main-audio-stream');
             const statusTxt = document.getElementById('audio-status-txt');
             const playBtn = document.getElementById('audio-play-btn');
+            const txtAudioQuick = document.getElementById('txt-audio-quick');
 
             if (audio.paused) {
                 audio.play().then(() => {
-                    statusTxt.innerText = "Lecture en cours...";
-                    statusTxt.className = "text-[10px] text-emerald-400 font-bold";
-                    playBtn.innerHTML = "<span>⏸</span> <span>Pause</span>";
+                    if(statusTxt) statusTxt.innerText = "Lecture en cours...";
+                    if(statusTxt) statusTxt.className = "text-[10px] text-emerald-400 font-bold";
+                    if(playBtn) playBtn.innerHTML = "<span>⏸</span> <span>Pause</span>";
+                    txtAudioQuick.innerText = "Musique (ON)";
+                    showToast("Lecture de la musique 🎵");
                 }).catch(err => {
                     console.error(err);
-                    statusTxt.innerText = "Erreur de lecture (Vérifie l'URL HTTPS)";
-                    statusTxt.className = "text-[10px] text-pink-500 font-bold";
-                    showToast("Erreur lecteur : Le flux bloque (HTTPS requis) ⚠️");
+                    if(statusTxt) statusTxt.innerText = "Erreur de lecture (HTTPS requis)";
+                    if(statusTxt) statusTxt.className = "text-[10px] text-pink-500 font-bold";
+                    showToast("Erreur flux audio (HTTPS obligatoire) ⚠️");
                 });
             } else {
                 audio.pause();
-                statusTxt.innerText = "En pause";
-                statusTxt.className = "text-[10px] text-slate-400";
-                playBtn.innerHTML = "<span>▶</span> <span>Écouter</span>";
+                if(statusTxt) statusTxt.innerText = "En pause";
+                if(statusTxt) statusTxt.className = "text-[10px] text-slate-400";
+                if(playBtn) playBtn.innerHTML = "<span>▶</span> <span>Écouter</span>";
+                txtAudioQuick.innerText = "Musique";
+                showToast("Musique en pause");
             }
         }
 
