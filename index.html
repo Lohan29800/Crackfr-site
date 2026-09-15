@@ -94,7 +94,7 @@
                 <h1 class="font-black text-sm tracking-wider uppercase text-white">CrackFR</h1>
             </div>
             <div id="nav-actions">
-                <button onclick="openLoginModal()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold rounded-xl border border-slate-800 transition-all">Staff</button>
+                <button onclick="openLoginModal()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold rounded-xl border border-slate-800 transition-all cursor-pointer">Staff</button>
             </div>
         </div>
     </header>
@@ -157,8 +157,9 @@
 
     </main>
 
-    <!-- PANNEAU D'ADMINISTRATION (DASHBOARD STAFF COMPLET) -->
+    <!-- PANNEAU D'ADMINISTRATION (DASHBOARD STAFF ORGANISÉ PAR ONGLETS) -->
     <div id="admin-dashboard" class="hidden max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
+        
         <!-- Barre de contrôle supérieure du Panel -->
         <div class="flex items-center justify-between bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
             <div class="flex items-center gap-2">
@@ -171,69 +172,83 @@
             </div>
         </div>
 
-        <!-- 1. CONTRÔLE DU PORTAIL & LECTEUR -->
-        <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-5 shadow-xl">
-            <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
-                <span>⚡</span> Contrôle du Portail & Réglages
-            </h3>
-            
-            <div class="space-y-4">
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">État du Serveur / Portail</label>
-                    <select id="admin-maint-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
-                        <option value="normal">En ligne (Normal)</option>
-                        <option value="maintenance">Mode Maintenance Actif</option>
-                    </select>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Raison de la maintenance</label>
-                    <input type="text" id="admin-maint-reason" placeholder="Ex: Amélioration du site web..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Annonce en haut du site (Bannière)</label>
-                    <input type="text" id="admin-banner-text" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
-                </div>
-
-                <!-- URL DU LECTEUR AUDIO (HTTPS) -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">URL du Lecteur Audio / Flux (HTTPS)</label>
-                    <input type="text" id="admin-audio-url" placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500 font-mono">
-                </div>
-
-                <button onclick="saveAdminSettings()" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg cursor-pointer">Sauvegarder les réglages</button>
-            </div>
+        <!-- BARRE DES ONGLETS DU PANEL -->
+        <div class="flex overflow-x-auto gap-2 p-1 bg-slate-900/40 rounded-2xl border border-slate-900">
+            <button onclick="switchTab('control')" id="tab-btn-control" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg whitespace-nowrap">⚡ Portail</button>
+            <button onclick="switchTab('applications')" id="tab-btn-applications" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white whitespace-nowrap">📝 Candidatures</button>
+            <button onclick="switchTab('tickets')" id="tab-btn-tickets" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white whitespace-nowrap">🎫 Tickets</button>
         </div>
 
-        <!-- 2. CANDIDATURES STAFF (Option avancée d'origine) -->
-        <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
-            <div class="flex items-center justify-between">
+        <!-- ONGLET 1 : CONTRÔLE DU PORTAIL & LECTEUR -->
+        <div id="tab-content-control" class="admin-tab-content space-y-4">
+            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-5 shadow-xl">
                 <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
-                    <span>📝</span> Candidatures Staff
+                    <span>⚡</span> Contrôle du Portail & Réglages
                 </h3>
-                <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
+                
+                <div class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">État du Serveur / Portail</label>
+                        <select id="admin-maint-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                            <option value="normal">En ligne (Normal)</option>
+                            <option value="maintenance">Mode Maintenance Actif</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Raison de la maintenance</label>
+                        <input type="text" id="admin-maint-reason" placeholder="Ex: Amélioration du site web..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Annonce en haut du site (Bannière)</label>
+                        <input type="text" id="admin-banner-text" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                    </div>
+
+                    <!-- URL DU LECTEUR AUDIO (HTTPS) -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">URL du Lecteur Audio / Flux (HTTPS)</label>
+                        <input type="text" id="admin-audio-url" placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500 font-mono">
+                    </div>
+
+                    <button onclick="saveAdminSettings()" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg cursor-pointer">Sauvegarder les réglages</button>
+                </div>
             </div>
-            <p class="text-xs text-slate-400">Candidatures envoyées par les membres.</p>
-            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
-                <p class="text-xs text-slate-500">Aucune candidature reçue.</p>
-            </div>
-            <button onclick="clearApplications()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all cursor-pointer">Effacer les candidatures</button>
         </div>
 
-        <!-- 3. TICKETS D'ASSISTANCE SUPPORT (Option avancée d'origine) -->
-        <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
-            <div class="flex items-center justify-between">
-                <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
-                    <span>🎫</span> Tickets d'assistance support
-                </h3>
-                <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
-            </div>
-            <p class="text-xs text-slate-400">Gestion des demandes d'aide de la communauté.</p>
-            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
-                <p class="text-xs text-slate-500">Aucun ticket pour le moment.</p>
+        <!-- ONGLET 2 : CANDIDATURES STAFF -->
+        <div id="tab-content-applications" class="admin-tab-content hidden space-y-4">
+            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                        <span>📝</span> Candidatures Staff
+                    </h3>
+                    <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
+                </div>
+                <p class="text-xs text-slate-400">Candidatures envoyées par les membres.</p>
+                <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
+                    <p class="text-xs text-slate-500">Aucune candidature reçue.</p>
+                </div>
+                <button onclick="clearApplications()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all cursor-pointer">Effacer les candidatures</button>
             </div>
         </div>
+
+        <!-- ONGLET 3 : TICKETS D'ASSISTANCE SUPPORT -->
+        <div id="tab-content-tickets" class="admin-tab-content hidden space-y-4">
+            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                        <span>🎫</span> Tickets d'assistance support
+                    </h3>
+                    <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
+                </div>
+                <p class="text-xs text-slate-400">Gestion des demandes d'aide de la communauté.</p>
+                <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
+                    <p class="text-xs text-slate-500">Aucun ticket pour le moment.</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- MODALE DE CONNEXION CLASSIQUE (STAFF) -->
@@ -333,6 +348,22 @@
             loadSettingsToUI();
             checkAccessState();
             showToast("Réglages sauvegardés avec succès ! ⚡");
+        }
+
+        // Gestion du système d'onglets du Panel Admin
+        function switchTab(tabName) {
+            const tabs = ['control', 'applications', 'tickets'];
+            tabs.forEach(t => {
+                const content = document.getElementById(`tab-content-${t}`);
+                const btn = document.getElementById(`tab-btn-${t}`);
+                if (t === tabName) {
+                    content.classList.remove('hidden');
+                    btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-pink-600 text-white shadow-lg whitespace-nowrap";
+                } else {
+                    content.classList.add('hidden');
+                    btn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-extrabold uppercase transition-all cursor-pointer bg-slate-900 text-slate-400 hover:text-white whitespace-nowrap";
+                }
+            });
         }
 
         function bypassMaintenanceWithPass(e) {
