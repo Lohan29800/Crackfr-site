@@ -99,7 +99,7 @@
     <!-- ========================================== -->
     <!-- PANEL DE MAINTENANCE & CONNEXION STAFF     -->
     <!-- ========================================== -->
-    <div id="maintenance-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 pointer-events-auto" style="display: none;">
+    <div id="maintenance-overlay" class="fixed inset-0 z-50 items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 pointer-events-auto" style="display: none;">
         
         <!-- ARRIÈRE-PLAN LUMINEUX AMBIANT -->
         <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -191,12 +191,17 @@
 
         function openMaintenancePanel() {
             const overlay = document.getElementById("maintenance-overlay");
-            if (overlay) overlay.style.display = "flex";
+            if (overlay) {
+                overlay.style.display = "flex"; // Force l'affichage en flex
+                overlay.style.opacity = "1";
+            }
         }
 
         function closeMaintenancePanel() {
             const overlay = document.getElementById("maintenance-overlay");
-            if (overlay) overlay.style.display = "none";
+            if (overlay) {
+                overlay.style.display = "none";
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -222,7 +227,7 @@
                     if (val === CORRECT_PASS) {
                         msg.className = "text-[11px] font-bold text-emerald-400 text-center h-4";
                         msg.innerText = "Accès autorisé ! Redirection...";
-                        sessionStorage.setItem("site_unlocked", "true"); // Correction de la parenthèse ici
+                        sessionStorage.setItem("site_unlocked", "true");
                         setTimeout(() => {
                             overlay.style.opacity = "0";
                             setTimeout(() => {
