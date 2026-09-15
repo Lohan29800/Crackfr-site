@@ -42,7 +42,7 @@
                 <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
                 <a href="#serveurs" class="hover:text-pink-400 transition-colors">Serveurs</a>
                 <a href="#communaute" class="hover:text-pink-400 transition-colors">Communauté</a>
-                <!-- Bouton Staff qui ouvre directement le Panel -->
+                <!-- Bouton Staff qui appelle directement la fonction globale -->
                 <button type="button" onclick="openMaintenancePanel()" class="hover:text-pink-400 transition-colors cursor-pointer">Staff</button>
             </nav>
             <div>
@@ -189,11 +189,11 @@
         const MAINTENANCE_ACTIVE = true;
         const CORRECT_PASS = "crackfr2026";
 
+        // Déclaration globale pour qu'elles soient accessibles direct via les onclick HTML
         function openMaintenancePanel() {
             const overlay = document.getElementById("maintenance-overlay");
             if (overlay) {
-                overlay.style.display = "flex"; // Force l'affichage en flex
-                overlay.style.opacity = "1";
+                overlay.style.display = "flex";
             }
         }
 
@@ -229,11 +229,7 @@
                         msg.innerText = "Accès autorisé ! Redirection...";
                         sessionStorage.setItem("site_unlocked", "true");
                         setTimeout(() => {
-                            overlay.style.opacity = "0";
-                            setTimeout(() => {
-                                overlay.style.display = "none";
-                                overlay.style.opacity = "1";
-                            }, 500);
+                            overlay.style.display = "none";
                         }, 800);
                     } else {
                         msg.className = "text-[11px] font-bold text-pink-400 text-center h-4";
