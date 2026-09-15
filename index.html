@@ -1,246 +1,25 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR — Portail Gaming & Communauté</title>
+    <title>CrackFR - Portail Gaming</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#db2777', 600: '#be185d' }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white relative overflow-x-hidden">
-
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-pink-600/10 rounded-full blur-[140px] pointer-events-none"></div>
-    <div class="absolute top-1/3 right-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-
-    <!-- NOTIFICATION TOAST CONTAINER -->
-    <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
-
-    <!-- BANNIÈRE D'ANNONCE -->
-    <div id="banner-container" class="hidden bg-pink-600/20 border-b border-pink-500/30 px-4 py-2.5 text-center text-xs font-bold text-pink-300 relative z-20 flex items-center justify-center gap-2">
-        <span>📢</span> <span id="banner-text"></span>
-    </div>
-
-    <div class="max-w-4xl mx-auto w-full p-4 sm:p-6 space-y-8 relative z-10">
-        
-        <!-- Header -->
-        <header class="flex justify-between items-center bg-slate-900/80 backdrop-blur-md p-4 sm:px-6 rounded-2xl border border-slate-800/80 shadow-xl">
-            <div class="flex items-center gap-2.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse shadow-lg shadow-pink-500/50"></span>
-                <h1 class="text-xs sm:text-sm font-black uppercase tracking-wider text-white">Crack<span class="text-pink-500">FR</span></h1>
-            </div>
-            <div class="flex items-center gap-3">
-                <div id="live-status-badge" class="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-slate-950/60 border border-slate-800 rounded-xl text-[10px] font-bold text-slate-300">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span id="header-players-txt">Joueurs : 42 / 64</span>
-                </div>
-                <div id="live-clock" class="hidden md:block px-3 py-1 bg-slate-950/60 border border-slate-800 rounded-xl text-[10px] font-mono text-pink-400 font-bold">00:00:00</div>
-                <a href="login.html" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-extrabold rounded-xl transition-all border border-slate-700/50">
-                    Staff Panel ⚡
-                </a>
-            </div>
-        </header>
-
-        <!-- Hero Section -->
-        <section class="text-center space-y-4 py-6 sm:py-10">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-600/10 border border-pink-500/20 text-pink-400 text-xs font-bold shadow-inner">
-                <span>🔥</span> La Communauté Gaming & RP
-            </div>
-            <h2 class="text-2xl sm:text-4xl font-black uppercase tracking-wider text-white">
-                Bienvenue sur <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">CrackFR</span>
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">
-                Rejoins nos serveurs de jeux, profite de nos espaces communautaires, consulte nos règles et postule ou ouvre un ticket !
-            </p>
-            <div class="flex flex-wrap justify-center items-center gap-3 pt-2">
-                <a href="https://discord.gg/crackfr" target="_blank" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/25 flex items-center gap-2">
-                    <span>💬</span> Rejoindre le Discord <span id="stat-members-badge" class="bg-indigo-950 px-2 py-0.5 rounded-md text-[10px]">1.2K+</span>
-                </a>
-                <button onclick="addLike()" class="px-4 py-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-pink-400 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg cursor-pointer">
-                    <span>❤️</span> <span id="like-counter">142</span> Kiffs
-                </button>
-            </div>
-        </section>
-
-        <!-- STATUT DES SERVEURS & COPIE D'IP RAPIDE -->
-        <section class="space-y-4">
-            <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                <span>🟢</span> État des Serveurs en Direct
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div class="bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-slate-800/80 flex items-center justify-between shadow-xl">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 text-xs">🚗</div>
-                        <div>
-                            <h4 class="text-xs font-bold text-white">Paris Nation RP</h4>
-                            <p class="text-[10px] text-emerald-400 font-medium">● En ligne (18ms)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="copyServerIP('connect play.crackfr.fr')" class="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg text-[10px] font-extrabold text-pink-400 transition-all cursor-pointer" title="Copier l'IP">📋 IP</button>
-                        <span class="px-2.5 py-1 bg-slate-950 border border-slate-800 rounded-lg text-[10px] font-bold text-slate-300">42 / 64</span>
-                    </div>
-                </div>
-                <div class="bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-slate-800/80 flex items-center justify-between shadow-xl">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-purple-600/10 border border-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 text-xs">⛏️</div>
-                        <div>
-                            <h4 class="text-xs font-bold text-white">Minecraft Survie</h4>
-                            <p class="text-[10px] text-emerald-400 font-medium">● En ligne (12ms)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="copyServerIP('play.crackfr.fr')" class="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-lg text-[10px] font-extrabold text-purple-400 transition-all cursor-pointer" title="Copier l'IP">📋 IP</button>
-                        <span class="px-2.5 py-1 bg-slate-950 border border-slate-800 rounded-lg text-[10px] font-bold text-slate-300">14 / 50</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- UNIVERS DE JEU -->
-        <section class="space-y-4">
-            <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                <span>🎮</span> Nos Univers de Jeu
-            </h3>
-            <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
-        </section>
-
-        <!-- ONGLETS DE NAVIGATION INTERNE (RÈGLEMENT / CANDIDATURES / TICKETS) -->
-        <div class="flex flex-wrap justify-center gap-2 pt-2">
-            <button onclick="switchTab('rules')" id="btn-tab-rules" class="px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer">📜 Règlement</button>
-            <button onclick="switchTab('apply')" id="btn-tab-apply" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer">📝 Staff</button>
-            <button onclick="switchTab('tickets')" id="btn-tab-tickets" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer">🎫 Support</button>
-        </div>
-
-        <!-- CONTENU : RÈGLEMENT -->
-        <section id="tab-content-rules" class="bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-            <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                <span>⚖️</span> Règles Officielles du Serveur
-            </h3>
-            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
-                <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-1">
-                    <h4 class="font-bold text-white">1. Le Powergaming (PG)</h4>
-                    <p class="text-slate-400">Forcer des actions impossibles en réalité ou ignorer ses blessures après un accident.</p>
-                </div>
-                <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-1">
-                    <h4 class="font-bold text-white">2. Le Metagaming (MG)</h4>
-                    <p class="text-slate-400">Utiliser des informations obtenues hors jeu (Discord, Stream) pour son personnage en jeu.</p>
-                </div>
-                <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-1">
-                    <h4 class="font-bold text-white">3. Le Fear Roleplay (Value of Life)</h4>
-                    <p class="text-slate-400">Tu dois impérativement simuler la peur de la mort lorsque ton personnage est menacé par une arme.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTENU : CANDIDATURES -->
-        <section id="tab-content-apply" class="hidden bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-            <div class="space-y-1">
-                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>📝</span> Candidature Staff (Helper / Modérateur)
-                </h3>
-                <p class="text-xs text-slate-400">Remplis ce formulaire pour soumettre ta candidature directement au panneau admin.</p>
-            </div>
-
-            <form onsubmit="submitApplication(event)" class="space-y-3">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input type="text" id="app-name" placeholder="Ton Pseudo / Discord..." required class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <input type="number" id="app-age" placeholder="Ton Âge..." required min="13" max="99" class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                </div>
-                <select id="app-role" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <option value="Helper / Support">Helper / Support (Niveau 1)</option>
-                    <option value="Modérateur Test">Modérateur Test (Niveau 1-2)</option>
-                    <option value="Animateur">Animateur Événementiel</option>
-                </select>
-                <textarea id="app-motivations" rows="3" placeholder="Pourquoi souhaites-tu rejoindre l'équipe ? Tes motivations..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
-                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg">Envoyer ma candidature</button>
-            </form>
-        </section>
-
-        <!-- CONTENU : TICKETS D'ASSISTANCE -->
-        <section id="tab-content-tickets" class="hidden bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-            <div class="space-y-1">
-                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    <span>🎫</span> Créer un Ticket d'Assistance
-                </h3>
-                <p class="text-xs text-slate-400">Besoin d'aide, d'un unban ou de contacter l'administration ? Ouvre un ticket.</p>
-            </div>
-
-            <form onsubmit="submitTicket(event)" class="space-y-3">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input type="text" id="ticket-name" placeholder="Ton Pseudo / Discord..." required class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <select id="ticket-category" class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <option value="Aide / Question Générale">Aide / Question Générale</option>
-                        <option value="Problème en Jeu / Bug">Problème en Jeu / Bug</option>
-                        <option value="Demande de Déban / Sanction">Demande de Déban / Sanction</option>
-                        <option value="Partenariat">Partenariat</option>
-                    </select>
-                </div>
-                <textarea id="ticket-msg" rows="3" placeholder="Explique ton problème ou ta demande en détail..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
-                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg">Envoyer le ticket</button>
-            </form>
-        </section>
-
-        <!-- SECTION COMMUNAUTAIRE : CHAT & SONDAGE -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            
-            <!-- CHAT EN DIRECT -->
-            <section class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                        <span>💬</span> Chat Global Communautaire
-                    </h3>
-                    <p class="text-[10px] text-slate-400">Discute en direct avec les autres membres connectés.</p>
-                </div>
-                
-                <div id="chat-messages" class="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-3 h-48 overflow-y-auto space-y-2.5 text-xs"></div>
-
-                <form onsubmit="sendChatMessage(event)" class="space-y-2">
-                    <input type="text" id="chat-user" placeholder="Ton pseudo..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                    <div class="flex gap-2">
-                        <input type="text" id="chat-text" placeholder="Ton message..." required class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <button type="submit" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs rounded-xl transition-all cursor-pointer shadow-lg">Envoyer</button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- SONDAGE ACTIF -->
-            <section class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl flex flex-col justify-between">
-                <div class="space-y-1">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                        <span>📊</span> Sondage de la Semaine
-                    </h3>
-                    <p id="poll-question" class="text-xs font-bold text-white pt-1">Chargement du sondage...</p>
-                </div>
-
-                <div id="poll-options" class="space-y-2.5"></div>
-
-                <div class="text-center pt-2">
-                    <span id="poll-total-votes" class="text-[10px] text-slate-500 font-mono">0 votes au total</span>
-                </div>
-            </section>
-
-        </div>
-
-        <!-- NEWS -->
-        <section class="space-y-4">
-            <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                <span>📰</span> Dernières Actualités
-            </h3>
-            <div id="news-container" class="space-y-3"></div>
-        </section>
-
-        <!-- PLAYER AUDIO -->
-        <div class="bg-slate-900/80 backdrop-blur-xl p-4 rounded-2xl border border-slate-800/80 flex items-center justify-between shadow-xl">
-            <div class="flex items-center gap-3 truncate pr-2">
-                <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 text-sm shrink-0">🎵</div>
-                <div class="truncate">
-                    <h4 class="text-xs font-bold text-white truncate" id="current-track-name">Chargement...</h4>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Ambiance Chill</p>
-                </div>
-            </div>
-            <audio id="audio-player" controls class="h-9 max-w-[200px] sm:max-w-xs w-full accent-pink-600"></audio>
-        </div>
-
-    </div>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white">
 
     <!-- ÉCRAN DE MAINTENANCE -->
     <div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950/98 backdrop-blur-3xl z-50 flex items-center justify-center p-4 overflow-y-auto">
@@ -257,9 +36,14 @@
                         <h2 class="text-lg font-black uppercase tracking-wider text-white">Maintenance Générale</h2>
                     </div>
                 </div>
-                <button onclick="toggleMiniGame()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-pink-400 text-[10px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
-                    <span>🕹️</span> <span id="game-btn-txt">Mini-Jeu</span>
-                </button>
+                <div class="flex gap-2">
+                    <button onclick="toggleStaffLoginModal()" class="px-3 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-[10px] font-extrabold rounded-xl border border-pink-500/30 transition-all cursor-pointer flex items-center gap-1.5">
+                        <span>🔑</span> <span>Staff</span>
+                    </button>
+                    <button onclick="toggleMiniGame()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
+                        <span>🕹️</span> <span id="game-btn-txt">Jeu</span>
+                    </button>
+                </div>
             </div>
 
             <div id="main-maintenance-view" class="space-y-4">
@@ -268,6 +52,19 @@
                 </p>
             </div>
 
+            <!-- MODALE DE CONNEXION STAFF RAPIDE -->
+            <div id="staff-login-modal" class="hidden space-y-3 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                <div class="text-center space-y-1">
+                    <h3 class="text-xs font-black text-pink-400 uppercase">Accès Réservé au Staff</h3>
+                    <p class="text-[10px] text-slate-400">Entre le mot de passe admin pour contourner la maintenance.</p>
+                </div>
+                <form onsubmit="bypassMaintenanceWithPass(event)" class="space-y-2">
+                    <input type="password" id="staff-bypass-pass" placeholder="Mot de passe admin..." required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-center text-white focus:outline-none focus:border-pink-500 font-mono">
+                    <button type="submit" class="w-full py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all cursor-pointer shadow-lg">Se connecter & Entrer</button>
+                </form>
+            </div>
+
+            <!-- MINI-JEU -->
             <div id="mini-game-view" class="hidden space-y-4 bg-slate-950 p-4 rounded-2xl border border-slate-800">
                 <div class="text-center space-y-1">
                     <h3 class="text-xs font-black text-pink-400 uppercase">Mini-Jeu : Décryptage du Code</h3>
@@ -284,343 +81,343 @@
         </div>
     </div>
 
-    <footer class="w-full text-center py-6 text-[10px] tracking-widest text-slate-600 uppercase mt-12 relative z-10">
-        CrackFR Security System — 2026
+    <!-- BANNIÈRE D'ANNONCE EN HAUT DU SITE -->
+    <div id="global-banner" class="hidden bg-pink-600 text-white text-xs font-bold text-center py-2 px-4 shadow-md">
+        <span id="banner-text">Annonce importante</span>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-pink-600 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-pink-600/30">C</div>
+                <h1 class="font-black text-sm tracking-wider uppercase text-white">CrackFR</h1>
+            </div>
+            <div id="nav-actions">
+                <!-- Bouton de connexion staff ou Dashboard -->
+                <button onclick="openLoginModal()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold rounded-xl border border-slate-800 transition-all">Staff</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENU PRINCIPAL DU SITE -->
+    <main class="max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
+        
+        <!-- SECTION ACTUALITÉS -->
+        <section class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4 shadow-xl">
+            <h2 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                <span>📰</span> Dernières Actualités
+            </h2>
+            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 space-y-1">
+                <h3 class="text-xs font-bold text-white uppercase">Ouverture officielle de CrackFR !</h3>
+                <p class="text-xs text-slate-400">Bienvenue à tous sur notre nouveau portail gaming.</p>
+            </div>
+        </section>
+
+        <!-- LECTEUR AUDIO -->
+        <section class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4 shadow-xl">
+            <h2 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                <span>🎵</span> Ambiance Sonore
+            </h2>
+            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400">📻</div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Ambiance Stream</h4>
+                        <p id="audio-status-txt" class="text-[10px] text-slate-400">En pause</p>
+                    </div>
+                </div>
+                <button onclick="toggleAudioPlayback()" id="audio-play-btn" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg flex items-center gap-2">
+                    <span>▶</span> <span>Écouter</span>
+                </button>
+            </div>
+            <!-- Élément audio masqué (URL sécurisée HTTPS par défaut) -->
+            <audio id="main-audio-stream" preload="none"></audio>
+        </section>
+
+    </main>
+
+    <!-- PANNEAU D'ADMINISTRATION (DASHBOARD STAFF) -->
+    <div id="admin-dashboard" class="hidden max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
+        <div class="flex items-center justify-between bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h2 class="text-xs font-black uppercase tracking-wider text-white">Staff Dashboard</h2>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="closeAdminDashboard()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-all">Voir le site</button>
+                <button onclick="logoutStaff()" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-xs font-bold rounded-xl border border-pink-500/30 transition-all">Déconnexion</button>
+            </div>
+        </div>
+
+        <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-5 shadow-xl">
+            <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                <span>⚡</span> Contrôle du Portail
+            </h3>
+            
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">État du Serveur / Portail</label>
+                    <select id="admin-maint-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                        <option value="normal">En ligne (Normal)</option>
+                        <option value="maintenance">Mode Maintenance Actif</option>
+                    </select>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Raison de la maintenance</label>
+                    <input type="text" id="admin-maint-reason" placeholder="Ex: Amélioration du site web..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Annonce en haut du site (Bannière)</label>
+                    <input type="text" id="admin-banner-text" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
+                </div>
+
+                <!-- CONTRÔLE DU LECTEUR AUDIO (RETROUVÉ ET AJOUTÉ) -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">URL du Lecteur Audio / Flux (HTTPS)</label>
+                    <input type="text" id="admin-audio-url" placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500 font-mono">
+                </div>
+
+                <button onclick="saveAdminSettings()" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg cursor-pointer">Sauvegarder les réglages</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE DE CONNEXION CLASSIQUE (STAFF) -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="max-w-sm w-full bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4 shadow-2xl">
+            <h3 class="text-xs font-black uppercase text-pink-400 text-center">Connexion Staff</h3>
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-3">
+                <input type="password" id="login-password-input" placeholder="Mot de passe..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-center text-white focus:outline-none focus:border-pink-500 font-mono">
+                <div class="flex gap-2">
+                    <button type="submit" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl text-white transition-all">Valider</button>
+                    <button type="button" onclick="closeLoginModal()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all">Annuler</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-900 py-6 text-center text-slate-500 text-[11px]">
+        <p>&copy; 2026 CrackFR. Tous droits réservés.</p>
     </footer>
 
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-notification" class="hidden fixed bottom-5 right-5 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-2xl border border-slate-800 shadow-2xl z-50 transition-all"></div>
+
+    <!-- LOGIQUE JAVASCRIPT -->
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('bypass') === 'crackfr2026') localStorage.setItem('auth', '1');
+        // Paramètres par défaut
+        const DEFAULT_AUDIO_URL = "https://stream.zeno.fm/f3wvbb7538quv"; // Exemple de flux sécurisé HTTPS fonctionnel
 
-            const isMaintenance = localStorage.getItem('srv_status') === 'maintenance';
-            const isAdmin = localStorage.getItem('auth') === '1';
-
-            if(localStorage.getItem('maintenance_reason')) {
-                document.getElementById('display-maint-reason').innerText = localStorage.getItem('maintenance_reason');
-            }
-
-            if (isMaintenance && !isAdmin) {
-                document.getElementById('maintenance-screen').classList.remove('hidden');
-            }
-
-            if(localStorage.getItem('annonce')) {
-                document.getElementById('banner-text').innerText = localStorage.getItem('annonce');
-                document.getElementById('banner-container').classList.remove('hidden');
-            }
-            if(localStorage.getItem('srv_players')) document.getElementById('header-players-txt').innerText = "Joueurs : " + localStorage.getItem('srv_players');
-            
-            document.getElementById('like-counter').innerText = localStorage.getItem('page_likes') || '142';
-
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById('live-clock').innerText = now.toLocaleTimeString('fr-FR');
-            }, 1000);
-
-            loadGames();
-            loadNews();
-            loadPlaylist();
-            loadChat();
-            loadPoll();
-            showToast("Bienvenue sur CrackFR 🚀");
+        document.addEventListener("DOMContentLoaded", () => {
+            loadSettingsToUI();
+            checkAccessState();
         });
 
-        function showToast(msg) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = "bg-slate-900/95 border border-slate-700 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-bold flex items-center gap-2 animate-bounce pointer-events-auto";
-            toast.innerHTML = `<span class="w-2 h-2 rounded-full bg-pink-500"></span> ${msg}`;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+        // Charger et appliquer les configurations stockées
+        function getSettings() {
+            return {
+                status: localStorage.getItem('maint_status') || 'normal',
+                reason: localStorage.getItem('maint_reason') || 'Mise à jour majeure du portail et des serveurs de jeu en cours.',
+                banner: localStorage.getItem('maint_banner') || '',
+                audioUrl: localStorage.getItem('audio_url') || DEFAULT_AUDIO_URL,
+                auth: localStorage.getItem('auth') === '1'
+            };
         }
 
-        function copyServerIP(ip) {
-            navigator.clipboard.writeText(ip);
-            showToast("IP copiée dans le presse-papier ! 📋");
-        }
-
-        function addLike() {
-            let likes = parseInt(localStorage.getItem('page_likes') || '142') + 1;
-            localStorage.setItem('page_likes', likes);
-            document.getElementById('like-counter').innerText = likes;
-            showToast("Merci pour ton kiff ! ❤️");
-        }
-
-        function switchTab(tab) {
-            const rulesSec = document.getElementById('tab-content-rules');
-            const applySec = document.getElementById('tab-content-apply');
-            const ticketsSec = document.getElementById('tab-content-tickets');
+        function loadSettingsToUI() {
+            const config = getSettings();
             
-            const btnRules = document.getElementById('btn-tab-rules');
-            const btnApply = document.getElementById('btn-tab-apply');
-            const btnTickets = document.getElementById('btn-tab-tickets');
+            // Appliquer la bannière
+            const bannerEl = document.getElementById('global-banner');
+            const bannerTextEl = document.getElementById('banner-text');
+            if(config.banner.trim() !== '') {
+                bannerTextEl.innerText = config.banner;
+                bannerEl.classList.remove('hidden');
+            } else {
+                bannerEl.classList.add('hidden');
+            }
 
-            [btnRules, btnApply, btnTickets].forEach(b => {
-                b.className = "px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer";
-            });
-            
-            rulesSec.classList.add('hidden');
-            applySec.classList.add('hidden');
-            ticketsSec.classList.add('hidden');
+            // Configurer l'URL audio sur l'élément
+            const audioElem = document.getElementById('main-audio-stream');
+            audioElem.src = config.audioUrl;
 
-            if(tab === 'rules') {
-                rulesSec.classList.remove('hidden');
-                btnRules.className = "px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
-            } else if(tab === 'apply') {
-                applySec.classList.remove('hidden');
-                btnApply.className = "px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
-            } else if(tab === 'tickets') {
-                ticketsSec.classList.remove('hidden');
-                btnTickets.className = "px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
+            // Remplir les champs du dashboard admin
+            document.getElementById('admin-maint-status').value = config.status;
+            document.getElementById('admin-maint-reason').value = config.reason;
+            document.getElementById('admin-banner-text').value = config.banner;
+            document.getElementById('admin-audio-url').value = config.audioUrl;
+            document.getElementById('display-maint-reason').innerText = config.reason;
+        }
+
+        // Vérifier si la maintenance doit s'afficher
+        function checkAccessState() {
+            const config = getSettings();
+            const maintScreen = document.getElementById('maintenance-screen');
+            const adminDash = document.getElementById('admin-dashboard');
+            const mainContent = document.querySelector('main');
+
+            // Si mode maintenance actif et non connecté en tant que staff
+            if (config.status === 'maintenance' && !config.auth) {
+                maintScreen.classList.remove('hidden');
+                adminDash.classList.add('hidden');
+            } else if (config.auth) {
+                // Si connecté en staff
+                maintScreen.classList.add('hidden');
+                adminDash.classList.remove('hidden');
+                mainContent.classList.add('hidden');
+            } else {
+                // Mode normal
+                maintScreen.classList.add('hidden');
+                adminDash.classList.add('hidden');
+                mainContent.classList.remove('hidden');
             }
         }
 
-        function submitApplication(e) {
+        // Sauvegarde depuis le panel admin
+        function saveAdminSettings() {
+            const status = document.getElementById('admin-maint-status').value;
+            const reason = document.getElementById('admin-maint-reason').value;
+            const banner = document.getElementById('admin-banner-text').value;
+            const audioUrl = document.getElementById('admin-audio-url').value;
+
+            localStorage.setItem('maint_status', status);
+            localStorage.setItem('maint_reason', reason);
+            localStorage.setItem('maint_banner', banner);
+            localStorage.setItem('audio_url', audioUrl);
+
+            loadSettingsToUI();
+            checkAccessState();
+            showToast("Réglages sauvegardés avec succès ! ⚡");
+        }
+
+        // Connexion staff via mot de passe rapide (depuis la maintenance)
+        function bypassMaintenanceWithPass(e) {
             e.preventDefault();
-            let applications = JSON.parse(localStorage.getItem('staff_applications') || '[]');
-            applications.push({
-                name: document.getElementById('app-name').value,
-                age: document.getElementById('app-age').value,
-                role: document.getElementById('app-role').value,
-                motivations: document.getElementById('app-motivations').value,
-                date: new Date().toLocaleDateString('fr-FR')
-            });
-            localStorage.setItem('staff_applications', JSON.stringify(applications));
-            showToast("Candidature envoyée avec succès ! 🚀");
-            e.target.reset();
+            const pass = document.getElementById('staff-bypass-pass').value;
+            if(pass === 'crackfr2026') {
+                localStorage.setItem('auth', '1');
+                showToast("Accès staff autorisé ! Redirection... ⚡");
+                setTimeout(() => {
+                    location.reload();
+                }, 800);
+            } else {
+                showToast("Mot de passe incorrect ❌");
+            }
         }
 
-        function submitTicket(e) {
+        // Connexion standard via la modale du header
+        function handleLoginSubmit(e) {
             e.preventDefault();
-            let tickets = JSON.parse(localStorage.getItem('support_tickets') || '[]');
-            tickets.push({
-                name: document.getElementById('ticket-name').value,
-                category: document.getElementById('ticket-category').value,
-                message: document.getElementById('ticket-msg').value,
-                status: 'Ouvert',
-                date: new Date().toLocaleDateString('fr-FR')
-            });
-            localStorage.setItem('support_tickets', JSON.stringify(tickets));
-            showToast("Ticket créé avec succès ! Le staff va traiter ta demande 🎫");
-            e.target.reset();
+            const pass = document.getElementById('login-password-input').value;
+            if(pass === 'crackfr2026') {
+                localStorage.setItem('auth', '1');
+                closeLoginModal();
+                showToast("Bienvenue dans le Dashboard Staff ⚡");
+                setTimeout(() => {
+                    location.reload();
+                }, 800);
+            } else {
+                showToast("Mot de passe incorrect ❌");
+            }
         }
 
-        function sendChatMessage(e) {
-            e.preventDefault();
-            const user = document.getElementById('chat-user').value;
-            const text = document.getElementById('chat-text').value;
-            let chat = JSON.parse(localStorage.getItem('community_chat') || '[]');
-            chat.push({ user, text, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-            localStorage.setItem('community_chat', JSON.stringify(chat));
-            document.getElementById('chat-text').value = '';
-            loadChat();
+        function logoutStaff() {
+            localStorage.setItem('auth', '0');
+            showToast("Déconnexion réussie");
+            setTimeout(() => {
+                location.reload();
+            }, 800);
         }
 
-        function loadChat() {
-            const chat = JSON.parse(localStorage.getItem('community_chat') || JSON.stringify([
-                {user: "System", text: "Bienvenue sur le chat global CrackFR !", time: "12:00"}
-            ]));
-            let html = '';
-            chat.forEach(c => {
-                html += `<div class="space-y-0.5"><div class="flex items-center justify-between"><span class="font-bold text-pink-400">@${c.user}</span><span class="text-[9px] text-slate-500 font-mono">${c.time}</span></div><p class="text-slate-300 leading-relaxed">${c.text}</p></div>`;
-            });
-            const box = document.getElementById('chat-messages');
-            box.innerHTML = html;
-            box.scrollTop = box.scrollHeight;
+        // Gestion de l'affichage des modales
+        function toggleStaffLoginModal() {
+            const staffModal = document.getElementById('staff-login-modal');
+            const gameView = document.getElementById('mini-game-view');
+            gameView.classList.add('hidden');
+            staffModal.classList.toggle('hidden');
         }
 
-        function loadPoll() {
-            const poll = JSON.parse(localStorage.getItem('active_poll') || JSON.stringify({
-                question: "Quel type d'événement veux-tu ce week-end sur FiveM ?",
-                options: ["Course sauvage en ville", "Braquage de la grande banque", "Soirée Chill & Drift"]
-            }));
-            document.getElementById('poll-question').innerText = poll.question;
-
-            let votes = JSON.parse(localStorage.getItem('poll_votes') || '{}');
-            let totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
-            document.getElementById('poll-total-votes').innerText = totalVotes + " votes au total";
-
-            let html = '';
-            poll.options.forEach((opt, idx) => {
-                let optVotes = votes[idx] || 0;
-                let percent = totalVotes > 0 ? Math.round((optVotes / totalVotes) * 100) : 0;
-                html += `<button onclick="votePoll(${idx})" class="w-full bg-slate-950 border border-slate-800 hover:border-pink-500/50 p-3 rounded-2xl text-left space-y-1.5 transition-all cursor-pointer relative overflow-hidden group">
-                    <div class="absolute left-0 bottom-0 top-0 bg-pink-600/15 transition-all duration-500" style="width: ${percent}%;"></div>
-                    <div class="flex justify-between items-center relative z-10 text-xs font-bold text-white">
-                        <span>${opt}</span>
-                        <span class="text-pink-400 font-mono">${percent}%</span>
-                    </div>
-                </button>`;
-            });
-            document.getElementById('poll-options').innerHTML = html;
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
         }
 
-        function votePoll(idx) {
-            let votes = JSON.parse(localStorage.getItem('poll_votes') || '{}');
-            votes[idx] = (votes[idx] || 0) + 1;
-            localStorage.setItem('poll_votes', JSON.stringify(votes));
-            loadPoll();
-            showToast("Ton vote a été pris en compte ! 📊");
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
         }
 
+        function closeAdminDashboard() {
+            // Permet de voir le site en mode normal temporairement pour le staff
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.querySelector('main').classList.remove('hidden');
+        }
+
+        // Mini-jeu de décryptage
         let secretCode = Math.floor(Math.random() * 10) + 1;
         function toggleMiniGame() {
-            const mainView = document.getElementById('main-maintenance-view');
             const gameView = document.getElementById('mini-game-view');
-            const btnTxt = document.getElementById('game-btn-txt');
-            if(gameView.classList.contains('hidden')) {
-                gameView.classList.remove('hidden');
-                mainView.classList.add('hidden');
-                btnTxt.innerText = "Infos";
-            } else {
-                gameView.classList.add('hidden');
-                mainView.classList.remove('hidden');
-                btnTxt.innerText = "Mini-Jeu";
-            }
+            const staffModal = document.getElementById('staff-login-modal');
+            staffModal.classList.add('hidden');
+            gameView.classList.toggle('hidden');
         }
 
         function checkGameGuess() {
             const guess = parseInt(document.getElementById('guess-input').value);
             const feedback = document.getElementById('game-feedback');
+            if(isNaN(guess)) {
+                feedback.innerText = "Entre un chiffre valide !";
+                return;
+            }
             if(guess === secretCode) {
-                feedback.innerText = "🎉 Bravo ! Accès autorisé !";
-                setTimeout(() => window.location.href = "?bypass=crackfr2026", 1200);
+                feedback.innerText = "GG ! Code trouvé, simulation d'accès validée ! 🎉";
+                setTimeout(() => {
+                    localStorage.setItem('auth', '1');
+                    location.reload();
+                }, 1200);
             } else if(guess < secretCode) {
-                feedback.innerText = "📈 Plus haut !";
+                feedback.innerText = "C'est plus haut 📈";
             } else {
-                feedback.innerText = "📉 Plus bas !";
+                feedback.innerText = "C'est plus bas 📉";
             }
         }
 
-        function loadGames() {
-            const games = JSON.parse(localStorage.getItem('games') || JSON.stringify([
-                {emoji: "🚗", title: "GTA V / FiveM", desc: "Plonge dans notre univers Roleplay ou nos sessions chill."},
-                {emoji: "⛏️", title: "Minecraft Survie", desc: "Un serveur survie convivial pour exprimer ta créativité."},
-                {emoji: "🎮", title: "Roblox & Communauté", desc: "Des sessions découvertes et des tournois entre membres."}
-            ]));
-            let html = '';
-            games.forEach(g => {
-                html += `<div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-3 shadow-xl">
-                    <div class="w-10 h-10 bg-pink-600/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-base">${g.emoji}</div>
-                    <h4 class="text-xs font-black uppercase tracking-wider text-white">${g.title}</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">${g.desc}</p>
-                </div>`;
-            });
-            document.getElementById('games-grid').innerHTML = html;
-        }
+        // Gestion du Lecteur Audio (avec gestion des erreurs mobiles)
+        function toggleAudioPlayback() {
+            const audio = document.getElementById('main-audio-stream');
+            const statusTxt = document.getElementById('audio-status-txt');
+            const playBtn = document.getElementById('audio-play-btn');
 
-        function loadNews() {
-            const news = JSON.parse(localStorage.getItem('news') || JSON.stringify([
-                {title: "Ouverture officielle de CrackFR !", desc: "Bienvenue à tous sur notre nouveau portail gaming."}
-            ]));
-            let html = '';
-            news.forEach(n => {
-                html += `<div class="bg-slate-900/90 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-800/80 space-y-1.5 shadow-xl">
-                    <h4 class="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> ${n.title}</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed pl-3.5">${n.desc}</p>
-                </div>`;
-            });
-            document.getElementById('news-container').innerHTML = html;
-        }
-
-        function loadPlaylist() {
-            const playlist = JSON.parse(localStorage.getItem('playlist') || JSON.stringify([
-                {name: "Ambiance Pluie & Chill", src: "https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg"}
-            ]));
-            const track = playlist[0];
-            if(track) {
-                document.getElementById('current-track-name').innerText = track.name;
-                document.getElementById('audio-player').src = track.src;
+            if (audio.paused) {
+                audio.play().then(() => {
+                    statusTxt.innerText = "Lecture en cours...";
+                    statusTxt.className = "text-[10px] text-emerald-400 font-bold";
+                    playBtn.innerHTML = "<span>⏸</span> <span>Pause</span>";
+                }).catch(err => {
+                    console.error(err);
+                    statusTxt.innerText = "Erreur de lecture (Vérifie l'URL HTTPS)";
+                    statusTxt.className = "text-[10px] text-pink-500 font-bold";
+                    showToast("Erreur lecteur : Le flux bloque (HTTPS requis) ⚠️");
+                });
+            } else {
+                audio.pause();
+                statusTxt.innerText = "En pause";
+                statusTxt.className = "text-[10px] text-slate-400";
+                playBtn.innerHTML = "<span>▶</span> <span>Écouter</span>";
             }
+        }
+
+        // Système de Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.innerText = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
         }
     </script>
 </body>
 </html>
-
-<!-- ÉCRAN DE MAINTENANCE -->
-<div id="maintenance-screen" class="hidden fixed inset-0 bg-slate-950/98 backdrop-blur-3xl z-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div class="max-w-lg w-full bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6 shadow-2xl relative overflow-hidden my-auto">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600 animate-pulse"></div>
-        
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-xl shadow-inner animate-bounce">⚡</div>
-                <div>
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-600/10 border border-pink-500/20 text-pink-400 text-[9px] font-bold uppercase tracking-widest">
-                        <span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-ping"></span> Lockdown Actif
-                    </div>
-                    <h2 class="text-lg font-black uppercase tracking-wider text-white">Maintenance Générale</h2>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="toggleStaffLoginModal()" class="px-3 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-[10px] font-extrabold rounded-xl border border-pink-500/30 transition-all cursor-pointer flex items-center gap-1.5">
-                    <span>🔑</span> <span>Staff</span>
-                </button>
-                <button onclick="toggleMiniGame()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
-                    <span>🕹️</span> <span id="game-btn-txt">Jeu</span>
-                </button>
-            </div>
-        </div>
-
-        <div id="main-maintenance-view" class="space-y-4">
-            <p id="display-maint-reason" class="text-xs text-slate-400 leading-relaxed bg-slate-950/60 p-3 rounded-2xl border border-slate-800/80 text-center">
-                Mise à jour majeure du portail et des serveurs de jeu en cours.
-            </p>
-        </div>
-
-        <!-- MODALE DE CONNEXION STAFF RAPIDE -->
-        <div id="staff-login-modal" class="hidden space-y-3 bg-slate-950 p-4 rounded-2xl border border-slate-800">
-            <div class="text-center space-y-1">
-                <h3 class="text-xs font-black text-pink-400 uppercase">Accès Réservé au Staff</h3>
-                <p class="text-[10px] text-slate-400">Entre le mot de passe admin pour contourner la maintenance.</p>
-            </div>
-            <form onsubmit="bypassMaintenanceWithPass(event)" class="space-y-2">
-                <input type="password" id="staff-bypass-pass" placeholder="Mot de passe admin..." required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-center text-white focus:outline-none focus:border-pink-500 font-mono">
-                <button type="submit" class="w-full py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all cursor-pointer shadow-lg">Se connecter & Entrer</button>
-            </form>
-        </div>
-
-        <div id="mini-game-view" class="hidden space-y-4 bg-slate-950 p-4 rounded-2xl border border-slate-800">
-            <div class="text-center space-y-1">
-                <h3 class="text-xs font-black text-pink-400 uppercase">Mini-Jeu : Décryptage du Code</h3>
-                <p class="text-[10px] text-slate-400">Trouve le code entre 1 et 10 pour simuler un accès prioritaire !</p>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-center gap-2">
-                    <input type="number" id="guess-input" min="1" max="10" placeholder="?" class="w-20 text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-sm font-bold text-white focus:outline-none focus:border-pink-500">
-                    <button onclick="checkGameGuess()" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all">Tester</button>
-                </div>
-                <p id="game-feedback" class="text-center text-[11px] font-bold text-slate-300">Indice : Le code change à chaque essai.</p>
-            </div>
-        </div>
-    </div>
-</div>
-// Afficher / cacher le formulaire de connexion rapide staff depuis la maintenance
-function toggleStaffLoginModal() {
-    const staffModal = document.getElementById('staff-login-modal');
-    const gameView = document.getElementById('mini-game-view');
-    
-    // Fermer le mini-jeu si ouvert
-    gameView.classList.add('hidden');
-    
-    if(staffModal.classList.contains('hidden')) {
-        staffModal.classList.remove('hidden');
-    } else {
-        staffModal.classList.add('hidden');
-    }
-}
-
-// Valider le mot de passe staff directement depuis l'écran de maintenance
-function bypassMaintenanceWithPass(e) {
-    e.preventDefault();
-    const pass = document.getElementById('staff-bypass-pass').value;
-    if(pass === 'crackfr2026') {
-        localStorage.setItem('auth', '1');
-        showToast("Accès staff autorisé ! Redirection... ⚡");
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 1000);
-    } else {
-        showToast("Mot de passe incorrect ❌");
-    }
-}
