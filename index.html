@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrackFR - Portail Officiel & Maintenance</title>
     <style>
-        /* CSS pur ultra-rapide et sans aucun bug de CDN */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: #020005; color: #f8fafc; min-height: 100vh; scroll-behavior: smooth; }
         
@@ -35,19 +34,19 @@
         .card h3 { font-size: 1rem; font-weight: bold; color: #fff; margin: 0.75rem 0 0.5rem 0; }
         .card p { font-size: 0.75rem; color: #94a3b8; }
 
-        /* MAGIE CSS : S'ouvre instantanément quand l'URL contient #maintenance-overlay */
+        /* PANEL GÉRÉ EN JS (Caché par défaut, affiché via la classe .show) */
         #maintenance-overlay {
             position: fixed;
             inset: 0;
             z-index: 50;
-            display: none; /* Caché par défaut */
+            display: none; 
             align-items: center;
             justify-content: center;
             padding: 1rem;
             background: rgba(2, 0, 5, 0.9);
             backdrop-filter: blur(12px);
         }
-        #maintenance-overlay:target {
+        #maintenance-overlay.show {
             display: flex !important;
         }
 
@@ -61,7 +60,7 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             position: relative;
         }
-        .close-btn { position: absolute; top: 1rem; right: 1rem; color: #94a3b8; text-decoration: none; font-weight: bold; font-size: 0.875rem; }
+        .close-btn { position: absolute; top: 1rem; right: 1rem; color: #94a3b8; background: none; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; }
         .close-btn:hover { color: #fff; }
 
         .modal-header { text-align: center; margin-bottom: 1.25rem; }
@@ -88,8 +87,8 @@
             <nav>
                 <a href="#accueil">Accueil</a>
                 <a href="#serveurs">Serveurs</a>
-                <!-- Clic direct sur le panel -->
-                <a href="#maintenance-overlay" class="active">Staff</a>
+                <!-- Bouton Staff piloté par JS -->
+                <a id="open-staff-btn" class="active">Staff</a>
             </nav>
             <div>
                 <a href="https://discord.gg" target="_blank" class="btn-discord">Discord</a>
@@ -126,7 +125,7 @@
     <!-- PANEL STAFF -->
     <div id="maintenance-overlay">
         <div class="modal">
-            <a href="#" class="close-btn">✕</a>
+            <button type="button" id="close-staff-btn" class="close-btn">✕</button>
             <div class="modal-header">
                 <div class="modal-icon">🛡️</div>
                 <h2>Panel Staff</h2>
@@ -142,8 +141,36 @@
 
     <script>
         const CORRECT_PASS = "crackfr2026";
-
+        const overlay = document.getElementById("maintenance-overlay");
+        const openBtn = document.getElementById("open-staff-btn");
+        const closeBtn = document.getElementById("close-staff-btn");
         const staffForm = document.getElementById("staff-form");
+
+        // Ouvrir le panel au clic sur Staff
+        if (openBtn) {
+            openBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                overlay.classList.add("show");
+            });
+        }
+
+        // Fermer le panel au clic sur la croix
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                overlay.classList.remove("show");
+            });
+        }
+
+        // Fermer aussi si on clique en dehors de la modale (sur le fond noir)
+        if (overlay) {
+            overlay.addEventListener("click", (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove("show");
+                }
+            });
+        }
+
+        // Validation du mot de passe
         if (staffForm) {
             staffForm.addEventListener("submit", (e) => {
                 e.preventDefault();
@@ -154,7 +181,9 @@
                     msg.style.color = "#34d399";
                     msg.innerText = "Accès autorisé ! Fermeture...";
                     setTimeout(() => {
-                        window.location.hash = "#";
+                        overlay.classList.remove("show");
+                        document.getElementById("staff-password").value = "";
+                        msg.innerText = "";
                     }, 800);
                 } else {
                     msg.style.color = "#f472b6";
