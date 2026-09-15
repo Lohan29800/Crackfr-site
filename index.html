@@ -42,7 +42,8 @@
                 <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
                 <a href="#serveurs" class="hover:text-pink-400 transition-colors">Serveurs</a>
                 <a href="#communaute" class="hover:text-pink-400 transition-colors">Communauté</a>
-                <a href="#staff" class="hover:text-pink-400 transition-colors">Staff</a>
+                <!-- Bouton Staff qui ouvre directement le Panel -->
+                <button type="button" onclick="openMaintenancePanel()" class="hover:text-pink-400 transition-colors cursor-pointer">Staff</button>
             </nav>
             <div>
                 <a href="https://discord.gg" target="_blank" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-xs font-bold rounded-xl text-white transition-all shadow-lg shadow-indigo-600/20">
@@ -92,17 +93,11 @@
             <p class="text-xs text-slate-400 max-w-lg mx-auto">Discute avec les membres, participe aux événements et obtiens de l'aide directement sur notre serveur Discord.</p>
             <a href="https://discord.gg" target="_blank" class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-xs font-bold rounded-xl text-white transition-all shadow-lg shadow-indigo-600/20">Rejoindre le Discord</a>
         </div>
-
-        <!-- SECTION STAFF -->
-        <div id="staff" class="bg-slate-900/40 border border-slate-800 p-8 rounded-3xl space-y-4">
-            <h2 class="text-xl font-black uppercase tracking-wider text-white">Équipe Staff</h2>
-            <p class="text-xs text-slate-400">Une équipe passionnée et disponible pour assurer la sécurité et le bon fonctionnement de la plateforme.</p>
-        </div>
     </main>
 
 
     <!-- ========================================== -->
-    <!-- PANEL DE MAINTENANCE MODULAIRE INTÉGRÉ     -->
+    <!-- PANEL DE MAINTENANCE & CONNEXION STAFF     -->
     <!-- ========================================== -->
     <div id="maintenance-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 pointer-events-auto" style="display: none;">
         
@@ -115,6 +110,9 @@
         <!-- CONTENEUR PRINCIPAL DU PANEL -->
         <div class="max-w-xl w-full bg-slate-900/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-pink-500/40 shadow-2xl space-y-6 relative z-20 pointer-events-auto">
             
+            <!-- BOUTON FERMER LE PANEL (Visible si le site n'est pas en maintenance forcée) -->
+            <button type="button" onclick="closeMaintenancePanel()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold cursor-pointer">✕</button>
+
             <!-- BARRE DÉCORATIVE SUPÉRIEURE -->
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 rounded-t-3xl"></div>
 
@@ -124,11 +122,11 @@
                     🛡️
                 </div>
                 <div class="space-y-1">
-                    <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full">Système Verrouillé</span>
-                    <h1 class="text-2xl sm:text-3xl font-black uppercase tracking-wider text-white">Maintenance en Cours</h1>
+                    <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full">Portail Sécurisé</span>
+                    <h1 class="text-2xl sm:text-3xl font-black uppercase tracking-wider text-white">Panel Staff & Maintenance</h1>
                 </div>
                 <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed bg-slate-950/80 p-3.5 rounded-2xl border border-pink-500/20">
-                    Le portail fait peau neuve. Saisis ta clé d'accès staff ou valide le mini-jeu pour contourner la maintenance.
+                    Saisis ta clé d'accès staff ou valide le mini-jeu pour déverrouiller l'accès complet au site.
                 </p>
             </div>
 
@@ -191,6 +189,16 @@
         const MAINTENANCE_ACTIVE = true;
         const CORRECT_PASS = "crackfr2026";
 
+        function openMaintenancePanel() {
+            const overlay = document.getElementById("maintenance-overlay");
+            if (overlay) overlay.style.display = "flex";
+        }
+
+        function closeMaintenancePanel() {
+            const overlay = document.getElementById("maintenance-overlay");
+            if (overlay) overlay.style.display = "none";
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById("maintenance-overlay");
             if (!overlay) return;
@@ -214,11 +222,12 @@
                     if (val === CORRECT_PASS) {
                         msg.className = "text-[11px] font-bold text-emerald-400 text-center h-4";
                         msg.innerText = "Accès autorisé ! Redirection...";
-                        sessionStorage.setItem("site_unlocked", "true");
+                        sessionStorage.setItem("site_unlocked", "true";
                         setTimeout(() => {
                             overlay.style.opacity = "0";
                             setTimeout(() => {
                                 overlay.style.display = "none";
+                                overlay.style.opacity = "1";
                             }, 500);
                         }, 800);
                     } else {
