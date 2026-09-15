@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Neon Gaming Portal</title>
+    <title>CrackFR - Portal & Admin Hub</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -69,7 +69,6 @@
                 </p>
             </div>
 
-            <!-- FORMULAIRE DE CONNEXION -->
             <form onsubmit="bypassMaintenanceWithPass(event)" class="space-y-4">
                 <div class="space-y-1.5">
                     <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 px-1">Clé d'accès ou Mot de passe</label>
@@ -84,7 +83,6 @@
                 <span class="text-slate-500 font-mono text-[10px]">CrackFR 2026</span>
             </div>
 
-            <!-- MINI-JEU INTÉGRÉ -->
             <div id="mini-game-view" class="hidden space-y-3 bg-slate-950/90 p-4 rounded-2xl border border-cyan-500/30">
                 <h3 class="text-xs font-black text-cyan-400 uppercase tracking-widest text-center">Mini-Jeu : Décryptage</h3>
                 <div class="flex justify-center gap-2">
@@ -106,7 +104,7 @@
         <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-gradient-to-br from-pink-600 to-purple-600 rounded-2xl flex items-center justify-center font-black text-white shadow-neon-pink transform hover:rotate-6 transition-transform">C</div>
-                <h1 class="font-black text-sm tracking-widest uppercase text-white neon-glow-text">CrackFR</h1>
+                <h1 id="header-brand-title" class="font-black text-sm tracking-widest uppercase text-white neon-glow-text">CrackFR</h1>
             </div>
             <div id="nav-actions" class="flex gap-2">
                 <button onclick="openAdminDashboard()" class="px-4 py-2 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-xs font-extrabold rounded-xl border border-pink-500/40 transition-all cursor-pointer shadow-neon-pink">Admin Hub</button>
@@ -123,14 +121,80 @@
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button onclick="toggleNeonGlowEffects()" id="btn-effects" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-[11px] font-bold rounded-xl border border-pink-500/40 transition-all cursor-pointer shadow-neon-pink">✨ Effets : ON</button>
-                <button onclick="toggleZenMode()" id="btn-zen" class="px-3 py-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-[11px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer">🌿 Soins / Zen</button>
+                <button onclick="toggleZenMode()" id="btn-zen" class="px-3 py-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-[11px] font-bold rounded-xl border border-slate-700 transition-all cursor-pointer">🌿 Mode Zen</button>
                 <button onclick="togglePartyMode()" id="btn-party" class="px-3 py-1.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white text-[11px] font-extrabold rounded-xl transition-all cursor-pointer shadow-neon-pink">🎉 Mode Festif</button>
             </div>
         </div>
     </div>
 
-    <!-- CONTENU PRINCIPAL -->
+    <!-- CONTENU PRINCIPAL DE LA PAGE D'ACCUEIL -->
     <main class="max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full relative z-10">
+        
+        <!-- SECTION HERO / PRÉSENTATION -->
+        <section class="bg-gradient-to-br from-slate-900/80 via-slate-900/40 to-purple-950/30 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 space-y-4 shadow-xl text-center relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-pink-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full">Serveur Gaming Communautaire</span>
+            <h2 id="hero-main-title" class="text-2xl sm:text-3xl font-black uppercase tracking-wider text-white neon-glow-text">Bienvenue sur CrackFR</h2>
+            <p id="hero-sub-title" class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+                Plonge dans l'univers de notre serveur FiveM et de notre communauté gaming. Rejoins-nous pour vivre des expériences inoubliables !
+            </p>
+            <div class="flex flex-wrap justify-center gap-3 pt-2">
+                <a href="https://discord.gg" target="_blank" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-xs font-extrabold rounded-xl text-white shadow-lg transition-all">Rejoindre le Discord 💬</a>
+                <a href="#servers-section" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-xs font-extrabold rounded-xl text-slate-200 transition-all">Nos Serveurs 🎮</a>
+            </div>
+        </section>
+
+        <!-- STATS DU SERVEUR EN DIRECT -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-5 rounded-2xl flex items-center gap-4 shadow-lg">
+                <div class="w-12 h-12 bg-pink-500/10 border border-pink-500/30 rounded-xl flex items-center justify-center text-pink-400 text-lg">👥</div>
+                <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Membres Discord</span>
+                    <p class="text-lg font-black text-white">1,250+</p>
+                </div>
+            </div>
+            <div class="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-5 rounded-2xl flex items-center gap-4 shadow-lg">
+                <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center text-cyan-400 text-lg">🚗</div>
+                <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Statut FiveM</span>
+                    <p class="text-lg font-black text-emerald-400">En Ligne 🟢</p>
+                </div>
+            </div>
+            <div class="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-5 rounded-2xl flex items-center gap-4 shadow-lg">
+                <div class="w-12 h-12 bg-purple-500/10 border border-purple-500/30 rounded-xl flex items-center justify-center text-purple-400 text-lg">⭐</div>
+                <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Note Communauté</span>
+                    <p class="text-lg font-black text-purple-400">4.9 / 5</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION SERVEURS -->
+        <div id="servers-section" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-slate-900/40 backdrop-blur-xl border border-pink-500/20 hover:border-pink-500/40 rounded-3xl p-6 space-y-4 shadow-xl transition-all">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2"><span>⚡</span> Paris Nation RP</h3>
+                    <span class="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold rounded-full">Actif</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">Serveur GTA V FiveM Serious RP. Économie réaliste, illégal immersif, staff à l'écoute et optimisations maximales.</p>
+                <div class="pt-2">
+                    <a href="fivem://connect/localhost:30120" class="block w-full py-2.5 bg-pink-600/20 hover:bg-pink-600/40 text-pink-300 text-center text-xs font-bold rounded-xl border border-pink-500/40 transition-all">Connexion Directe 🚀</a>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/40 backdrop-blur-xl border border-purple-500/20 hover:border-purple-500/40 rounded-3xl p-6 space-y-4 shadow-xl transition-all">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-purple-400 flex items-center gap-2"><span>🎮</span> Le Repaire des Gamers</h3>
+                    <span class="px-2 py-0.5 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-bold rounded-full">Communauté</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">Hub multijeux pour se détendre, trouver des coéquipiers sur divers jeux et participer à nos tournois hebdomadaires.</p>
+                <div class="pt-2">
+                    <a href="https://discord.gg" target="_blank" class="block w-full py-2.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 text-center text-xs font-bold rounded-xl border border-purple-500/40 transition-all">Rejoindre le Hub 🌐</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- SONDAGE -->
         <section class="bg-slate-900/40 backdrop-blur-xl border border-pink-500/20 hover:border-pink-500/40 rounded-3xl p-6 space-y-4 shadow-xl transition-all">
             <h2 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2"><span>📊</span> Sondage de la semaine</h2>
             <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-3">
@@ -142,16 +206,17 @@
             </div>
         </section>
 
+        <!-- ACTUALITÉS -->
         <section class="bg-slate-900/40 backdrop-blur-xl border border-purple-500/20 hover:border-purple-500/40 rounded-3xl p-6 space-y-4 shadow-xl transition-all">
-            <h2 class="text-xs font-black uppercase tracking-widest text-purple-400 flex items-center gap-2"><span>📰</span> Actualités</h2>
+            <h2 class="text-xs font-black uppercase tracking-widest text-purple-400 flex items-center gap-2"><span>📰</span> Actualités & Mises à jour</h2>
             <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-1">
                 <h3 class="text-xs font-bold text-white uppercase tracking-wide">Ouverture officielle de CrackFR !</h3>
-                <p class="text-xs text-slate-400">Bienvenue à tous sur notre nouveau portail gaming survolté.</p>
+                <p class="text-xs text-slate-400">Bienvenue à tous sur notre nouveau portail gaming survolté. Profitez de toutes nos fonctionnalités intégrées.</p>
             </div>
         </section>
     </main>
 
-    <!-- PANEL ADMIN -->
+    <!-- PANEL ADMIN (TOUTES LES OPTIONS DE MODIFICATION) -->
     <div id="admin-dashboard" class="hidden max-w-4xl mx-auto px-4 py-8 space-y-6 flex-grow w-full relative z-10">
         
         <!-- HEADER DU PANEL -->
@@ -169,7 +234,7 @@
             </div>
         </div>
 
-        <!-- STATISTIQUES RAPIDES -->
+        <!-- STATISTIQUES RAPIDES DU PANEL -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 backdrop-blur-md space-y-1">
                 <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Visiteurs Actifs</span>
@@ -189,7 +254,7 @@
             </div>
         </div>
 
-        <!-- NAVIGATION DES ONGLETS -->
+        <!-- NAVIGATION DES ONGLETS ADMIN -->
         <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 bg-slate-900/50 p-1.5 rounded-2xl border border-pink-500/20 backdrop-blur-md">
             <button onclick="switchTab('control')" id="tab-btn-control" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-neon-pink text-center truncate">⚡ Portail</button>
             <button onclick="switchTab('access')" id="tab-btn-access" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🔑 Accès</button>
@@ -199,10 +264,10 @@
             <button onclick="switchTab('logs')" id="tab-btn-logs" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🛡️ Logs</button>
         </div>
 
-        <!-- ONGLET 1 : CONTRÔLE -->
+        <!-- ONGLET 1 : CONTRÔLE & PERSONNALISATION DU PORTAIL -->
         <div id="tab-content-control" class="admin-tab-content space-y-4">
             <div class="bg-slate-900/40 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-6 space-y-5 shadow-xl">
-                <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2"><span>⚡</span> Réglages Généraux du Portail</h3>
+                <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2"><span>⚡</span> Réglages Généraux & Textes du Site</h3>
                 
                 <div class="space-y-4">
                     <div class="space-y-2">
@@ -214,13 +279,29 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Raison de la maintenance</label>
+                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Raison de la maintenance / Verrouillage</label>
                         <input type="text" id="admin-maint-reason" placeholder="Ex: Amélioration du site web..." class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 transition-all">
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Annonce en haut du site (Bannière)</label>
                         <input type="text" id="admin-banner-text" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 transition-all">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Titre de la Marque (Header)</label>
+                            <input type="text" id="admin-brand-title" value="CrackFR" class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Titre Principal (Hero)</label>
+                            <input type="text" id="admin-hero-title" value="Bienvenue sur CrackFR" class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 transition-all">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Description Principale (Hero)</label>
+                        <textarea id="admin-hero-subtitle" rows="2" class="w-full bg-slate-950 border border-pink-500/30 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-400 transition-all">Plonge dans l'univers de notre serveur FiveM et de notre communauté gaming. Rejoins-nous pour vivre des expériences inoubliables !</textarea>
                     </div>
 
                     <button onclick="saveAdminSettings()" class="w-full py-3.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-neon-pink cursor-pointer uppercase tracking-wider">Sauvegarder les modifications ⚡</button>
@@ -266,7 +347,6 @@
                     <!-- Élément audio masqué -->
                     <audio id="bg-audio-player" loop></audio>
 
-                    <!-- Sélecteur de pistes -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
                         <button onclick="setTrack('Lo-Fi Chill', 'https://commondatastorage.googleapis.com/codeskulptor-demos/riceruns/music/menu-music.ogg')" class="p-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left text-[11px] text-slate-300 transition-all cursor-pointer truncate">
                             🎧 Lo-Fi Chill Beats
@@ -276,7 +356,6 @@
                         </button>
                     </div>
 
-                    <!-- Lien personnalisé -->
                     <div class="flex gap-2 pt-2">
                         <input type="text" id="custom-audio-url" placeholder="Lien direct MP3 (URL)..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none font-mono">
                         <button onclick="setCustomTrack()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-xs font-extrabold rounded-xl text-white shadow-neon-purple cursor-pointer">Charger</button>
@@ -327,7 +406,7 @@
 
     </div>
 
-    <!-- MODALE DE CONNEXION PRINCIPALE -->
+    <!-- MODALE DE CONNEXION -->
     <div id="login-modal" class="hidden fixed inset-0 bg-[#030008]/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="max-w-sm w-full bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-pink-500/40 space-y-4 shadow-neon-pink">
             <h3 class="text-xs font-black uppercase text-pink-400 text-center tracking-widest">Connexion Staff</h3>
@@ -366,17 +445,22 @@
                 status: localStorage.getItem('maint_status') || 'normal',
                 reason: localStorage.getItem('maint_reason') || 'Mise à jour majeure en cours.',
                 banner: localStorage.getItem('maint_banner') || '',
+                brandTitle: localStorage.getItem('brand_title') || 'CrackFR',
+                heroTitle: localStorage.getItem('hero_title') || 'Bienvenue sur CrackFR',
+                heroSub: localStorage.getItem('hero_sub') || "Plonge dans l'univers de notre serveur FiveM et de notre communauté gaming. Rejoins-nous pour vivre des expériences inoubliables !",
                 auth: localStorage.getItem('auth') === '1'
             };
             loadSettingsToUI();
         }
 
         function getSettings() {
-            return window.siteSettings || { status: 'normal', reason: 'Mise à jour majeure.', banner: '', auth: false };
+            return window.siteSettings;
         }
 
         function loadSettingsToUI() {
             const config = getSettings();
+            
+            // Bannière
             const bannerEl = document.getElementById('global-banner');
             const bannerTextEl = document.getElementById('banner-text');
             if(config.banner && config.banner.trim() !== '') {
@@ -386,9 +470,18 @@
                 bannerEl.classList.add('hidden');
             }
 
+            // Textes du site principal
+            document.getElementById('header-brand-title').innerText = config.brandTitle;
+            document.getElementById('hero-main-title').innerText = config.heroTitle;
+            document.getElementById('hero-sub-title').innerText = config.heroSub;
+
+            // Champs du Panel Admin
             document.getElementById('admin-maint-status').value = config.status;
             document.getElementById('admin-maint-reason').value = config.reason;
             document.getElementById('admin-banner-text').value = config.banner;
+            document.getElementById('admin-brand-title').value = config.brandTitle;
+            document.getElementById('admin-hero-title').value = config.heroTitle;
+            document.getElementById('admin-hero-subtitle').value = config.heroSub;
             document.getElementById('display-maint-reason').innerText = config.reason;
         }
 
@@ -524,14 +617,20 @@
             const status = document.getElementById('admin-maint-status').value;
             const reason = document.getElementById('admin-maint-reason').value;
             const banner = document.getElementById('admin-banner-text').value;
+            const brandTitle = document.getElementById('admin-brand-title').value;
+            const heroTitle = document.getElementById('admin-hero-title').value;
+            const heroSub = document.getElementById('admin-hero-subtitle').value;
 
             localStorage.setItem('maint_status', status);
             localStorage.setItem('maint_reason', reason);
             localStorage.setItem('maint_banner', banner);
+            localStorage.setItem('brand_title', brandTitle);
+            localStorage.setItem('hero_title', heroTitle);
+            localStorage.setItem('hero_sub', heroSub);
 
             loadSettingsFromStorage();
             checkAccessState();
-            addLog("Modification des paramètres généraux.");
+            addLog("Modification des paramètres généraux du site.");
             showToast("Réglages sauvegardés ! ⚡");
         }
 
