@@ -1,58 +1,37 @@
-Si le bouton ne déclenche toujours rien, c’est qu'il y a un blocage au niveau de l'interprétation du clic ou que le script est intercepté/bloqué quelque part dans ton environnement de test.
-Pour contourner complètement les problèmes de liaison JavaScript et de fonctions globales, on va transformer le bouton en un vrai lien direct ancré (href="#maintenance-open") et utiliser une approche purement CSS basée sur l'état :target ou une classe gérée sans ambiguïté, sans même avoir besoin de fonction JS pour l'ouverture.
-Voici la version ultime simplifiée et ultra-fiable :
 <!DOCTYPE html>
 <html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrackFR - Portail Officiel & Maintenance</title>
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS CDN Standard -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        neon: {
-                            pink: '#ff007f',
-                            purple: '#9333ea',
-                            cyan: '#06b6d4',
-                            green: '#10b981',
-                            gold: '#f59e0b'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        /* Gestion propre de l'affichage du panel */
-        #maintenance-overlay.active {
+        /* Affichage ultra-fiable via l'ancre URL */
+        #maintenance-overlay:target {
             display: flex !important;
         }
     </style>
 </head>
-<body class="bg-[#020005] text-slate-100 font-sans antialiased min-h-screen relative selection:bg-pink-600 selection:text-white scroll-smooth">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen relative selection:bg-pink-600 selection:text-white scroll-smooth">
 
     <!-- ========================================== -->
-    <!-- CONTENU PRINCIPAL DE TON SITE (INDEX.HTML) -->
+    <!-- ENTÊTE -->
     <!-- ========================================== -->
-    <header id="accueil" class="border-b border-slate-800 bg-slate-950/60 backdrop-blur-md sticky top-0 z-40">
+    <header id="accueil" class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-pink-600/20 border border-pink-500/40 flex items-center justify-center text-pink-400 font-black">
+                <div class="w-10 h-10 rounded-xl bg-pink-600/20 border border-pink-500/40 flex items-center justify-center text-pink-400 font-bold">
                     C
                 </div>
-                <span class="font-black text-lg tracking-wider text-white">Crack<span class="text-pink-500">FR</span></span>
+                <span class="font-bold text-lg tracking-wider text-white">Crack<span class="text-pink-500">FR</span></span>
             </div>
             <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-400">
                 <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
                 <a href="#serveurs" class="hover:text-pink-400 transition-colors">Serveurs</a>
                 <a href="#communaute" class="hover:text-pink-400 transition-colors">Communauté</a>
-                <!-- Bouton Staff transformé en lien déclencheur direct infaillible -->
-                <a href="#staff-panel" id="staff-btn" class="hover:text-pink-400 transition-colors cursor-pointer">Staff</a>
+                <!-- Clic direct sur le panel -->
+                <a href="#maintenance-overlay" class="hover:text-pink-400 transition-colors cursor-pointer text-pink-400 font-extrabold">Staff</a>
             </nav>
             <div>
                 <a href="https://discord.gg" target="_blank" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-xs font-bold rounded-xl text-white transition-all shadow-lg shadow-indigo-600/20">
@@ -64,10 +43,10 @@ Voici la version ultime simplifiée et ultra-fiable :
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
         <div class="text-center space-y-4 max-w-2xl mx-auto">
-            <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full">Plateforme Officielle</span>
+            <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-bold uppercase tracking-widest rounded-full">Plateforme Officielle</span>
             <h1 class="text-4xl sm:text-5xl font-black uppercase tracking-wide text-white">Bienvenue sur CrackFR</h1>
             <p class="text-sm text-slate-400 leading-relaxed">
-                Le hub de référence pour nos serveurs de jeu, nos projets web et notre communauté. Explore, partage et connecte-toi avec nous.
+                Le hub de référence pour nos serveurs de jeu, nos projets web et notre communauté.
             </p>
         </div>
 
@@ -81,235 +60,73 @@ Voici la version ultime simplifiée et ultra-fiable :
                 <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-3">
                     <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 font-bold">🚀</div>
                     <h3 class="font-bold text-white text-base">Serveur FiveM</h3>
-                    <p class="text-xs text-slate-400">Plonge dans notre univers roleplay optimisé avec des scripts exclusifs et un staff à l'écoute.</p>
+                    <p class="text-xs text-slate-400">Plonge dans notre univers roleplay optimisé avec des scripts exclusifs.</p>
                 </div>
                 <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-3">
                     <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">💻</div>
                     <h3 class="font-bold text-white text-base">Projets Web</h3>
-                    <p class="text-xs text-slate-400">Développement de dashboards administratifs, bots Discord sur-mesure et interfaces dynamiques.</p>
+                    <p class="text-xs text-slate-400">Développement de dashboards administratifs et bots Discord.</p>
                 </div>
                 <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-3">
                     <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold">💬</div>
-                    <h3 class="font-bold text-white text-base">Communauté Active</h3>
-                    <p class="text-xs text-slate-400">Rejoins des centaines de membres passionnés sur notre serveur Discord pour ne rien rater des nouveautés.</p>
+                    <h3 class="font-bold text-white text-base">Communauté</h3>
+                    <p class="text-xs text-slate-400">Rejoins des centaines de membres passionnés sur notre Discord.</p>
                 </div>
             </div>
-        </div>
-
-        <!-- SECTION COMMUNAUTÉ -->
-        <div id="communaute" class="bg-slate-900/40 border border-slate-800 p-8 rounded-3xl text-center space-y-4">
-            <h2 class="text-xl font-black uppercase tracking-wider text-white">Rejoins la Communauté</h2>
-            <p class="text-xs text-slate-400 max-w-lg mx-auto">Discute avec les membres, participe aux événements et obtiens de l'aide directement sur notre serveur Discord.</p>
-            <a href="https://discord.gg" target="_blank" class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-xs font-bold rounded-xl text-white transition-all shadow-lg shadow-indigo-600/20">Rejoindre le Discord</a>
         </div>
     </main>
 
-
     <!-- ========================================== -->
-    <!-- PANEL DE MAINTENANCE & CONNEXION STAFF     -->
+    <!-- PANEL DE MAINTENANCE (CACHÉ PAR DÉFAUT)    -->
     <!-- ========================================== -->
-    <div id="maintenance-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 pointer-events-auto">
+    <div id="maintenance-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
         
-        <!-- ARRIÈRE-PLAN LUMINEUX AMBIANT -->
-        <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
-            <div class="absolute -top-40 -left-40 w-96 h-96 bg-pink-600/20 rounded-full blur-[130px]"></div>
-            <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-[130px]"></div>
-        </div>
-
-        <!-- CONTENEUR PRINCIPAL DU PANEL -->
-        <div class="max-w-xl w-full bg-slate-900/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-pink-500/40 shadow-2xl space-y-6 relative z-20 pointer-events-auto">
+        <div class="max-w-md w-full bg-slate-900 p-6 rounded-3xl border border-pink-500/40 shadow-2xl space-y-6 relative">
             
-            <!-- BOUTON FERMER LE PANEL -->
-            <button type="button" id="close-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold cursor-pointer">✕</button>
+            <!-- BOUTON FERMER (Remet l'URL à vide) -->
+            <a href="#" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold">✕</a>
 
-            <!-- BARRE DÉCORATIVE SUPÉRIEURE -->
-            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 rounded-t-3xl"></div>
-
-            <!-- EN-TÊTE -->
-            <div class="text-center space-y-3">
-                <div class="w-14 h-14 bg-pink-500/10 border border-pink-500/40 rounded-2xl flex items-center justify-center text-pink-400 text-2xl mx-auto animate-bounce shadow-[0_0_20px_rgba(255,0,127,0.3)]">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-pink-500/10 border border-pink-500/40 rounded-2xl flex items-center justify-center text-pink-400 text-xl mx-auto">
                     🛡️
                 </div>
-                <div class="space-y-1">
-                    <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 text-[10px] font-black uppercase tracking-widest rounded-full">Portail Sécurisé</span>
-                    <h1 class="text-2xl sm:text-3xl font-black uppercase tracking-wider text-white">Panel Staff & Maintenance</h1>
-                </div>
-                <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed bg-slate-950/80 p-3.5 rounded-2xl border border-pink-500/20">
-                    Saisis ta clé d'accès staff ou valide le mini-jeu pour déverrouiller l'accès complet au site.
-                </p>
+                <h1 class="text-xl font-black uppercase tracking-wider text-white">Panel Staff & Maintenance</h1>
+                <p class="text-xs text-slate-400">Saisis ta clé d'accès staff pour déverrouiller le site.</p>
             </div>
 
-            <!-- COMPTE À REBOURS -->
-            <div class="grid grid-cols-4 gap-2 text-center">
-                <div class="bg-slate-950/90 border border-pink-500/30 p-2.5 rounded-2xl">
-                    <span id="m-hours" class="text-lg sm:text-xl font-black text-pink-400 font-mono">02</span>
-                    <span class="block text-[9px] uppercase tracking-wider text-slate-400 font-bold mt-0.5">Heures</span>
-                </div>
-                <div class="bg-slate-950/90 border border-pink-500/30 p-2.5 rounded-2xl">
-                    <span id="m-minutes" class="text-lg sm:text-xl font-black text-pink-400 font-mono">45</span>
-                    <span class="block text-[9px] uppercase tracking-wider text-slate-400 font-bold mt-0.5">Minutes</span>
-                </div>
-                <div class="bg-slate-950/90 border border-pink-500/30 p-2.5 rounded-2xl">
-                    <span id="m-seconds" class="text-lg sm:text-xl font-black text-pink-400 font-mono">30</span>
-                    <span class="block text-[9px] uppercase tracking-wider text-slate-400 font-bold mt-0.5">Secondes</span>
-                </div>
-                <div class="bg-slate-950/90 border border-purple-500/30 p-2.5 rounded-2xl">
-                    <span class="text-lg sm:text-xl font-black text-purple-400 font-mono">75%</span>
-                    <span class="block text-[9px] uppercase tracking-wider text-slate-400 font-bold mt-0.5">Statut</span>
-                </div>
-            </div>
-
-            <!-- CONNEXION STAFF PAR CLÉ -->
-            <div class="bg-slate-950/80 p-4 rounded-2xl border border-pink-500/30 space-y-2.5">
-                <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center justify-between">
-                    <span>🔑 Connexion Staff</span>
-                    <span class="text-[10px] text-slate-500 font-mono">Master Key</span>
-                </h3>
-                <form id="staff-form" class="flex gap-2">
-                    <input type="password" id="staff-password" placeholder="Entrer la clé..." required class="flex-1 bg-slate-900 border border-pink-500/30 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-pink-400 font-mono">
-                    <button type="submit" class="px-4 py-2.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-xs font-extrabold rounded-xl text-white cursor-pointer uppercase tracking-wider transition-all">Valider</button>
-                </form>
-                <p id="maintenance-msg" class="text-[11px] font-bold text-center h-4 text-slate-400"></p>
-            </div>
-
-            <!-- LIENS & MINI-JEU -->
-            <div class="flex flex-wrap items-center justify-between pt-1 border-t border-slate-800 text-xs">
-                <a href="https://discord.gg" target="_blank" class="text-indigo-400 hover:underline font-bold flex items-center gap-1">💬 Discord Staff</a>
-                <button type="button" id="toggle-game-btn" class="text-cyan-400 hover:underline font-bold cursor-pointer">🕹️ Mini-jeu d'accès</button>
-            </div>
-
-            <!-- MINI-JEU -->
-            <div id="game-box" class="hidden space-y-2.5 bg-slate-950 p-3.5 rounded-2xl border border-cyan-500/40">
-                <h4 class="text-xs font-black text-cyan-400 uppercase tracking-widest text-center">Devine le chiffre (1 à 5)</h4>
-                <div class="flex justify-center gap-2">
-                    <input type="number" id="game-input" min="1" max="5" placeholder="?" class="w-20 text-center bg-slate-900 border border-cyan-500/40 rounded-xl py-2 text-xs font-bold text-white focus:outline-none font-mono">
-                    <button type="button" id="game-submit-btn" class="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-xs font-extrabold rounded-xl text-white transition-all cursor-pointer">Tester</button>
-                </div>
-                <p id="game-msg" class="text-center text-[11px] font-bold text-slate-300">Tente ta chance !</p>
-            </div>
+            <!-- FORMULAIRE CLÉ -->
+            <form id="staff-form" class="space-y-3">
+                <input type="password" id="staff-password" placeholder="Entrer la clé..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                <button type="submit" class="w-full py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl text-white transition-all uppercase tracking-wider">Valider</button>
+            </form>
+            <p id="maintenance-msg" class="text-[11px] font-bold text-center h-4 text-slate-400"></p>
 
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SCRIPT DE CONTRÔLE ROBUSTE                 -->
-    <!-- ========================================== -->
+    <!-- SCRIPT SIMPLE DE VÉRIFICATION -->
     <script>
-        const MAINTENANCE_ACTIVE = true;
         const CORRECT_PASS = "crackfr2026";
 
-        function showPanel() {
-            const overlay = document.getElementById("maintenance-overlay");
-            if (overlay) overlay.classList.add("active");
+        const staffForm = document.getElementById("staff-form");
+        if (staffForm) {
+            staffForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const val = document.getElementById("staff-password").value.trim();
+                const msg = document.getElementById("maintenance-msg");
+
+                if (val === CORRECT_PASS) {
+                    msg.className = "text-[11px] font-bold text-emerald-400 text-center h-4";
+                    msg.innerText = "Accès autorisé ! Fermeture...";
+                    setTimeout(() => {
+                        window.location.hash = "#";
+                    }, 800);
+                } else {
+                    msg.className = "text-[11px] font-bold text-pink-400 text-center h-4";
+                    msg.innerText = "Clé incorrecte !";
+                }
+            });
         }
-
-        function hidePanel() {
-            const overlay = document.getElementById("maintenance-overlay");
-            if (overlay) overlay.classList.remove("active");
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const overlay = document.getElementById("maintenance-overlay");
-            const staffBtn = document.getElementById("staff-btn");
-            const closeBtn = document.getElementById("close-btn");
-
-            if (!overlay) return;
-
-            const isUnlocked = sessionStorage.getItem("site_unlocked") === "true";
-
-            // Affichage automatique au chargement si maintenance active et non déverrouillé
-            if (MAINTENANCE_ACTIVE && !isUnlocked) {
-                showPanel();
-            }
-
-            // Écouteur direct sur le lien Staff du menu (évite tout conflit de fonction globale)
-            if (staffBtn) {
-                staffBtn.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    showPanel();
-                });
-            }
-
-            // Écouteur sur la croix de fermeture
-            if (closeBtn) {
-                closeBtn.addEventListener("click", () => {
-                    hidePanel();
-                });
-            }
-
-            // Formulaire staff
-            const staffForm = document.getElementById("staff-form");
-            if (staffForm) {
-                staffForm.addEventListener("submit", (e) => {
-                    e.preventDefault();
-                    const val = document.getElementById("staff-password").value.trim();
-                    const msg = document.getElementById("maintenance-msg");
-
-                    if (val === CORRECT_PASS) {
-                        msg.className = "text-[11px] font-bold text-emerald-400 text-center h-4";
-                        msg.innerText = "Accès autorisé ! Redirection...";
-                        sessionStorage.setItem("site_unlocked", "true");
-                        setTimeout(() => {
-                            hidePanel();
-                        }, 800);
-                    } else {
-                        msg.className = "text-[11px] font-bold text-pink-400 text-center h-4";
-                        msg.innerText = "Clé incorrecte !";
-                    }
-                });
-            }
-
-            // Mini-jeu toggle
-            const toggleBtn = document.getElementById("toggle-game-btn");
-            if (toggleBtn) {
-                toggleBtn.addEventListener("click", () => {
-                    document.getElementById("game-box").classList.toggle("hidden");
-                });
-            }
-
-            // Mini-jeu validation
-            let targetNum = Math.floor(Math.random() * 5) + 1;
-            const gameSubmitBtn = document.getElementById("game-submit-btn");
-            if (gameSubmitBtn) {
-                gameSubmitBtn.addEventListener("click", () => {
-                    const guessInput = document.getElementById("game-input");
-                    const guess = parseInt(guessInput.value);
-                    const gMsg = document.getElementById("game-msg");
-
-                    if (isNaN(guess)) {
-                        gMsg.innerText = "Entre un chiffre valide ! ❌";
-                        return;
-                    }
-
-                    if (guess === targetNum) {
-                        gMsg.innerText = "🎉 Gagnant ! Déverrouillage...";
-                        sessionStorage.setItem("site_unlocked", "true");
-                        setTimeout(() => {
-                            hidePanel();
-                        }, 1000);
-                    } else {
-                        gMsg.innerText = guess < targetNum ? "C'est plus haut 📈" : "C'est plus bas 📉";
-                    }
-                });
-            }
-        });
-
-        // Compte à rebours
-        let tSecs = 7230;
-        setInterval(() => {
-            if (tSecs > 0) tSecs--;
-            let h = Math.floor(tSecs / 3600);
-            let m = Math.floor((tSecs % 3600) / 60);
-            let s = tSecs % 60;
-            const hEl = document.getElementById('m-hours');
-            const mEl = document.getElementById('m-minutes');
-            const sEl = document.getElementById('m-seconds');
-            if(hEl) hEl.innerText = String(h).padStart(2, '0');
-            if(mEl) mEl.innerText = String(m).padStart(2, '0');
-            if(sEl) sEl.innerText = String(s).padStart(2, '0');
-        }, 1000);
     </script>
 </body>
 </html>
-
-Teste ce code en effectuant un rafraîchissement forcé (Ctrl + F5 ou Cmd + Shift + R) : le clic sur le bouton "Staff" écoutera directement l'événement et affichera le panneau de manière infaillible.
