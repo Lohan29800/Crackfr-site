@@ -48,7 +48,7 @@
                 Bienvenue sur <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">CrackFR</span>
             </h2>
             <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">
-                Rejoins nos serveurs de jeux, profite de nos espaces communautaires, consulte nos règles et postule pour rejoindre l'équipe !
+                Rejoins nos serveurs de jeux, profite de nos espaces communautaires, consulte nos règles et postule ou ouvre un ticket !
             </p>
             <div class="flex flex-wrap justify-center items-center gap-3 pt-2">
                 <a href="https://discord.gg/crackfr" target="_blank" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/25 flex items-center gap-2">
@@ -103,10 +103,11 @@
             <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- ONGLET DE NAVIGATION INTERNE (RÈGLEMENT / CANDIDATURES) -->
-        <div class="flex justify-center gap-2 pt-2">
-            <button onclick="switchTab('rules')" id="btn-tab-rules" class="px-5 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer">📜 Règlement RP</button>
-            <button onclick="switchTab('apply')" id="btn-tab-apply" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer">📝 Postuler Staff</button>
+        <!-- ONGLETS DE NAVIGATION INTERNE (RÈGLEMENT / CANDIDATURES / TICKETS) -->
+        <div class="flex flex-wrap justify-center gap-2 pt-2">
+            <button onclick="switchTab('rules')" id="btn-tab-rules" class="px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer">📜 Règlement</button>
+            <button onclick="switchTab('apply')" id="btn-tab-apply" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer">📝 Staff</button>
+            <button onclick="switchTab('tickets')" id="btn-tab-tickets" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer">🎫 Support</button>
         </div>
 
         <!-- CONTENU : RÈGLEMENT -->
@@ -151,6 +152,30 @@
                 </select>
                 <textarea id="app-motivations" rows="3" placeholder="Pourquoi souhaites-tu rejoindre l'équipe ? Tes motivations..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
                 <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg">Envoyer ma candidature</button>
+            </form>
+        </section>
+
+        <!-- CONTENU : TICKETS D'ASSISTANCE -->
+        <section id="tab-content-tickets" class="hidden bg-slate-900/90 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+            <div class="space-y-1">
+                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    <span>🎫</span> Créer un Ticket d'Assistance
+                </h3>
+                <p class="text-xs text-slate-400">Besoin d'aide, d'un unban ou de contacter l'administration ? Ouvre un ticket.</p>
+            </div>
+
+            <form onsubmit="submitTicket(event)" class="space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input type="text" id="ticket-name" placeholder="Ton Pseudo / Discord..." required class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                    <select id="ticket-category" class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
+                        <option value="Aide / Question Générale">Aide / Question Générale</option>
+                        <option value="Problème en Jeu / Bug">Problème en Jeu / Bug</option>
+                        <option value="Demande de Déban / Sanction">Demande de Déban / Sanction</option>
+                        <option value="Partenariat">Partenariat</option>
+                    </select>
+                </div>
+                <textarea id="ticket-msg" rows="3" placeholder="Explique ton problème ou ta demande en détail..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
+                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg">Envoyer le ticket</button>
             </form>
         </section>
 
@@ -287,7 +312,6 @@
             
             document.getElementById('like-counter').innerText = localStorage.getItem('page_likes') || '142';
 
-            // Horloge en direct
             setInterval(() => {
                 const now = new Date();
                 document.getElementById('live-clock').innerText = now.toLocaleTimeString('fr-FR');
@@ -325,19 +349,29 @@
         function switchTab(tab) {
             const rulesSec = document.getElementById('tab-content-rules');
             const applySec = document.getElementById('tab-content-apply');
+            const ticketsSec = document.getElementById('tab-content-tickets');
+            
             const btnRules = document.getElementById('btn-tab-rules');
             const btnApply = document.getElementById('btn-tab-apply');
+            const btnTickets = document.getElementById('btn-tab-tickets');
+
+            [btnRules, btnApply, btnTickets].forEach(b => {
+                b.className = "px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer";
+            });
+            
+            rulesSec.classList.add('hidden');
+            applySec.classList.add('hidden');
+            ticketsSec.classList.add('hidden');
 
             if(tab === 'rules') {
                 rulesSec.classList.remove('hidden');
-                applySec.classList.add('hidden');
-                btnRules.className = "px-5 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
-                btnApply.className = "px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer";
-            } else {
+                btnRules.className = "px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
+            } else if(tab === 'apply') {
                 applySec.classList.remove('hidden');
-                rulesSec.classList.add('hidden');
-                btnApply.className = "px-5 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
-                btnRules.className = "px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer";
+                btnApply.className = "px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
+            } else if(tab === 'tickets') {
+                ticketsSec.classList.remove('hidden');
+                btnTickets.className = "px-4 py-2.5 bg-pink-600 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all shadow-lg cursor-pointer";
             }
         }
 
@@ -353,6 +387,21 @@
             });
             localStorage.setItem('staff_applications', JSON.stringify(applications));
             showToast("Candidature envoyée avec succès ! 🚀");
+            e.target.reset();
+        }
+
+        function submitTicket(e) {
+            e.preventDefault();
+            let tickets = JSON.parse(localStorage.getItem('support_tickets') || '[]');
+            tickets.push({
+                name: document.getElementById('ticket-name').value,
+                category: document.getElementById('ticket-category').value,
+                message: document.getElementById('ticket-msg').value,
+                status: 'Ouvert',
+                date: new Date().toLocaleDateString('fr-FR')
+            });
+            localStorage.setItem('support_tickets', JSON.stringify(tickets));
+            showToast("Ticket créé avec succès ! Le staff va traiter ta demande 🎫");
             e.target.reset();
         }
 
