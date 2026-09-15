@@ -25,8 +25,8 @@
         }
     </script>
     <style>
-        /* Force l'affichage propre quand la classe active est présente */
-        #maintenance-overlay.is-open {
+        /* Gestion propre de l'affichage du panel */
+        #maintenance-overlay.active {
             display: flex !important;
         }
     </style>
@@ -48,8 +48,8 @@
                 <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
                 <a href="#serveurs" class="hover:text-pink-400 transition-colors">Serveurs</a>
                 <a href="#communaute" class="hover:text-pink-400 transition-colors">Communauté</a>
-                <!-- Bouton Staff -->
-                <button type="button" onclick="openMaintenancePanel()" class="hover:text-pink-400 transition-colors cursor-pointer">Staff</button>
+                <!-- Bouton Staff transformé en lien déclencheur direct infaillible -->
+                <a href="#staff-panel" id="staff-btn" class="hover:text-pink-400 transition-colors cursor-pointer">Staff</a>
             </nav>
             <div>
                 <a href="https://discord.gg" target="_blank" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-xs font-bold rounded-xl text-white transition-all shadow-lg shadow-indigo-600/20">
@@ -105,7 +105,6 @@
     <!-- ========================================== -->
     <!-- PANEL DE MAINTENANCE & CONNEXION STAFF     -->
     <!-- ========================================== -->
-    <!-- Remarques : On retire style="display:none" d'ici et on utilise hidden par défaut -->
     <div id="maintenance-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 pointer-events-auto">
         
         <!-- ARRIÈRE-PLAN LUMINEUX AMBIANT -->
@@ -118,7 +117,7 @@
         <div class="max-w-xl w-full bg-slate-900/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-pink-500/40 shadow-2xl space-y-6 relative z-20 pointer-events-auto">
             
             <!-- BOUTON FERMER LE PANEL -->
-            <button type="button" onclick="closeMaintenancePanel()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold cursor-pointer">✕</button>
+            <button type="button" id="close-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-sm font-bold cursor-pointer">✕</button>
 
             <!-- BARRE DÉCORATIVE SUPÉRIEURE -->
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 rounded-t-3xl"></div>
@@ -190,40 +189,49 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SCRIPT DE CONTRÔLE                         -->
+    <!-- SCRIPT DE CONTRÔLE ROBUSTE                 -->
     <!-- ========================================== -->
     <script>
         const MAINTENANCE_ACTIVE = true;
         const CORRECT_PASS = "crackfr2026";
 
-        function openMaintenancePanel() {
+        function showPanel() {
             const overlay = document.getElementById("maintenance-overlay");
-            if (overlay) {
-                overlay.classList.add("is-open");
-                overlay.classList.remove("hidden");
-            }
+            if (overlay) overlay.classList.add("active");
         }
 
-        function closeMaintenancePanel() {
+        function hidePanel() {
             const overlay = document.getElementById("maintenance-overlay");
-            if (overlay) {
-                overlay.classList.remove("is-open");
-                overlay.classList.add("hidden");
-            }
+            if (overlay) overlay.classList.remove("active");
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener("DOMContentLoaded", () => {
             const overlay = document.getElementById("maintenance-overlay");
+            const staffBtn = document.getElementById("staff-btn");
+            const closeBtn = document.getElementById("close-btn");
+
             if (!overlay) return;
 
             const isUnlocked = sessionStorage.getItem("site_unlocked") === "true";
 
+            // Affichage automatique au chargement si maintenance active et non déverrouillé
             if (MAINTENANCE_ACTIVE && !isUnlocked) {
-                overlay.classList.add("is-open");
-                overlay.classList.remove("hidden");
-            } else {
-                overlay.classList.remove("is-open");
-                overlay.classList.add("hidden");
+                showPanel();
+            }
+
+            // Écouteur direct sur le lien Staff du menu (évite tout conflit de fonction globale)
+            if (staffBtn) {
+                staffBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    showPanel();
+                });
+            }
+
+            // Écouteur sur la croix de fermeture
+            if (closeBtn) {
+                closeBtn.addEventListener("click", () => {
+                    hidePanel();
+                });
             }
 
             // Formulaire staff
@@ -239,7 +247,7 @@
                         msg.innerText = "Accès autorisé ! Redirection...";
                         sessionStorage.setItem("site_unlocked", "true");
                         setTimeout(() => {
-                            closeMaintenancePanel();
+                            hidePanel();
                         }, 800);
                     } else {
                         msg.className = "text-[11px] font-bold text-pink-400 text-center h-4";
@@ -274,7 +282,7 @@
                         gMsg.innerText = "🎉 Gagnant ! Déverrouillage...";
                         sessionStorage.setItem("site_unlocked", "true");
                         setTimeout(() => {
-                            closeMaintenancePanel();
+                            hidePanel();
                         }, 1000);
                     } else {
                         gMsg.innerText = guess < targetNum ? "C'est plus haut 📈" : "C'est plus bas 📉";
