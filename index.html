@@ -84,7 +84,7 @@
     <!-- ========================================== -->
     <!-- PANEL DE MAINTENANCE MODULAIRE INTÉGRÉ     -->
     <!-- ========================================== -->
-    <div id="maintenance-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500">
+    <div id="maintenance-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500" style="display: none;">
         
         <!-- ARRIÈRE-PLAN LUMINEUX AMBIANT -->
         <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -169,7 +169,9 @@
     <!-- ========================================== -->
     <script>
         // ⚙️ INTERRUPTEUR DE MAINTENANCE 
-        const MAINTENANCE_ACTIVE = true; // Mets sur false pour désactiver le panel
+        // -> True = Le panel bloque le site
+        // -> False = Le site est public et accessible
+        const MAINTENANCE_ACTIVE = true;
         const CORRECT_PASS = "crackfr2026";
 
         // Gestion de l'affichage au chargement
