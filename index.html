@@ -536,4 +536,27 @@
         }
     </script>
 </body>
-</html>
+</async function loadSettings() {
+    try {
+        const response = await fetch('/api/settings');
+        const settings = await response.json();
+        console.log("Paramètres chargés depuis Neon :", settings);
+        // Utilise tes données ici (ex: settings.maintenance_mode)
+    } catch (err) {
+        console.error("Erreur lors du chargement :", err);
+    }
+async function saveSetting(key, value) {
+    try {
+        await fetch('/api/settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ [key]: value })
+        });
+        console.log("Enregistré avec succès sur Neon !");
+    } catch (err) {
+        console.error("Erreur lors de la sauvegarde :", err);
+    }
+}
+
+
+
