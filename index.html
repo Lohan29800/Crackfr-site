@@ -24,6 +24,12 @@
             }
         }
     </script>
+    <style>
+        /* Force l'affichage propre quand la classe active est présente */
+        #maintenance-overlay.is-open {
+            display: flex !important;
+        }
+    </style>
 </head>
 <body class="bg-[#020005] text-slate-100 font-sans antialiased min-h-screen relative selection:bg-pink-600 selection:text-white scroll-smooth">
 
@@ -42,7 +48,7 @@
                 <a href="#accueil" class="hover:text-pink-400 transition-colors">Accueil</a>
                 <a href="#serveurs" class="hover:text-pink-400 transition-colors">Serveurs</a>
                 <a href="#communaute" class="hover:text-pink-400 transition-colors">Communauté</a>
-                <!-- Bouton Staff qui appelle directement la fonction globale -->
+                <!-- Bouton Staff -->
                 <button type="button" onclick="openMaintenancePanel()" class="hover:text-pink-400 transition-colors cursor-pointer">Staff</button>
             </nav>
             <div>
@@ -99,7 +105,8 @@
     <!-- ========================================== -->
     <!-- PANEL DE MAINTENANCE & CONNEXION STAFF     -->
     <!-- ========================================== -->
-    <div id="maintenance-overlay" class="fixed inset-0 z-50 items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 pointer-events-auto" style="display: none;">
+    <!-- Remarques : On retire style="display:none" d'ici et on utilise hidden par défaut -->
+    <div id="maintenance-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 pointer-events-auto">
         
         <!-- ARRIÈRE-PLAN LUMINEUX AMBIANT -->
         <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -183,24 +190,25 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SCRIPT GLOBAL DE CONTRÔLE DE MAINTENANCE   -->
+    <!-- SCRIPT DE CONTRÔLE                         -->
     <!-- ========================================== -->
     <script>
         const MAINTENANCE_ACTIVE = true;
         const CORRECT_PASS = "crackfr2026";
 
-        // Déclaration globale pour qu'elles soient accessibles direct via les onclick HTML
         function openMaintenancePanel() {
             const overlay = document.getElementById("maintenance-overlay");
             if (overlay) {
-                overlay.style.display = "flex";
+                overlay.classList.add("is-open");
+                overlay.classList.remove("hidden");
             }
         }
 
         function closeMaintenancePanel() {
             const overlay = document.getElementById("maintenance-overlay");
             if (overlay) {
-                overlay.style.display = "none";
+                overlay.classList.remove("is-open");
+                overlay.classList.add("hidden");
             }
         }
 
@@ -211,12 +219,14 @@
             const isUnlocked = sessionStorage.getItem("site_unlocked") === "true";
 
             if (MAINTENANCE_ACTIVE && !isUnlocked) {
-                overlay.style.display = "flex";
+                overlay.classList.add("is-open");
+                overlay.classList.remove("hidden");
             } else {
-                overlay.style.display = "none";
+                overlay.classList.remove("is-open");
+                overlay.classList.add("hidden");
             }
 
-            // Gestion propre de la soumission du formulaire staff
+            // Formulaire staff
             const staffForm = document.getElementById("staff-form");
             if (staffForm) {
                 staffForm.addEventListener("submit", (e) => {
@@ -229,7 +239,7 @@
                         msg.innerText = "Accès autorisé ! Redirection...";
                         sessionStorage.setItem("site_unlocked", "true");
                         setTimeout(() => {
-                            overlay.style.display = "none";
+                            closeMaintenancePanel();
                         }, 800);
                     } else {
                         msg.className = "text-[11px] font-bold text-pink-400 text-center h-4";
@@ -238,7 +248,7 @@
                 });
             }
 
-            // Gestion du bouton du mini-jeu (affichage)
+            // Mini-jeu toggle
             const toggleBtn = document.getElementById("toggle-game-btn");
             if (toggleBtn) {
                 toggleBtn.addEventListener("click", () => {
@@ -246,7 +256,7 @@
                 });
             }
 
-            // Gestion de la validation du mini-jeu
+            // Mini-jeu validation
             let targetNum = Math.floor(Math.random() * 5) + 1;
             const gameSubmitBtn = document.getElementById("game-submit-btn");
             if (gameSubmitBtn) {
@@ -264,7 +274,7 @@
                         gMsg.innerText = "🎉 Gagnant ! Déverrouillage...";
                         sessionStorage.setItem("site_unlocked", "true");
                         setTimeout(() => {
-                            overlay.style.display = "none";
+                            closeMaintenancePanel();
                         }, 1000);
                     } else {
                         gMsg.innerText = guess < targetNum ? "C'est plus haut 📈" : "C'est plus bas 📉";
@@ -273,7 +283,7 @@
             }
         });
 
-        // Compte à rebours automatique
+        // Compte à rebours
         let tSecs = 7230;
         setInterval(() => {
             if (tSecs > 0) tSecs--;
