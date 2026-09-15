@@ -3,321 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR — Centre de Commandement Admin</title>
+    <title>CrackFR — Panel Administration</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-pink-600 selection:text-white relative overflow-x-hidden">
 
-    <div class="absolute top-0 right-1/4 w-[500px] h-[300px] bg-pink-600/10 rounded-full blur-[150px] pointer-events-none"></div>
-    <div class="absolute bottom-10 left-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[130px] pointer-events-none"></div>
+    <!-- NOTIFICATION TOAST CONTAINER -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
 
-    <div class="max-w-4xl mx-auto w-full p-4 sm:p-6 space-y-6 relative z-10">
+    <!-- ÉCRAN DE CONNEXION ADMIN -->
+    <div id="login-screen" class="max-w-md mx-auto w-full p-6 my-auto">
+        <div class="bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/80 shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 text-xl mx-auto shadow-inner">🔒</div>
+                <h2 class="text-lg font-black uppercase tracking-wider text-white">Panel Staff</h2>
+                <p class="text-xs text-slate-400">Entre le mot de passe administrateur pour accéder aux commandes.</p>
+            </div>
+            
+            <form onsubmit="adminLogin(event)" class="space-y-4">
+                <input type="password" id="admin-pass-input" placeholder="Mot de passe..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none text-center font-mono">
+                <button type="submit" class="w-full py-3.5 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg">Connexion Admin</button>
+            </form>
+            <div class="text-center">
+                <a href="index.html" class="text-[10px] text-slate-500 hover:text-slate-300 font-bold uppercase tracking-wider">← Retour au portail</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLEAU DE BORD ADMINISTRATEUR (Caché par défaut) -->
+    <div id="admin-dashboard" class="hidden max-w-4xl mx-auto w-full p-4 sm:p-6 space-y-6 my-auto">
         
-        <!-- HEADER ADMIN -->
         <header class="flex justify-between items-center bg-slate-900/80 backdrop-blur-md p-4 sm:px-6 rounded-2xl border border-slate-800/80 shadow-xl">
             <div class="flex items-center gap-2.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse shadow-lg shadow-pink-500/50"></span>
-                <h1 class="text-xs sm:text-sm font-black uppercase tracking-wider text-white">Crack<span class="text-pink-500">FR</span> // Command Center</h1>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h1 class="text-xs sm:text-sm font-black uppercase tracking-wider text-white">Staff Dashboard</h1>
             </div>
             <div class="flex items-center gap-3">
-                <a href="index.html" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-extrabold rounded-xl transition-all border border-slate-700/50 flex items-center gap-1.5">
-                    <span>🏠</span> Voir le Portail
-                </a>
-                <button id="logout-btn" onclick="logout()" class="hidden px-3.5 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-xs font-extrabold rounded-xl transition-all border border-pink-500/30">
-                    Déconnexion 🔒
-                </button>
+                <a href="index.html" target="_blank" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-extrabold rounded-xl transition-all border border-slate-700">Voir le site 🌐</a>
+                <button onclick="adminLogout()" class="px-3.5 py-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-xs font-extrabold rounded-xl transition-all border border-pink-500/30 cursor-pointer">Déconnexion</button>
             </div>
         </header>
 
-        <!-- FORMULAIRE DE CONNEXION -->
-        <div id="login-section" class="bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-800/80 max-w-md mx-auto space-y-6 shadow-2xl my-12">
-            <div class="text-center space-y-2">
-                <div class="w-12 h-12 bg-pink-600/10 border border-pink-500/20 rounded-2xl mx-auto flex items-center justify-center text-pink-400 text-xl shadow-inner">🔐</div>
-                <h2 class="text-lg font-black uppercase tracking-wider text-white">Accès Réservé Staff</h2>
-                <p class="text-xs text-slate-400">Entre le mot de passe administrateur.</p>
+        <!-- CONFIGURATION DU SERVEUR -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            
+            <!-- Gestion Maintenance & Annonce -->
+            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">⚡ Contrôle du Portail</h3>
+                
+                <div class="space-y-3 text-xs">
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold">État du Serveur / Portail</label>
+                        <select id="set-srv-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-pink-500">
+                            <option value="online">En ligne (Normal)</option>
+                            <option value="maintenance">Mode Maintenance (Lockdown)</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold">Raison de la maintenance</label>
+                        <input type="text" id="set-maint-reason" placeholder="Ex: Mise à jour majeure..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-pink-500">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold">Annonce en haut du site (Bannière)</label>
+                        <input type="text" id="set-annonce" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-pink-500">
+                    </div>
+
+                    <button onclick="saveServerConfig()" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-white font-extrabold rounded-xl uppercase tracking-wider transition-all cursor-pointer shadow-lg">Sauvegarder les réglages</button>
+                </div>
             </div>
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <input type="password" id="admin-pass" placeholder="••••••••••••" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-pink-500 focus:outline-none shadow-inner">
-                <button type="submit" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl uppercase tracking-wider transition-all cursor-pointer">Déverrouiller</button>
-            </form>
-            <p class="text-[10px] text-center text-slate-600 font-mono">Mot de passe : crackfr2026</p>
+
+            <!-- Candidatures Staff reçues -->
+            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📝 Candidatures Staff</h3>
+                        <span id="app-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 pt-1">Candidatures envoyées par les membres.</p>
+                </div>
+
+                <div id="applications-list" class="space-y-3 max-h-56 overflow-y-auto pr-1 my-3">
+                    <p class="text-xs text-slate-500 italic text-center py-4">Aucune candidature reçue.</p>
+                </div>
+
+                <button onclick="clearApplications()" class="w-full py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 text-xs font-bold rounded-xl transition-all cursor-pointer">Effacer les candidatures</button>
+            </div>
+
         </div>
 
-        <!-- DASHBOARD ADMINISTRATIF -->
-        <div id="admin-dashboard" class="hidden space-y-6">
-            
-            <div class="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-2xl flex items-center justify-between text-xs text-emerald-300">
-                <div class="flex items-center gap-2"><span>⚡</span> <span>Connecté en tant qu'Administrateur Principal.</span></div>
-                <span class="font-mono text-[10px]" id="session-time">Session active</span>
+        <!-- TICKETS D'ASSISTANCE SUPPORT -->
+        <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">🎫 Tickets d'Assistance Support</h3>
+                <span id="ticket-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
             </div>
-
-            <!-- GRILLE DE CONTRÔLE -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                
-                <!-- Maintenance -->
-                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">🛠️ Maintenance</h3>
-                        <span id="maint-status-indicator" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-400">OFF</span>
-                    </div>
-                    <div class="space-y-2 pt-2">
-                        <input type="text" id="maint-reason-input" placeholder="Raison..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <div class="grid grid-cols-2 gap-2 pt-1">
-                            <button onclick="setMaintenance('maintenance')" class="py-2.5 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Activer</button>
-                            <button onclick="setMaintenance('online')" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Couper</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bannière & Live -->
-                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📢 Bannière & Stats</h3>
-                    <div class="space-y-2">
-                        <input type="text" id="admin-banner-txt" placeholder="Annonce globale..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <input type="text" id="admin-players-txt" placeholder="Joueurs (ex: 42 / 64)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <button onclick="saveLiveConfig()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Mettre à jour</button>
-                    </div>
-                </div>
-
-                <!-- Gestion Playlist -->
-                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">🎵 Playlist Audio</h3>
-                    <form onsubmit="addTrack(event)" class="space-y-2">
-                        <input type="text" id="track-name" placeholder="Nom du morceau..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <input type="url" id="track-url" placeholder="Lien audio (.ogg)..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <button type="submit" class="w-full py-2 bg-pink-600 hover:bg-pink-500 text-white font-extrabold text-[10px] rounded-xl uppercase tracking-wider">Ajouter piste</button>
-                    </form>
-                </div>
-
+            <div id="tickets-list" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                <p class="text-xs text-slate-500 italic text-center py-4">Aucun ticket pour le moment.</p>
             </div>
-
-            <!-- NEWS & SONDAGE -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📰 Publier une News</h3>
-                    <form onsubmit="addNewsItem(event)" class="space-y-2.5">
-                        <input type="text" id="news-title-input" placeholder="Titre de l'actualité..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <textarea id="news-desc-input" rows="2" placeholder="Contenu de la news..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none resize-none"></textarea>
-                        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Publier sur le portail</button>
-                    </form>
-                </div>
-
-                <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📊 Créer un Sondage</h3>
-                    <form onsubmit="createPoll(event)" class="space-y-2.5">
-                        <input type="text" id="poll-q-input" placeholder="Question du sondage..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <input type="text" id="poll-opt1-input" placeholder="Option 1..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <input type="text" id="poll-opt2-input" placeholder="Option 2..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:border-pink-500 focus:outline-none">
-                        <button type="submit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] rounded-xl uppercase tracking-wider">Lancer le sondage</button>
-                    </form>
-                </div>
-
-            </div>
-
-            <!-- ÉDITEUR JSON & ACTIONS AVANCÉES -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">💻 Éditeur de Données brut (JSON)</h3>
-                    <button onclick="saveRawJSON()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] rounded-lg">Appliquer</button>
-                </div>
-                <textarea id="raw-json-input" rows="4" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-pink-300 focus:outline-none focus:border-pink-500 resize-none"></textarea>
-            </div>
-
-            <!-- MODÉRATION & CACHE -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">⚡ Modération & Cache</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                    <button onclick="clearChat()" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold text-[11px] rounded-xl uppercase tracking-wider border border-slate-700">Vider le Chat Global</button>
-                    <button onclick="clearCacheData()" class="py-2.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 font-extrabold text-[11px] rounded-xl uppercase tracking-wider border border-pink-500/30">Réinitialiser tout le site</button>
-                </div>
-            </div>
-
-            <!-- SUGGESTIONS -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">💡 Boîte à Idées reçues</h3>
-                    <span id="sug-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
-                </div>
-                <div id="suggestions-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                    <p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion.</p>
-                </div>
-            </div>
-
         </div>
 
     </div>
 
-    <footer class="w-full text-center py-6 text-[10px] tracking-widest text-slate-600 uppercase mt-12 relative z-10">
-        CrackFR Security System — 2026
+    <footer class="w-full text-center py-6 text-[10px] tracking-widest text-slate-600 uppercase mt-12">
+        CrackFR Security System — Admin Panel
     </footer>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('auth') === '1') showDashboard();
+            if(localStorage.getItem('auth') === '1') {
+                showAdminDashboard();
+            }
         });
 
-        function handleLogin(e) {
+        function adminLogin(e) {
             e.preventDefault();
-            if (document.getElementById('admin-pass').value === 'crackfr2026') {
+            const pass = document.getElementById('admin-pass-input').value;
+            if(pass === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
-                showDashboard();
+                showAdminDashboard();
+                showToast("Connexion admin réussie ⚡");
             } else {
-                alert("❌ Clé incorrecte !");
+                showToast("Mot de passe incorrect ❌");
             }
         }
 
-        function showDashboard() {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('admin-dashboard').classList.remove('hidden');
-            document.getElementById('logout-btn').classList.remove('hidden');
-            
-            if(localStorage.getItem('maintenance_reason')) document.getElementById('maint-reason-input').value = localStorage.getItem('maintenance_reason');
-            if(localStorage.getItem('annonce')) document.getElementById('admin-banner-txt').value = localStorage.getItem('annonce');
-            if(localStorage.getItem('srv_players')) document.getElementById('admin-players-txt').value = localStorage.getItem('srv_players');
-
-            const srvStatus = localStorage.getItem('srv_status');
-            const ind = document.getElementById('maint-status-indicator');
-            if(srvStatus === 'maintenance') {
-                ind.innerText = "ACTIF";
-                ind.className = "px-2 py-0.5 bg-pink-600/20 border border-pink-500/30 text-[10px] font-bold rounded-md text-pink-400";
-            }
-
-            // Charger le JSON brut dans l'éditeur
-            let rawData = {};
-            for(let i=0; i<localStorage.length; i++) {
-                let key = localStorage.key(i);
-                rawData[key] = localStorage.getItem(key);
-            }
-            document.getElementById('raw-json-input').value = JSON.stringify(rawData, null, 2);
-
-            loadSuggestions();
-        }
-
-        function logout() {
+        function adminLogout() {
             localStorage.removeItem('auth');
-            location.reload();
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            showToast("Déconnecté du panel admin.");
         }
 
-        function setMaintenance(status) {
-            localStorage.setItem('srv_status', status);
-            if(document.getElementById('maint-reason-input').value) localStorage.setItem('maintenance_reason', document.getElementById('maint-reason-input').value);
-            alert("Statut de maintenance mis à jour !");
-            showDashboard();
+        function showAdminDashboard() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.remove('hidden');
+            
+            // Charger les valeurs actuelles
+            if(localStorage.getItem('srv_status')) document.getElementById('set-srv-status').value = localStorage.getItem('srv_status');
+            if(localStorage.getItem('maintenance_reason')) document.getElementById('set-maint-reason').value = localStorage.getItem('maintenance_reason');
+            if(localStorage.getItem('annonce')) document.getElementById('set-annonce').value = localStorage.getItem('annonce');
+            
+            loadApplications();
+            loadTickets();
         }
 
-        function saveLiveConfig() {
-            localStorage.setItem('annonce', document.getElementById('admin-banner-txt').value);
-            localStorage.setItem('srv_players', document.getElementById('admin-players-txt').value);
-            alert("Configuration live enregistrée !");
+        function saveServerConfig() {
+            localStorage.setItem('srv_status', document.getElementById('set-srv-status').value);
+            localStorage.setItem('maintenance_reason', document.getElementById('set-maint-reason').value);
+            localStorage.setItem('annonce', document.getElementById('set-annonce').value);
+            showToast("Réglages mis à jour avec succès ! 🚀");
         }
 
-        function saveRawJSON() {
-            try {
-                let data = JSON.parse(document.getElementById('raw-json-input').value);
-                for(let key in data) {
-                    localStorage.setItem(key, data[key]);
-                }
-                alert("Données JSON appliquées avec succès !");
-                showDashboard();
-            } catch(err) {
-                alert("Erreur de syntaxe JSON : " + err.message);
-            }
-        }
-
-        function addTrack(e) {
-            e.preventDefault();
-            let playlist = JSON.parse(localStorage.getItem('playlist') || '[]');
-            playlist.push({ name: document.getElementById('track-name').value, src: document.getElementById('track-url').value });
-            localStorage.setItem('playlist', JSON.stringify(playlist));
-            alert("🎵 Morceau ajouté !");
-            document.getElementById('track-name').value = '';
-            document.getElementById('track-url').value = '';
-            showDashboard();
-        }
-
-        function addNewsItem(e) {
-            e.preventDefault();
-            let news = JSON.parse(localStorage.getItem('news') || '[]');
-            news.unshift({ title: document.getElementById('news-title-input').value, desc: document.getElementById('news-desc-input').value });
-            localStorage.setItem('news', JSON.stringify(news));
-            alert("📰 Actualité publiée avec succès !");
-            document.getElementById('news-title-input').value = '';
-            document.getElementById('news-desc-input').value = '';
-            showDashboard();
-        }
-
-        function createPoll(e) {
-            e.preventDefault();
-            const poll = {
-                question: document.getElementById('poll-q-input').value,
-                options: [
-                    document.getElementById('poll-opt1-input').value,
-                    document.getElementById('poll-opt2-input').value
-                ]
-            };
-            localStorage.setItem('active_poll', JSON.stringify(poll));
-            localStorage.removeItem('poll_votes');
-            alert("📊 Sondage publié sur le portail !");
-            document.getElementById('poll-q-input').value = '';
-            document.getElementById('poll-opt1-input').value = '';
-            document.getElementById('poll-opt2-input').value = '';
-        }
-
-        function clearChat() {
-            localStorage.removeItem('community_chat');
-            alert("💬 Le chat a été vidé.");
-        }
-
-        function clearCacheData() {
-            if(confirm("Attention, cela va réinitialiser tout le site. Continuer ?")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        function loadSuggestions() {
-            const suggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
-            document.getElementById('sug-count').innerText = suggestions.length;
-            if(suggestions.length === 0) {
-                document.getElementById('suggestions-list').innerHTML = '<p class="text-xs text-slate-500 italic text-center py-4">Aucune suggestion.</p>';
+        function loadApplications() {
+            const apps = JSON.parse(localStorage.getItem('staff_applications') || '[]');
+            document.getElementById('app-count').innerText = apps.length;
+            if(apps.length === 0) {
+                document.getElementById('applications-list').innerHTML = `<p class="text-xs text-slate-500 italic text-center py-4">Aucune candidature reçue.</p>`;
                 return;
             }
             let html = '';
-            suggestions.forEach(s => {
-                html += `<div class="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-1 text-xs">
-                    <div class="dis-flex flex justify-between items-center"><span class="font-bold text-pink-400">@${s.name}</span><span class="text-[10px] text-slate-500">${s.date}</span></div>
-                    <p class="text-slate-300 leading-relaxed">${s.text}</p>
-                </div>`;
-            });
-            document.getElementById('suggestions-list').innerHTML = html;
-        }
-    </script>
-</body>
-            <!-- GESTION DES CANDIDATURES STAFF -->
-            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-800/80 space-y-4 shadow-xl">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase tracking-wider text-pink-400">📥 Candidatures Staff Reçues</h3>
-                    <span id="app-count" class="px-2 py-0.5 bg-slate-950 border border-slate-800 text-[10px] font-bold rounded-md text-slate-300">0</span>
-                </div>
-                <div id="applications-list" class="space-y-3 max-h-60 overflow-y-auto pr-1">
-                    <p class="text-xs text-slate-500 italic text-center py-4">Aucune candidature pour le moment.</p>
-                </div>
-            </        function loadApplications() {
-            const apps = JSON.parse(localStorage.getItem('staff_applications') || '[]');
-            document.getElementById('app-count').innerText = apps.length;
-            if(apps.length === 0) return;
-            
-            let html = '';
-            apps.forEach((app, index) => {
+            apps.forEach((a, index) => {
                 html += `<div class="bg-slate-950 border border-slate-800 p-3.5 rounded-2xl space-y-2 text-xs">
                     <div class="flex justify-between items-center">
-                        <span class="font-extrabold text-white">@${app.name} <span class="text-slate-400 font-normal">(${app.age} ans)</span></span>
-                        <span class="px-2 py-0.5 bg-pink-600/10 border border-pink-500/20 text-pink-400 font-bold rounded-md text-[10px]">${app.role}</span>
+                        <span class="font-extrabold text-white">@${a.name} <span class="text-[10px] text-slate-400 font-normal">(${a.age} ans)</span></span>
+                        <span class="px-2 py-0.5 bg-pink-600/10 border border-pink-500/20 text-pink-400 font-bold rounded-md text-[10px]">${a.role}</span>
                     </div>
-                    <p class="text-slate-300 bg-slate-900 p-2.5 rounded-xl border border-slate-800/80 leading-relaxed">${app.motivations}</p>
+                    <p class="text-slate-300 bg-slate-900 p-2.5 rounded-xl border border-slate-800/80 leading-relaxed">${a.motivations}</p>
                     <div class="flex justify-between items-center text-[10px] text-slate-500">
-                        <span>Reçu le ${app.date}</span>
+                        <span>Reçue le ${a.date}</span>
                         <button onclick="deleteApp(${index})" class="text-pink-400 hover:text-pink-300 font-bold cursor-pointer">Supprimer</button>
                     </div>
                 </div>`;
@@ -331,6 +186,53 @@
             localStorage.setItem('staff_applications', JSON.stringify(apps));
             loadApplications();
         }
->
 
+        function clearApplications() {
+            localStorage.removeItem('staff_applications');
+            loadApplications();
+            showToast("Toutes les candidatures ont été effacées.");
+        }
 
+        function loadTickets() {
+            const tickets = JSON.parse(localStorage.getItem('support_tickets') || '[]');
+            document.getElementById('ticket-count').innerText = tickets.length;
+            if(tickets.length === 0) {
+                document.getElementById('tickets-list').innerHTML = `<p class="text-xs text-slate-500 italic text-center py-4">Aucun ticket pour le moment.</p>`;
+                return;
+            }
+            let html = '';
+            tickets.forEach((t, index) => {
+                html += `<div class="bg-slate-950 border border-slate-800 p-3.5 rounded-2xl space-y-2 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-extrabold text-white">@${t.name} <span class="text-[10px] text-pink-400 font-normal">(${t.category})</span></span>
+                        <span class="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold rounded-md text-[10px]">${t.status}</span>
+                    </div>
+                    <p class="text-slate-300 bg-slate-900 p-2.5 rounded-xl border border-slate-800/80 leading-relaxed">${t.message}</p>
+                    <div class="flex justify-between items-center text-[10px] text-slate-500">
+                        <span>Créé le ${t.date}</span>
+                        <button onclick="closeTicket(${index})" class="text-pink-400 hover:text-pink-300 font-bold cursor-pointer">Fermer / Supprimer</button>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('tickets-list').innerHTML = html;
+        }
+
+        function closeTicket(index) {
+            let tickets = JSON.parse(localStorage.getItem('support_tickets') || '[]');
+            tickets.splice(index, 1);
+            localStorage.setItem('support_tickets', JSON.stringify(tickets));
+            loadTickets();
+            showToast("Ticket fermé et supprimé.");
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "bg-slate-900/95 border border-slate-700 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-bold flex items-center gap-2 animate-bounce pointer-events-auto";
+            toast.innerHTML = `<span class="w-2 h-2 rounded-full bg-pink-500"></span> ${msg}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
