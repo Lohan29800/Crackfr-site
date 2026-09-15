@@ -595,3 +595,32 @@
         </div>
     </div>
 </div>
+// Afficher / cacher le formulaire de connexion rapide staff depuis la maintenance
+function toggleStaffLoginModal() {
+    const staffModal = document.getElementById('staff-login-modal');
+    const gameView = document.getElementById('mini-game-view');
+    
+    // Fermer le mini-jeu si ouvert
+    gameView.classList.add('hidden');
+    
+    if(staffModal.classList.contains('hidden')) {
+        staffModal.classList.remove('hidden');
+    } else {
+        staffModal.classList.add('hidden');
+    }
+}
+
+// Valider le mot de passe staff directement depuis l'écran de maintenance
+function bypassMaintenanceWithPass(e) {
+    e.preventDefault();
+    const pass = document.getElementById('staff-bypass-pass').value;
+    if(pass === 'crackfr2026') {
+        localStorage.setItem('auth', '1');
+        showToast("Accès staff autorisé ! Redirection... ⚡");
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 1000);
+    } else {
+        showToast("Mot de passe incorrect ❌");
+    }
+}
