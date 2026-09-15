@@ -84,7 +84,7 @@
     <!-- ========================================== -->
     <!-- PANEL DE MAINTENANCE MODULAIRE INTÉGRÉ     -->
     <!-- ========================================== -->
-    <div id="maintenance-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500 hidden">
+    <div id="maintenance-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#020005]/95 backdrop-blur-2xl transition-all duration-500">
         
         <!-- ARRIÈRE-PLAN LUMINEUX AMBIANT -->
         <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -169,20 +169,20 @@
     <!-- ========================================== -->
     <script>
         // ⚙️ INTERRUPTEUR DE MAINTENANCE 
-        // -> True = Le panel s'affiche et bloque le site
-        // -> False = Le site est entièrement accessible normalement
-        const MAINTENANCE_ACTIVE = true;
+        const MAINTENANCE_ACTIVE = true; // Mets sur false pour désactiver le panel
         const CORRECT_PASS = "crackfr2026";
 
-        // Gestion de l'affichage au chargement de la page
+        // Gestion de l'affichage au chargement
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById("maintenance-overlay");
+            if (!overlay) return;
+
             const isUnlocked = localStorage.getItem("site_unlocked") === "true";
 
             if (MAINTENANCE_ACTIVE && !isUnlocked) {
-                overlay.classList.remove("hidden");
+                overlay.style.display = "flex";
             } else {
-                overlay.classList.add("hidden");
+                overlay.style.display = "none";
             }
         });
 
@@ -191,15 +191,16 @@
             e.preventDefault();
             const val = document.getElementById("staff-password").value.trim();
             const msg = document.getElementById("maintenance-msg");
+            const overlay = document.getElementById("maintenance-overlay");
 
             if (val === CORRECT_PASS) {
                 msg.className = "text-[11px] font-bold text-emerald-400 text-center h-4";
                 msg.innerText = "Accès autorisé ! Redirection...";
                 localStorage.setItem("site_unlocked", "true");
                 setTimeout(() => {
-                    document.getElementById("maintenance-overlay").style.opacity = "0";
+                    overlay.style.opacity = "0";
                     setTimeout(() => {
-                        document.getElementById("maintenance-overlay").classList.add("hidden");
+                        overlay.style.display = "none";
                     }, 500);
                 }, 800);
             } else {
@@ -218,18 +219,20 @@
         function checkGame() {
             const guess = parseInt(document.getElementById("game-input").value);
             const gMsg = document.getElementById("game-msg");
+            const overlay = document.getElementById("maintenance-overlay");
+
             if (guess === targetNum) {
                 gMsg.innerText = "🎉 Gagnant ! Déverrouillage...";
                 localStorage.setItem("site_unlocked", "true");
                 setTimeout(() => {
-                    document.getElementById("maintenance-overlay").classList.add("hidden");
+                    overlay.style.display = "none";
                 }, 1000);
             } else {
                 gMsg.innerText = guess < targetNum ? "C'est plus haut 📈" : "C'est plus bas 📉";
             }
         }
 
-        // Compte à rebours automatique en arrière-plan
+        // Compte à rebours automatique
         let tSecs = 7230;
         setInterval(() => {
             if (tSecs > 0) tSecs--;
