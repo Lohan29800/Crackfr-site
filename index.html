@@ -69,7 +69,7 @@
                 </p>
             </div>
 
-            <!-- FORMULAIRE DE CONNEXION REVISITÉ -->
+            <!-- FORMULAIRE DE CONNEXION -->
             <form onsubmit="bypassMaintenanceWithPass(event)" class="space-y-4">
                 <div class="space-y-1.5">
                     <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 px-1">Clé d'accès ou Mot de passe</label>
@@ -151,7 +151,7 @@
         </section>
     </main>
 
-    <!-- PANEL ADMIN REVISITÉ ET OPTIMISÉ -->
+    <!-- PANEL ADMIN -->
     <div id="admin-dashboard" class="hidden max-w-4xl mx-auto px-4 py-8 space-y-6 flex-grow w-full relative z-10">
         
         <!-- HEADER DU PANEL -->
@@ -169,7 +169,7 @@
             </div>
         </div>
 
-        <!-- STATISTIQUES RAPIDES DU DASHBOARD -->
+        <!-- STATISTIQUES RAPIDES -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 backdrop-blur-md space-y-1">
                 <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Visiteurs Actifs</span>
@@ -190,12 +190,13 @@
         </div>
 
         <!-- NAVIGATION DES ONGLETS -->
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-slate-900/50 p-1.5 rounded-2xl border border-pink-500/20 backdrop-blur-md">
+        <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 bg-slate-900/50 p-1.5 rounded-2xl border border-pink-500/20 backdrop-blur-md">
             <button onclick="switchTab('control')" id="tab-btn-control" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-neon-pink text-center truncate">⚡ Portail</button>
-            <button onclick="switchTab('access')" id="tab-btn-access" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🔑 Accès & Rôles</button>
-            <button onclick="switchTab('applications')" id="tab-btn-applications" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">📝 Candidatures</button>
+            <button onclick="switchTab('access')" id="tab-btn-access" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🔑 Accès</button>
+            <button onclick="switchTab('music')" id="tab-btn-music" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🎵 Musique</button>
+            <button onclick="switchTab('applications')" id="tab-btn-applications" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">📝 Candidats</button>
             <button onclick="switchTab('tickets')" id="tab-btn-tickets" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🎫 Tickets</button>
-            <button onclick="switchTab('logs')" id="tab-btn-logs" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🛡️ Audit Logs</button>
+            <button onclick="switchTab('logs')" id="tab-btn-logs" class="py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate">🛡️ Logs</button>
         </div>
 
         <!-- ONGLET 1 : CONTRÔLE -->
@@ -248,7 +249,43 @@
             </div>
         </div>
 
-        <!-- ONGLET 3 : CANDIDATURES -->
+        <!-- ONGLET 3 : MUSIQUE -->
+        <div id="tab-content-music" class="admin-tab-content hidden space-y-4">
+            <div class="bg-slate-900/40 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-6 space-y-4 shadow-xl">
+                <h3 class="text-xs font-black uppercase tracking-widest text-pink-400 flex items-center gap-2"><span>🎵</span> Ambiance Musicale du Panel</h3>
+                
+                <div class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-slate-800">
+                    <div class="flex items-center justify-between">
+                        <span id="current-track-name" class="text-xs font-bold text-white truncate max-w-[200px]">Aucune musique sélectionnée</span>
+                        <div class="flex gap-1.5">
+                            <button onclick="toggleMusicPlay()" id="btn-play-music" class="px-3 py-1.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl text-white shadow-neon-pink cursor-pointer">▶️ Play</button>
+                            <button onclick="nextTrack()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 cursor-pointer">⏭️ Suivant</button>
+                        </div>
+                    </div>
+
+                    <!-- Élément audio masqué -->
+                    <audio id="bg-audio-player" loop></audio>
+
+                    <!-- Sélecteur de pistes -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                        <button onclick="setTrack('Lo-Fi Chill', 'https://commondatastorage.googleapis.com/codeskulptor-demos/riceruns/music/menu-music.ogg')" class="p-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left text-[11px] text-slate-300 transition-all cursor-pointer truncate">
+                            🎧 Lo-Fi Chill Beats
+                        </button>
+                        <button onclick="setTrack('Cyberpunk Synth', 'https://commondatastorage.googleapis.com/codeskulptor-demos/riceruns/music/soundtrack.ogg')" class="p-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-left text-[11px] text-pink-400 transition-all cursor-pointer truncate">
+                            ⚡ Cyberpunk Synth
+                        </button>
+                    </div>
+
+                    <!-- Lien personnalisé -->
+                    <div class="flex gap-2 pt-2">
+                        <input type="text" id="custom-audio-url" placeholder="Lien direct MP3 (URL)..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none font-mono">
+                        <button onclick="setCustomTrack()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-xs font-extrabold rounded-xl text-white shadow-neon-purple cursor-pointer">Charger</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ONGLET 4 : CANDIDATURES -->
         <div id="tab-content-applications" class="admin-tab-content hidden space-y-4">
             <div class="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
                 <div class="flex items-center justify-between">
@@ -262,7 +299,7 @@
             </div>
         </div>
 
-        <!-- ONGLET 4 : TICKETS -->
+        <!-- ONGLET 5 : TICKETS -->
         <div id="tab-content-tickets" class="admin-tab-content hidden space-y-4">
             <div class="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
                 <div class="flex items-center justify-between">
@@ -275,7 +312,7 @@
             </div>
         </div>
 
-        <!-- ONGLET 5 : LOGS -->
+        <!-- ONGLET 6 : LOGS -->
         <div id="tab-content-logs" class="admin-tab-content hidden space-y-4">
             <div class="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
                 <div class="flex items-center justify-between">
@@ -321,6 +358,7 @@
             checkAccessState();
             renderLogs();
             renderWhitelistUI();
+            initAudioPlayer();
         });
 
         function loadSettingsFromStorage() {
@@ -498,12 +536,86 @@
         }
 
         function switchTab(tabName) {
-            ['control', 'access', 'applications', 'tickets', 'logs'].forEach(t => {
+            ['control', 'access', 'music', 'applications', 'tickets', 'logs'].forEach(t => {
                 document.getElementById(`tab-content-${t}`).classList.toggle('hidden', t !== tabName);
                 document.getElementById(`tab-btn-${t}`).className = t === tabName 
                     ? "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-neon-pink text-center truncate"
                     : "py-2.5 px-3 rounded-xl text-[11px] font-extrabold uppercase transition-all cursor-pointer bg-slate-900/80 text-slate-400 hover:text-white text-center truncate";
             });
+        }
+
+        // --- GESTIONNAIRE AUDIO ---
+        const tracks = [
+            { name: 'Lo-Fi Chill', url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/riceruns/music/menu-music.ogg' },
+            { name: 'Cyberpunk Synth', url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/riceruns/music/soundtrack.ogg' }
+        ];
+        let currentTrackIndex = 0;
+
+        function setTrack(name, url) {
+            const audio = document.getElementById('bg-audio-player');
+            audio.src = url;
+            document.getElementById('current-track-name').innerText = `En cours : ${name}`;
+            audio.play().then(() => {
+                document.getElementById('btn-play-music').innerText = "⏸️ Pause";
+                localStorage.setItem('saved_music_url', url);
+                localStorage.setItem('saved_music_name', name);
+                localStorage.setItem('saved_music_playing', 'true');
+                showToast(`Lecture : ${name} 🎶`);
+            }).catch(() => {
+                showToast("Erreur de lecture audio ⚠️");
+            });
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+            setTrack(tracks[currentTrackIndex].name, tracks[currentTrackIndex].url);
+        }
+
+        function toggleMusicPlay() {
+            const audio = document.getElementById('bg-audio-player');
+            const btn = document.getElementById('btn-play-music');
+            if (!audio.src || audio.src === window.location.href) {
+                setTrack(tracks[0].name, tracks[0].url);
+                return;
+            }
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "⏸️ Pause";
+                localStorage.setItem('saved_music_playing', 'true');
+                showToast("Musique reprise 🎶");
+            } else {
+                audio.pause();
+                btn.innerText = "▶️ Play";
+                localStorage.setItem('saved_music_playing', 'false');
+                showToast("Musique en pause ⏸️");
+            }
+        }
+
+        function setCustomTrack() {
+            const url = document.getElementById('custom-audio-url').value.trim();
+            if(url) {
+                setTrack('Piste Personnalisée', url);
+                document.getElementById('custom-audio-url').value = '';
+            } else {
+                showToast("Entre un lien valide ⚠️");
+            }
+        }
+
+        function initAudioPlayer() {
+            const savedUrl = localStorage.getItem('saved_music_url');
+            const savedName = localStorage.getItem('saved_music_name');
+            const wasPlaying = localStorage.getItem('saved_music_playing') === 'true';
+            
+            if (savedUrl && savedName) {
+                const audio = document.getElementById('bg-audio-player');
+                audio.src = savedUrl;
+                document.getElementById('current-track-name').innerText = `En cours : ${savedName}`;
+                if (wasPlaying) {
+                    audio.play().then(() => {
+                        document.getElementById('btn-play-music').innerText = "⏸️ Pause";
+                    }).catch(() => {});
+                }
+            }
         }
 
         function addLog(actionText) {
