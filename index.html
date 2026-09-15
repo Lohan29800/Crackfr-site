@@ -169,17 +169,15 @@
     <!-- ========================================== -->
     <script>
         // ⚙️ INTERRUPTEUR DE MAINTENANCE 
-        // -> True = Le panel bloque le site
-        // -> False = Le site est public et accessible
         const MAINTENANCE_ACTIVE = true;
         const CORRECT_PASS = "crackfr2026";
 
-        // Gestion de l'affichage au chargement
+        // Gestion sécurisée de l'affichage au chargement
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById("maintenance-overlay");
             if (!overlay) return;
 
-            const isUnlocked = localStorage.getItem("site_unlocked") === "true";
+            const isUnlocked = sessionStorage.getItem("site_unlocked") === "true";
 
             if (MAINTENANCE_ACTIVE && !isUnlocked) {
                 overlay.style.display = "flex";
@@ -198,7 +196,7 @@
             if (val === CORRECT_PASS) {
                 msg.className = "text-[11px] font-bold text-emerald-400 text-center h-4";
                 msg.innerText = "Accès autorisé ! Redirection...";
-                localStorage.setItem("site_unlocked", "true");
+                sessionStorage.setItem("site_unlocked", "true");
                 setTimeout(() => {
                     overlay.style.opacity = "0";
                     setTimeout(() => {
@@ -225,7 +223,7 @@
 
             if (guess === targetNum) {
                 gMsg.innerText = "🎉 Gagnant ! Déverrouillage...";
-                localStorage.setItem("site_unlocked", "true");
+                sessionStorage.setItem("site_unlocked", "true");
                 setTimeout(() => {
                     overlay.style.display = "none";
                 }, 1000);
