@@ -94,7 +94,6 @@
                 <h1 class="font-black text-sm tracking-wider uppercase text-white">CrackFR</h1>
             </div>
             <div id="nav-actions">
-                <!-- Bouton de connexion staff ou Dashboard -->
                 <button onclick="openLoginModal()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold rounded-xl border border-slate-800 transition-all">Staff</button>
             </div>
         </div>
@@ -103,6 +102,28 @@
     <!-- CONTENU PRINCIPAL DU SITE -->
     <main class="max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
         
+        <!-- SECTION SONDAGE -->
+        <section class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4 shadow-xl">
+            <h2 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                <span>📊</span> Sondage de la semaine
+            </h2>
+            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 space-y-3">
+                <p id="poll-question-view" class="text-xs font-bold text-white">Quel type d'événement veux-tu ce week-end sur FiveM ?</p>
+                <div class="space-y-2">
+                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300">
+                        <span>Course sauvage en ville</span> <span class="font-bold text-pink-400">0%</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300">
+                        <span>Braquage de la grande banque</span> <span class="font-bold text-pink-400">0%</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs flex justify-between text-slate-300">
+                        <span>Soirée Chill & Drift</span> <span class="font-bold text-pink-400">0%</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-500 text-center">0 votes au total</p>
+            </div>
+        </section>
+
         <!-- SECTION ACTUALITÉS -->
         <section class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4 shadow-xl">
             <h2 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
@@ -127,32 +148,33 @@
                         <p id="audio-status-txt" class="text-[10px] text-slate-400">En pause</p>
                     </div>
                 </div>
-                <button onclick="toggleAudioPlayback()" id="audio-play-btn" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg flex items-center gap-2">
+                <button onclick="toggleAudioPlayback()" id="audio-play-btn" class="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg flex items-center gap-2 cursor-pointer">
                     <span>▶</span> <span>Écouter</span>
                 </button>
             </div>
-            <!-- Élément audio masqué (URL sécurisée HTTPS par défaut) -->
             <audio id="main-audio-stream" preload="none"></audio>
         </section>
 
     </main>
 
-    <!-- PANNEAU D'ADMINISTRATION (DASHBOARD STAFF) -->
+    <!-- PANNEAU D'ADMINISTRATION (DASHBOARD STAFF COMPLET) -->
     <div id="admin-dashboard" class="hidden max-w-4xl mx-auto px-4 py-6 space-y-6 flex-grow w-full">
+        <!-- Barre de contrôle supérieure du Panel -->
         <div class="flex items-center justify-between bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
             <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 <h2 class="text-xs font-black uppercase tracking-wider text-white">Staff Dashboard</h2>
             </div>
             <div class="flex gap-2">
-                <button onclick="closeAdminDashboard()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-all">Voir le site</button>
-                <button onclick="logoutStaff()" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-xs font-bold rounded-xl border border-pink-500/30 transition-all">Déconnexion</button>
+                <button onclick="closeAdminDashboard()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-all cursor-pointer">Voir le site</button>
+                <button onclick="logoutStaff()" class="px-3 py-1.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 text-xs font-bold rounded-xl border border-pink-500/30 transition-all cursor-pointer">Déconnexion</button>
             </div>
         </div>
 
+        <!-- 1. CONTRÔLE DU PORTAIL & LECTEUR -->
         <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-5 shadow-xl">
             <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
-                <span>⚡</span> Contrôle du Portail
+                <span>⚡</span> Contrôle du Portail & Réglages
             </h3>
             
             <div class="space-y-4">
@@ -174,13 +196,42 @@
                     <input type="text" id="admin-banner-text" placeholder="Laisser vide pour désactiver..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500">
                 </div>
 
-                <!-- CONTRÔLE DU LECTEUR AUDIO (RETROUVÉ ET AJOUTÉ) -->
+                <!-- URL DU LECTEUR AUDIO (HTTPS) -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">URL du Lecteur Audio / Flux (HTTPS)</label>
                     <input type="text" id="admin-audio-url" placeholder="https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-pink-500 font-mono">
                 </div>
 
                 <button onclick="saveAdminSettings()" class="w-full py-3 bg-pink-600 hover:bg-pink-500 text-xs font-extrabold rounded-xl text-white transition-all shadow-lg cursor-pointer">Sauvegarder les réglages</button>
+            </div>
+        </div>
+
+        <!-- 2. CANDIDATURES STAFF (Option avancée d'origine) -->
+        <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                    <span>📝</span> Candidatures Staff
+                </h3>
+                <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
+            </div>
+            <p class="text-xs text-slate-400">Candidatures envoyées par les membres.</p>
+            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
+                <p class="text-xs text-slate-500">Aucune candidature reçue.</p>
+            </div>
+            <button onclick="clearApplications()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all cursor-pointer">Effacer les candidatures</button>
+        </div>
+
+        <!-- 3. TICKETS D'ASSISTANCE SUPPORT (Option avancée d'origine) -->
+        <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xs font-black uppercase tracking-wider text-pink-500 flex items-center gap-2">
+                    <span>🎫</span> Tickets d'assistance support
+                </h3>
+                <span class="px-2.5 py-0.5 bg-slate-950 border border-slate-800 text-slate-300 text-[10px] font-bold rounded-full">0</span>
+            </div>
+            <p class="text-xs text-slate-400">Gestion des demandes d'aide de la communauté.</p>
+            <div class="bg-slate-950/50 p-4 rounded-2xl border border-slate-800 text-center">
+                <p class="text-xs text-slate-500">Aucun ticket pour le moment.</p>
             </div>
         </div>
     </div>
@@ -192,8 +243,8 @@
             <form onsubmit="handleLoginSubmit(event)" class="space-y-3">
                 <input type="password" id="login-password-input" placeholder="Mot de passe..." required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-center text-white focus:outline-none focus:border-pink-500 font-mono">
                 <div class="flex gap-2">
-                    <button type="submit" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl text-white transition-all">Valider</button>
-                    <button type="button" onclick="closeLoginModal()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all">Annuler</label>
+                    <button type="submit" class="flex-1 py-2.5 bg-pink-600 hover:bg-pink-500 text-xs font-bold rounded-xl text-white transition-all cursor-pointer">Valider</button>
+                    <button type="button" onclick="closeLoginModal()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition-all cursor-pointer">Annuler</button>
                 </div>
             </form>
         </div>
@@ -209,15 +260,13 @@
 
     <!-- LOGIQUE JAVASCRIPT -->
     <script>
-        // Paramètres par défaut
-        const DEFAULT_AUDIO_URL = "https://stream.zeno.fm/f3wvbb7538quv"; // Exemple de flux sécurisé HTTPS fonctionnel
+        const DEFAULT_AUDIO_URL = "https://stream.zeno.fm/f3wvbb7538quv";
 
         document.addEventListener("DOMContentLoaded", () => {
             loadSettingsToUI();
             checkAccessState();
         });
 
-        // Charger et appliquer les configurations stockées
         function getSettings() {
             return {
                 status: localStorage.getItem('maint_status') || 'normal',
@@ -231,7 +280,6 @@
         function loadSettingsToUI() {
             const config = getSettings();
             
-            // Appliquer la bannière
             const bannerEl = document.getElementById('global-banner');
             const bannerTextEl = document.getElementById('banner-text');
             if(config.banner.trim() !== '') {
@@ -241,11 +289,9 @@
                 bannerEl.classList.add('hidden');
             }
 
-            // Configurer l'URL audio sur l'élément
             const audioElem = document.getElementById('main-audio-stream');
             audioElem.src = config.audioUrl;
 
-            // Remplir les champs du dashboard admin
             document.getElementById('admin-maint-status').value = config.status;
             document.getElementById('admin-maint-reason').value = config.reason;
             document.getElementById('admin-banner-text').value = config.banner;
@@ -253,31 +299,26 @@
             document.getElementById('display-maint-reason').innerText = config.reason;
         }
 
-        // Vérifier si la maintenance doit s'afficher
         function checkAccessState() {
             const config = getSettings();
             const maintScreen = document.getElementById('maintenance-screen');
             const adminDash = document.getElementById('admin-dashboard');
             const mainContent = document.querySelector('main');
 
-            // Si mode maintenance actif et non connecté en tant que staff
             if (config.status === 'maintenance' && !config.auth) {
                 maintScreen.classList.remove('hidden');
                 adminDash.classList.add('hidden');
             } else if (config.auth) {
-                // Si connecté en staff
                 maintScreen.classList.add('hidden');
                 adminDash.classList.remove('hidden');
                 mainContent.classList.add('hidden');
             } else {
-                // Mode normal
                 maintScreen.classList.add('hidden');
                 adminDash.classList.add('hidden');
                 mainContent.classList.remove('hidden');
             }
         }
 
-        // Sauvegarde depuis le panel admin
         function saveAdminSettings() {
             const status = document.getElementById('admin-maint-status').value;
             const reason = document.getElementById('admin-maint-reason').value;
@@ -294,22 +335,18 @@
             showToast("Réglages sauvegardés avec succès ! ⚡");
         }
 
-        // Connexion staff via mot de passe rapide (depuis la maintenance)
         function bypassMaintenanceWithPass(e) {
             e.preventDefault();
             const pass = document.getElementById('staff-bypass-pass').value;
             if(pass === 'crackfr2026') {
                 localStorage.setItem('auth', '1');
                 showToast("Accès staff autorisé ! Redirection... ⚡");
-                setTimeout(() => {
-                    location.reload();
-                }, 800);
+                setTimeout(() => { location.reload(); }, 800);
             } else {
                 showToast("Mot de passe incorrect ❌");
             }
         }
 
-        // Connexion standard via la modale du header
         function handleLoginSubmit(e) {
             e.preventDefault();
             const pass = document.getElementById('login-password-input').value;
@@ -317,9 +354,7 @@
                 localStorage.setItem('auth', '1');
                 closeLoginModal();
                 showToast("Bienvenue dans le Dashboard Staff ⚡");
-                setTimeout(() => {
-                    location.reload();
-                }, 800);
+                setTimeout(() => { location.reload(); }, 800);
             } else {
                 showToast("Mot de passe incorrect ❌");
             }
@@ -328,12 +363,9 @@
         function logoutStaff() {
             localStorage.setItem('auth', '0');
             showToast("Déconnexion réussie");
-            setTimeout(() => {
-                location.reload();
-            }, 800);
+            setTimeout(() => { location.reload(); }, 800);
         }
 
-        // Gestion de l'affichage des modales
         function toggleStaffLoginModal() {
             const staffModal = document.getElementById('staff-login-modal');
             const gameView = document.getElementById('mini-game-view');
@@ -350,12 +382,14 @@
         }
 
         function closeAdminDashboard() {
-            // Permet de voir le site en mode normal temporairement pour le staff
             document.getElementById('admin-dashboard').classList.add('hidden');
             document.querySelector('main').classList.remove('hidden');
         }
 
-        // Mini-jeu de décryptage
+        function clearApplications() {
+            showToast("Candidatures effacées !");
+        }
+
         let secretCode = Math.floor(Math.random() * 10) + 1;
         function toggleMiniGame() {
             const gameView = document.getElementById('mini-game-view');
@@ -384,7 +418,6 @@
             }
         }
 
-        // Gestion du Lecteur Audio (avec gestion des erreurs mobiles)
         function toggleAudioPlayback() {
             const audio = document.getElementById('main-audio-stream');
             const statusTxt = document.getElementById('audio-status-txt');
@@ -409,7 +442,6 @@
             }
         }
 
-        // Système de Toast Notification
         function showToast(message) {
             const toast = document.getElementById('toast-notification');
             toast.innerText = message;
