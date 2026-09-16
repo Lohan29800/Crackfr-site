@@ -8,6 +8,10 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: #020005; color: #f8fafc; min-height: 100vh; scroll-behavior: smooth; overflow-x: hidden; }
         
+        /* BANDEAU DE MAINTENANCE GLOBAL */
+        #maintenance-banner { display: none; background: rgba(239, 68, 68, 0.15); border-bottom: 1px solid rgba(239, 68, 68, 0.4); padding: 0.75rem 1rem; text-align: center; font-size: 0.8rem; color: #fca5a5; font-weight: bold; z-index: 50; position: relative; }
+        #maintenance-banner.show { display: block; }
+
         header { border-bottom: 1px solid #1e293b; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 40; width: 100%; }
         .max-w { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; height: 4.5rem; display: flex; align-items: center; justify-content: space-between; }
         
@@ -96,7 +100,7 @@
         .keys-list { display: flex; flex-direction: column; gap: 0.4rem; max-height: 80px; overflow-y: auto; margin-bottom: 0.5rem; }
         .key-item { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 0.35rem 0.6rem; border-radius: 0.4rem; border: 1px solid #1e293b; font-size: 0.7rem; }
 
-        /* ADAPTATION MOBILE (ÉCRANS TÉLÉPHONES) */
+        /* ADAPTATION MOBILE */
         @media(max-width: 768px) {
             .max-w { padding: 0 1rem; height: auto; min-height: 4rem; flex-direction: column; padding-top: 0.75rem; padding-bottom: 0.75rem; gap: 0.75rem; }
             nav { width: 100%; justify-content: center; gap: 1.25rem; }
@@ -109,6 +113,11 @@
     </style>
 </head>
 <body>
+
+    <!-- BANDEAU PUBLIC DE MAINTENANCE (S'affiche si actif) -->
+    <div id="maintenance-banner">
+        ⚠️ <strong>MAINTENANCE EN COURS :</strong> <span id="banner-reason-text">Le site est actuellement en maintenance.</span>
+    </div>
 
     <!-- SITE PUBLIC PRINCIPAL -->
     <header>
@@ -136,7 +145,7 @@
             <p>Le hub de référence pour nos serveurs de jeu, nos projets web et notre communauté.</p>
         </div>
 
-        <!-- ZONE D'AFFICHAGE DES ANNONCES OFFICIELLES -->
+        <!-- ZONE D'AFFICHAGE DES ANNONCES PUBLIQUES -->
         <div id="announcements-container"></div>
 
         <div id="serveurs" class="grid">
@@ -291,17 +300,36 @@
         const logoutBtn = document.getElementById("logout-btn");
         const logsBox = document.getElementById("admin-logs");
 
-        // Charger l'état de la maintenance enregistré au démarrage
+        // Vérification et application de l'état de la maintenance au chargement
         const savedMaintActive = localStorage.getItem("maint_active") === "true";
         const savedMaintReason = localStorage.getItem("maint_reason") || "";
 
-        if (savedMaintActive) {
-            document.getElementById("maint-status").innerText = "Actif 🔴";
-            document.getElementById("maint-status").style.color = "#f43f5e";
-            document.getElementById("status-display").innerText = "Maintenance 🛠️";
-            document.getElementById("status-display").style.color = "#f43f5e";
-            document.getElementById("maintenance-reason").value = savedMaintReason;
+        function applyMaintenanceUI(isActive, reason) {
+            const banner = document.getElementById("maintenance-banner");
+            const bannerText = document.getElementById("banner-reason-text");
+            const maintStatus = document.getElementById("maint-status");
+            const statusDisplay = document.getElementById("status-display");
+            const maintReasonInput = document.getElementById("maintenance-reason");
+
+            if (isActive) {
+                banner.classList.add("show");
+                bannerText.innerText = reason ? `Raison : ${reason}` : "Le site est actuellement en maintenance.";
+                maintStatus.innerText = "Actif 🔴";
+                maintStatus.style.color = "#f43f5e";
+                statusDisplay.innerText = "Maintenance 🛠️";
+                statusDisplay.style.color = "#f43f5e";
+                if(maintReasonInput) maintReasonInput.value = reason;
+            } else {
+                banner.classList.remove("show");
+                maintStatus.innerText = "Désactivé";
+                maintStatus.style.color = "#94a3b8";
+                statusDisplay.innerText = "En Ligne 🟢";
+                statusDisplay.style.color = "#34d399";
+            }
         }
+
+        // Appliquer l'état sauvegardé dès le démarrage
+        applyMaintenanceUI(savedMaintActive, savedMaintReason);
 
         // Charger les membres depuis la base de données PostgreSQL via l'API
         async function fetchLinkedUsers() {
@@ -479,7 +507,7 @@
             }
         }
 
-        // Maintenance : Activer (avec persistance localStorage)
+        // Maintenance : Activer
         document.getElementById("maintenance-form").addEventListener("submit", (e) => {
             e.preventDefault();
             const reason = document.getElementById("maintenance-reason").value.trim();
@@ -487,13 +515,10 @@
             localStorage.setItem("maint_active", "true");
             localStorage.setItem("maint_reason", reason);
 
-            document.getElementById("maint-status").innerText = "Actif 🔴";
-            document.getElementById("maint-status").style.color = "#f43f5e";
-            document.getElementById("status-display").innerText = "Maintenance 🛠️";
-            document.getElementById("status-display").style.color = "#f43f5e";
+            applyMaintenanceUI(true, reason);
             
             addLog(`🚨 Maintenance activée. Raison : "${reason}"`);
-            alert("Maintenance activée et sauvegardée !");
+            alert("Maintenance activée et affichée sur le site !");
         });
 
         // Maintenance : Désactiver
@@ -501,11 +526,7 @@
             localStorage.removeItem("maint_active");
             localStorage.removeItem("maint_reason");
 
-            document.getElementById("maint-status").innerText = "Désactivé";
-            document.getElementById("maint-status").style.color = "#94a3b8";
-            document.getElementById("status-display").innerText = "En Ligne 🟢";
-            document.getElementById("status-display").style.color = "#34d399";
-            document.getElementById("maintenance-reason").value = "";
+            applyMaintenanceUI(false, "");
             
             addLog(`✅ Maintenance désactivée.`);
             alert("Maintenance désactivée !");
