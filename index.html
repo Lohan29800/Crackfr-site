@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrackFR - Portail Officiel & Maintenance</title>
+    <title>CrackFR - Portail Officiel</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: #020005; color: #f8fafc; min-height: 100vh; scroll-behavior: smooth; }
@@ -34,50 +34,60 @@
         .card h3 { font-size: 1rem; font-weight: bold; color: #fff; margin: 0.75rem 0 0.5rem 0; }
         .card p { font-size: 0.75rem; color: #94a3b8; }
 
-        /* PANEL GÉRÉ EN JS (Caché par défaut, affiché via la classe .show) */
-        #maintenance-overlay {
+        /* FENÊTRE MODALE DU PANEL ADMIN (Cachée par défaut) */
+        #admin-modal-overlay {
             position: fixed;
             inset: 0;
-            z-index: 50;
+            z-index: 100;
             display: none; 
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            background: rgba(2, 0, 5, 0.9);
-            backdrop-filter: blur(12px);
+            background: rgba(2, 0, 5, 0.85);
+            backdrop-filter: blur(10px);
         }
-        #maintenance-overlay.show {
+        #admin-modal-overlay.show {
             display: flex !important;
         }
 
-        .modal {
-            max-width: 28rem;
+        .modal-box {
+            max-width: 32rem;
             width: 100%;
             background: #0f172a;
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 1.5rem;
             border: 1px solid rgba(236, 72, 153, 0.4);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             position: relative;
         }
-        .close-btn { position: absolute; top: 1rem; right: 1rem; color: #94a3b8; background: none; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; }
+        .close-btn { position: absolute; top: 1.25rem; right: 1.25rem; color: #94a3b8; background: none; border: none; font-size: 1rem; font-weight: bold; cursor: pointer; }
         .close-btn:hover { color: #fff; }
 
-        .modal-header { text-align: center; margin-bottom: 1.25rem; }
-        .modal-icon { width: 3rem; height: 3rem; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.4); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin: 0 auto 0.75rem auto; }
-        .modal-header h2 { font-size: 1.25rem; font-weight: 900; text-transform: uppercase; color: #fff; margin-bottom: 0.25rem; }
-        .modal-header p { font-size: 0.75rem; color: #94a3b8; }
-
+        /* VUE 1 : FORMULAIRE DE CONNEXION STAFF */
+        #login-view h2 { font-size: 1.25rem; font-weight: 900; text-transform: uppercase; color: #fff; margin-bottom: 0.25rem; text-align: center; }
+        #login-view p { font-size: 0.75rem; color: #94a3b8; text-align: center; margin-bottom: 1.25rem; }
+        
         form { display: flex; flex-direction: column; gap: 0.75rem; }
         input { width: 100%; background: #020005; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; color: #fff; outline: none; }
         input:focus { border-color: #ec4899; }
-        button[type="submit"] { width: 100%; background: #db2777; color: #fff; border: none; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-        button[type="submit"]:hover { background: #be185d; }
-        #maintenance-msg { text-align: center; font-size: 0.7rem; font-weight: bold; height: 1rem; margin-top: 0.5rem; }
+        button.action-btn { width: 100%; background: #db2777; color: #fff; border: none; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+        button.action-btn:hover { background: #be185d; }
+        #login-msg { text-align: center; font-size: 0.7rem; font-weight: bold; height: 1rem; margin-top: 0.5rem; }
+
+        /* VUE 2 : TABLEAU DE BORD ADMIN (Caché par défaut, s'affiche une fois connecté) */
+        #dashboard-view { display: none; }
+        #dashboard-view.active { display: block; }
+        .dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; }
+        .dashboard-header h2 { font-size: 1.125rem; font-weight: 900; color: #fff; text-transform: uppercase; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        .stat-card { background: #020005; border: 1px solid #1e293b; padding: 1rem; border-radius: 1rem; text-align: center; }
+        .stat-card span { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 0.25rem; }
+        .stat-card strong { font-size: 1rem; color: #34d399; }
     </style>
 </head>
 <body>
 
+    <!-- SITE PUBLIC PRINCIPAL -->
     <header>
         <div class="max-w">
             <div class="logo-box">
@@ -87,8 +97,8 @@
             <nav>
                 <a href="#accueil">Accueil</a>
                 <a href="#serveurs">Serveurs</a>
-                <!-- Bouton Staff piloté par JS -->
-                <a id="open-staff-btn" class="active">Staff</a>
+                <!-- Bouton Staff pour ouvrir le panel admin -->
+                <a id="open-admin-btn" class="active" style="color: #ec4899;">Panel Staff</a>
             </nav>
             <div>
                 <a href="https://discord.gg" target="_blank" class="btn-discord">Discord</a>
@@ -122,75 +132,113 @@
         </div>
     </main>
 
-    <!-- PANEL STAFF -->
-    <div id="maintenance-overlay">
-        <div class="modal">
-            <button type="button" id="close-staff-btn" class="close-btn">✕</button>
-            <div class="modal-header">
-                <div class="modal-icon">🛡️</div>
-                <h2>Panel Staff</h2>
-                <p>Saisis ta clé d'accès staff pour déverrouiller l'accès.</p>
+    <!-- FENÊTRE MODALE DU PANEL ADMIN -->
+    <div id="admin-modal-overlay">
+        <div class="modal-box">
+            <button type="button" id="close-admin-btn" class="close-btn">✕</button>
+
+            <!-- ÉTAPE 1 : CONNEXION -->
+            <div id="login-view">
+                <h2>Sécurité Staff</h2>
+                <p>Entre ta clé d'administration pour ouvrir le panel.</p>
+                <form id="staff-form">
+                    <input type="password" id="staff-password" placeholder="Clé d'accès..." required>
+                    <button type="submit" class="action-btn">Connexion</button>
+                </form>
+                <p id="login-msg"></p>
             </div>
-            <form id="staff-form">
-                <input type="password" id="staff-password" placeholder="Entrer la clé..." required>
-                <button type="submit">Valider</button>
-            </form>
-            <p id="maintenance-msg"></p>
+
+            <!-- ÉTAPE 2 : TABLEAU DE BORD (caché au départ) -->
+            <div id="dashboard-view">
+                <div class="dashboard-header">
+                    <h2>Dashboard Admin</h2>
+                    <button type="button" id="logout-btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 0.35rem 0.75rem; border-radius: 0.5rem; font-size: 0.65rem; font-weight: bold; cursor: pointer;">Déconnexion</button>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span>Statut Serveur</span>
+                        <strong>En ligne 🟢</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span>Sécurité Panel</span>
+                        <strong>Actif 🔒</strong>
+                    </div>
+                </div>
+                <div style="background: #020005; border: 1px solid #1e293b; padding: 1rem; border-radius: 1rem; text-align: center;">
+                    <p style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.5rem;">Bienvenue dans l'espace de gestion privé CrackFR.</p>
+                    <span style="font-size: 0.65rem; color: #ec4899; font-weight: bold;">Accès autorisé avec succès.</span>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
         const CORRECT_PASS = "crackfr2026";
-        const overlay = document.getElementById("maintenance-overlay");
-        const openBtn = document.getElementById("open-staff-btn");
-        const closeBtn = document.getElementById("close-staff-btn");
+        const overlay = document.getElementById("admin-modal-overlay");
+        const openBtn = document.getElementById("open-admin-btn");
+        const closeBtn = document.getElementById("close-admin-btn");
         const staffForm = document.getElementById("staff-form");
+        const loginView = document.getElementById("login-view");
+        const dashboardView = document.getElementById("dashboard-view");
+        const logoutBtn = document.getElementById("logout-btn");
 
-        // Ouvrir le panel au clic sur Staff
-        if (openBtn) {
-            openBtn.addEventListener("click", (e) => {
-                e.preventDefault();
-                overlay.classList.add("show");
-            });
-        }
+        // Ouvrir la modale au clic sur le menu Panel Staff
+        openBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            overlay.classList.add("show");
+            
+            // Si l'admin était déjà connecté dans cette session, afficher direct le dashboard
+            if (sessionStorage.getItem("admin_logged") === "true") {
+                loginView.style.display = "none";
+                dashboardView.classList.add("active");
+            } else {
+                loginView.style.display = "block";
+                dashboardView.classList.remove("active");
+            }
+        });
 
-        // Fermer le panel au clic sur la croix
-        if (closeBtn) {
-            closeBtn.addEventListener("click", () => {
+        // Fermer la modale
+        closeBtn.addEventListener("click", () => {
+            overlay.classList.remove("show");
+        });
+
+        // Fermer si clic en dehors de la boîte
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) {
                 overlay.classList.remove("show");
-            });
-        }
+            }
+        });
 
-        // Fermer aussi si on clique en dehors de la modale (sur le fond noir)
-        if (overlay) {
-            overlay.addEventListener("click", (e) => {
-                if (e.target === overlay) {
-                    overlay.classList.remove("show");
-                }
-            });
-        }
+        // Validation de la clé du panel
+        staffForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const val = document.getElementById("staff-password").value.trim();
+            const msg = document.getElementById("login-msg");
 
-        // Validation du mot de passe
-        if (staffForm) {
-            staffForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const val = document.getElementById("staff-password").value.trim();
-                const msg = document.getElementById("maintenance-msg");
+            if (val === CORRECT_PASS) {
+                msg.style.color = "#34d399";
+                msg.innerText = "Accès autorisé !";
+                sessionStorage.setItem("admin_logged", "true");
+                
+                setTimeout(() => {
+                    loginView.style.display = "none";
+                    dashboardView.classList.add("active");
+                    document.getElementById("staff-password").value = "";
+                    msg.innerText = "";
+                }, 500);
+            } else {
+                msg.style.color = "#f472b6";
+                msg.innerText = "Clé incorrecte !";
+            }
+        });
 
-                if (val === CORRECT_PASS) {
-                    msg.style.color = "#34d399";
-                    msg.innerText = "Accès autorisé ! Fermeture...";
-                    setTimeout(() => {
-                        overlay.classList.remove("show");
-                        document.getElementById("staff-password").value = "";
-                        msg.innerText = "";
-                    }, 800);
-                } else {
-                    msg.style.color = "#f472b6";
-                    msg.innerText = "Clé incorrecte !";
-                }
-            });
-        }
+        // Bouton de déconnexion du panel
+        logoutBtn.addEventListener("click", () => {
+            sessionStorage.removeItem("admin_logged");
+            dashboardView.classList.remove("active");
+            loginView.style.display = "block";
+        });
     </script>
 </body>
 </html>
