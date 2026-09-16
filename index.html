@@ -24,17 +24,25 @@
         .btn-discord:hover { background: #4338ca; }
 
         main { max-width: 1200px; margin: 0 auto; padding: 4rem 1rem; }
-        .hero { text-align: center; max-width: 42rem; margin: 0 auto 4rem auto; }
+        .hero { text-align: center; max-width: 42rem; margin: 0 auto 3rem auto; }
         .badge { display: inline-block; padding: 0.25rem 0.75rem; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.3); color: #f472b6; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; border-radius: 9999px; margin-bottom: 1rem; letter-spacing: 0.1em; }
         .hero h1 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; color: #fff; }
         .hero p { font-size: 0.875rem; color: #94a3b8; line-height: 1.6; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
         .card { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 1.5rem; }
         .card h3 { font-size: 1rem; font-weight: bold; color: #fff; margin: 0.75rem 0 0.5rem 0; }
         .card p { font-size: 0.75rem; color: #94a3b8; }
 
-        /* MODALE DU PANEL ADMIN COMPLET */
+        /* SECTION ÉQUIPE & LIAISONS SUR L'ACCUEIL */
+        .section-title { font-size: 1.25rem; font-weight: 800; text-transform: uppercase; margin-bottom: 1rem; color: #fff; border-left: 3px solid #ec4899; padding-left: 0.75rem; }
+        .linked-users-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 4rem; }
+        .linked-user-card { background: rgba(15, 23, 42, 0.4); border: 1px solid #1e293b; padding: 1rem; border-radius: 1rem; display: flex; align-items: center; justify-content: space-between; }
+        .linked-user-info span { font-size: 0.65rem; color: #94a3b8; display: block; }
+        .linked-user-info strong { font-size: 0.85rem; color: #fff; }
+        .role-badge { font-size: 0.6rem; padding: 0.2rem 0.5rem; border-radius: 9999px; font-weight: bold; background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+        /* MODALE DU PANEL ADMIN */
         #admin-modal-overlay {
             position: fixed; inset: 0; z-index: 100;
             display: none; align-items: center; justify-content: center;
@@ -44,7 +52,7 @@
         #admin-modal-overlay.show { display: flex !important; }
 
         .modal-box {
-            max-width: 48rem; width: 100%; background: #0f172a; padding: 2rem;
+            max-width: 52rem; width: 100%; background: #0f172a; padding: 2rem;
             border-radius: 1.5rem; border: 1px solid rgba(236, 72, 153, 0.4);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8); position: relative;
             max-height: 90vh; overflow-y: auto;
@@ -52,7 +60,6 @@
         .close-btn { position: absolute; top: 1.25rem; right: 1.25rem; color: #94a3b8; background: none; border: none; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
         .close-btn:hover { color: #fff; }
 
-        /* FORMULAIRE DE CONNEXION STAFF */
         #login-view h2 { font-size: 1.25rem; font-weight: 900; text-transform: uppercase; color: #fff; margin-bottom: 0.25rem; text-align: center; }
         #login-view p { font-size: 0.75rem; color: #94a3b8; text-align: center; margin-bottom: 1.25rem; }
         
@@ -64,7 +71,6 @@
         .action-btn:hover { background: #be185d; }
         #login-msg { text-align: center; font-size: 0.7rem; font-weight: bold; height: 1rem; margin-top: 0.5rem; }
 
-        /* TABLEAU DE BORD ADMIN INTERNE */
         #dashboard-view { display: none; }
         #dashboard-view.active { display: block; }
         
@@ -83,11 +89,10 @@
         .panel-box { background: #020005; border: 1px solid #1e293b; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; }
         .panel-box h4 { font-size: 0.75rem; font-weight: bold; color: #fff; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
 
-        .console-box { background: #000; border: 1px solid #1e293b; border-radius: 0.5rem; padding: 0.75rem; font-family: monospace; font-size: 0.65rem; color: #34d399; height: 110px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.25rem; }
+        .console-box { background: #000; border: 1px solid #1e293b; border-radius: 0.5rem; padding: 0.75rem; font-family: monospace; font-size: 0.65rem; color: #34d399; height: 100px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.25rem; }
         
-        .keys-list { display: flex; flex-direction: column; gap: 0.4rem; max-height: 90px; overflow-y: auto; margin-bottom: 0.5rem; }
-        .key-item { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 0.4rem 0.6rem; border-radius: 0.4rem; border: 1px solid #1e293b; font-size: 0.7rem; }
-        .badge-role { font-size: 0.55rem; background: rgba(236, 72, 153, 0.15); color: #f472b6; padding: 0.1rem 0.4rem; border-radius: 9999px; border: 1px solid rgba(236, 72, 153, 0.3); font-weight: bold; }
+        .keys-list { display: flex; flex-direction: column; gap: 0.4rem; max-height: 80px; overflow-y: auto; margin-bottom: 0.5rem; }
+        .key-item { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 0.35rem 0.6rem; border-radius: 0.4rem; border: 1px solid #1e293b; font-size: 0.7rem; }
     </style>
 </head>
 <body>
@@ -102,7 +107,7 @@
             <nav>
                 <a href="#accueil">Accueil</a>
                 <a href="#serveurs">Serveurs</a>
-                <!-- Bouton Staff ouvrant la modale du panel admin -->
+                <a href="#equipe">Équipe</a>
                 <a id="open-admin-btn" style="color: #ec4899;">Panel Staff</a>
             </nav>
             <div>
@@ -135,9 +140,17 @@
                 <p>Rejoins des centaines de membres passionnés sur notre Discord.</p>
             </div>
         </div>
+
+        <!-- SECTION DYNAMIQUE DES PERSONNES LIÉES AUX PANNEAUX D'ACCUEIL -->
+        <div id="equipe">
+            <h2 class="section-title">Membres & Rôles Liés à l'Accueil</h2>
+            <div class="linked-users-grid" id="public-linked-users">
+                <!-- Injecté dynamiquement par JS -->
+            </div>
+        </div>
     </main>
 
-    <!-- FENÊTRE MODALE DU PANEL ADMIN COMPLET -->
+    <!-- FENÊTRE MODALE DU PANEL ADMIN -->
     <div id="admin-modal-overlay">
         <div class="modal-box">
             <button type="button" id="close-admin-btn" class="close-btn">✕</button>
@@ -153,7 +166,7 @@
                 <p id="login-msg"></p>
             </div>
 
-            <!-- ÉTAPE 2 : TABLEAU DE BORD COMPLET (Caché au départ) -->
+            <!-- ÉTAPE 2 : TABLEAU DE BORD ADMIN INTERNE -->
             <div id="dashboard-view">
                 <div class="dashboard-header">
                     <h2>Panel Admin CrackFR</h2>
@@ -191,49 +204,40 @@
                             </form>
                         </div>
 
-                        <!-- CRÉATION D'ACCÈS -->
+                        <!-- LIAISON DES PERSONNES AUX PANNEAUX D'ACCUEIL -->
                         <div class="panel-box">
-                            <h4>🔑 Création d'Accès Staff</h4>
-                            <div class="keys-list" id="keys-container">
-                                <div class="key-item">
-                                    <span><code>crackfr2026</code></span>
-                                    <span class="badge-role">Owner</span>
-                                </div>
-                            </div>
-                            <form id="create-key-form" style="display: flex; gap: 0.4rem; margin-top: 0.4rem;">
-                                <input type="text" id="new-key-input" placeholder="Nouvelle clé..." required style="flex: 2; font-size: 0.65rem; padding: 0.4rem;">
-                                <button type="submit" class="action-btn" style="flex: 1; font-size: 0.6rem; padding: 0.4rem;">Créer</button>
+                            <h4>🔗 Lier une personne à l'accueil</h4>
+                            <form id="link-user-form" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                                <input type="text" id="link-username" placeholder="Nom / Pseudo..." required style="font-size: 0.65rem; padding: 0.4rem;">
+                                <select id="link-role" style="font-size: 0.65rem; padding: 0.4rem;">
+                                    <option value="Fondateur">Fondateur</option>
+                                    <option value="Développeur">Développeur</option>
+                                    <option value="Responsable Staff">Responsable Staff</option>
+                                    <option value="Modérateur">Modérateur</option>
+                                </select>
+                                <button type="submit" class="action-btn" style="font-size: 0.6rem; padding: 0.4rem; background: #ec4899;">Ajouter au panneau d'accueil</button>
                             </form>
                         </div>
                     </div>
 
                     <div>
-                        <!-- MODÉRATION ADMIN -->
+                        <!-- MODÉRATION & CLÉS -->
                         <div class="panel-box">
-                            <h4>⚡ Modération & Alertes</h4>
+                            <h4>⚡ Modération & Clés Staff</h4>
                             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <div>
-                                    <label style="font-size: 0.6rem; color: #94a3b8; font-weight: bold; display: block; margin-bottom: 0.2rem;">Sanctionner (Pseudo) :</label>
-                                    <div style="display: flex; gap: 0.4rem;">
-                                        <input type="text" id="target-user" placeholder="Joueur..." style="flex: 2; font-size: 0.65rem; padding: 0.4rem;">
-                                        <select id="sanction-type" style="flex: 1; font-size: 0.65rem; padding: 0.4rem;">
-                                            <option value="Kick">Kick</option>
-                                            <option value="Ban">Ban</option>
-                                            <option value="Mute">Mute</option>
-                                        </select>
-                                    </div>
+                                <div style="display: flex; gap: 0.4rem;">
+                                    <input type="text" id="target-user" placeholder="Joueur cible..." style="flex: 2; font-size: 0.65rem; padding: 0.4rem;">
+                                    <select id="sanction-type" style="flex: 1; font-size: 0.65rem; padding: 0.4rem;">
+                                        <option value="Kick">Kick</option>
+                                        <option value="Ban">Ban</option>
+                                    </select>
                                 </div>
-                                <button type="button" class="action-btn" style="background: #f43f5e; font-size: 0.65rem; padding: 0.5rem;" onclick="executeSanction()">Appliquer Sanction</button>
-                                
-                                <hr style="border: 0; border-top: 1px solid #1e293b; margin: 0.1rem 0;">
-                                
-                                <div>
-                                    <label style="font-size: 0.6rem; color: #94a3b8; font-weight: bold; display: block; margin-bottom: 0.2rem;">Alerte Globale :</label>
-                                    <div style="display: flex; gap: 0.4rem;">
-                                        <input type="text" id="global-alert-msg" placeholder="Message..." style="flex: 3; font-size: 0.65rem; padding: 0.4rem;">
-                                        <button type="button" class="action-btn" style="flex: 1; font-size: 0.6rem; padding: 0.4rem;" onclick="sendGlobalAlert()">Diffuser</button>
-                                    </div>
-                                </div>
+                                <button type="button" class="action-btn" style="background: #f43f5e; font-size: 0.65rem; padding: 0.4rem;" onclick="executeSanction()">Appliquer Sanction</button>
+                            </div>
+                            
+                            <div style="margin-top: 0.75rem;">
+                                <span style="font-size: 0.6rem; color: #94a3b8; font-weight: bold; display: block; margin-bottom: 0.2rem;">Clés enregistrées :</span>
+                                <div class="keys-list" id="keys-container"></div>
                             </div>
                         </div>
 
@@ -241,8 +245,7 @@
                         <div class="panel-box">
                             <h4>📜 Logs Admin Live</h4>
                             <div class="console-box" id="admin-logs">
-                                <span>[18:20:00] [System] Panel unifié chargé.</span>
-                                <span>[18:20:01] [Auth] En attente d'identification.</span>
+                                <span>[18:30:00] [System] Module de liaison activé.</span>
                             </div>
                         </div>
                     </div>
@@ -254,6 +257,9 @@
 
     <script>
         let validKeys = JSON.parse(localStorage.getItem("crackfr_keys")) || ["crackfr2026"];
+        let linkedUsers = JSON.parse(localStorage.getItem("crackfr_linked_users")) || [
+            { name: "AdminPrincipal", role: "Fondateur" }
+        ];
         
         const overlay = document.getElementById("admin-modal-overlay");
         const openBtn = document.getElementById("open-admin-btn");
@@ -264,25 +270,48 @@
         const logoutBtn = document.getElementById("logout-btn");
         const logsBox = document.getElementById("admin-logs");
 
-        // Ouvrir la modale
+        // Affichage dynamique des utilisateurs liés sur la page d'accueil
+        function renderPublicLinkedUsers() {
+            const container = document.getElementById("public-linked-users");
+            container.innerHTML = "";
+            if(linkedUsers.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.75rem; color: #94a3b8;">Aucun membre lié pour le moment.</p>`;
+                return;
+            }
+            linkedUsers.forEach((user, index) => {
+                container.innerHTML += `
+                    <div class="linked-user-card">
+                        <div class="linked-user-info">
+                            <span>Membre Officiel</span>
+                            <strong>${user.name}</strong>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span class="role-badge">${user.role}</span>
+                            ${sessionStorage.getItem("admin_logged") === "true" ? `<button onclick="removeLinkedUser(${index})" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:0.7rem;">✕</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        renderPublicLinkedUsers();
+
+        // Gestion de l'ouverture de la modale
         openBtn.addEventListener("click", (e) => {
             e.preventDefault();
             overlay.classList.add("show");
-            
             if (sessionStorage.getItem("admin_logged") === "true") {
                 loginView.style.display = "none";
                 dashboardView.classList.add("active");
+                renderPublicLinkedUsers();
             } else {
                 loginView.style.display = "block";
                 dashboardView.classList.remove("active");
             }
         });
 
-        // Fermer la modale
         closeBtn.addEventListener("click", () => overlay.classList.remove("show"));
         overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.classList.remove("show"); });
 
-        // Connexion
         staffForm.addEventListener("submit", (e) => {
             e.preventDefault();
             const val = document.getElementById("staff-password").value.trim();
@@ -292,13 +321,14 @@
                 msg.style.color = "#34d399";
                 msg.innerText = "Accès autorisé !";
                 sessionStorage.setItem("admin_logged", "true");
-                addLog(`Connexion réussie avec la clé : ${val}`);
+                addLog(`Connexion réussie.`);
                 
                 setTimeout(() => {
                     loginView.style.display = "none";
                     dashboardView.classList.add("active");
                     document.getElementById("staff-password").value = "";
                     msg.innerText = "";
+                    renderPublicLinkedUsers();
                 }, 400);
             } else {
                 msg.style.color = "#f472b6";
@@ -306,18 +336,40 @@
             }
         });
 
-        // Déconnexion
         logoutBtn.addEventListener("click", () => {
             sessionStorage.removeItem("admin_logged");
             dashboardView.classList.remove("active");
             loginView.style.display = "block";
-            addLog(`Déconnexion de la session admin.`);
+            renderPublicLinkedUsers();
+            addLog(`Déconnexion.`);
         });
 
         function addLog(text) {
             const time = new Date().toLocaleTimeString();
             logsBox.innerHTML += `<span>[${time}] ${text}</span>`;
             logsBox.scrollTop = logsBox.scrollHeight;
+        }
+
+        // Ajouter une personne liée à l'accueil
+        document.getElementById("link-user-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("link-username").value.trim();
+            const role = document.getElementById("link-role").value;
+
+            linkedUsers.push({ name, role });
+            localStorage.setItem("crackfr_linked_users", JSON.stringify(linkedUsers));
+            renderPublicLinkedUsers();
+
+            addLog(`🔗 Membre lié à l'accueil : ${name} (${role})`);
+            alert(`Le membre ${name} a été affiché sur l'accueil !`);
+            document.getElementById("link-username").value = "";
+        });
+
+        function removeLinkedUser(index) {
+            const removed = linkedUsers.splice(index, 1);
+            localStorage.setItem("crackfr_linked_users", JSON.stringify(linkedUsers));
+            renderPublicLinkedUsers();
+            addLog(`🗑️ Membre retiré de l'accueil : ${removed[0].name}`);
         }
 
         // Maintenance
@@ -328,9 +380,8 @@
             document.getElementById("maint-status").style.color = "#f43f5e";
             document.getElementById("status-display").innerText = "Maintenance 🛠️";
             document.getElementById("status-display").style.color = "#f43f5e";
-            
             addLog(`🚨 Maintenance activée. Raison : "${reason}"`);
-            alert("Maintenance activée avec succès !");
+            alert("Maintenance activée !");
         });
 
         document.getElementById("disable-maint").addEventListener("click", () => {
@@ -339,7 +390,6 @@
             document.getElementById("status-display").innerText = "En Ligne 🟢";
             document.getElementById("status-display").style.color = "#34d399";
             document.getElementById("maintenance-reason").value = "";
-            
             addLog(`✅ Maintenance désactivée.`);
             alert("Maintenance désactivée !");
         });
@@ -352,7 +402,7 @@
                 container.innerHTML += `
                     <div class="key-item">
                         <span><code>${key}</code></span>
-                        <span class="badge-role">Actif</span>
+                        <span style="font-size:0.55rem; color:#f472b6;">Actif</span>
                     </div>
                 `;
             });
@@ -360,43 +410,13 @@
         }
         updateKeysUI();
 
-        document.getElementById("create-key-form").addEventListener("submit", (e) => {
-            e.preventDefault();
-            const newKey = document.getElementById("new-key-input").value.trim();
-            if(validKeys.includes(newKey)) {
-                alert("Cette clé existe déjà !");
-                return;
-            }
-            validKeys.push(newKey);
-            localStorage.setItem("crackfr_keys", JSON.stringify(validKeys));
-            updateKeysUI();
-            addLog(`🔑 Nouvelle clé créée : ${newKey}`);
-            document.getElementById("new-key-input").value = "";
-            alert("Clé créée avec succès !");
-        });
-
-        // Modération
         function executeSanction() {
             const target = document.getElementById("target-user").value.trim();
             const type = document.getElementById("sanction-type").value;
-            if(!target) {
-                alert("Entrer un nom d'utilisateur !");
-                return;
-            }
-            addLog(`⚡ Sanction [${type}] appliquée sur : ${target}`);
+            if(!target) { alert("Entrer un pseudo !"); return; }
+            addLog(`⚡ Sanction [${type}] sur : ${target}`);
             alert(`Sanction ${type} appliquée à ${target}`);
             document.getElementById("target-user").value = "";
-        }
-
-        function sendGlobalAlert() {
-            const msg = document.getElementById("global-alert-msg").value.trim();
-            if(!msg) {
-                alert("Écrire un message !");
-                return;
-            }
-            addLog(`📢 Alerte globale : "${msg}"`);
-            alert("Alerte globale diffusée !");
-            document.getElementById("global-alert-msg").value = "";
         }
     </script>
 </body>
