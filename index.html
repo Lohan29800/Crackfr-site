@@ -24,10 +24,14 @@
         .btn-discord:hover { background: #4338ca; }
 
         main { max-width: 1200px; margin: 0 auto; padding: 4rem 1rem; }
-        .hero { text-align: center; max-width: 42rem; margin: 0 auto 3rem auto; }
+        .hero { text-align: center; max-width: 42rem; margin: 0 auto 2rem auto; }
         .badge { display: inline-block; padding: 0.25rem 0.75rem; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.3); color: #f472b6; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; border-radius: 9999px; margin-bottom: 1rem; letter-spacing: 0.1em; }
         .hero h1 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; color: #fff; }
         .hero p { font-size: 0.875rem; color: #94a3b8; line-height: 1.6; }
+
+        /* BANDEAU DES ANNONCES PUBLIQUES */
+        #announcements-container { max-width: 800px; margin: 0 auto 3rem auto; display: flex; flex-direction: column; gap: 0.5rem; }
+        .announcement-banner { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); padding: 0.75rem 1rem; border-radius: 0.75rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem; color: #cbd5e1; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
         .card { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; padding: 1.5rem; border-radius: 1.5rem; }
@@ -123,6 +127,9 @@
             <p>Le hub de référence pour nos serveurs de jeu, nos projets web et notre communauté.</p>
         </div>
 
+        <!-- ZONE D'AFFICHAGE DES ANNONCES OFFICIELLES -->
+        <div id="announcements-container"></div>
+
         <div id="serveurs" class="grid">
             <div class="card">
                 <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">🚀</div>
@@ -144,9 +151,7 @@
         <!-- SECTION DYNAMIQUE DES PERSONNES LIÉES AUX PANNEAUX D'ACCUEIL -->
         <div id="equipe">
             <h2 class="section-title">Membres & Rôles Liés à l'Accueil</h2>
-            <div class="linked-users-grid" id="public-linked-users">
-                <!-- Injecté dynamiquement par JS -->
-            </div>
+            <div class="linked-users-grid" id="public-linked-users"></div>
         </div>
     </main>
 
@@ -204,6 +209,15 @@
                             </form>
                         </div>
 
+                        <!-- PUBLIER UNE ANNONCE -->
+                        <div class="panel-box">
+                            <h4>📢 Diffuser une Annonce</h4>
+                            <form id="announcement-form">
+                                <textarea id="announcement-text" rows="2" placeholder="Message important pour la communauté..." required style="margin-bottom: 0.5rem; resize: none; font-size: 0.65rem; padding: 0.4rem;"></textarea>
+                                <button type="submit" class="action-btn" style="background: #8b5cf6; font-size: 0.6rem; padding: 0.4rem;">Diffuser sur le site</button>
+                            </form>
+                        </div>
+
                         <!-- LIAISON DES PERSONNES AUX PANNEAUX D'ACCUEIL -->
                         <div class="panel-box">
                             <h4>🔗 Lier une personne à l'accueil</h4>
@@ -245,7 +259,7 @@
                         <div class="panel-box">
                             <h4>📜 Logs Admin Live</h4>
                             <div class="console-box" id="admin-logs">
-                                <span>[18:30:00] [System] Module de liaison connectée à la base de données.</span>
+                                <span>[Système] Connexion à la base de données Neon établie.</span>
                             </div>
                         </div>
                     </div>
@@ -279,6 +293,28 @@
             }
         }
 
+        // Charger les annonces depuis la base de données
+        async function fetchAnnouncements() {
+            try {
+                const res = await fetch('/api/announcements');
+                const announcements = await res.json();
+                const container = document.getElementById("announcements-container");
+                if(!container) return;
+                
+                container.innerHTML = "";
+                announcements.forEach(ann => {
+                    container.innerHTML += `
+                        <div class="announcement-banner">
+                            <span>📢</span>
+                            <span>${ann.message}</span>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                console.error("Erreur annonces:", err);
+            }
+        }
+
         // Affichage dynamique des utilisateurs liés sur la page d'accueil
         function renderPublicLinkedUsers() {
             const container = document.getElementById("public-linked-users");
@@ -303,8 +339,9 @@
             });
         }
 
-        // Charger les utilisateurs dès l'ouverture de la page
+        // Charger les données au chargement de la page
         fetchLinkedUsers();
+        fetchAnnouncements();
 
         // Gestion de l'ouverture de la modale
         openBtn.addEventListener("click", (e) => {
@@ -361,6 +398,29 @@
             logsBox.scrollTop = logsBox.scrollHeight;
         }
 
+        // Ajouter une annonce depuis le panel
+        document.getElementById("announcement-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const message = document.getElementById("announcement-text").value.trim();
+            
+            try {
+                const res = await fetch('/api/announcements', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+
+                if(res.ok) {
+                    document.getElementById("announcement-text").value = "";
+                    fetchAnnouncements();
+                    addLog(`📢 Annonce diffusée : "${message}"`);
+                    alert("Annonce publiée sur le site !");
+                }
+            } catch (err) {
+                console.error("Erreur réseau annonce:", err);
+            }
+        });
+
         // Ajouter une personne liée à l'accueil via l'API (Neon DB)
         document.getElementById("link-user-form").addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -376,11 +436,9 @@
 
                 if (response.ok) {
                     await fetchLinkedUsers();
-                    addLog(`🔗 Membre lié à l'accueil : ${name} (${role})`);
-                    alert(`Le membre ${name} a été enregistré dans la base de données !`);
+                    addLog(`🔗 Membre lié : ${name} (${role})`);
+                    alert(`Le membre ${name} a été enregistré !`);
                     document.getElementById("link-username").value = "";
-                } else {
-                    alert("Erreur lors de l'enregistrement.");
                 }
             } catch (err) {
                 console.error("Erreur réseau :", err);
@@ -390,15 +448,10 @@
         // Supprimer un membre de la base de données
         async function removeLinkedUser(id) {
             try {
-                const response = await fetch(`/api/users/${id}`, {
-                    method: 'DELETE'
-                });
-
+                const response = await fetch(`/api/users/${id}`, { method: 'DELETE' });
                 if (response.ok) {
                     await fetchLinkedUsers();
-                    addLog(`🗑️ Membre retiré de la base de données (ID: ${id})`);
-                } else {
-                    alert("Erreur lors de la suppression.");
+                    addLog(`🗑️ Membre supprimé (ID: ${id})`);
                 }
             } catch (err) {
                 console.error("Erreur réseau :", err);
