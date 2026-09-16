@@ -282,6 +282,18 @@
         const logoutBtn = document.getElementById("logout-btn");
         const logsBox = document.getElementById("admin-logs");
 
+        // Charger l'état de la maintenance enregistré au démarrage
+        const savedMaintActive = localStorage.getItem("maint_active") === "true";
+        const savedMaintReason = localStorage.getItem("maint_reason") || "";
+
+        if (savedMaintActive) {
+            document.getElementById("maint-status").innerText = "Actif 🔴";
+            document.getElementById("maint-status").style.color = "#f43f5e";
+            document.getElementById("status-display").innerText = "Maintenance 🛠️";
+            document.getElementById("status-display").style.color = "#f43f5e";
+            document.getElementById("maintenance-reason").value = savedMaintReason;
+        }
+
         // Charger les membres depuis la base de données PostgreSQL via l'API
         async function fetchLinkedUsers() {
             try {
@@ -458,24 +470,34 @@
             }
         }
 
-        // Maintenance
+        // Maintenance : Activer (avec persistance localStorage)
         document.getElementById("maintenance-form").addEventListener("submit", (e) => {
             e.preventDefault();
             const reason = document.getElementById("maintenance-reason").value.trim();
+            
+            localStorage.setItem("maint_active", "true");
+            localStorage.setItem("maint_reason", reason);
+
             document.getElementById("maint-status").innerText = "Actif 🔴";
             document.getElementById("maint-status").style.color = "#f43f5e";
             document.getElementById("status-display").innerText = "Maintenance 🛠️";
             document.getElementById("status-display").style.color = "#f43f5e";
+            
             addLog(`🚨 Maintenance activée. Raison : "${reason}"`);
-            alert("Maintenance activée !");
+            alert("Maintenance activée et sauvegardée !");
         });
 
+        // Maintenance : Désactiver
         document.getElementById("disable-maint").addEventListener("click", () => {
+            localStorage.removeItem("maint_active");
+            localStorage.removeItem("maint_reason");
+
             document.getElementById("maint-status").innerText = "Désactivé";
             document.getElementById("maint-status").style.color = "#94a3b8";
             document.getElementById("status-display").innerText = "En Ligne 🟢";
             document.getElementById("status-display").style.color = "#34d399";
             document.getElementById("maintenance-reason").value = "";
+            
             addLog(`✅ Maintenance désactivée.`);
             alert("Maintenance désactivée !");
         });
